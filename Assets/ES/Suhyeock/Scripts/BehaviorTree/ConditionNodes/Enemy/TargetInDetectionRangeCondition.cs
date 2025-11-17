@@ -21,6 +21,7 @@ namespace ES
             
             if(distance <= blackboard.detectionRange)
             {
+                blackboard.isDetected = true;
                 return NodeState.Success;
             }
             return NodeState.Failure;
@@ -28,7 +29,7 @@ namespace ES
 
         public override void Reset()
         {
-
+            blackboard.isDetected = false;
         }
     }
 }

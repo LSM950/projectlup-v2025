@@ -23,7 +23,6 @@ namespace ES
 
         public void TakeDamage(float damage)
         {
-            Debug.Log("TakeDamage");
             if (isDead)
             {
                 return;

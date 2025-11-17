@@ -17,16 +17,16 @@ namespace ES
 
         public override NodeState Evaluate()
         {
-            Transform enemyTransform = blackboard.navMeshAgent.transform;
-            Vector3 targetPosition = blackboard.playerTransform.position;
+            //Transform enemyTransform = blackboard.navMeshAgent.transform;
+            //Vector3 targetPosition = blackboard.playerTransform.position;
 
-            Vector3 direction = (targetPosition - enemyTransform.position);
-            direction.y = 0;
-            direction.Normalize();
+            //Vector3 direction = (targetPosition - enemyTransform.position);
+            //direction.y = 0;
+            //direction.Normalize();
 
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            //Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-            enemyTransform.rotation = Quaternion.RotateTowards(enemyTransform.rotation, targetRotation, TURN_SPEED * Time.deltaTime);
+            //enemyTransform.rotation = Quaternion.RotateTowards(enemyTransform.rotation, targetRotation, TURN_SPEED * Time.deltaTime);
 
 
             if (blackboard.gun.Fire())

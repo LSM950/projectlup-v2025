@@ -19,8 +19,14 @@ namespace ES
         // Update is called once per frame
         void Update()
         {
+            if(blackboard.isDetected == true && blackboard.healthComponent.isDead == false)
+            {
+                TurnToPlayer();
+            }
             rootNode.Evaluate();
         }
+
+        
 
         private void SetupBehaviorTree()
         {
@@ -57,6 +63,22 @@ namespace ES
                 handleMoveSequence,
                 patrolSequence,
             });
+        }
+
+        void TurnToPlayer()
+        {
+            Transform enemyTransform = blackboard.navMeshAgent.transform;
+            Vector3 targetPosition = blackboard.playerTransform.position;
+
+            Vector3 direction = (targetPosition - enemyTransform.position);
+            direction.y = 0;
+            direction.Normalize();
+
+            float angleToTarget = Vector3.Angle(enemyTransform.forward, direction);
+
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            enemyTransform.rotation = Quaternion.RotateTowards(enemyTransform.rotation, targetRotation, 700.0f * Time.deltaTime);
         }
     }
 }

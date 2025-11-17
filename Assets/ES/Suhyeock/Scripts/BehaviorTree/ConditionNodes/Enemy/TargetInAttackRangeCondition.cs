@@ -29,7 +29,6 @@ namespace ES
 
         public override void Reset()
         {
-
         }
     }
 }

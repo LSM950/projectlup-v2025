@@ -15,7 +15,6 @@ namespace ES
             characterController = GetComponent<CharacterController>();
             blackboard = GetComponent<PlayerBlackboard>();
             blackboard.playerOverheadUI = GetComponent<PlayerOverheadUI>();
-            blackboard.InteractionDetector = GetComponent<InteractionDetector>();
             
         }
         void Start()

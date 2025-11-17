@@ -37,7 +37,6 @@ namespace ES
         {
             if (other.gameObject.CompareTag(targetTag))
             {
-                Debug.Log("OnTriggerEnter");
                 if (other.TryGetComponent(out HealthComponent healthComponent))
                 {
                     healthComponent.TakeDamage(damage);

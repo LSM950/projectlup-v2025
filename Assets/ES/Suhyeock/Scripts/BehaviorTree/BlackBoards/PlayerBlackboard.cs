@@ -19,6 +19,7 @@ namespace ES
         public LayerMask InteractableLayer;
         public EventBroker eventBroker;
         public Gun gun;
+        public InteractionDetector InteractionDetector;
 
         [HideInInspector]
         public MoveState moveState = MoveState.IDLE;
@@ -31,8 +32,7 @@ namespace ES
 
         [HideInInspector]
         public PlayerOverheadUI playerOverheadUI;
-        [HideInInspector]
-        public InteractionDetector InteractionDetector;
+
         public void ResetInteractionState()
         {
             //isCastingInteraction = false;

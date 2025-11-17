@@ -15,6 +15,8 @@ namespace ES
         public Transform playerTransform;
 
         [HideInInspector]
+        public bool isDetected = false;
+        [HideInInspector]
         public NavMeshAgent navMeshAgent;
         [HideInInspector]
         public Vector3 targetMovePosition;
