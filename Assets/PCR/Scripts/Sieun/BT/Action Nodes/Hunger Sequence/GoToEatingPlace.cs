@@ -2,13 +2,12 @@ using UnityEngine;
 
 namespace LUP.PCR
 {
-    public class GoToEatingPlace : BTNode
+    public class GoToEatingPlace : WorkerBlackboardNode
     {
-        Worker worker;
+        public GoToEatingPlace(WorkerBlackboard blackboard) : base(blackboard) { }
         bool arrived = false;
 
-
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public override NodeState Evaluate()
         {
             if (!arrived)
             {
@@ -16,12 +15,12 @@ namespace LUP.PCR
                 //worker.MoveTo(worker.eatingSpot);
 
                 //if (!worker.IsAt(worker.eatingSpot))
-                    return WorkerNodeState.RUNNING;
+                    return NodeState.RUNNING;
 
                 //arrived = true;
                 //Debug.Log("½Ä´ç µµÂø!");
             }
-            return WorkerNodeState.SUCCESS;
+            return NodeState.SUCCESS;
         }
     }
 

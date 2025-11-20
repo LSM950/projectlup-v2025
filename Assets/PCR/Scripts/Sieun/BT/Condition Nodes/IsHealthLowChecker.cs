@@ -2,19 +2,23 @@ using UnityEngine;
 
 namespace LUP.PCR
 {
-    public class IsHealthLowChecker : BTNode
+    public class IsHealthLowChecker : WorkerBlackboardNode
     {
+        public IsHealthLowChecker(WorkerBlackboard blackboard) : base(blackboard) { }
+
         public WorkerStatus Status { get; private set; } = new WorkerStatus();
-        Worker worker;
         
         int logLoopCount = -1;
 
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public override NodeState Evaluate()
         {
-            if (worker.hunger >= 0.7f)
+            float currentHunger = GetData<float>(BBKeys.Hunger);
+
+            //@TODO : currentHunger 기준 배고프지 않은 상태면 FAILURE
+            if (currentHunger >= 0.7f)
             {
                 Debug.Log("배고픔 감지됨.");
-                return WorkerNodeState.SUCCESS;
+                return NodeState.SUCCESS;
             }
 
             if(logLoopCount == 0)
@@ -22,7 +26,7 @@ namespace LUP.PCR
                 Debug.Log("아직 배고프지 않음.");
                 logLoopCount += 1;
             }
-            return WorkerNodeState.FAILURE;
+            return NodeState.FAILURE;
         }
     }
 

@@ -2,13 +2,12 @@ using UnityEngine;
 
 namespace LUP.PCR
 {
-    public class GoToPausedTaskLocation : BTNode
+    public class GoToPausedTaskLocation : WorkerBlackboardNode
     {
-        Worker worker;
+        public GoToPausedTaskLocation(WorkerBlackboard blackboard) : base(blackboard) { }
         bool arrived = false;
 
-
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public override NodeState Evaluate()
         {
             if (!arrived)
             {
@@ -17,12 +16,12 @@ namespace LUP.PCR
 
 
                 //if (!worker.IsAt(worker.pausedWorkSpot))
-                //    return WorkerNodeState.RUNNING;
+                //    return NodeState.RUNNING;
 
                 arrived = true;
                 Debug.Log("중단된 작업 위치 도착.");
             }
-            return WorkerNodeState.SUCCESS;
+            return NodeState.SUCCESS;
         }
     }
 

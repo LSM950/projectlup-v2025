@@ -2,14 +2,15 @@ using UnityEngine;
 
 namespace LUP.PCR
 { 
-    public class IsNewTaskChecker : BTNode
+    public class IsNewTaskChecker : WorkerBlackboardNode
     {
-        Worker worker;
-    
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public IsNewTaskChecker(WorkerBlackboard blackboard) : base(blackboard) { }
+        public override NodeState Evaluate()
         {
+            bool hasNewTask = GetData<bool>(BBKeys.HasNewTask);
+
             Debug.Log("새 작업 명령 존재 여부 검사...");
-            return worker.hasNewTask ? WorkerNodeState.SUCCESS : WorkerNodeState.FAILURE;
+            return hasNewTask ? NodeState.SUCCESS : NodeState.FAILURE;
         }
     }
 }

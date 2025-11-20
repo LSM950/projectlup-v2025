@@ -2,27 +2,29 @@ using UnityEngine;
 
 namespace LUP.PCR
 {
-    public class ResumePausedTask : BTNode
+    public class ResumePausedTask : WorkerBlackboardNode
     {
-        Worker worker;
+        public ResumePausedTask(WorkerBlackboard blackboard) : base(blackboard) { }
+
         float timer = 0f;
         float duration = 2f;
 
-
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public override NodeState Evaluate()
         {
+            bool hasPausedTask = GetData<bool>(BBKeys.HasPausedTask);
+
             if (timer < duration)
             {
                 timer += Time.deltaTime;
                 Debug.Log($"작업 재개 중... {timer:F1}/{duration}");
-                return WorkerNodeState.RUNNING;
+                return NodeState.RUNNING;
             }
 
-            worker.hasPausedWork = false;
+            hasPausedTask = false;
             Debug.Log("작업 재개 완료!");
             timer = 0f;
 
-            return WorkerNodeState.SUCCESS;
+            return NodeState.SUCCESS;
         }
     }
 }

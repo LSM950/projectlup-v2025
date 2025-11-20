@@ -2,26 +2,26 @@ using UnityEngine;
 
 namespace LUP.PCR
 {
-    public class EatFood : BTNode
+    public class EatFood : WorkerBlackboardNode
     {
-        Worker worker;
+        public EatFood(WorkerBlackboard blackboard) : base(blackboard) { }
         float timer = 0f;
         float duration = 3f;
 
-        //public EatFood(Worker worker) { this.worker = worker; }
-
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public override NodeState Evaluate()
         {
+            float currentHunger = GetData<float>(BBKeys.Hunger);
             if (timer < duration)
             {
                 timer += Time.deltaTime;
                 Debug.Log($"식사 중... {timer:F1}/{duration}");
-                return WorkerNodeState.RUNNING;
+                return NodeState.RUNNING;
             }
 
-            worker.hunger = 0f;
+
+            currentHunger = 0f;
             Debug.Log("식사 완료!");
-            return WorkerNodeState.SUCCESS;
+            return NodeState.SUCCESS;
         }
     }
 

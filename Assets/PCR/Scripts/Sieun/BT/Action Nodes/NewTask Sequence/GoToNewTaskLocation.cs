@@ -3,13 +3,12 @@ using UnityEngine;
 namespace LUP.PCR
 {
 
-    public class GoToNewTaskLocation : BTNode
+    public class GoToNewTaskLocation : WorkerBlackboardNode
     {
-        Worker worker;
+        public GoToNewTaskLocation(WorkerBlackboard blackboard) : base(blackboard) { }
         bool arrived = false;
     
-    
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public override NodeState Evaluate()
         {
             if (!arrived)
             {
@@ -17,12 +16,12 @@ namespace LUP.PCR
                 //worker.MoveTo(worker.newTaskSpot);
     
                 //if (!worker.IsAt(worker.newTaskSpot))
-                    return WorkerNodeState.RUNNING;
+                    return NodeState.RUNNING;
     
                 arrived = true;
                 Debug.Log("새 작업지 도착.");
             }
-            return WorkerNodeState.SUCCESS;
+            return NodeState.SUCCESS;
         }
     }
 }

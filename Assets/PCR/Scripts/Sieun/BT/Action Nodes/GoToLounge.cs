@@ -2,13 +2,12 @@ using UnityEngine;
 
 namespace LUP.PCR
 {
-    public class GoToLounge : BTNode
+    public class GoToLounge : WorkerBlackboardNode
     {
-        Worker worker;
+        public GoToLounge(WorkerBlackboard blackboard) : base(blackboard) { }
         bool arrived = false;
 
-
-        public override WorkerNodeState Evaluate(WorkerAI worker)
+        public override NodeState Evaluate()
         {
             if (!arrived)
             {
@@ -16,13 +15,13 @@ namespace LUP.PCR
                 //worker.MoveTo(worker.loungeSpot);
 
                 //if (!worker.IsAt(worker.loungeSpot))
-                //    return WorkerNodeState.RUNNING;
+                //    return NodeState.RUNNING;
 
                 arrived = true;
                 Debug.Log("라운지 도착. 휴식 중...");
             }
 
-            return WorkerNodeState.RUNNING; // 계속 대기
+            return NodeState.RUNNING; // 계속 대기
         }
     }
 

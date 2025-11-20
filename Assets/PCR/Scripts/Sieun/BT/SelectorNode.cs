@@ -8,21 +8,21 @@ namespace LUP.PCR
         List<BTNode> children;
         public SelectorNode(List<BTNode> nodes) { children = nodes; }
 
-        public override BTNode.WorkerNodeState Evaluate(WorkerAI worker)
+        public override BTNode.NodeState Evaluate()
         {
             foreach (BTNode child in children)
             {
-                WorkerNodeState result = child.Evaluate(worker);
+                NodeState result = child.Evaluate();
                 switch (result)
                 {
-                    case BTNode.WorkerNodeState.RUNNING:
-                        return BTNode.WorkerNodeState.RUNNING;
-                    case BTNode.WorkerNodeState.SUCCESS:
-                        return BTNode.WorkerNodeState.SUCCESS;
+                    case BTNode.NodeState.RUNNING:
+                        return BTNode.NodeState.RUNNING;
+                    case BTNode.NodeState.SUCCESS:
+                        return BTNode.NodeState.SUCCESS;
 
                 }
             }
-            return WorkerNodeState.FAILURE;
+            return NodeState.FAILURE;
         }
     }
 
