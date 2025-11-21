@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: FWSceneList
   m_EditorClassIdentifier: 
   sceneNames:
-  - MainStage
+  - DebugStage
   - ProductionSampleStage
+  - MainStage

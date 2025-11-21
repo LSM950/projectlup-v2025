@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ES;
+using UnityEngine;
 
 namespace LUP
 {
@@ -6,16 +7,49 @@ namespace LUP
     {
         //public Define.StageKind TargetStage = Define.StageKind.Main;
 
+        [SerializeField] private Inventory testInventory;
+        [SerializeField] private string saveFileName = "debug_inventory";
+
         protected override void Awake()
         {
             base.Awake();
             StageKind = Define.StageKind.Debug;
+
+            if (testInventory == null)
+
+                testInventory = new Inventory();
         }
 
         void Start()
         {
             //StageManager.Instance.LoadStage(TargetStage);
+
         }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                testInventory.SaveInventory(saveFileName);
+                Debug.Log($"[DebugStage] 인벤토리 세이브 완료: {saveFileName}");
+            }
+
+            // L키로 인벤토리 로드 (추가 기능)
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                if (testInventory != null)
+                {
+                    testInventory.LoadInventory(saveFileName);
+                    Debug.Log($"[DebugStage] 인벤토리 로드 완료: {saveFileName}");
+                }
+                else
+                {
+                    Debug.LogWarning("[DebugStage] 로드할 인벤토리가 없습니다!");
+                }
+            }
+        }
+
+
         protected override void LoadResources()
         {
 
@@ -28,7 +62,7 @@ namespace LUP
 
         protected override void SaveDatas()
         {
-            
+
         }
 
 

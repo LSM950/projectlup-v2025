@@ -2,26 +2,36 @@
 using UnityEngine;
 
 [Serializable]
-public class ItemRuntimeData : BaseRuntimeData
+public class TestInvenRuntimeData : BaseRuntimeData
 {
-    [SerializeField] private int _itemId = 0;
-    [SerializeField] private int _count = 0;
+    [SerializeField] private string _slotKey;
+    [SerializeField] private string _itemID;
+    [SerializeField] private int _quantity = 0;
 
-    public int ItemId
+    
+    public string slotKey
     {
-        get => _itemId;
-        set => SetValue(ref _itemId, value);
+        get => _slotKey;
+        set => SetValue(ref _slotKey, value);
     }
 
-    public int Count
+    public string itemID
     {
-        get => _count;
-        set => SetValue(ref _count, value);
+        get => _itemID;
+        set => SetValue(ref _itemID, value);
     }
+
+    public int quantity
+    {
+        get => _quantity;
+        set => SetValue(ref _quantity, value);
+    }
+    
 
     public override void ResetData()
     {
-        _itemId = 0;
-        _count = 0;
+        _slotKey = "";
+        _itemID = "";
+        _quantity = 0;
     }
 }
