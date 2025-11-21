@@ -1,7 +1,7 @@
 using ST;
 using System.Collections;
 using Unity.VisualScripting;
-using UnityEditor;
+//using UnityEditor;
 using UnityEngine;
 
 namespace LUP.DSG
@@ -165,10 +165,18 @@ namespace LUP.DSG
                 if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
                 teamDataTable.teams[selectedTeamIndex] = selectedTeam;
             }
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(teamDataTable);
-            AssetDatabase.SaveAssets();
-#endif
+
+            //DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            //if(stage != null)
+            //{
+            //    DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
+            //    runtimeData.Teams = teamDataTable.teams;
+            //}
+
+//#if UNITY_EDITOR
+//            EditorUtility.SetDirty(teamDataTable);
+//            AssetDatabase.SaveAssets();
+//#endif
         }
     }
 

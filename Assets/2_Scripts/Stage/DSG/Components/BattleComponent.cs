@@ -90,8 +90,6 @@ namespace LUP.DSG
                     {
                         OnReachedTargetPos?.Invoke(false);
 
-                        //StartCoroutine(WaitAttack());
-
                         if (currGauge == maxSkillGauge)
                         {
                             currGauge = 0;
@@ -107,13 +105,12 @@ namespace LUP.DSG
                 if (transform.position == originPosition)
                 {
                     impactApplied = false;
+                    isAttacking = false;
                     OnReachedTargetPos?.Invoke(true);
                 }
             }
-            else if(owner.AnimationComp.currentState == EAnimStateType.Attack_Range)
+            else if(bullet != null)
             {
-                if (bullet == null) return;
-
                 Vector3 dir = targetPosition - bullet.transform.position;
                 float distanceToTarget = dir.magnitude;
                 float moveDistance = bulletSpeed;
@@ -128,7 +125,7 @@ namespace LUP.DSG
                         impactApplied = true;
                     }
 
-                    isAttacking = false;
+                    StartCoroutine(WaitForRangeAttackEnd());
                     impactApplied = false;
                     Destroy(bullet);
                     bullet = null;
@@ -136,6 +133,13 @@ namespace LUP.DSG
                 }
                 bullet.transform.position += dir.normalized * moveDistance;
             }
+        }
+
+        private IEnumerator WaitForRangeAttackEnd()
+        {
+            yield return new WaitForSecondsRealtime(1f);
+
+            isAttacking = false;
         }
 
         public void SetHp(float hp)
@@ -150,22 +154,16 @@ namespace LUP.DSG
 
         public void Attack(LineupSlot target)
         {
-            //if (isAttacking) return;
-            if (owner.AnimationComp.currentState != EAnimStateType.Idle) return;
+            if (isAttacking) return;
 
             if (target == null)
                 return;
 
             targetSlot = target;
             targetPosition = targetSlot.AttackedPosition.position;
-            if (owner.characterData.rangeType == ERangeType.Range)
-            {
-                bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
-            }
+            HandleAttackStart();
 
-            OnAttackStarted?.Invoke(owner.characterData.rangeType);
-
-            //isAttacking = true;
+            isAttacking = true;
         }
 
         public void ApplyDamageOnce()
@@ -258,30 +256,25 @@ namespace LUP.DSG
             OnChangeGauge?.Invoke(currGauge);
         }
 
-        public void AttackEnd()
+        //public void AttackEnd()
+        //{
+        //    //if (owner.AnimationComp.currentState == EAnimStateType.Attack_Melee)
+        //    //{
+        //    //    OnEndMelee?.Invoke();
+        //    //}
+        //}
+
+        private void HandleAttackStart()
         {
-            //if (owner.AnimationComp.currentState == EAnimStateType.Attack_Melee)
-            //{
-            //    OnEndMelee?.Invoke();
-            //}
+            OnAttackStarted?.Invoke(owner.characterData.rangeType);
         }
 
-        IEnumerator WaitAttack()
+        public void TrySpawnProjectileForRangedAttack()
         {
+            if (owner.characterData.rangeType != ERangeType.Range)
+                return;
 
-            yield return null;
-            Animator anim = owner.AnimationComp.animator;
-
-            AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
-            AnimatorClipInfo[] clips = anim.GetCurrentAnimatorClipInfo(0);
-
-            float clipLen = clips[0].clip.length;
-            float speed = anim.speed * state.speedMultiplier;
-            float waitSec = clipLen / Mathf.Max(speed, 0.0001f);
-            yield return new WaitForSeconds(waitSec);
-
-            targetPosition = originPosition;
-            OnEndMelee?.Invoke();
+            bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
         }
     }
 }

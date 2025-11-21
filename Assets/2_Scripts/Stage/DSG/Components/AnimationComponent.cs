@@ -9,6 +9,7 @@ namespace LUP.DSG
         public Animator animator;
 
         public event Action OnHitAttack;
+        public event Action OnShootRangeAttack;
         public event Action OnAttackEnd;
         public event Action OnEndFwdDash;
         public event Action OnEndBwdDash;
@@ -75,9 +76,14 @@ namespace LUP.DSG
             animator.SetInteger("CharacterState", (int)type);
         }
 
-        public void OnHitAttackEvent()
+        public void OnHitMeleeAttackEvent()
         {
             OnHitAttack?.Invoke();
+        }
+
+        public void OnShootRangeAttackEvent()
+        {
+            OnShootRangeAttack?.Invoke();
         }
 
         public void OnAttackEndEvent()

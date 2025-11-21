@@ -73,7 +73,8 @@ namespace LUP.DSG
             BattleComp.OnMeleeAttack += animationComp.StartMeleeAnimation;
 
             animationComp.OnHitAttack += battleComp.ApplyDamageOnce;
-            animationComp.OnAttackEnd += battleComp.AttackEnd;
+            animationComp.OnShootRangeAttack += battleComp.TrySpawnProjectileForRangedAttack;
+            //animationComp.OnAttackEnd += battleComp.AttackEnd;
         }
 
         public void EndTurn()

@@ -35,10 +35,11 @@ namespace LUP.DSG
 
         private void Start()
         {
-            //DeckStrategyStage stage = Manager.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            //DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
             //if(stage != null)
             //{
             //    DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
+            //    List<OwnedCharacterInfo> characterList = dataCenter.GetOwnedCharacterList();
             //    runtimeData.OwnedCharacterList = characterList;
             //    testLog();
             //}
@@ -46,7 +47,7 @@ namespace LUP.DSG
 
         private void testLog()
         {
-            DeckStrategyStage stage = Manager.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
             if (stage != null)
             {
                 DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
