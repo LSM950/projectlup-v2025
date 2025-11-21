@@ -1,15 +1,18 @@
+using OpenCvSharp.Dnn;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;   // ★ 추가
+using UnityEngine.Networking;
 
 namespace LUP
 {
     public class Patcher : MonoBehaviour
     {
         [Header("CDN Settings")]
-        // 서버에서 Versions.json 받는 URL
-        [SerializeField] private string versionsJsonUrl;
+        // 서버 URL
+        [SerializeField] private string url = "https://project-lup.github.io/projectlup-v2025-cdn/";
         [SerializeField]
         private VersionsData versionsdata;      // 로컬에 있는 버전 데이터
         [SerializeField]
@@ -20,8 +23,7 @@ namespace LUP
 
         void Start()
         {
-            LoadVersions();                         // 로컬 데이터 로드
-            StartCoroutine(LoadTempVersionsFromCDN()); // CDN 데이터 로드
+            StartCoroutine(PatchFlow());                         
         }
 
         void Update()
@@ -29,20 +31,73 @@ namespace LUP
 
         }
 
-        void CheckVersion()
+        private IEnumerator DownloadResource(Define.AssetBundleKind assetbundlekind)
         {
-            // 지금 가진거(versionsdata)랑 서버(tempversionsdata)에 있는 버전 체크
-            // ex)
-            // if (versionsdata.assetbundle1hash != tempversionsdata.assetbundle1hash) { ... }
+            string filename = "";
+
+            switch (assetbundlekind)
+            {
+                case Define.AssetBundleKind.AssetBundle1:
+                    filename = "staticdatas";
+                    break;
+                default:
+                    Debug.LogWarning($"[Patcher] 정의되지 않은 AssetBundleKind: {assetbundlekind}");
+                    yield break;
+            }
+
+            string fullurl = url + filename;
+
+            using (UnityWebRequest request = UnityWebRequest.Get(fullurl))
+            {
+                yield return request.SendWebRequest();
+
+                #if UNITY_2020_1_OR_NEWER
+                if (request.result != UnityWebRequest.Result.Success)
+                #else
+                if (request.isNetworkError || request.isHttpError)
+                #endif
+                {
+                    Debug.LogError($"[Patcher] 에셋번들 다운로드 실패 ({fullurl}): {request.error}");
+                    yield break;
+                }
+
+                string assetBundleDirectory = Path.Combine(Application.dataPath, "Resources/AssetBundles");
+                if (!Directory.Exists(assetBundleDirectory))
+                {
+                    Directory.CreateDirectory(assetBundleDirectory);
+                }
+
+                string filePath = Path.Combine(assetBundleDirectory, filename);
+                File.WriteAllBytes(filePath, request.downloadHandler.data);
+
+                Debug.Log($"[Patcher] 에셋번들 다운로드 완료: {fullurl} → {filePath}");
+            }
+
+            yield return null;
         }
 
-        void DownloadResources()
+
+        private IEnumerator DownloadResources()
         {
-            // 필요한 리소스만 다운로드 받기
+            if (differentlist == null || differentlist.Count == 0)
+            {
+                Debug.Log("[Patcher] 다운로드할 리소스가 없습니다.");
+                yield break;
+            }
+
+            foreach (Define.AssetBundleKind assetbundlekind in differentlist)
+            {
+                Debug.Log($"[Patcher] 다운로드 시작: {assetbundlekind}");
+                yield return DownloadResource(assetbundlekind);
+            }
+
+            Debug.Log("[Patcher] 모든 리소스 다운로드 완료");
         }
 
-        void LoadVersions()
+        private IEnumerator LoadVersions()
         {
+            versionsdata = null;
+
             List<BaseRuntimeData> runtimeDatas = LUP.DataManager.Instance.GetRuntimeData(Define.StageKind.Main, 1);
             if (runtimeDatas != null && runtimeDatas.Count > 0)
             {
@@ -55,10 +110,23 @@ namespace LUP
                     }
                 }
             }
+
+            if (versionsdata == null)
+            {
+                Debug.LogWarning("[Patcher] 로컬 VersionsData를 찾지 못했습니다.");
+            }
+            else
+            {
+                Debug.Log("[Patcher] 로컬 VersionsData 로드 완료");
+            }
+
+            yield break;
         }
+
 
         private IEnumerator LoadTempVersionsFromCDN()
         {
+            string versionsJsonUrl = url + "Versions.json";
             if (string.IsNullOrEmpty(versionsJsonUrl))
             {
                 Debug.LogError("[Patcher] versionsJsonUrl이 비어있습니다.");
@@ -104,9 +172,38 @@ namespace LUP
             }
         }
 
-        void CompareVersions()
+        private IEnumerator CompareVersions()
         {
+            differentlist.Clear();
+            // 지금 가진거(versionsdata)랑 서버(tempversionsdata)에 있는 버전 체크
+            if (versionsdata.assetbundlehash != tempversionsdata.assetbundlehash)
+            {
+                differentlist.Add(Define.AssetBundleKind.AssetBundle1);
+            }
+            yield break;
+        }
+        private IEnumerator PatchFlow()
+        {
+            // 1. 로컬 버전 데이터 로드
+            yield return LoadVersions();
 
+            // 2. CDN에서 버전 데이터 받아오기
+            yield return LoadTempVersionsFromCDN();
+
+            // 둘 중 하나라도 없으면 그냥 종료
+            if (versionsdata == null || tempversionsdata == null)
+            {
+                Debug.LogError("[Patcher] 버전 데이터가 세팅되지 않아 패치를 중단합니다.");
+                yield break;
+            }
+
+            // 3. 버전 비교
+            yield return CompareVersions();
+
+            // 4. 리소스 다운로드
+            yield return DownloadResources();
+
+            Debug.Log("[Patcher] 패치 플로우 완료");
         }
     }
 }
