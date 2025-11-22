@@ -9,17 +9,18 @@ public class InventoryCharacterEquipPanel : MonoBehaviour, IPanelContentAble
     
     void Start()
     {
-        Init();
+        //Init();
 
-        StartCoroutine(RoguelikeUtil.DelayOneFrame(() =>
-        {
-            showPanel();
-        }
-        ));
+        //StartCoroutine(RoguelikeUtil.DelayOneFrame(() =>
+        //{
+        //    showPanel();
+        //}
+        //));
     }
 
     public bool Init()
     {
+        showPanel();
         return true;
     }
 

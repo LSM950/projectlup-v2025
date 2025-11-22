@@ -1,3 +1,4 @@
+using LUP.RL;
 using OpenCvSharp.Flann;
 using System;
 using System.Collections.Generic;
@@ -49,36 +50,34 @@ namespace LUP.RL
                 if (playerArrow == null) return;
                 StageData data = stageData[currentStage];
                 currentRoom = Instantiate(data.roomprefab, Vector3.zero, Quaternion.identity, roomParent);
-
                 playerArrow.currentRoom = this.currentRoom.transform;
                 //UI 갱신
                 if (stageText != null)
                 {
                     stageText.text = $"Stage {currentStage}";
                 }
+
                 //플레이어 찾기
                 var tile = gridSystem.GetTile(data.playerSpawn.x, data.playerSpawn.y);
                 if (tile != null)
                 {
                     Vector3 spawnPos = tile.worldPos;
-                    spawnPos.y = 1.5f; 
+                    spawnPos.y = 1.5f;
                     player.position = spawnPos;
                 }
+                GameObject spawnerObj = Instantiate(enemySpawnerPrefab, Vector3.zero, Quaternion.identity, currentRoom.transform);
 
-                //몬스터 스포너  
-                foreach (var pos in data.enemySpawn)
-                {
-                    var t = gridSystem.GetTile(pos.x, pos.y);
-                    Vector3 spawnPos = t.worldPos + Vector3.up * 1.3f;
-                    Instantiate(enemySpawnerPrefab, spawnPos, Quaternion.identity, currentRoom.transform);
-                }
+                EnemySpawner spawner = spawnerObj.GetComponent<EnemySpawner>();
+
+                spawner.Init(data);    // 여기서 StageData 전달!
+
                 //장애물 배치
                 foreach (var pos in data.obstacles)
                 {
 
                     var t = gridSystem.GetTile(pos.x, pos.y);
                     Vector3 spawnPos = t.worldPos + Vector3.up * 1.3f;
-                    Instantiate(obstaclePrefab, spawnPos, Quaternion.identity,  currentRoom.transform);
+                    Instantiate(obstaclePrefab, spawnPos, Quaternion.identity, currentRoom.transform);
                 }
                 Debug.Log($" Stage {currentStage} ({data.StageName}) 로드 완료");
                 currentStage++;

@@ -23,8 +23,10 @@ namespace LUP.RL
             nodeState = NodeState.Running;
 
 
-            behaviorTree.PlayAnimation("Hitted", this);
+            behaviorTree.PlayAnimation(ActionState.Hitted, this);
             blackBoard.InHittedState = true;
+
+            SetNavAgentDeActivate(true);
 
             return nodeState;
         }

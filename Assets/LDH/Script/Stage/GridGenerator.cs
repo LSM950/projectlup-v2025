@@ -9,8 +9,7 @@ namespace LUP.RL
     {
         [SerializeField]
         public Transform plane;
-        [SerializeField]
-        public GameObject CellPrefab;
+    
         [SerializeField]
         public float CellY = 0;
         private TileData[,] grid;
@@ -20,21 +19,7 @@ namespace LUP.RL
         public int gridZ = 15;
         void Start()
         {
-                //GameObject found = GameObject.Find("Plane");
-                //if(found != null)
-                //{
-                //    plane = found.transform;
-                //    Debug.Log("Plane찾음");
-                ////}
-                //else
-                //{
-                //    Debug.Log("못찾음");
-                //    GameObject newPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                //    newPlane.name = "Plane";
-                //    newPlane.transform.position = Vector3.zero;
-                //    plane = newPlane.transform;
-                //}
-      
+        
             float mapWidth = plane.localScale.x;
             float mapHeight = plane.localScale.z;
 
@@ -57,19 +42,12 @@ namespace LUP.RL
                        cellHeight * (z + 0.5f)
                     );
 
-                    // 디버깅용
-                    if (CellPrefab)
-                    {
-                        Instantiate(CellPrefab, center, Quaternion.identity, transform);
-                    }
-                    //@TODO
-                    GameObject cell = Instantiate(CellPrefab, center, Quaternion.identity, transform);
+             
                     TileData data = new TileData
                     {
                         x = x,
                         z = z,
                         worldPos = center,
-                        cellObj = cell,
                         isWalkable = true
                     };
                     grid[x, z] = data;

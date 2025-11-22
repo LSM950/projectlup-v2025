@@ -1,13 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace LUP.RL
 {
+
+    public enum ActionState
+    {
+        MoveTo,
+        Attack,
+        Hitted,
+        Wait,
+        Die
+    }
+
     public class BaseBehaviorTree : MonoBehaviour
     {
         protected Animator Animator;
+        protected AnimatorStateInfo stateInfo;
 
         protected RootNode rootnode;
         protected EnemyBlackBoard enemyBlackBoard;
@@ -19,15 +31,16 @@ namespace LUP.RL
         {
             enemyBlackBoard = GetComponent<EnemyBlackBoard>();
             Animator = GetComponent<Animator>();
+
             enemyBlackBoard.HP = enemyBlackBoard.MaxHP;
         }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            if(Animator != null)
+            if (Animator != null)
             {
                 AnimatorCallBack[] animatorCallBacks = Animator.GetBehaviours<AnimatorCallBack>();
-                for(int i = 0; i <  animatorCallBacks.Length; i++)
+                for (int i = 0; i < animatorCallBacks.Length; i++)
                 {
                     animatorCallBacks[i].SetAnimEndCallBack(OnAnimationEnd);
                 }
@@ -43,7 +56,7 @@ namespace LUP.RL
 
         public virtual void InitBehaviorTree()
         {
-            
+
         }
 
         // Update is called once per frame
@@ -59,13 +72,48 @@ namespace LUP.RL
 
         }
 
-        public void PlayAnimation(string animName, LeafNode caller)
+        public void PlayAnimation(ActionState actionState, LeafNode caller)
         {
             if (Animator == null)
                 return;
 
-            currentRunningLeaf = caller;
-            Animator.Play(animName);
+            string calledAnimName = "None";
+
+            switch (actionState)
+            {
+                case ActionState.MoveTo:
+                    calledAnimName = "MoveTo";
+                    break;
+
+                case ActionState.Attack:
+                    calledAnimName = "Attack";
+                    break;
+
+                case ActionState.Hitted:
+                    calledAnimName = "Hitted";
+                    break;
+
+                case ActionState.Wait:
+                    calledAnimName = "Wait";
+                    break;
+
+                case ActionState.Die:
+                    calledAnimName = "Die";
+                    break;
+
+                default:
+                    break;
+            }
+
+            stateInfo = GetCurrentAnimState();
+
+            if (stateInfo.IsName("Wait") || stateInfo.IsName("MoveTo"))
+            {
+                currentRunningLeaf = caller;
+                Animator.Play(calledAnimName);
+            }
+
+            
         }
 
         public void OnAnimationEnd(AnimatorStateInfo info)
@@ -75,6 +123,12 @@ namespace LUP.RL
 
             currentRunningLeaf.OnAnimationEnd(info);
             currentRunningLeaf = null;
+        }
+
+        public AnimatorStateInfo GetCurrentAnimState()
+        {
+            stateInfo = Animator.GetCurrentAnimatorStateInfo(0);
+            return stateInfo;
         }
     }
 }

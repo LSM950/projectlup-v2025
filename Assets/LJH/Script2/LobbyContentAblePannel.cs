@@ -67,6 +67,11 @@ namespace LUP.RL
 
         }
 
+        virtual public void InitPanel()
+        {
+
+        }
+
         public Scrollbar GetActiveVerticScrollbar()
         {
             return activatedVecticScrollbar;

@@ -14,13 +14,14 @@ public class InventoryItemGridLayout : MonoBehaviour, IPanelContentAble
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Init();
 
-        StartCoroutine(RoguelikeUtil.DelayOneFrame(() =>
-        {
-            FitToParentSize();
-        }
-        ));
+        //Init();
+
+        //StartCoroutine(RoguelikeUtil.DelayOneFrame(() =>
+        //{
+        //    FitToParentSize();
+        //}
+        //));
     }
 
     public bool Init()
@@ -35,6 +36,9 @@ public class InventoryItemGridLayout : MonoBehaviour, IPanelContentAble
         {
             UnityEngine.Debug.LogError("Item Panel Grid Layout Group Find Fail");
         }
+
+        FitToParentSize();
+
         return true;
     }
 

@@ -1,4 +1,5 @@
 
+using Roguelike.Util;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -68,7 +69,7 @@ namespace LUP.RL
             //TODO
             //(일반 클릭에선 정상)
             //순회 후, Chapter Offset이 정상적으로 적용되지 않는 형상 발견. 타이밍 문제라곤 하는데 임시로 한 프레임 늦게 호출되게 하자
-            StartCoroutine(SetHolizonScrollOffset(displayOffset));
+            StartCoroutine(RoguelikeUtil.DelayOneFrame(SetHolizonScrollOffset));
 
             if(selectionButtonsBound.Count == 0)
             {
@@ -97,18 +98,17 @@ namespace LUP.RL
         //    scrollRect.horizontalNormalizedPosition = Mathf.Clamp01(normalizedX);
         //}
 
-        IEnumerator SetHolizonScrollOffset(int offset)
+        //IEnumerator
+        void SetHolizonScrollOffset()
         {
-
-            var test = GetComponentInChildren<GridLayoutGroup>();
-
-            yield return null;
+            int offset = displayOffset;
+            //yield return new WaitForEndOfFrame();
 
             //float buttonSize = displayedPrefab.GetComponent<RectTransform>().rect.width;
 
             //if (offset < 0 || offset >= displayedData.Length)
 
-            RefreshPanel();
+            //RefreshPanel();
 
             //float spacing = contentParent.GetComponent<HorizontalLayoutGroup>().spacing;
 
@@ -117,7 +117,7 @@ namespace LUP.RL
 
             contentParent.GetComponent<HorizontalLayoutGroup>().padding.left = (int)padding;
             contentParent.GetComponent<HorizontalLayoutGroup>().padding.right = (int)padding;
-
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contentParent.GetComponent<RectTransform>());
             //contentParent.GetComponent<HorizontalLayoutGroup>().spacing = (int)(contentSize.x * 0.1f);
 
             float viewportWidth = scrollRect.viewport.rect.width;
@@ -127,7 +127,17 @@ namespace LUP.RL
             float buttonCenterX = selectionButtonsBound[offset].x + (selectionButtonsBound[offset].y - selectionButtonsBound[offset].x) * 0.5f;
 
             float normalizedX = (buttonCenterX - viewportWidth / 2) / (contentWidth - viewportWidth);
-            scrollRect.horizontalNormalizedPosition = Mathf.Clamp01(normalizedX);
+
+
+            if (normalizedX < 0.0f)
+                normalizedX = 0.0f;
+
+            else if(normalizedX > 1.0f)
+            {
+                normalizedX = 1.0f;
+            }
+
+            scrollRect.horizontalNormalizedPosition = normalizedX;
         }
 
         private void Update()

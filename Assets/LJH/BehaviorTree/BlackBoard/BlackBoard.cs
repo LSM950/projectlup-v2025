@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace LUP.RL
 {
@@ -35,6 +36,9 @@ namespace LUP.RL
 
         [HideInInspector]
         public Transform targetPos;
+
+        [HideInInspector]
+        public NavMeshAgent agent;
 
         public abstract void UpdateBlackBoard();
     }

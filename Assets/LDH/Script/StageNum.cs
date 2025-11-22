@@ -4,7 +4,7 @@ namespace LUP.RL
 {
     public class StageNum : MonoBehaviour
     {
-        public StageController Stage;
+        //public StageController Stage;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()

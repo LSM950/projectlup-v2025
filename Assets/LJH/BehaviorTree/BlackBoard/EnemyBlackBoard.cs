@@ -1,19 +1,30 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace LUP.RL
 {
     public class EnemyBlackBoard : BlackBoard
     {
-        public EnemyArrowShooter EShooter;
         private void Start()
         {
-            Target = FindFirstObjectByType<PlayerMove>().gameObject;
+            {
+                Target = FindFirstObjectByType<PlayerMove>().gameObject;
 
-            if (Target == null)
-                UnityEngine.Debug.LogWarning("Can't find Target(Plaeyr)");
+                if (Target == null)
+                    UnityEngine.Debug.LogWarning("Can't find Target(Plaeyr)");
 
-            targetPos = Target.transform;
+                targetPos = Target.transform;
+            }
+
+
+            {
+                agent = gameObject.GetComponent<NavMeshAgent>();
+
+                if (agent == null)
+                    UnityEngine.Debug.LogWarning("Can't find Nav Component");
+            }
+            
         }
 
         public override void UpdateBlackBoard()

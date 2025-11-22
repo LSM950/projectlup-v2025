@@ -65,17 +65,18 @@ namespace LUP.RL
                 UnityEngine.Debug.LogError("Bind Input Cacher!!");
             }
 
-            StartCoroutine(RoguelikeUtil.DelayForSeconds(0.5f, () => InitPannelCntroller()));
+            //StartCoroutine(RoguelikeUtil.DelayForSeconds(0.5f, () => InitPannelCntroller()));
 
         }
 
-        void InitPannelCntroller()
+        public void InitPannelCntroller()
         {
             LobbyContentAblePannel[] pannelArray = FindObjectsByType<LobbyContentAblePannel>(FindObjectsSortMode.None);
 
             for (int i = 0; i < pannelArray.Length; i++)
             {
                 LobbyContentAblePannel pannel = pannelArray[i];
+                pannel.InitPanel();
 
                 if (pannel.GetComponent<ShopPanel>())
                 {
@@ -151,7 +152,7 @@ namespace LUP.RL
 
             lobbyPannels[(int)switchedtype].MoveTo();
 
-            if(smoothMove)
+            if (smoothMove)
             {
                 scrollCoroutine = StartCoroutine(SmoothScrollTo(targetValue, switchedtype));
             }
@@ -164,7 +165,7 @@ namespace LUP.RL
                 SetActiveVerticScroll(lobbyPannels[(int)currentPanel].GetActiveVerticScrollbar());
             }
 
-                OnPanelSwitched?.Invoke(switchedtype);
+            OnPanelSwitched?.Invoke(switchedtype);
         }
 
         private IEnumerator SmoothScrollTo(float targetValue, PanelType targetPanel)

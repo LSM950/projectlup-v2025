@@ -53,6 +53,7 @@ public class Test_Flatform : MonoBehaviour
     public void LoadRogueLikeGameScene(string gameSceneName)
     {
         SceneManager.LoadScene(gameSceneName);
+
     }
 
     public void LoadRogueLikeLobbyScene(string lobbySceneName)
@@ -66,10 +67,10 @@ public class Test_Flatform : MonoBehaviour
         selectedCharacter = selectCharacter;
     }
 
-    public (ChapterData, RLCharacterData) GetSelectionData()
-    {
-        return (selectedChapter, selectedCharacter);
-    }
+    //public (ChapterData, RLCharacterData) GetSelectionData()
+    //{
+    //    return (selectedChapter, selectedCharacter);
+    //}
 
     public void UploadGameResult(Dictionary<ItemData, int> gainItem, int resultChapter, int resultCharacter)
     {

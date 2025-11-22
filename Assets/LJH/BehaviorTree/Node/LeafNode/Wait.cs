@@ -11,6 +11,14 @@ namespace LUP.RL
         public override NodeState Evaluate()
         {
             UnityEngine.Debug.Log("Action Wait");
+
+            if(behaviorTree.GetCurrentAnimState().IsName("Wait") == false)
+            {
+                behaviorTree.PlayAnimation(ActionState.Wait, this);
+
+                SetNavAgentDeActivate(true);
+            }
+
             return NodeState.Success;
         }
         public override void OnAnimationEnd(AnimatorStateInfo animInfo)

@@ -14,6 +14,23 @@ namespace LUP.RL
         }
 
         public abstract void OnAnimationEnd(AnimatorStateInfo animInfo);
+
+        protected void SetNavAgentDeActivate(bool deActive)
+        {
+            blackBoard.agent.isStopped = deActive;
+
+            if (deActive)
+            {
+                blackBoard.agent.velocity = Vector3.zero;
+                
+            }
+
+            else
+            {
+                blackBoard.agent.speed = blackBoard.Speed;
+            }
+                
+        }
     }
 }
 

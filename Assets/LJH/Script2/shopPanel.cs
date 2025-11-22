@@ -26,12 +26,11 @@ namespace LUP.RL
         {
             base.Start();
 
-            StartCoroutine(RoguelikeUtil.DelayOneFrame(() => PostPanelInitShop()));
+            //StartCoroutine(RoguelikeUtil.DelayOneFrame(() => PostPanelInitShop()));
         }
 
-        void PostPanelInitShop()
+        public override void InitPanel()
         {
-
             InitParams();
 
             HideAllPanel();
@@ -40,7 +39,6 @@ namespace LUP.RL
 
             SetAllChildVerticScrollPadding();
         }
-
         void InitParams()
         {
             Scrollbar tab1VerticScroll = Tab1Panel.GetComponentInChildren<Scrollbar>();

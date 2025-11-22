@@ -57,6 +57,58 @@ namespace LUP.RL
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+            //platformAdapter = new PlatformAdapter();
+
+            //if (platformAdapter != null)
+            //{
+            //    platformAdapter.LinkToPlatform();
+            //    platformAdapter.LoadSpawnableItemData();
+
+            //    LoadInGameData();
+
+            //}
+
+            //{
+            //    stageController = GameObject.FindFirstObjectByType<StageController>();
+            //    if (stageController == null)
+            //    {
+            //        UnityEngine.Debug.LogError("Fail To Find StageController!", this.gameObject);
+            //    }
+
+            //    else
+            //    {
+            //        stageController.onStageClear.AddListener(GameClear);
+            //        controlledPlayer = stageController.player.gameObject.GetComponent<Archer>();
+
+            //        if (controlledPlayer == null)
+            //            UnityEngine.Debug.LogError("Fail to Find Player!!");
+            //    }
+            //}
+
+            //InitInGameUIElement();
+
+            ////Temp
+            //debugMode = false;
+
+            //AddItem1Btn.onClick.AddListener(AddItem1);
+            //AddItem2Btn.onClick.AddListener(AddItem2);
+            //AddItem3Btn.onClick.AddListener(AddItem3);
+
+            //AddTestItemBtn.onClick.AddListener(AddTestItem);
+
+            //ClearGameBtn.onClick.AddListener(GameClear);
+            //DebugBtn.onClick.AddListener(ChangeDebugMode);
+
+            //SetDebugMode(debugMode);
+
+            //DebugPanel.SetActive(false);
+            /////////////
+
+            //Confirm.onClick.AddListener(UploadGameResult);
+        }
+
+        public void InitializeCenter()
+        {
             platformAdapter = new PlatformAdapter();
 
             if (platformAdapter != null)

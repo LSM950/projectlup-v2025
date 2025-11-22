@@ -1,5 +1,5 @@
-using ES;
 using JetBrains.Annotations;
+using LUP.RL;
 using System;
 using UnityEngine;
 namespace LUP.RL
@@ -12,32 +12,40 @@ namespace LUP.RL
         public delegate void EnemyDeathHandler(Enemy deadEnemy);
         public static event EnemyDeathHandler ObjectOnEnemyDied;
         public Vector2Int gridPos;
+        private Hpbar hpbar;
+        public GameObject HpbarPrefab;
+        public HealthCenter healthSystem;
 
-        private EnemyBlackBoard enemyBlackBoard;
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            EnemyStats.Hp = 50;
+            EnemyStats.MaxHp = 50;
+            EnemyStats.Hp = EnemyStats.MaxHp;
             EnemyStats.Attack = 0;
             EnemyStats.speed = 3;
 
-            enemyBlackBoard = GetComponentInChildren<EnemyBlackBoard>();
+            healthSystem = new HealthCenter(EnemyStats.MaxHp);
+            if (healthSystem == null) return;
 
-            Debug.Log($"enemy생성  체력  :  {EnemyStats.Hp}");
+            GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
+            if(barObj == null)
+            {
+                Debug.Log("bar없음");
+            }
+            hpbar = barObj.GetComponent<Hpbar>();
+            hpbar.Init(this);
+            hpbar.SetHealthSystem(healthSystem);
+
+
+
         }
-        public  void SetGridPos(int x, int z)
+        public void SetGridPos(int x, int z)
         {
             gridPos = new Vector2Int(x, z);
         }
         public void TakeDamage(int damage)
         {
-            EnemyStats.Hp -= damage;
-            Debug.Log($"데미지 : {damage} 남은체력 {EnemyStats.Hp}");
-
-            enemyBlackBoard.OnHitted = true;
-
-            if (EnemyStats.Hp <= 0)
+            healthSystem.Damage(damage);
+            if (healthSystem.CurrentHp <= 0)
             {
                 Die();
             }

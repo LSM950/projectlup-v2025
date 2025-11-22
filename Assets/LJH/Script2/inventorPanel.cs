@@ -11,6 +11,10 @@ namespace LUP.RL
         public GameObject ItemInventoryPanel;
         public CharacterSelectionScrollPanel CharacterSelectPanel;
 
+        public InventoryCharacterEquipPanel InventoryCharacterEquipPanel;
+        public InventoryItemAlliner InventoryItemAlliner;
+        public InventoryItemGridLayout InventoryItemGridLayout;
+
         public Scrollbar[] scrollbars;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,25 +24,37 @@ namespace LUP.RL
         {
             base.Start();
 
-            StartCoroutine(RoguelikeUtil.DelayOneFrame(() => PostPanelInitShop()));
+            //StartCoroutine(RoguelikeUtil.DelayOneFrame(() => PostPanelInitShop()));
         }
 
-        void PostPanelInitShop()
-        {
-            Init();
-        }
-
-        void Init()
+        public override void InitPanel()
         {
             if (ItemInventoryPanel == null || CharacterSelectPanel == null)
             {
                 UnityEngine.Debug.LogError("Fail To Find Inventory's Panel");
             }
 
+            {
+                InventoryCharacterEquipPanel.Init();
+                InventoryItemAlliner.Init();
+                InventoryItemGridLayout.Init();
+            }
+
             activatedVecticScrollbar = scrollbars[0];
 
             CharacterSelectPanel.gameObject.SetActive(false);
         }
+        //void Init()
+        //{
+        //    if (ItemInventoryPanel == null || CharacterSelectPanel == null)
+        //    {
+        //        UnityEngine.Debug.LogError("Fail To Find Inventory's Panel");
+        //    }
+
+        //    activatedVecticScrollbar = scrollbars[0];
+
+        //    CharacterSelectPanel.gameObject.SetActive(false);
+        //}
 
         public void ReciveBtnActioFromSelectPanel(int index)
         {

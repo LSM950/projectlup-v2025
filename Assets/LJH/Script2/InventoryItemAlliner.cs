@@ -16,13 +16,13 @@ public class InventoryItemAlliner : MonoBehaviour, IPanelContentAble
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Init();
+        //Init();
 
-        StartCoroutine(RoguelikeUtil.DelayOneFrame(() =>
-        {
-            FitToParentSize();
-        }
-        ));
+        //StartCoroutine(RoguelikeUtil.DelayOneFrame(() =>
+        //{
+        //    FitToParentSize();
+        //}
+        //));
     }
 
     public bool Init()
@@ -56,6 +56,12 @@ public class InventoryItemAlliner : MonoBehaviour, IPanelContentAble
         {
             UnityEngine.Debug.LogError("Fail To Init Inventory Btns");
         }
+
+        StartCoroutine(RoguelikeUtil.DelayOneFrame(() =>
+        {
+            FitToParentSize();
+        }
+        ));
 
         return true;
     }

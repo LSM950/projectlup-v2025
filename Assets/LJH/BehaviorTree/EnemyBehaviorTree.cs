@@ -112,10 +112,19 @@ namespace LUP.RL
 
             //MoveTo Action
             {
-                ActionMovTo actionMovTo = new ActionMovTo(enemyBlackBoard, this);
-                BlackboardConditionNode islocallyControlled = new BlackboardConditionNode(enemyBlackBoard, ConditionCheckEnum.ISLOCALLYCONTROLLED, false, actionMovTo);
+                ActionMoveTo actionMovTo = new ActionMoveTo(enemyBlackBoard, this);
 
-                midleNodes.Add(islocallyControlled);
+                List<(ConditionCheckEnum, bool)> whishConditions = new()
+                {
+                    (ConditionCheckEnum.ISLOCALLYCONTROLLED, false),
+                    (ConditionCheckEnum.INATKSTATE, false)
+                };
+
+                //BlackboardConditionNode islocallyControlled = new BlackboardConditionNode(enemyBlackBoard, ConditionCheckEnum.ISLOCALLYCONTROLLED, false, actionMovTo);
+
+                BlackboardMultiConditionNode isLocallyControlled_InAtkState = new BlackboardMultiConditionNode(enemyBlackBoard, whishConditions, actionMovTo);
+
+                midleNodes.Add(isLocallyControlled_InAtkState);
             }
 
             totalChildNodes.Add(new SelectorNode(midleNodes));
