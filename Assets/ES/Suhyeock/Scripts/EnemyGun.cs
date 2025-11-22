@@ -44,6 +44,11 @@ namespace ES
             }
             return true;
         }
+
+        public void Destroy()
+        {
+            bulletPool.PoolDestroy();
+        }
     }
 }
 

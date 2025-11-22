@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.AddressableAssets.Build.BuildPipelineTasks;
 using UnityEngine;
 
 namespace ES
@@ -39,6 +40,18 @@ namespace ES
         {
             bullet.SetActive(false);
             pool.Enqueue(bullet);
+        }
+
+        public void PoolDestroy()
+        {
+            while (pool.Count > 0)
+            {
+                GameObject bullet = pool.Dequeue();
+                if (bullet != null)
+                {
+                    UnityEngine.GameObject.Destroy(bullet);
+                }
+            }
         }
     }
 }

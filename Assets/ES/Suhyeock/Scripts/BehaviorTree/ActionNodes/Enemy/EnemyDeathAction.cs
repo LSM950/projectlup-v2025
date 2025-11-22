@@ -18,7 +18,11 @@ namespace ES
             deathTime -= Time.deltaTime;
             if (deathTime < 0)
             {
-                
+                RangedEnemyBlackboard enemyBlackboard = blackboard as RangedEnemyBlackboard;
+                if (enemyBlackboard != null)
+                {
+                    enemyBlackboard.gun.Destroy();
+                }
                 Object.Destroy(blackboard.gameObject);
             }
             return NodeState.Running;
