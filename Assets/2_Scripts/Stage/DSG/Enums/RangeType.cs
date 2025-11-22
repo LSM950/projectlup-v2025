@@ -4,7 +4,7 @@ namespace LUP.DSG.Utils.Enums
 {
     public enum ERangeType
     {
-        Range,
+        Range = 1,
         Melee
     }
 }

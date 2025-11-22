@@ -7,7 +7,6 @@ namespace LUP.DSG
     {
         public void ChangeToDeckEdit()
         {
-
             SceneManager.LoadScene("DeckEditsScene");
         }
 

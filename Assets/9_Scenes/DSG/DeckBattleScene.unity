@@ -1646,7 +1646,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataCenter: {fileID: 1074448246}
-  teamDataTable: {fileID: 11400000, guid: 2a968602addba7242a4cc2cecc06b032, type: 2}
   slots:
   - {fileID: 636051258}
   - {fileID: 1072193027}

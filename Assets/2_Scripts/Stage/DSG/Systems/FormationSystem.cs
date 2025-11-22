@@ -12,7 +12,7 @@ namespace LUP.DSG
         DataCenter dataCenter;
 
         [SerializeField]
-        private TeamDataTable teamDataTable;
+        //private TeamDataTable teamDataTable;
 
         public GameObject[] slots = new GameObject[5];
 
@@ -48,13 +48,26 @@ namespace LUP.DSG
         public void PlaceTeam(int teamIndex)
         {
             selectedTeamIndex = teamIndex;
-            if (teamDataTable.teams[selectedTeamIndex] == null) return;
-            ResetCharacterList(teamDataTable.teams[selectedTeamIndex]);
+            DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            if (stage != null)
+            {
+                DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
+                ResetCharacterList(runtimeData.Teams[selectedTeamIndex]);
 
-            selectedCount = 0;
-            selectedTeam = teamDataTable.teams[selectedTeamIndex];
+                selectedCount = 0;
+                selectedTeam = runtimeData.Teams[selectedTeamIndex];
+                //if (runtimeData.Teams[selectedTeamIndex] == null) return;
+                ApplyPlaceTeam();
+            }
 
-            ApplyPlaceTeam();
+            //selectedTeamIndex = teamIndex;
+            //if (teamDataTable.teams[selectedTeamIndex] == null) return;
+            //ResetCharacterList(teamDataTable.teams[selectedTeamIndex]);
+
+            //selectedCount = 0;
+            //selectedTeam = teamDataTable.teams[selectedTeamIndex];
+
+            //ApplyPlaceTeam();
         }
 
         public void ApplyPlaceTeam()
@@ -159,24 +172,24 @@ namespace LUP.DSG
 
         public void SaveTeam()
         {
+            //for (int i = 0; i < slots.Length; ++i)
+            //{
+            //    LineupSlot slot = slots[i].GetComponent<LineupSlot>();
+            //    if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
+            //    teamDataTable.teams[selectedTeamIndex] = selectedTeam;
+            //}
+
+            DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            if (stage == null) return;
+            DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
+            if (runtimeData == null || runtimeData.Teams == null) return;
+
             for (int i = 0; i < slots.Length; ++i)
             {
                 LineupSlot slot = slots[i].GetComponent<LineupSlot>();
-                if (teamDataTable.teams[selectedTeamIndex] == null) teamDataTable.teams[selectedTeamIndex] = new UserData.Team();
-                teamDataTable.teams[selectedTeamIndex] = selectedTeam;
+                if (runtimeData.Teams[selectedTeamIndex] == null) runtimeData.Teams[selectedTeamIndex] = new UserData.Team();
+                runtimeData.Teams[selectedTeamIndex] = selectedTeam;
             }
-
-            //DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
-            //if(stage != null)
-            //{
-            //    DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
-            //    runtimeData.Teams = teamDataTable.teams;
-            //}
-
-//#if UNITY_EDITOR
-//            EditorUtility.SetDirty(teamDataTable);
-//            AssetDatabase.SaveAssets();
-//#endif
         }
     }
 
