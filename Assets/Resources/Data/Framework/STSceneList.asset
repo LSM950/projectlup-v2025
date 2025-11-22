@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: STSceneList
   m_EditorClassIdentifier: 
   sceneNames:
-  - RKLobbyScene
-  - RKInGameScene
+  - STLobbyScene
+  - STGameScene
+  - STResultScene
