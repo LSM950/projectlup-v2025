@@ -5,6 +5,13 @@ using UnityEngine;
 public class SkillInfoData : ScriptableObject
 {
     public int targetCount;
+    public Vector3 AttackPosition;
+    public bool bIsDamaged;
+    public float damage;
+
+    public bool bIsStatusEffect;
     public EStatusEffectType effectType;
     public EOperationType operationType;
+    public int stack;
+    public int turn;
 }

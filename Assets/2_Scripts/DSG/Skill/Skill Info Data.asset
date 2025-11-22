@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Skill Info Data
   m_EditorClassIdentifier: 
   targetCount: 3
+  AttackPosition: {x: 6, y: 0, z: 12}
+  bIsDamaged: 1
+  damage: 10
+  bIsStatusEffect: 1
   effectType: 0
-  operationType: 1
+  operationType: 0
+  stack: 3
+  turn: 3

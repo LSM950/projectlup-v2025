@@ -18,9 +18,16 @@ namespace LUP.DSG
         private readonly Dictionary<EStatusEffectType, IStatusEffect> _effects = new();
         private readonly List<EStatusEffectType> _effectsRemoveList = new();
 
+        private readonly StatusEffectFactory StatusEffectfactory = new StatusEffectFactory();
+
         private void Start()
         {
             owner = GetComponent<Character>();
+        }
+        public IStatusEffect CreateStatusEffect(EStatusEffectType Type, EOperationType OpType,
+            float Stack, int Turn)
+        {
+            return StatusEffectfactory.CreateStatusEffect(Type, OpType, Stack, Turn);
         }
         public void AddEffect(IStatusEffect effect)
         {
