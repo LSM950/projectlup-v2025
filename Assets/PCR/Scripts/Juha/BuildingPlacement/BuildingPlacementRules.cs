@@ -1,36 +1,36 @@
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class BuildingPlacementRules : MonoBehaviour
+namespace LUP.PCR
 {
-    PlacementRules placementRules;
-
-    private void Awake()
+    public class BuildingPlacementRules : MonoBehaviour
     {
-        placementRules = gameObject.AddComponent<PlacementRules>();
-    }
+        PlacementRules placementRules;
 
-    public void Init(TileMap tileMap)
-    {
-        placementRules.Init(tileMap);
-    }
-
-    public PlacementResultType CanPlace(BuildingType type, Tile pivotTile)
-    {
-        placementRules.TransitionRules(type);
-
-        if (placementRules.CheckSpaceAvailable(pivotTile) == false)
+        private void Awake()
         {
-            return PlacementResultType.NOTENOUGHSPACE;
+            placementRules = gameObject.AddComponent<PlacementRules>();
         }
 
-        if (placementRules.CheckResourceAvailable() == false)
+        public void Init(TileMap tileMap)
         {
-            return PlacementResultType.LACKOFRESOURCE;
+            placementRules.Init(tileMap);
         }
 
-        return PlacementResultType.SUCCESS;
+        public PlacementResultType CanPlace(BuildingType type, Tile pivotTile)
+        {
+            placementRules.TransitionRules(type);
+
+            if (placementRules.CheckSpaceAvailable(pivotTile) == false)
+            {
+                return PlacementResultType.NOTENOUGHSPACE;
+            }
+
+            if (placementRules.CheckResourceAvailable() == false)
+            {
+                return PlacementResultType.LACKOFRESOURCE;
+            }
+
+            return PlacementResultType.SUCCESS;
+        }
     }
-
-
 }

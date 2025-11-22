@@ -1,5 +1,10 @@
 using UnityEngine;
 
+namespace LUP.PCR
+{
+
+}
+
 //public class BuildingRestaurant : BuildingBase
 //{
 //    // 식당 필요 데이터

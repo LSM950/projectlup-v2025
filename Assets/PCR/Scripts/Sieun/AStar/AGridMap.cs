@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace LUP.PCR
 {
-
     public class AGridMap : MonoBehaviour
 
     {

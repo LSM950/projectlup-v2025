@@ -1,61 +1,65 @@
-using System.Net.NetworkInformation;
 using UnityEngine;
 
-public class PCRGameSystem : MonoBehaviour
+namespace LUP.PCR
 {
 
-    [SerializeField]
-    private BuildingSystem buildingSystem;
-    [SerializeField]
-    private TileMap tileMap;
-    [SerializeField]
-    private TaskController taskController;
-    [SerializeField]
-    private PCRDataCenter dataCenter;
-    [SerializeField]
-    private PCRUICenter uiCenter;
-    [SerializeField]
-    private DigWallPreview digWallPreview;
-    [SerializeField]
-    private BuildPreview buildPreview;
-
-    private void Awake()
+    public class PCRGameSystem : MonoBehaviour
     {
-        dataCenter = GetComponentInChildren<PCRDataCenter>();
-        buildingSystem = GetComponentInChildren<BuildingSystem>();
-        tileMap = GetComponentInChildren<TileMap>();
-        digWallPreview = GetComponentInChildren<DigWallPreview>();
-        buildPreview = GetComponentInChildren<BuildPreview>();
-        taskController = GetComponentInChildren<TaskController>();
-        uiCenter = GetComponentInChildren<PCRUICenter>();
-    }
 
-    private void Start()
-    {
-        // PCRDataCenter Init
-        dataCenter.InitData();
+        [SerializeField]
+        private BuildingSystem buildingSystem;
+        [SerializeField]
+        private TileMap tileMap;
+        [SerializeField]
+        private TaskController taskController;
+        [SerializeField]
+        private PCRDataCenter dataCenter;
+        [SerializeField]
+        private PCRUICenter uiCenter;
+        [SerializeField]
+        private DigWallPreview digWallPreview;
+        [SerializeField]
+        private BuildPreview buildPreview;
 
-        // BuildingSystem Init
+        private void Awake()
+        {
+            dataCenter = GetComponentInChildren<PCRDataCenter>();
+            buildingSystem = GetComponentInChildren<BuildingSystem>();
+            tileMap = GetComponentInChildren<TileMap>();
+            digWallPreview = GetComponentInChildren<DigWallPreview>();
+            buildPreview = GetComponentInChildren<BuildPreview>();
+            taskController = GetComponentInChildren<TaskController>();
+            uiCenter = GetComponentInChildren<PCRUICenter>();
+        }
+
+        private void Start()
+        {
+            // PCRDataCenter Init
+            dataCenter.InitData();
+
+            // BuildingSystem Init
 
 
-        // TileMap Init
+            // TileMap Init
 
 
-        // DigWallPreview Init
-        digWallPreview.UpdateAllDigWallPreview(tileMap);
+            // DigWallPreview Init
+            digWallPreview.UpdateAllDigWallPreview(tileMap);
 
-        // BuildPreview Init
-        buildPreview.Init(tileMap);
+            // BuildPreview Init
+            buildPreview.Init(tileMap);
 
-        // TaskController Init
-        taskController.InitTaskController(uiCenter, digWallPreview, buildPreview);
+            // TaskController Init
+            taskController.InitTaskController(uiCenter, digWallPreview, buildPreview);
 
-        // uiCenter Init
-        uiCenter.InitUI(taskController);
-    }
+            // uiCenter Init
+            uiCenter.InitUI(taskController);
+        }
 
-    private void InitializeTileMap()
-    {
+        private void InitializeTileMap()
+        {
+
+        }
 
     }
 

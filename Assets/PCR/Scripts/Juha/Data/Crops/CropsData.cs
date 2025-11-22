@@ -1,11 +1,14 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CropsData", menuName = "LUPData/CropsData")]
-public class CropsData : ScriptableObject
+namespace LUP.PCR
 {
-    public CropType cropsType;
-    public float productionTime;
-    public int productionAmount;
-    public ResourceType resourceType;
-    public float resourceConsume;
+    [CreateAssetMenu(fileName = "CropsData", menuName = "LUPData/CropsData")]
+    public class CropsData : ScriptableObject
+    {
+        public CropType cropsType;
+        public float productionTime;
+        public int productionAmount;
+        public ResourceType resourceType;
+        public float resourceConsume;
+    }
 }

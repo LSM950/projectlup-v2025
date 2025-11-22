@@ -1,8 +1,13 @@
 using UnityEngine;
 
-public interface ITaskState
+namespace LUP.PCR
 {
-    public void InputHandle();
-    public void Open();
-    public void Close();
+    public interface ITaskState
+    {
+        public void InputHandle();
+        public void Open();
+        public void Close();
+    }
 }
+
+

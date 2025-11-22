@@ -2,92 +2,96 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class IdleState : ITaskState
+namespace LUP.PCR
 {
-    private TaskController taskController;
-    private bool bIsActiveUI;
-
-    public IdleState(TaskController controller)
+    public class IdleState : ITaskState
     {
-        taskController = controller;
-        bIsActiveUI = false;
-    }
+        private TaskController taskController;
+        private bool bIsActiveUI;
 
-    public void InputHandle()
-    {
-        if (!taskController)
+        public IdleState(TaskController controller)
         {
-            return;
+            taskController = controller;
+            bIsActiveUI = false;
         }
 
-        // 입력
-        if (Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
+        public void InputHandle()
         {
-            // 클릭시 UI가 포함이면 리턴한다.
-            if (EventSystem.current.IsPointerOverGameObject()) return;
-
-            if (bIsActiveUI)
+            if (!taskController)
             {
-                taskController.ReturnToIdleState();
-                SetIsActiveUI(false);
+                return;
             }
-            else
+
+            // 입력
+            if (Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
             {
-                var pos = Mouse.current.position.ReadValue();
-                var ray = Camera.main.ScreenPointToRay(pos);
-                RaycastHit wallHit;
-                RaycastHit tileHit;
+                // 클릭시 UI가 포함이면 리턴한다.
+                if (EventSystem.current.IsPointerOverGameObject()) return;
 
-                // 클릭 타일 갱신
-                if (Physics.Raycast(ray, out tileHit, 1000f, LayerMask.GetMask("Tile")))
+                if (bIsActiveUI)
                 {
-                    Tile tile = tileHit.collider.GetComponent<Tile>();
+                    taskController.ReturnToIdleState();
+                    SetIsActiveUI(false);
+                }
+                else
+                {
+                    var pos = Mouse.current.position.ReadValue();
+                    var ray = Camera.main.ScreenPointToRay(pos);
+                    RaycastHit wallHit;
+                    RaycastHit tileHit;
 
-                    if (tile)
+                    // 클릭 타일 갱신
+                    if (Physics.Raycast(ray, out tileHit, 1000f, LayerMask.GetMask("Tile")))
                     {
-                        taskController.UpdateLastClickTile(tile);
+                        Tile tile = tileHit.collider.GetComponent<Tile>();
+
+                        if (tile)
+                        {
+                            taskController.UpdateLastClickTile(tile);
+                        }
+                    }
+
+                    if (Physics.Raycast(ray, out wallHit, 1000f, LayerMask.GetMask("Building")))
+                    {
+                        BuildingBase building = wallHit.collider.GetComponent<BuildingBase>();
+
+                        if (building)
+                        {
+                            Debug.Log("Find Building");
+                            OpenBuildingTaskUI(building);
+
+                            building.InteractForTouch();
+                        }
                     }
                 }
-
-                if (Physics.Raycast(ray, out wallHit, 1000f, LayerMask.GetMask("Building")))
-                {
-                    BuildingBase building = wallHit.collider.GetComponent<BuildingBase>();
-
-                    if (building)
-                    {
-                        Debug.Log("Find Building");
-                        OpenBuildingTaskUI(building);
-
-                        building.InteractForTouch();
-                    }
-                }
             }
         }
-    }
 
-    public void SetIsActiveUI(bool isActive)
-    {
-        bIsActiveUI = isActive;
-    }
-
-    public void Open()
-    {
-        SetIsActiveUI(false);
-        Debug.Log("Idle State Open");
-    }
-
-    public void Close()
-    {
-        Debug.Log("Idle State Close");
-    }
-
-    private void OpenBuildingTaskUI(BuildingBase building)
-    {
-        ProductableBuilding productableBuilding = building as ProductableBuilding;
-        if (productableBuilding)
+        public void SetIsActiveUI(bool isActive)
         {
-            taskController.uiCenter.OpenProductableTask(productableBuilding);
+            bIsActiveUI = isActive;
         }
 
+        public void Open()
+        {
+            SetIsActiveUI(false);
+            Debug.Log("Idle State Open");
+        }
+
+        public void Close()
+        {
+            Debug.Log("Idle State Close");
+        }
+
+        private void OpenBuildingTaskUI(BuildingBase building)
+        {
+            ProductableBuilding productableBuilding = building as ProductableBuilding;
+            if (productableBuilding)
+            {
+                taskController.uiCenter.OpenProductableTask(productableBuilding);
+            }
+
+        }
     }
+
 }

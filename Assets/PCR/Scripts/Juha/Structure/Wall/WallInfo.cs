@@ -1,7 +1,12 @@
 using UnityEngine;
 
-public struct WallInfo
+namespace LUP.PCR
 {
-    // 벽 정보
-    public int Durability;
+    public struct WallInfo
+    {
+        // 벽 정보
+        public int Durability;
+    }
+
 }
+

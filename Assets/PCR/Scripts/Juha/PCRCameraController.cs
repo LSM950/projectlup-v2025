@@ -1,72 +1,75 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-
 using TouchPhase = UnityEngine.TouchPhase;
 
-public class PCRCameraController : MonoBehaviour
+namespace LUP.PCR
 {
-    public float speed = 10f;
-    private Vector2 currPos, prePos;
-    private Vector3 movePos;
-
-    private bool isPanning;
-
-    public Camera cam;
-
-    private void Awake()
+    public class PCRCameraController : MonoBehaviour
     {
-        if (cam == null)
-        {
-            cam = Camera.main;
-        }
+        public float speed = 10f;
+        private Vector2 currPos, prePos;
+        private Vector3 movePos;
 
-        if (cam == null)
-        {
-            Debug.LogError("Empty Camera");
-        }
-    }
+        private bool isPanning;
 
-    private void Start()
-    {
-        isPanning = false;
-        speed = 10f;
-    }
+        public Camera cam;
 
-    private void Update()
-    {
-        if (Input.touchCount == 1)
+        private void Awake()
         {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
+            if (cam == null)
             {
-                prePos = touch.position - touch.deltaPosition;
+                cam = Camera.main;
             }
-            else if (touch.phase == TouchPhase.Moved)
+
+            if (cam == null)
             {
-                currPos = touch.position - touch.deltaPosition;
-                movePos = (Vector3)(prePos - currPos) * Time.deltaTime * speed;
-                cam.transform.Translate(movePos);
-                prePos = touch.position - touch.deltaPosition;
+                Debug.LogError("Empty Camera");
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            isPanning = true;
-            prePos = Input.mousePosition;
-        }
-        else if (Input.GetMouseButton(0) && isPanning)
-        {
-            currPos = (Vector2)Input.mousePosition;
-            movePos = (Vector3)(prePos - currPos) * Time.deltaTime * speed; ;
-            cam.transform.Translate(movePos);
-            prePos = currPos;
-        }
-        else if (Input.GetMouseButtonUp(0))
+        private void Start()
         {
             isPanning = false;
+            speed = 10f;
         }
 
+        private void Update()
+        {
+            if (Input.touchCount == 1)
+            {
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began)
+                {
+                    prePos = touch.position - touch.deltaPosition;
+                }
+                else if (touch.phase == TouchPhase.Moved)
+                {
+                    currPos = touch.position - touch.deltaPosition;
+                    movePos = (Vector3)(prePos - currPos) * Time.deltaTime * speed;
+                    cam.transform.Translate(movePos);
+                    prePos = touch.position - touch.deltaPosition;
+                }
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                isPanning = true;
+                prePos = Input.mousePosition;
+            }
+            else if (Input.GetMouseButton(0) && isPanning)
+            {
+                currPos = (Vector2)Input.mousePosition;
+                movePos = (Vector3)(prePos - currPos) * Time.deltaTime * speed; ;
+                cam.transform.Translate(movePos);
+                prePos = currPos;
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                isPanning = false;
+            }
+
+        }
     }
+
 }

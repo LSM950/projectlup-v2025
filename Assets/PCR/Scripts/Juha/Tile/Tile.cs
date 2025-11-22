@@ -1,51 +1,56 @@
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+namespace LUP.PCR
 {
-    public TileInfo tileInfo;
-
-    [SerializeField]
-    private GameObject CanActMark;
-    [SerializeField]
-    private GameObject CanNotActMark;
-
-    private void Start()
+    public class Tile : MonoBehaviour
     {
-        HideCanDigWallMark();
-        HideCanNotDigWallMark();
-    }
+        public TileInfo tileInfo;
 
-    public void SetTileInfo(TileInfo tileInfo)
-    {
-        this.tileInfo = tileInfo;
-    }
+        [SerializeField]
+        private GameObject CanActMark;
+        [SerializeField]
+        private GameObject CanNotActMark;
 
-    public void ShowCanDigWallMark()
-    {
-        if (CanActMark)
+        private void Start()
         {
-            CanActMark.SetActive(true);
+            HideCanDigWallMark();
+            HideCanNotDigWallMark();
+        }
+
+        public void SetTileInfo(TileInfo tileInfo)
+        {
+            this.tileInfo = tileInfo;
+        }
+
+        public void ShowCanDigWallMark()
+        {
+            if (CanActMark)
+            {
+                CanActMark.SetActive(true);
+            }
+        }
+        public void HideCanDigWallMark()
+        {
+            if (CanActMark)
+            {
+                CanActMark.SetActive(false);
+            }
+        }
+        public void ShowCanNotDigWallMark()
+        {
+            if (CanNotActMark)
+            {
+                CanNotActMark.SetActive(true);
+            }
+        }
+        public void HideCanNotDigWallMark()
+        {
+            if (CanNotActMark)
+            {
+                CanNotActMark.SetActive(false);
+            }
         }
     }
-    public void HideCanDigWallMark()
-    {
-        if (CanActMark)
-        {
-            CanActMark.SetActive(false);
-        }
-    }
-    public void ShowCanNotDigWallMark()
-    {
-        if (CanNotActMark)
-        {
-            CanNotActMark.SetActive(true);
-        }
-    }
-    public void HideCanNotDigWallMark()
-    {
-        if (CanNotActMark)
-        {
-            CanNotActMark.SetActive(false);
-        }
-    }
+
+
 }

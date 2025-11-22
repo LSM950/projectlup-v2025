@@ -1,12 +1,17 @@
 using System;
 using UnityEngine;
 
-public interface ISelectConstructUIView
+namespace LUP.PCR
 {
-    event Action OnClickSelectedBuilding;
-    event Action OnClickBack;
-    public event Action<BuildingType> OnBuildingTypeChanged;
+    public interface ISelectConstructUIView
+    {
+        event Action OnClickSelectedBuilding;
+        event Action OnClickBack;
+        public event Action<BuildingType> OnBuildingTypeChanged;
 
-    void Show();
-    void Hide();
+        void Show();
+        void Hide();
+    }
+
 }
+

@@ -1,11 +1,15 @@
 using System;
 using UnityEngine;
 
-public interface IConstructionDecisionView
+namespace LUP.PCR
 {
-    event Action OnClickAccept;
-    event Action OnClickReject;
+    public interface IConstructionDecisionView
+    {
+        event Action OnClickAccept;
+        event Action OnClickReject;
 
-    void Show();
-    void Hide();
+        void Show();
+        void Hide();
+    }
 }
+

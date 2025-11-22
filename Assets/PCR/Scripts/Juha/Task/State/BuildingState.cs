@@ -3,82 +3,87 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class BuildingState : ITaskState
+namespace LUP.PCR
 {
-    private TaskController taskController;
-    private BuildPreview buildPreview;
-
-    public BuildingState(TaskController controller, BuildPreview buildPreview)
+    public class BuildingState : ITaskState
     {
-        taskController = controller;
-        this.buildPreview = buildPreview;
-    }
+        private TaskController taskController;
+        private BuildPreview buildPreview;
 
-    public void InputHandle()
-    {
-        if (!taskController)
+        public BuildingState(TaskController controller, BuildPreview buildPreview)
         {
-            return;
+            taskController = controller;
+            this.buildPreview = buildPreview;
         }
 
-        // 2. 입력
-        if (Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
+        public void InputHandle()
         {
-            // 클릭시 UI가 포함이면 리턴한다.
-            if (EventSystem.current.IsPointerOverGameObject()) return;
-
-            var pos = Mouse.current.position.ReadValue();
-            var ray = Camera.main.ScreenPointToRay(pos);
-
-            RaycastHit tileHit;
-
-            if (Physics.Raycast(ray, out tileHit, 1000f, LayerMask.GetMask("Tile")))
+            if (!taskController)
             {
-                var tile = tileHit.collider.GetComponent<Tile>();
-                if (tile)
-                {
-                    taskController.UpdateLastClickTile(tile);
-
-                    if (taskController.currSelectedBuildingType == BuildingType.NONE)
-                    {
-                        Debug.Log("Current BuildingType is NONE.");
-                    }
-
-                    buildPreview.ChangePreview(taskController.currSelectedBuildingType);
-                    buildPreview.UpdatePreview(taskController.currSelectedBuildingType, taskController.lastClickTile);
-
-                    return;
-                }
-                else
-                {
-                    taskController.ReturnToIdleState();
-                }
+                return;
             }
-            //else
-            //{
-            //    taskController.ReturnToIdleState();
-            //}
+
+            // 2. 입력
+            if (Mouse.current != null && Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                // 클릭시 UI가 포함이면 리턴한다.
+                if (EventSystem.current.IsPointerOverGameObject()) return;
+
+                var pos = Mouse.current.position.ReadValue();
+                var ray = Camera.main.ScreenPointToRay(pos);
+
+                RaycastHit tileHit;
+
+                if (Physics.Raycast(ray, out tileHit, 1000f, LayerMask.GetMask("Tile")))
+                {
+                    var tile = tileHit.collider.GetComponent<Tile>();
+                    if (tile)
+                    {
+                        taskController.UpdateLastClickTile(tile);
+
+                        if (taskController.currSelectedBuildingType == BuildingType.NONE)
+                        {
+                            Debug.Log("Current BuildingType is NONE.");
+                        }
+
+                        buildPreview.ChangePreview(taskController.currSelectedBuildingType);
+                        buildPreview.UpdatePreview(taskController.currSelectedBuildingType, taskController.lastClickTile);
+
+                        return;
+                    }
+                    else
+                    {
+                        taskController.ReturnToIdleState();
+                    }
+                }
+                //else
+                //{
+                //    taskController.ReturnToIdleState();
+                //}
+            }
         }
-    }
 
-    public void Open()
-    {
-        Debug.Log("Building State Open");
-
-        if (taskController.currSelectedBuildingType == BuildingType.NONE)
+        public void Open()
         {
-            Debug.Log("currBuildingType is NONE");
-            return;
+            Debug.Log("Building State Open");
+
+            if (taskController.currSelectedBuildingType == BuildingType.NONE)
+            {
+                Debug.Log("currBuildingType is NONE");
+                return;
+            }
+            buildPreview.ChangePreview(taskController.currSelectedBuildingType);
+
+            buildPreview.UpdatePreview(taskController.currSelectedBuildingType, taskController.lastClickTile);
         }
-        buildPreview.ChangePreview(taskController.currSelectedBuildingType);
 
-        buildPreview.UpdatePreview(taskController.currSelectedBuildingType, taskController.lastClickTile);
+        public void Close()
+        {
+            Debug.Log("Building State Close");
+            buildPreview.ResetPreview();
+        }
+
     }
 
-    public void Close()
-    {
-        Debug.Log("Building State Close");
-        buildPreview.ResetPreview();
-    }
 
 }

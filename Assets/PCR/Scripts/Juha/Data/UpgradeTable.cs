@@ -1,14 +1,18 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "LUPData/UpgradeTable")]
-public class UpgradeTable : ScriptableObject
+namespace LUP.PCR
 {
-    public LevelRow[] rows;
-    [System.Serializable]
-    public struct LevelRow
+    [CreateAssetMenu(menuName = "LUPData/UpgradeTable")]
+    public class UpgradeTable : ScriptableObject
     {
-        public int hp;
-        public int powerConsume;
-        public CostEntry[] cost;
+        public LevelRow[] rows;
+        [System.Serializable]
+        public struct LevelRow
+        {
+            public int hp;
+            public int powerConsume;
+            public CostEntry[] cost;
+        }
     }
+
 }

@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public abstract class StructureBase : MonoBehaviour
+namespace LUP.PCR
 {
-    public abstract void InteractForTouch();
+    public abstract class StructureBase : MonoBehaviour
+    {
+        public abstract void InteractForTouch();
+    }
+
 }

@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public interface IBuildState
+namespace LUP.PCR
 {
-    void Enter(BuildingBase building);
-    void Exit(BuildingBase building);
-    void Tick(BuildingBase building, float deltaTime);
-    void Interact(BuildingBase building);
+    public interface IBuildState
+    {
+        void Enter(BuildingBase building);
+        void Exit(BuildingBase building);
+        void Tick(BuildingBase building, float deltaTime);
+        void Interact(BuildingBase building);
+    }
 }
+

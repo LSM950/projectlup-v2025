@@ -1,51 +1,54 @@
 using System;
 using UnityEngine;
 
-public class MainUIPresenter
+namespace LUP.PCR
 {
-    private IMainUIView view;
-    private MainUIModel model;
-    private SelectConstructUIPresenter selectConstructPresenter;
-
-    public void InitPresenter(IMainUIView view, MainUIModel model, SelectConstructUIPresenter presenter)
+    public class MainUIPresenter
     {
-        this.view = view;
-        this.model = model;
-        this.selectConstructPresenter = presenter;
+        private IMainUIView view;
+        private MainUIModel model;
+        private SelectConstructUIPresenter selectConstructPresenter;
 
-        // 초기화 작업
-        view.OnClickDig += HandleDigClick;
-        view.OnClickConstruct += HandleConstructClick;
-    }
+        public void InitPresenter(IMainUIView view, MainUIModel model, SelectConstructUIPresenter presenter)
+        {
+            this.view = view;
+            this.model = model;
+            this.selectConstructPresenter = presenter;
 
-    public void HandleDigClick()
-    {
-        Hide();
-    }
+            // 초기화 작업
+            view.OnClickDig += HandleDigClick;
+            view.OnClickConstruct += HandleConstructClick;
+        }
 
-    public void HandleConstructClick()
-    {
-        Hide();
-        selectConstructPresenter.Show();
-    }
+        public void HandleDigClick()
+        {
+            Hide();
+        }
 
-    public void Show()
-    {
-        view.Show();
-    }
+        public void HandleConstructClick()
+        {
+            Hide();
+            selectConstructPresenter.Show();
+        }
 
-    public void Hide()
-    {
-        view.Hide();
-    }
+        public void Show()
+        {
+            view.Show();
+        }
 
-    public void BindActionDig(Action action)
-    {
-        view.OnClickDig += action;
-    }
+        public void Hide()
+        {
+            view.Hide();
+        }
 
-    public void BindActionConstruct(Action action)
-    {
-        view.OnClickConstruct += action;
+        public void BindActionDig(Action action)
+        {
+            view.OnClickDig += action;
+        }
+
+        public void BindActionConstruct(Action action)
+        {
+            view.OnClickConstruct += action;
+        }
     }
 }

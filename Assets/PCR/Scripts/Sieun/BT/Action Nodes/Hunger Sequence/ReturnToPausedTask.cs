@@ -1,28 +1,32 @@
-using LUP.PCR;
 using UnityEngine;
 
-public class ReturnToPausedTask : WorkerBlackboardNode
+namespace LUP.PCR
 {
-    public ReturnToPausedTask(WorkerBlackboard bb) : base(bb) { }
 
-    public override NodeState Evaluate()
+    public class ReturnToPausedTask : WorkerBlackboardNode
     {
-        RefreshCachedReferences();
-        
-        // Check paused building
-        if (!HasData(BBKeys.TargetBuilding + "_paused")) return NodeState.FAILURE;
-        var paused = GetData<ProductableBuilding>(BBKeys.TargetBuilding + "_paused");
-        if (paused == null) return NodeState.FAILURE;
+        public ReturnToPausedTask(WorkerBlackboard bb) : base(bb) { }
 
-        SetData(BBKeys.TargetBuilding, paused);
-        SetData(BBKeys.HasPausedTask, false);
-        BB.Remove(BBKeys.TargetBuilding + "_paused");
+        public override NodeState Evaluate()
+        {
+            RefreshCachedReferences();
 
-        //@TODO : 구조 확정되면 추가
-        //SetData(BBKeys.TargetPosition, paused.GetWorkerEntranceWorldPos(null));
-        OwnerAI?.StartWorkingAt(paused);
+            // Check paused building
+            if (!HasData(BBKeys.TargetBuilding + "_paused")) return NodeState.FAILURE;
+            var paused = GetData<ProductableBuilding>(BBKeys.TargetBuilding + "_paused");
+            if (paused == null) return NodeState.FAILURE;
 
-        return NodeState.SUCCESS;
+            SetData(BBKeys.TargetBuilding, paused);
+            SetData(BBKeys.HasPausedTask, false);
+            BB.Remove(BBKeys.TargetBuilding + "_paused");
+
+            //@TODO : 구조 확정되면 추가
+            //SetData(BBKeys.TargetPosition, paused.GetWorkerEntranceWorldPos(null));
+            OwnerAI?.StartWorkingAt(paused);
+
+            return NodeState.SUCCESS;
+        }
     }
+
 }
 

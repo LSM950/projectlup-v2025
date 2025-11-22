@@ -1,105 +1,109 @@
 using UnityEngine;
 
-public class BuildPreview : MonoBehaviour
+namespace LUP.PCR
 {
-    [SerializeField]
-    GameObject wheatFarmPreview;
-
-    [SerializeField]
-    Material canBuildMaterial;
-    [SerializeField]
-    Material canNotBuildMaterial;
-
-    private TileMap tileMap;
-    private BuildingPlacementRules buildingPlacementRules;
-
-    GameObject currPreview;
-
-    public bool canBuild;
-
-    private void Awake()
+    public class BuildPreview : MonoBehaviour
     {
-        buildingPlacementRules = GetComponent<BuildingPlacementRules>();
-    }
+        [SerializeField]
+        GameObject wheatFarmPreview;
 
-    private void Start()
-    {
-        wheatFarmPreview.SetActive(false);
-        canBuild = false;
-    }
+        [SerializeField]
+        Material canBuildMaterial;
+        [SerializeField]
+        Material canNotBuildMaterial;
 
-    public void Init(TileMap tileMap)
-    {
-        this.tileMap = tileMap;
-        buildingPlacementRules.Init(tileMap);
-        currPreview = null;
-    }
+        private TileMap tileMap;
+        private BuildingPlacementRules buildingPlacementRules;
 
-    public void ResetPreview()
-    {
-        currPreview.SetActive(false);
-    }
+        GameObject currPreview;
 
-    public void UpdatePreview(BuildingType type, Tile tile)
-    {
-        currPreview.SetActive(true);
-        Vector3 newPos = new Vector3(tile.gameObject.transform.position.x, tile.gameObject.transform.position.y, tile.gameObject.transform.position.z);
-        currPreview.transform.position = tile.gameObject.transform.position;
+        public bool canBuild;
 
-        if (CanPlace(type, tile))
+        private void Awake()
         {
-            currPreview.GetComponentInChildren<MeshRenderer>().material = canBuildMaterial;
-            canBuild = true;
+            buildingPlacementRules = GetComponent<BuildingPlacementRules>();
         }
-        else
+
+        private void Start()
         {
-            currPreview.GetComponentInChildren<MeshRenderer>().material = canNotBuildMaterial;
+            wheatFarmPreview.SetActive(false);
             canBuild = false;
         }
-    }
 
-    public bool CanPlace(BuildingType type, Tile pivotTile)
-    {
-        switch (buildingPlacementRules.CanPlace(type, pivotTile))
+        public void Init(TileMap tileMap)
         {
-            case PlacementResultType.SUCCESS:
-                return true;
-
-            case PlacementResultType.NOTENOUGHSPACE:
-            case PlacementResultType.LACKOFRESOURCE:
-                return false;
-            
+            this.tileMap = tileMap;
+            buildingPlacementRules.Init(tileMap);
+            currPreview = null;
         }
 
-        return false;
-    }
-
-    public void ChangePreview(BuildingType type)
-    {
-        if (currPreview)
+        public void ResetPreview()
         {
             currPreview.SetActive(false);
         }
 
-        switch (type)
+        public void UpdatePreview(BuildingType type, Tile tile)
         {
-            case BuildingType.WHEATFARM:
-                currPreview = wheatFarmPreview;
-                break;
+            currPreview.SetActive(true);
+            Vector3 newPos = new Vector3(tile.gameObject.transform.position.x, tile.gameObject.transform.position.y, tile.gameObject.transform.position.z);
+            currPreview.transform.position = tile.gameObject.transform.position;
 
-            case BuildingType.MUSHROOMFARM:
-
-                break;
-
-            case BuildingType.MOLEFARM:
-
-                break;
-
-            default:
-
-                break;
+            if (CanPlace(type, tile))
+            {
+                currPreview.GetComponentInChildren<MeshRenderer>().material = canBuildMaterial;
+                canBuild = true;
+            }
+            else
+            {
+                currPreview.GetComponentInChildren<MeshRenderer>().material = canNotBuildMaterial;
+                canBuild = false;
+            }
         }
 
-        currPreview.SetActive(false);
+        public bool CanPlace(BuildingType type, Tile pivotTile)
+        {
+            switch (buildingPlacementRules.CanPlace(type, pivotTile))
+            {
+                case PlacementResultType.SUCCESS:
+                    return true;
+
+                case PlacementResultType.NOTENOUGHSPACE:
+                case PlacementResultType.LACKOFRESOURCE:
+                    return false;
+
+            }
+
+            return false;
+        }
+
+        public void ChangePreview(BuildingType type)
+        {
+            if (currPreview)
+            {
+                currPreview.SetActive(false);
+            }
+
+            switch (type)
+            {
+                case BuildingType.WHEATFARM:
+                    currPreview = wheatFarmPreview;
+                    break;
+
+                case BuildingType.MUSHROOMFARM:
+
+                    break;
+
+                case BuildingType.MOLEFARM:
+
+                    break;
+
+                default:
+
+                    break;
+            }
+
+            currPreview.SetActive(false);
+        }
     }
+
 }

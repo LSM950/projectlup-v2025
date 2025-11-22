@@ -1,21 +1,26 @@
 using UnityEngine;
 
-[System.Serializable]
-public struct TileInfo
+namespace LUP.PCR
 {
-    public Vector2Int pos;
-    public TileType tileType;
-    public BuildingType buildingType;
-    public WallType wallType;
-    public int id;
-    //public Vector2Int gridPos { get; set; } // 필요한가?
-
-    public TileInfo(TileType tileType, BuildingType buildingType, WallType wallType, Vector2Int pos, int id)
+    [System.Serializable]
+    public struct TileInfo
     {
-        this.tileType = tileType;
-        this.buildingType = buildingType;
-        this.wallType = wallType;
-        this.id = id;
-        this.pos = pos;
+        public Vector2Int pos;
+        public TileType tileType;
+        public BuildingType buildingType;
+        public WallType wallType;
+        public int id;
+        //public Vector2Int gridPos { get; set; } // 필요한가?
+
+        public TileInfo(TileType tileType, BuildingType buildingType, WallType wallType, Vector2Int pos, int id)
+        {
+            this.tileType = tileType;
+            this.buildingType = buildingType;
+            this.wallType = wallType;
+            this.id = id;
+            this.pos = pos;
+        }
     }
+
 }
+

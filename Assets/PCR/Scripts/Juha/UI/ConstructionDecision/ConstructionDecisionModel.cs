@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class ConstructionDecisionModel
+namespace LUP.PCR
 {
+    public class ConstructionDecisionModel
+    {
+
+    }
 
 }

@@ -2,54 +2,57 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-public class BuildingSystem : MonoBehaviour
+namespace LUP.PCR
 {
-    private Dictionary<int, WallBase> currWalls;
-    private Dictionary<int, BuildingBase> currBuildings;
-
-    private BuildPreview buildPreview;
-
-    // Load Wall, Building Data
-    public void InitData(PCRDataCenter dataCenter)
+    public class BuildingSystem : MonoBehaviour
     {
-        List<WallDataInfo> wallInfoes = dataCenter.wallDatas;
+        private Dictionary<int, WallBase> currWalls;
+        private Dictionary<int, BuildingBase> currBuildings;
 
-        // 임시 id 할당
-        int wallId = 1;
+        private BuildPreview buildPreview;
 
-        for (int i =0; i< wallInfoes.Count; i++)
+        // Load Wall, Building Data
+        public void InitData(PCRDataCenter dataCenter)
         {
+            List<WallDataInfo> wallInfoes = dataCenter.wallDatas;
 
-        }
-    }
+            // 임시 id 할당
+            int wallId = 1;
 
+            for (int i = 0; i < wallInfoes.Count; i++)
+            {
 
-
-
-    public void CreateBuilding(BuildingType type, Tile pivotTile)
-    {
-        if (buildPreview.canBuild == false)
-        {
-            Debug.Log("Can't build");
-            return;
+            }
         }
 
-        Vector3 pos = pivotTile.gameObject.transform.position;
 
-        switch (type)
+
+
+        public void CreateBuilding(BuildingType type, Tile pivotTile)
         {
-            case BuildingType.WHEATFARM:
-                //Instantiate(wheatFarmPrefab, pos, Quaternion.identity);
+            if (buildPreview.canBuild == false)
+            {
+                Debug.Log("Can't build");
+                return;
+            }
 
-                break;
-            case BuildingType.MUSHROOMFARM:
-                //Instantiate(mushroomFarmPrefab, pos, Quaternion.identity);
+            Vector3 pos = pivotTile.gameObject.transform.position;
 
-                break;
-            case BuildingType.RESTAURANT:
-               // Instantiate(restaurantPrefab, pos, Quaternion.identity);
+            switch (type)
+            {
+                case BuildingType.WHEATFARM:
+                    //Instantiate(wheatFarmPrefab, pos, Quaternion.identity);
 
-                break;
+                    break;
+                case BuildingType.MUSHROOMFARM:
+                    //Instantiate(mushroomFarmPrefab, pos, Quaternion.identity);
+
+                    break;
+                case BuildingType.RESTAURANT:
+                    // Instantiate(restaurantPrefab, pos, Quaternion.identity);
+
+                    break;
+            }
         }
     }
 }

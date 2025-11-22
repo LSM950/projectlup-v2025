@@ -1,11 +1,16 @@
 using System;
 using UnityEngine;
 
-public interface IMainUIView
+namespace LUP.PCR
 {
-    event Action OnClickDig;
-    event Action OnClickConstruct;
+    public interface IMainUIView
+    {
+        event Action OnClickDig;
+        event Action OnClickConstruct;
 
-    void Show();
-    void Hide();
+        void Show();
+        void Hide();
+    }
+
 }
+

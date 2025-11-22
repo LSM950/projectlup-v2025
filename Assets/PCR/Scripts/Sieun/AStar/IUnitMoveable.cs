@@ -1,11 +1,15 @@
 using UnityEngine;
 
-public interface IUnitMoveable
+namespace LUP.PCR
 {
-    void SetDestination(Vector3 destination);
-    bool IsArrived();
-    void Stop();
+    public interface IUnitMoveable
+    {
+        void SetDestination(Vector3 destination);
+        bool IsArrived();
+        void Stop();
 
 
-    Vector3 CurrentDestination { get; }
+        Vector3 CurrentDestination { get; }
+    }
 }
+

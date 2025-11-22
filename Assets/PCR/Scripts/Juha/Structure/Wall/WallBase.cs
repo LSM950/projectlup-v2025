@@ -1,11 +1,15 @@
 using UnityEngine;
 
-public abstract class WallBase : StructureBase
+namespace LUP.PCR
 {
-    WallInfo wallInfo;
-
-    public bool CanDig(int digPower)
+    public abstract class WallBase : StructureBase
     {
-        return wallInfo.Durability <= digPower;
+        WallInfo wallInfo;
+
+        public bool CanDig(int digPower)
+        {
+            return wallInfo.Durability <= digPower;
+        }
     }
+
 }

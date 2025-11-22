@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public interface IPreview
+namespace LUP.PCR
 {
-    public void Show()
+    public interface IPreview
     {
+        public void Show()
+        {
 
+        }
     }
 }
+

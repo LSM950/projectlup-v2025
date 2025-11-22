@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public static class HungerRules
+namespace LUP.PCR
 {
-    public const float Hunger= 0.7f;
+    public static class HungerRules
+    {
+        public const float Hunger = 0.7f;
+    }
 }
