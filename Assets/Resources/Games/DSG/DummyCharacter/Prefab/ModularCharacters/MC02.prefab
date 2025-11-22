@@ -1419,10 +1419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currHp: 0
-  maxHp: 0
-  attack: 0
-  defense: 0
-  speed: 0
+  currGauge: 0
   isAttacking: 0
   bulletPrefab: {fileID: 1159801650698535097, guid: e6e6cd0df923f974286ea66ff9cba1e8, type: 3}
   damageLogPrefab: {fileID: 7683064257652862875, guid: a1f113c2e8dff434092bc754de6b349e, type: 3}
@@ -1563,7 +1560,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -5158481650415248688, guid: 075789f0f3fa9414f90d335ae163f413, type: 3}
+  m_Mesh: {fileID: -5158481650415248688, guid: e2d914a738f672c4eb290a52d5e7e441, type: 3}
   m_Bones:
   - {fileID: 5053756605880353364}
   - {fileID: 7324982655664550553}

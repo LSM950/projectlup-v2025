@@ -52,6 +52,11 @@ namespace LUP.DSG
             if (stage != null)
             {
                 DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
+                if(runtimeData == null || runtimeData.Teams.Count == 0)
+                {
+                    runtimeData.Teams[selectedTeamIndex] = new UserData.Team();
+                }
+
                 ResetCharacterList(runtimeData.Teams[selectedTeamIndex]);
 
                 selectedCount = 0;
@@ -163,6 +168,7 @@ namespace LUP.DSG
                 list.ResetSelectedStatus();
                 foreach (OwnedCharacterInfo info in team.characters)
                 {
+                    if (info == null) continue;
                     list.UpdateCheckedList(info.characterID, true);
                 }
                 list.PopulateScrollView();

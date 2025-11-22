@@ -1,3 +1,4 @@
+using LUP.Define;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,22 +8,22 @@ namespace LUP.DSG
     {
         public void ChangeToDeckEdit()
         {
-            SceneManager.LoadScene("DeckEditsScene");
+            LUP.StageManager.Instance.GetCurrentStage().LoadStage(StageKind.DSG, 1);
         }
 
         public void ChangeToBattle()
         {
-            SceneManager.LoadScene("DeckBattleScene");
+            LUP.StageManager.Instance.GetCurrentStage().LoadStage(StageKind.DSG, 2);
         }
 
         public void ChangeToMain()
         {
-            SceneManager.LoadScene("DeckMainScene");
+            LUP.StageManager.Instance.GetCurrentStage().LoadStage(StageKind.DSG, 0);
         }
 
         public void ChangeToResult()
         {
-            SceneManager.LoadScene("DeckBattleResultScene");
+            LUP.StageManager.Instance.GetCurrentStage().LoadStage(StageKind.DSG, 3);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace LUP.DSG
@@ -10,7 +11,7 @@ namespace LUP.DSG
         private FormationSystem formationSystem;
 
         public int teamIndex;
-        void Start()
+        public IEnumerator OnStageEnter()
         {
             formationSystem = FindAnyObjectByType<FormationSystem>();
 
@@ -19,11 +20,15 @@ namespace LUP.DSG
             {
                 toggle.isOn = true;
             }
+
+            //OnToggleChanged(true);
+            yield return null;
         }
 
         void OnToggleChanged(bool isOn)
         {
-            toggle.image.color = isOn ? Color.gray : Color.white;
+            Debug.Log("OnToggleChanged");
+            toggle.image.color = isOn ? UnityEngine.Color.gray : UnityEngine.Color.white;
             if (isOn)
             {
                 formationSystem.PlaceTeam(teamIndex);
