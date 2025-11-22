@@ -2,12 +2,12 @@
     "filename": "roguelike_runtime.json",
     "_id": 0,
     "_name": "RoguelikePlayer",
-    "_lastSelectedCharacter": 2,
+    "_lastSelectedCharacter": 4,
     "_lastPlayedChapter": 2,
     "_selectedChapter": {
-        "instanceID": 47678
+        "instanceID": 48262
     },
     "_selectedCharacter": {
-        "instanceID": 47436
+        "instanceID": 48200
     }
 }

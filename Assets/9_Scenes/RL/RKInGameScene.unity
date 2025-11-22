@@ -4318,9 +4318,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2289425459941807442, guid: 02aae3aa3d7b7da498d285233a564ce2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 534135434087159019, guid: 02aae3aa3d7b7da498d285233a564ce2, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 986103277321023552, guid: 02aae3aa3d7b7da498d285233a564ce2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3419151635719522702, guid: 02aae3aa3d7b7da498d285233a564ce2, type: 3}
       propertyPath: stageCenter
@@ -4441,7 +4449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 8646999651821705201, guid: 6a6aa7f8c0221584a9509c8bf1f3ad08, type: 3}
   spawnPoint: {fileID: 888571931}
-  fireDelay: 1
+  fireDelay: 10
   arrowSpeed: 10
   archer: {fileID: 1242295381}
   currentRoom: {fileID: 401549931}
@@ -6195,6 +6203,10 @@ PrefabInstance:
     - target: {fileID: 7174279848610357039, guid: f649923014f47d04aae3ecfe0058b2e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7763763813580248579, guid: f649923014f47d04aae3ecfe0058b2e7, type: 3}
+      propertyPath: Speed
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
