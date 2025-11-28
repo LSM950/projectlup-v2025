@@ -25,8 +25,12 @@ namespace LUP.RL
             EnemyStats.speed = 3;
 
             healthSystem = new HealthCenter(EnemyStats.MaxHp);
-            if (healthSystem == null) return;
+            if (healthSystem == null)
+            {
+                Debug.Log("health null");
+                return;
 
+            }
             GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
             if(barObj == null)
             {
