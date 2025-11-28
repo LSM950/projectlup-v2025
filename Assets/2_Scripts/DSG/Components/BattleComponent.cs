@@ -10,6 +10,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.UI.GridLayoutGroup;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace LUP.DSG
 {
@@ -94,51 +95,61 @@ namespace LUP.DSG
             if (owner.AnimationComp.currentState == EAnimStateType.StartDash_Fwd)
             {
                 transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 0.5f);
-                if (transform.position == targetSlot.AttackedPosition.position)
+                if (Vector3.Distance(transform.position,targetSlot.AttackedPosition.position) < 0.01f)
                 {
                     if (!impactApplied)
                     {
                         OnReachedTargetPos?.Invoke(false);
 
-                            if (currGauge == maxSkillGauge)
-                            {
-                    }
-                    else if (isUsingSkill && Vector3.Distance(transform.position, skillInfo.AttackPosition) < 0.01f)
-                    {
-                        if (!impactApplied)
-                        {
-                            OnReachedTargetPos?.Invoke(true);
-                            OnMeleeAttack?.Invoke();
-
-                            StartCoroutine(WaitAttack());
-
-                            impactApplied = true;
-                            ApplySkillDamage(); // @TODO 스킬 애니메이션이 있다면 애니메이션Event에 넣어주자
-                        }
-                    }
-                    else if (Vector3.Distance(transform.position, originPosition) < 0.01f)
-                    {
-                        isAttacking = false;
-                        isUsingSkill = false;
-                        impactApplied = false;
-                        OnReachedTargetPos?.Invoke(false);
+                        targetPosition = originPosition;
+                        impactApplied = true;
                     }
                 }
+                else if (isUsingSkill && Vector3.Distance(transform.position, skillInfo.AttackPosition) < 0.01f)
+                {
+                    if (!impactApplied)
+                    {
+                        OnReachedTargetPos?.Invoke(true);
+
+                        targetPosition = originPosition;
+                        impactApplied = true;
+                        ApplySkillDamage();
+                    }
+                }
+            }
+            else if (owner.AnimationComp.currentState == EAnimStateType.StartDash_Bwd)
+            {
+                transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 0.5f);
+                if (Vector3.Distance(transform.position, originPosition) < 0.01f)
+                {
+                    impactApplied = false;
+                    isUsingSkill = false;
+                    isAttacking = false;
+                    OnReachedTargetPos?.Invoke(true);
+                }
+            }
             else if (bullet != null)
             {
                 Vector3 dir = targetPosition - bullet.transform.position;
-                    float distanceToTarget = dir.magnitude;
-                    float moveDistance = bulletSpeed;
+                float distanceToTarget = dir.magnitude;
+                float moveDistance = bulletSpeed;
 
                 if (distanceToTarget <= moveDistance)
                 {
                     bullet.transform.position = targetPosition;
 
-                        if (!impactApplied)
+                    if (!impactApplied)
+                    {
+                        if (isUsingSkill)
+                        {
+                            ApplySkillDamage();
+                        }
+                        else
                         {
                             ApplyDamageOnce();
-                            impactApplied = true;
                         }
+                        impactApplied = true;
+                    }
 
                     StartCoroutine(WaitForRangeAttackEnd());
                     impactApplied = false;
@@ -146,7 +157,10 @@ namespace LUP.DSG
                     bullet = null;
                     return;
                 }
-                bullet.transform.position += dir.normalized * moveDistance;
+                else
+                {
+                    bullet.transform.position += dir.normalized * moveDistance;
+                }
             }
         }
 
@@ -159,20 +173,14 @@ namespace LUP.DSG
 
         public void SetHp(float hp)
         {
-                        if (!impactApplied)
-                        {
-                            if(isUsingSkill)
-                            {
-                                ApplySkillDamage();
-                            }
-                            else
-                            {
-                                ApplyDamageOnce();
-                            }
-                            impactApplied = true;
-                        }
+            currHp = hp;
+        }
+
+        public void SetMaxGauge(float gauge)
+        {
             maxSkillGauge = gauge;
         }
+
         public void Attack(LineupSlot target)
         {
             //if (isAttacking) return;
@@ -183,13 +191,7 @@ namespace LUP.DSG
 
             targetSlot = target;
             targetPosition = targetSlot.AttackedPosition.position;
-            if (owner.characterData.rangeType == ERangeType.Range)
-            {
-                bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
-                OnAttackStarted?.Invoke(owner.characterData.rangeType);
-            }
-
-            OnAttackStarted?.Invoke(owner.characterData.rangeType);
+            HandleAttackStart();
 
             isAttacking = true;
         }
@@ -231,34 +233,16 @@ namespace LUP.DSG
                 }
             }
 
-            HandleAttackStart();
-
+            InitGuage();
             isAttacking = true;
         }
 
-        public void Skill(List<LineupSlot> targetList)
+        public virtual void TakeDamage(float amount)
         {
-            if (isAttacking || isUsingSkill) return;
-
-            SkillTargetSlot = targetList;
-            targetPosition = skillInfo.AttackPosition;
-            HandleAttackStart();
-
-            isUsingSkill = true;
-            isAttacking = true;
-        }
-        private void HandleAttackStart()
-        {
-            TrySpawnBulletForRangedAttack();
-            OnAttackStarted?.Invoke(owner.characterData.rangeType);
-        }
             if (!isAlive)
-        private void TrySpawnBulletForRangedAttack()
-        {
-            if (owner.characterData.rangeType != ERangeType.Range)
                 return;
 
-            bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
+            currHp -= amount;
 
             OnDamaged?.Invoke(currHp);
             owner.ScoreComp.UpdateDamageTaken(amount);
@@ -290,6 +274,30 @@ namespace LUP.DSG
                 Die();
             }
         }
+
+        public void Skill(List<LineupSlot> targetList)
+        {
+            if (isAttacking || isUsingSkill) return;
+
+            SkillTargetSlot = targetList;
+            targetPosition = skillInfo.AttackPosition;
+            HandleAttackStart();
+
+            isUsingSkill = true;
+            isAttacking = true;
+        }
+        private void HandleAttackStart()
+        {
+            OnAttackStarted?.Invoke(owner.characterData.rangeType);
+        }
+        public void TrySpawnProjectileForRangedAttack()
+        {
+            if (owner.characterData.rangeType != ERangeType.Range)
+                return;
+
+            bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
+        }
+
         public virtual void Die()
         {
             isAlive = false;
@@ -338,31 +346,6 @@ namespace LUP.DSG
             currGauge = 0;
             isSkillOn = false;
             OnChangeGauge?.Invoke(currGauge);
-        }
-
-        //public void AttackEnd()
-        //{
-        //    //if (owner.AnimationComp.currentState == EAnimStateType.Attack_Melee)
-        //    //{
-        //    //    OnEndMelee?.Invoke();
-        //    //}
-        //}
-
-        private void HandleAttackStart()
-        {
-
-            yield return null;
-            Animator anim = owner.AnimationComp.animator;
-
-            AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
-            AnimatorClipInfo[] clips = anim.GetCurrentAnimatorClipInfo(0);
-
-            float clipLen = clips[0].clip.length;
-            float speed = anim.speed * state.speedMultiplier;
-            float waitSec = clipLen / Mathf.Max(speed, 0.0001f);
-            yield return new WaitForSeconds(waitSec);
-
-            bullet = Instantiate(bulletPrefab, originPosition, Quaternion.identity);
         }
     }
 }
