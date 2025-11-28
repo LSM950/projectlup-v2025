@@ -21,7 +21,7 @@ namespace LUP.PCR
 
         private void Awake()
         {
-            buildingPlacementRules = GetComponent<BuildingPlacementRules>();
+            buildingPlacementRules = gameObject.AddComponent<BuildingPlacementRules>();
         }
 
         private void Start()
@@ -35,6 +35,8 @@ namespace LUP.PCR
             this.tileMap = tileMap;
             buildingPlacementRules.Init(tileMap);
             currPreview = null;
+
+            Debug.Log("BuildPreview Init");
         }
 
         public void ResetPreview()

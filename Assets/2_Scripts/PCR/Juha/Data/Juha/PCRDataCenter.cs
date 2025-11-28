@@ -34,7 +34,7 @@ namespace LUP.PCR
             {
                 for (int j = 0; j < tileMapHeight; j++)
                 {
-                    tileInfoes[i, j] = new TileInfo(TileType.NONE, BuildingType.NONE, WallType.NONE, new Vector2Int(i, j), 1);
+                    tileInfoes[i, j] = new TileInfo(TileType.WALL, BuildingType.NONE, WallType.DUST, new Vector2Int(i, j), 1);
                 }
             }
             // 원래는 현재 벽, 건물 데이터를 받아와서 그 위치에 따라 타일 정보를 갱신해준다.
@@ -51,6 +51,7 @@ namespace LUP.PCR
                 tileInfoes[x, y].wallType = wallDatas[i].type;
             }
 
+            Debug.Log("DataCenter Init");
         }
     }
 

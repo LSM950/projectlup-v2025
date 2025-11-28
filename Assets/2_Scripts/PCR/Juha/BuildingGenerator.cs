@@ -27,7 +27,7 @@ namespace LUP.PCR
             switch (type)
             {
                 case WallType.DUST:
-                    wallObject = Instantiate(dustPrefab, new Vector3(pos.y * 5 + 2.5f, pos.x * 5 - 2.5f, -2.5f), Quaternion.identity, wallSpawnTransform);
+                    wallObject = Instantiate(dustPrefab, new Vector3(pos.x * 5 + 2.5f, -pos.y * 5 - 2.5f, -2.5f), Quaternion.identity, wallSpawnTransform);
 
                     break;
                 case WallType.STONE:
