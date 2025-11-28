@@ -53,7 +53,7 @@ namespace LUP.PCR
             buildPreview.Init(tileMap);
 
             // TaskController Init
-            taskController.InitTaskController(uiCenter, digWallPreview, buildPreview);
+            taskController.InitTaskController(uiCenter, digWallPreview, buildPreview, tileMap, buildingSystem);
 
             // uiCenter Init
             uiCenter.InitUI(taskController);

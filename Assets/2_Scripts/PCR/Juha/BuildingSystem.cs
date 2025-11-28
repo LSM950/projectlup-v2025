@@ -22,6 +22,8 @@ namespace LUP.PCR
             this.buildPreview = buildPreview;
 
             List<WallDataInfo> wallInfoes = dataCenter.wallDatas;
+            currWalls = new Dictionary<int, WallBase>();
+            currBuildings = new Dictionary<int, BuildingBase>();
 
             // 임시 id 할당
             int wallId = 1;
@@ -58,6 +60,8 @@ namespace LUP.PCR
 
                 wallId++;
             }
+
+            Debug.Log("BuildingSystem Init");
         }
 
         public void CreateBuilding(BuildingType type, Tile pivotTile)

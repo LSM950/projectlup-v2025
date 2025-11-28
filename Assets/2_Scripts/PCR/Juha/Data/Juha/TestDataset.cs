@@ -35,7 +35,7 @@ namespace LUP.PCR
     public class TestDataset : MonoBehaviour
     {
 
-        List<Vector2Int> notWalls;
+        List<Vector2Int> notWalls = new List<Vector2Int>();
 
         public void TestNotWalls()
         {

@@ -119,6 +119,77 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &17018124
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1863239781}
+    m_Modifications:
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -17.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678140108917843469, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_Name
+      value: WheatFarmPreview
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678140108917843469, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+--- !u!1 &17018125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8678140108917843469, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+  m_PrefabInstance: {fileID: 17018124}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &17018126 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1982459330029980573, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+  m_PrefabInstance: {fileID: 17018124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &89870424
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,9 +1050,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc3692d74402864e9581ca9e097f4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  digWallPreview: {fileID: 0}
+  buildPreview: {fileID: 0}
   currSelectedBuildingType: 0
   tileMap: {fileID: 0}
   lastClickTile: {fileID: 0}
+  buildingSystem: {fileID: 0}
   uiCenter: {fileID: 493708371}
 --- !u!114 &1143394259
 MonoBehaviour:
@@ -1301,10 +1375,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingSpawnTransform: {fileID: 308905293}
   wallSpawnTransform: {fileID: 89870425}
-  wheatFarmPrefab: {fileID: 0}
-  mushroomFarmPrefab: {fileID: 0}
-  restaurantPrefab: {fileID: 0}
-  dustPrefab: {fileID: 0}
+  wheatFarmPrefab: {fileID: 6076015338484084759, guid: 7c02beada8a74f845911f3c818b59245, type: 3}
+  mushroomFarmPrefab: {fileID: 6745643677092434164, guid: c409b4080aefebf41b8972ad77303a0c, type: 3}
+  restaurantPrefab: {fileID: 2816563872769931831, guid: 85a397ffd2d64a541b489d82678bd1e8, type: 3}
+  dustPrefab: {fileID: 4137795641468081738, guid: d63ddd9551a991e4ab65e9de2816cf3b, type: 3}
 --- !u!1 &1574250943
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,6 +1500,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1574250943}
   m_CullTransparentMesh: 1
+--- !u!4 &1863239781 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7142335919441245575, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
+  m_PrefabInstance: {fileID: 7142311245950955112}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7142311245950955112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1441,7 +1520,7 @@ PrefabInstance:
     - target: {fileID: 1207909849776977502, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
       propertyPath: wheatFarmPreview
       value: 
-      objectReference: {fileID: 8678140108917843469, guid: f6ab578ef14738b4481dc061f72ab7ff, type: 3}
+      objectReference: {fileID: 17018125}
     - target: {fileID: 1207909849776977502, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
       propertyPath: canNotBuildMaterial
       value: 
@@ -1498,12 +1577,19 @@ PrefabInstance:
       propertyPath: tilePrefab
       value: 
       objectReference: {fileID: 8091790397025560228, guid: b3fae8582928dce4abfeae5bf13679d4, type: 3}
+    - target: {fileID: 8812501191550470173, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
+      propertyPath: tileMap
+      value: 
+      objectReference: {fileID: 7142311245950955114}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3053574862826589538, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1440301198}
+    - targetCorrespondingSourceObject: {fileID: 7142335919441245575, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 17018126}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
 --- !u!4 &7142311245950955113 stripped
@@ -1511,6 +1597,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3053574862826589538, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
   m_PrefabInstance: {fileID: 7142311245950955112}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7142311245950955114 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7934961181985955281, guid: cdc75119459fb3a4694c648952622ce5, type: 3}
+  m_PrefabInstance: {fileID: 7142311245950955112}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27900a343fb38c428430ceaf7c11de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

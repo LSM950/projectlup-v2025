@@ -36,6 +36,9 @@ namespace LUP.PCR
                     }
                 }
             }
+
+            Debug.Log("TileMap Init");
+
         }
 
         //public void GenerateObject()
