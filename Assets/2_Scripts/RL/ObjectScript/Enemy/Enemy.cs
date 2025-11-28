@@ -15,6 +15,7 @@ namespace LUP.RL
         private Hpbar hpbar;
         public GameObject HpbarPrefab;
         public HealthCenter healthSystem;
+        private EnemyBlackBoard blackBoard;
 
         void Start()
         {
@@ -24,8 +25,12 @@ namespace LUP.RL
             EnemyStats.speed = 3;
 
             healthSystem = new HealthCenter(EnemyStats.MaxHp);
-            if (healthSystem == null) return;
+            if (healthSystem == null)
+            {
+                Debug.Log("health null");
+                return;
 
+            }
             GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
             if(barObj == null)
             {
@@ -36,7 +41,7 @@ namespace LUP.RL
             hpbar.SetHealthSystem(healthSystem);
 
 
-
+            blackBoard = gameObject.GetComponent<EnemyBlackBoard>();
         }
         public void SetGridPos(int x, int z)
         {
@@ -45,9 +50,16 @@ namespace LUP.RL
         public void TakeDamage(int damage)
         {
             healthSystem.Damage(damage);
+
+            if(blackBoard)
+                blackBoard.OnHitted = true;
+
             if (healthSystem.CurrentHp <= 0)
             {
                 Die();
+
+                if (blackBoard)
+                    blackBoard.Alive = false;
             }
         }
         private void Die()

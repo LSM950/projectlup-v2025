@@ -27,12 +27,16 @@ namespace LUP.RL
 
         private LeafNode currentRunningLeaf;
 
+        public GameObject thisCharacter;
+
         private void Awake()
         {
             enemyBlackBoard = GetComponent<EnemyBlackBoard>();
             Animator = GetComponent<Animator>();
 
             enemyBlackBoard.HP = enemyBlackBoard.MaxHP;
+
+            thisCharacter = gameObject;
         }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -43,6 +47,11 @@ namespace LUP.RL
                 for (int i = 0; i < animatorCallBacks.Length; i++)
                 {
                     animatorCallBacks[i].SetAnimEndCallBack(OnAnimationEnd);
+
+                    if(animatorCallBacks[i].animTargetCallBackRate != 1.0f)
+                    {
+                        animatorCallBacks[i].SetAnimCallBBack(OnAnimationInTargetRate);
+                    }
                 }
 
                 //StateMachineBehaviour를 애니메이션 상태(State) 단위로 “복제”해서 관리해.
@@ -123,6 +132,14 @@ namespace LUP.RL
 
             currentRunningLeaf.OnAnimationEnd(info);
             currentRunningLeaf = null;
+        }
+
+        public void OnAnimationInTargetRate(AnimatorStateInfo info)
+        {
+            if (currentRunningLeaf == null)
+                return;
+
+            currentRunningLeaf.OnAnimationInTargetRate();
         }
 
         public AnimatorStateInfo GetCurrentAnimState()
