@@ -137,8 +137,8 @@ namespace LUP.RL
         // Update is called once per frame
         void Update()
         {
-            if (enemyBlackBoard.Alive == false)
-                return;
+            //if (enemyBlackBoard.Alive == false)
+            //    return;
 
             if (rootnode != null)
             {

@@ -11,11 +11,6 @@ namespace LUP.RL
         }
         public override NodeState Evaluate()
         {
-            if(behaviorTree.GetCurrentAnimState().IsName("Attack") == true)
-            {
-
-            }
-
 
             UnityEngine.Debug.Log("Action Hitted");
 

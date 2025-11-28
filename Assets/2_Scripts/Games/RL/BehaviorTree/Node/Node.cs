@@ -5,7 +5,6 @@ namespace LUP.RL
     public abstract class Node
     {
 
-
         protected NodeState nodeState = NodeState.None;
         public abstract NodeState Evaluate();
 

@@ -16,6 +16,7 @@ namespace LUP.RL
         public GameObject HpbarPrefab;
         public HealthCenter healthSystem;
         private EnemyBlackBoard blackBoard;
+        private EnemyBehaviorTree behaviorTree;
 
         void Start()
         {
@@ -42,6 +43,7 @@ namespace LUP.RL
 
 
             blackBoard = gameObject.GetComponent<EnemyBlackBoard>();
+            behaviorTree = gameObject.GetComponent<EnemyBehaviorTree>();
         }
         public void SetGridPos(int x, int z)
         {
@@ -52,14 +54,21 @@ namespace LUP.RL
             healthSystem.Damage(damage);
 
             if(blackBoard)
-                blackBoard.OnHitted = true;
+            {
+                if(blackBoard.InAtkState == false)
+                    blackBoard.OnHitted = true;
+            }
+                
 
             if (healthSystem.CurrentHp <= 0)
             {
                 Die();
 
                 if (blackBoard)
+                {
                     blackBoard.Alive = false;
+                }
+                    
             }
         }
         private void Die()
@@ -68,8 +77,7 @@ namespace LUP.RL
 
             ObjectOnEnemyDied?.Invoke(this);
 
-
-            Destroy(gameObject);
+            behaviorTree.ResetWorkingNodeIndex();
         }
 
 

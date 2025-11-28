@@ -108,7 +108,9 @@ namespace LUP.RL
 
                 case ActionState.Die:
                     calledAnimName = "Die";
-                    break;
+                    currentRunningLeaf = caller;
+                    Animator.Play(calledAnimName);
+                    return;
 
                 default:
                     break;
@@ -119,7 +121,7 @@ namespace LUP.RL
             if (stateInfo.IsName("Wait") || stateInfo.IsName("MoveTo"))
             {
                 currentRunningLeaf = caller;
-                Animator.Play(calledAnimName);
+                Animator.Play(calledAnimName, 0, 0.0f);
             }
 
             
@@ -146,6 +148,13 @@ namespace LUP.RL
         {
             stateInfo = Animator.GetCurrentAnimatorStateInfo(0);
             return stateInfo;
+        }
+
+        public void ResetWorkingNodeIndex()
+        {
+            SelectorNode firstSelectorNode= (SelectorNode)rootnode.topChildNode;
+            firstSelectorNode.ResetWorkingNodeIndex();
+
         }
     }
 }
