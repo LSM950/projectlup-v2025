@@ -8,21 +8,18 @@ namespace LUP.PCR
     [RequireComponent(typeof(UnitMover))]
     public class WorkerAI : MonoBehaviour
     {
-        public event Action<WorkerAI> OnEatCompleted;
-        public event Action<WorkerAI> OnTaskStarted;     // [작업 시작]
-        public event Action<WorkerAI> OnTaskFinished;    // [작업 완료]
-
         [Header("State")]
         [SerializeField] private float hunger;
-        [SerializeField] private bool  hasNewTask = false;
-        [SerializeField] private bool  hasPausedTask = false;
+        [SerializeField] private BuildingBase dest; 
         private bool Ishunger;
+        private bool hasNewTask = false;
+        private bool hasPausedTask = false;
 
-        [Header("BT Settings")]
-        public float btTickInterval = 0.1f;
+        [Header("BT Time")]
+        private float btTickInterval = 0.1f;
         private float btTimer = 0f;
 
-        // 컴포넌트
+        [Header("Component")]
         private Worker worker;
         private UnitMover mover;
         private IUnitMoveable moverAdapter;
@@ -31,6 +28,11 @@ namespace LUP.PCR
         // 로컬 블랙보드->동적 데이터 동기화
         // WorkerAI의 변수 값이 바뀌면 -> 블랙보드도 즉시 업데이트됨
         // BT 노드들은 변수를 직접 안 보고 블랙보드의 Key만 봄
+        public void InitBTRules()
+        {
+            Ishunger = hunger >= HungerRules.Hunger;
+        }
+
         public WorkerBlackboard LocalBlackboard { get; private set; }
         public float Hunger
         {
@@ -39,9 +41,6 @@ namespace LUP.PCR
             {
                 hunger = value;
                 LocalBlackboard.SetValue(BBKeys.Hunger, hunger);
-
-                bool hungryFlag = hunger >= HungerRules.Hunger;
-                LocalBlackboard.SetValue(BBKeys.IsHungry, hungryFlag);
             }
         }
 
@@ -76,17 +75,9 @@ namespace LUP.PCR
             moverAdapter = mover as IUnitMoveable;
 
             LocalBlackboard = new WorkerBlackboard();
-
+            InitBlackboard();
         }
-
-        private void Start()
-        {
-
-
-            // BT 트리 구성
-            SettingBT();
-        }
-        private void SyncFieldsToBlackboard()
+        private void InitBlackboard()
         {
             //정적 데이터(참조) 등록
             LocalBlackboard.SetValue(BBKeys.OwnerAI, this);
@@ -95,14 +86,24 @@ namespace LUP.PCR
 
             // BT 상태 초기화
             LocalBlackboard.SetValue(BBKeys.Hunger, hunger);
-            bool hungryFlag = hunger >= HungerRules.Hunger;
-            LocalBlackboard.SetValue(BBKeys.IsHungry, hungryFlag);
+            bool IsHunger = hunger >= HungerRules.Hunger;
+            LocalBlackboard.SetValue(BBKeys.IsHungry, IsHunger);
+
+            LocalBlackboard.SetValue<BuildingBase>(BBKeys.TargetBuilding, dest);
+            LocalBlackboard.SetValue<Vector2Int>(BBKeys.TargetPosition, dest.entrancePos);
+
+            LocalBlackboard.SetValue(BBKeys.HasNewTask, hasNewTask);
+            LocalBlackboard.SetValue(BBKeys.HasNewTask, hasNewTask);
+
 
             LocalBlackboard.SetValue(BBKeys.HasNewTask, hasNewTask);
             LocalBlackboard.SetValue(BBKeys.HasPausedTask, hasPausedTask);
         }
 
-
+        private void Start()
+        {
+            SettingBT();
+        }
 
         void SettingBT()
         {
@@ -156,8 +157,8 @@ namespace LUP.PCR
         private void Update()
         {
             if (root == null) return;
-
-           // Hunger = Mathf.Clamp01(hunger - Time.deltaTime * 0.01f);
+            root?.Evaluate();
+            // Hunger = Mathf.Clamp01(hunger - Time.deltaTime * 0.01f);
 
             // protected, private 보호수준에 막힘.
             // @TODO: ProductableBuilding의 currBuildState 가져오는 방법 고민하기 
@@ -169,13 +170,12 @@ namespace LUP.PCR
             //    LocalBlackboard.SetValue(BBKeys.IsProductionCompleted, pState.data.IsCompleted);
             //    LocalBlackboard.SetValue(BBKeys.ProductionProgress, pState.data.Progress);
 
-               //btTimer += Time.deltaTime;
-               //if (btTimer >= btTickInterval)
-               //{
-               //    btTimer = 0f;
-               //}
-                   root?.Evaluate();
-           //}
+            //btTimer += Time.deltaTime;
+            //if (btTimer >= btTickInterval)
+            //{
+            //    btTimer = 0f;
+            //}
+            //}
         }
         public void AssignTask(ProductableBuilding building)
         {
@@ -220,18 +220,18 @@ namespace LUP.PCR
         {
             LocalBlackboard.SetValue(BBKeys.TargetBuilding, building);
             //LocalBlackboard.SetValue(BBKeys.TargetPosition, building.GetWorkerEntranceWorldPos(null));
-            OnTaskStarted?.Invoke(this);
+            //OnTaskStarted?.Invoke(this);
         }
         public void FinishWorking()
         {
             currentTaskBuilding = null;
-            OnTaskFinished?.Invoke(this);
+           // OnTaskFinished?.Invoke(this);
         }
 
         public void OnAte()
         {
             Hunger = 0f;
-            OnEatCompleted?.Invoke(this);
+           // OnEatCompleted?.Invoke(this);
         }
 
     }
