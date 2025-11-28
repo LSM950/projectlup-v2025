@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e60f562924dcfa448fbe697acf1ad14, type: 3}
+  m_Name: ItemDataBase
+  m_EditorClassIdentifier: 
+  items:
+  - rid: 5261643148408389708
+  - rid: 5261643148408389709
+  - rid: 5261643148408389710
+  - rid: 5261643148408389711
+  - rid: 5261643148408389712
+  - rid: 5261643148408389713
+  - rid: 5261643148408389714
+  - rid: 5261643148408389715
+  - rid: 5261643148408389716
+  references:
+    version: 2
+    RefIds:
+    - rid: 5261643148408389708
+      type: {class: RangedWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 1
+        iconName: Pistol
+        name: Pistol
+        stackSize: 1
+        itemType: 1
+        weaponType: 1
+        damage: 5
+        range: 10
+        timeBetAttack: 0.3
+        bulletSpeed: 10
+        magCapacity: 8
+        reloadTime: 1.2
+    - rid: 5261643148408389709
+      type: {class: RangedWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 2
+        iconName: SMG
+        name: SMG
+        stackSize: 1
+        itemType: 1
+        weaponType: 1
+        damage: 15
+        range: 7
+        timeBetAttack: 0.1
+        bulletSpeed: 25
+        magCapacity: 20
+        reloadTime: 1.3
+    - rid: 5261643148408389710
+      type: {class: RangedWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 3
+        iconName: AR
+        name: AR
+        stackSize: 1
+        itemType: 1
+        weaponType: 1
+        damage: 20
+        range: 10
+        timeBetAttack: 0.15
+        bulletSpeed: 20
+        magCapacity: 30
+        reloadTime: 2
+    - rid: 5261643148408389711
+      type: {class: RangedWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 4
+        iconName: LMG
+        name: LMG
+        stackSize: 1
+        itemType: 1
+        weaponType: 1
+        damage: 17
+        range: 20
+        timeBetAttack: 0.12
+        bulletSpeed: 25
+        magCapacity: 100
+        reloadTime: 4
+    - rid: 5261643148408389712
+      type: {class: ArmorItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 5
+        iconName: Helmet
+        name: Helmet
+        stackSize: 1
+        itemType: 2
+        defense: 5
+        armorSlot: 0
+    - rid: 5261643148408389713
+      type: {class: ArmorItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 6
+        iconName: BodyArmor
+        name: BodyArmor
+        stackSize: 1
+        itemType: 2
+        defense: 5
+        armorSlot: 1
+    - rid: 5261643148408389714
+      type: {class: ConsumableItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 7
+        iconName: Bandage
+        name: Bandage
+        stackSize: 3
+        itemType: 3
+        effectDuration: 5
+        useTime: 5
+        effectType: 0
+        effectValue: 30
+    - rid: 5261643148408389715
+      type: {class: MaterialItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 8
+        iconName: Key
+        name: Key
+        stackSize: 5
+        itemType: 4
+        tier: 0
+    - rid: 5261643148408389716
+      type: {class: MeleeWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
+      data:
+        id: 9
+        iconName: Sword
+        name: Sword
+        stackSize: 1
+        itemType: 1
+        weaponType: 0
+        damage: 30
+        range: 2
+        timeBetAttack: 0.8
+        attackAngle: 160
