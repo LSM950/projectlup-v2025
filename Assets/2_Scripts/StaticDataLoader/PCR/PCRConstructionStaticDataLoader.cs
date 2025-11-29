@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 [CreateAssetMenu(fileName = "PCRConstructionStaticData", menuName = "Scriptable Objects/PCRConstructionStaticData")]
 public class PCRConstructionStaticDataLoader : BaseStaticDataLoader<PCRConstructionStaticData>
 {
-    protected override string URL => "https://docs.google.com/spreadsheets/d/11yM9l6g4opxVTflwsOVV0nZoIPUQ9VnA0rhkasLEi7I/export?format=csv&gid=1925192426";
+    protected override string URL => "https://docs.google.com/spreadsheets/d/1_8bIM_IAx1r9BhxDEX2Pn3jaf5O42iigmWJmDKKXs6k/export?format=csv&gid=333375154#gid=333375154";
 
     public override IEnumerator LoadSheet()
     {

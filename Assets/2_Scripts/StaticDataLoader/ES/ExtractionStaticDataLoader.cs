@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 [CreateAssetMenu(fileName = "ExtractionStaticData", menuName = "Scriptable Objects/ExtractionStaticData")]
 public class ExtractionStaticDataLoader : BaseStaticDataLoader<ExtractionStaticData>
 {
-    protected override string URL => "https://docs.google.com/spreadsheets/d/11yM9l6g4opxVTflwsOVV0nZoIPUQ9VnA0rhkasLEi7I/export?format=csv&gid=831461229";
+    protected override string URL => "https://docs.google.com/spreadsheets/d/1R-q7I41tJMOg7_Melx8lQYMLczS27u-pGseCk-DLxeE/export?format=csv&gid=1480693328#gid=1480693328";
 
     public override IEnumerator LoadSheet()
     {

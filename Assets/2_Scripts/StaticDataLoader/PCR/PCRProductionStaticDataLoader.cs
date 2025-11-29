@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 [CreateAssetMenu(fileName = "PCRProductionStaticData", menuName = "Scriptable Objects/PCRProductionStaticData")]
 public class PCRProductionStaticDataLoader : BaseStaticDataLoader<PCRProductionStaticData>
 {
-    protected override string URL => "https://docs.google.com/spreadsheets/d/11yM9l6g4opxVTflwsOVV0nZoIPUQ9VnA0rhkasLEi7I/export?format=csv&gid=440519108";
+    protected override string URL => "https://docs.google.com/spreadsheets/d/1_8bIM_IAx1r9BhxDEX2Pn3jaf5O42iigmWJmDKKXs6k/export?format=csv&gid=1913495394#gid=1913495394";
 
     public override IEnumerator LoadSheet()
     {

@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 [CreateAssetMenu(fileName = "DeckCharacterAnimationStaticData", menuName = "Scriptable Objects/DeckCharacterAnimationStaticData")]
 public class DeckCharacterAnimationStaticDataLoader : BaseStaticDataLoader<DeckCharacterAnimationStaticData>
 {
-    protected override string URL => "https://docs.google.com/spreadsheets/d/11yM9l6g4opxVTflwsOVV0nZoIPUQ9VnA0rhkasLEi7I/export?format=csv&gid=1829960723";
+    protected override string URL => "https://docs.google.com/spreadsheets/d/1tvPilM12p7L2pu0WucoM4P9QVry-oFme41mZH6xRJB4/export?format=csv&gid=160148361#gid=160148361";
 
     public override IEnumerator LoadSheet()
     {
