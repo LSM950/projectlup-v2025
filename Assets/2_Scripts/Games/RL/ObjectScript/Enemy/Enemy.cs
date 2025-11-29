@@ -17,7 +17,8 @@ namespace LUP.RL
         public HealthCenter healthSystem;
         private EnemyBlackBoard blackBoard;
         private EnemyBehaviorTree behaviorTree;
-
+        [SerializeField] private float hpbaroffsetY = 5;
+            
         void Start()
         {
             EnemyStats.MaxHp = 50;
@@ -32,7 +33,7 @@ namespace LUP.RL
                 return;
 
             }
-            GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
+            GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * hpbaroffsetY, Quaternion.identity);
             if(barObj == null)
             {
                 Debug.Log("bar¾øÀ½");

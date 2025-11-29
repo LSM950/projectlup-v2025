@@ -287,4 +287,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442f0c4dc78de4645966fa9652e0457c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animTargetCallBackRate: 0.95
+  animTargetCallBackRate: 0.9
