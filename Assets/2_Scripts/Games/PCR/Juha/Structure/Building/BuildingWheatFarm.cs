@@ -102,7 +102,9 @@ namespace LUP.PCR
 
             if (currStorage == maxStorage)
             {
-                StopProduction();
+                DeliverToInventory();
+                StartProduction();
+                //StopProduction();
             }
             else
             {
@@ -110,6 +112,13 @@ namespace LUP.PCR
             }
         }
 
+        public override void DeliverToInventory()
+        {
+            resourceCenter.AddResource(productableBuildingData.resource, currStorage);
+            currStorage = 0;
+        }
+       
+    
     }
 
 }

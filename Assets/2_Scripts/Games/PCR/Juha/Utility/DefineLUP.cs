@@ -27,6 +27,9 @@ namespace LUP.PCR
         MOLEFARM,
         RESTAURANT,
         POWERSTATION,
+        STONEMINE,
+        IRONMINE,
+        COALMINE,
     }
 
     public enum WallType
@@ -41,8 +44,10 @@ namespace LUP.PCR
         STONE,
         COAL,
         IRON,
-        WHEAT,
-        MUSHROOM,
+        VEGFRUIT,
+        MEAT,
+        WATER,
+        FOOD,
         POWER,
     }
 

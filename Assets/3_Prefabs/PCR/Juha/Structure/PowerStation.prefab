@@ -73,7 +73,8 @@ MonoBehaviour:
   buildingName: 
   level: 0
   entrancePos: {x: 0, y: 0}
-  productableBuildingData: {fileID: 0}
+  resourceCenter: {fileID: 0}
+  productableBuildingData: {fileID: 11400000, guid: c7dc4fe636b5dd4429d590a48e4dcbc6, type: 2}
   currStorage: 0
   maxStorage: 0
 --- !u!1 &8370303765517690348

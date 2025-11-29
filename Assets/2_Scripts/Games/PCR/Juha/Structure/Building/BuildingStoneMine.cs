@@ -13,7 +13,10 @@ public class BuildingStoneMine : ProductableBuilding
 
     void Start()
     {
+        Init();
 
+        buildingEvents.OnBuildingSelected += OpenBuildingUI;
+        buildingEvents.OnBuildingDeselected += CloseBuildingUI;
     }
 
     private void Update()
@@ -94,11 +97,19 @@ public class BuildingStoneMine : ProductableBuilding
 
         if (currStorage == maxStorage)
         {
-            StopProduction();
+            DeliverToInventory();
+            StartProduction();
+            //StopProduction();
         }
         else
         {
             StartProduction();
         }
+    }
+
+    public override void DeliverToInventory()
+    {
+        resourceCenter.AddResource(productableBuildingData.resource, currStorage);
+        currStorage = 0;
     }
 }

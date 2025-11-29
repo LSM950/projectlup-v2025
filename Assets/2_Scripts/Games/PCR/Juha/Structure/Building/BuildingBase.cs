@@ -16,6 +16,7 @@ namespace LUP.PCR
         public string buildingName;
         public int level;
         public Vector2Int entrancePos; // 작업자 도달 위치
+        public PCRResourceCenter resourceCenter;
 
         protected IBuildState currBuildState;
 
@@ -24,6 +25,8 @@ namespace LUP.PCR
         public abstract void CompleteContruction();
 
         public abstract void Upgrade();
+
+        public abstract void DeliverToInventory();
 
         public void OpenBuildingUI()
         {

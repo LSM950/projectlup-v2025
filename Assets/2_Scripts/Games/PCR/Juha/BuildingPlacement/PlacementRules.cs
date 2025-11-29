@@ -70,6 +70,13 @@ namespace LUP.PCR
                 case BuildingType.RESTAURANT:
                     placementSize = new Vector2Int(3, 1);
                     break;
+                case BuildingType.STONEMINE:
+                case BuildingType.IRONMINE:
+                case BuildingType.COALMINE:
+                    placementSize = new Vector2Int(1, 1);
+
+                    break;
+                   
             }
         }
     }
