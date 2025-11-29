@@ -19,11 +19,14 @@ namespace LUP.ST
         private bool hasAppliedHit = false;
         private const float HIT_RATIO = 0.55f;
 
+        private Rigidbody rb;
+
         void Awake()
         {
             bb = GetComponent<MeleeBlackBoard>();
             stats = GetComponent<StatComponent>();
             visual = GetComponent<VisualComponent>();
+            rb = GetComponent<Rigidbody>();
         }
 
         // 사망: 애니 등 실행. 트리는 Retire가 RUNNING이면 멈춘다고 가정
@@ -51,7 +54,7 @@ namespace LUP.ST
             bb.InCover = false;
             isStopped = false;
             MoveTowards(dst);
-            Debug.Log($"{name} ▶ Cover 이동 중");
+            //Debug.Log($"{name} ▶ Cover 이동 중");
             return NodeState.RUNNING;
         }
 
@@ -78,6 +81,7 @@ namespace LUP.ST
 
             // 목표를 바라보기 (부드럽게)
             Vector3 toTarget = (bb.Target.position - transform.position);
+            toTarget.y = 0;
             if (toTarget.sqrMagnitude > 0.001f)
             {
                 Quaternion targetRot = Quaternion.LookRotation(toTarget.normalized);
@@ -106,6 +110,10 @@ namespace LUP.ST
         {
             // 정지(공격시 위치 고정)
             visual?.SetMoving(false);
+            isStopped = true;
+
+            // 공격 중엔 밀리지 않게
+            if (rb != null) rb.isKinematic = true;
             isStopped = true;
 
             if (stats.IsDead)
@@ -188,8 +196,18 @@ namespace LUP.ST
         {
             if (isStopped) return;
 
+            // 목표를 바라보기 (부드럽게)
+            Vector3 toTarget = (destination - transform.position);
+            toTarget.y = 0;
+            if (toTarget.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(toTarget.normalized);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+            }
+
             float step = stats.MoveSpeed * Time.deltaTime;
-            // XZ 평면만 이동 원하면 Y 유지
+
+            // Y를 현재 위치로 고정 (바닥 높이 유지)
             Vector3 destFlat = new Vector3(destination.x, transform.position.y, destination.z);
             transform.position = Vector3.MoveTowards(transform.position, destFlat, step);
         }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7855042958750180503}
   - component: {fileID: 8731306736451821969}
   - component: {fileID: 5981716786512752195}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: RangedMonster
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 2596320905446260793}
   - component: {fileID: 6261332590134442727}
   - component: {fileID: 934210127784618182}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: firePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

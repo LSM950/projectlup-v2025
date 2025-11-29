@@ -55,50 +55,37 @@ namespace LUP.ST
             }
         }
 
-        void Update()
-        {
-            UpdateMovementAnimation();
-        }
-
         private void InitializeVisuals()
         {
-            // 이미 Model이 있으면 재사용
             modelInstance = transform.Find("Model")?.gameObject;
 
             if (modelInstance == null && modelPrefab != null)
             {
-                // 없을 때만 생성
                 modelInstance = Instantiate(modelPrefab, transform);
                 modelInstance.name = "Model";
             }
 
             if (modelInstance != null)
             {
-                // Transform 업데이트
-                UpdateModelTransform();
-
-                // Animator 설정
-                animator = modelInstance.GetComponent<Animator>();
-                if (animator == null)
-                {
-                    animator = modelInstance.GetComponentInChildren<Animator>();
-                }
-
-                if (animator != null && animatorController != null)
-                {
-                    animator.runtimeAnimatorController = animatorController;
-                }
-            }
-        }
-
-        // Transform만 업데이트하는 별도 메서드
-        private void UpdateModelTransform()
-        {
-            if (modelInstance != null)
-            {
-                modelInstance.transform.localPosition = modelOffset;
+                // 로컬 포지션으로 설정! (월드 포지션 X)
+                modelInstance.transform.localPosition = modelOffset;  // (0,0,0) 이어야 함
+                modelInstance.transform.localRotation = Quaternion.identity;
                 modelInstance.transform.localScale = Vector3.one * modelScale;
             }
+
+            animator = modelInstance.GetComponent<Animator>();
+            if (animator == null)
+            {
+                animator = modelInstance.GetComponentInChildren<Animator>();
+                Debug.Log($"Animator 찾기: {(animator != null ? "성공" : "실패")}");
+            }
+
+            if (animator != null && animatorController != null)
+            {
+                animator.runtimeAnimatorController = animatorController;
+                Debug.Log($"AnimatorController 설정: {animatorController.name}");
+            }
+
         }
 
         // Model 정리용 public 메서드
@@ -123,51 +110,6 @@ namespace LUP.ST
         {
             ClearModel();
             InitializeVisuals();
-        }
-        private void UpdateMovementAnimation()
-        {
-            if (animator == null) return;
-
-            Vector3 currentPosition = transform.position;
-            float moveDistance = Vector3.Distance(currentPosition, lastPosition);
-
-            bool currentlyMoving = moveDistance > 0.01f;
-
-            if (currentlyMoving != isMoving)
-            {
-                isMoving = currentlyMoving;
-                animator.SetBool("IsMoving", isMoving);
-
-                // 3D는 보통 MoveSpeed float로 블렌드
-                if (isMoving)
-                {
-                    float speed = moveDistance / Time.deltaTime;
-                    animator.SetFloat("MoveSpeed", speed / statComponent.MoveSpeed);
-                }
-                else
-                {
-                    animator.SetFloat("MoveSpeed", 0);
-                }
-            }
-
-            // 3D 회전 처리 (이동 방향을 바라보기)
-            if (currentlyMoving)
-            {
-                Vector3 direction = (currentPosition - lastPosition).normalized;
-                direction.y = 0; // Y축 회전만
-
-                if (direction != Vector3.zero)
-                {
-                    Quaternion targetRotation = Quaternion.LookRotation(direction);
-                    modelInstance.transform.rotation = Quaternion.Slerp(
-                        modelInstance.transform.rotation,
-                        targetRotation,
-                        Time.deltaTime * 10f
-                    );
-                }
-            }
-
-            lastPosition = currentPosition;
         }
 
         // Public 메서드들

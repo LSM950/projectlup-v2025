@@ -7,6 +7,7 @@ namespace LUP.ST
         private Renderer rend;
         private RangeBlackBoard character;
         private StatComponent stats;
+        private VisualComponent visual;
 
         public GameObject bulletPrefab;
         public Transform firePoint;
@@ -19,12 +20,15 @@ namespace LUP.ST
         private bool isReloading = false;
         private float reloadStartTime;
 
+        private Rigidbody rb;
+
         void Awake()
         {
             rend = GetComponent<Renderer>();
             character = GetComponent<RangeBlackBoard>();
             stats = GetComponent<StatComponent>();
-
+            rb = GetComponent<Rigidbody>();
+            visual = GetComponent<VisualComponent>();
             if (stats != null)
             {
                 stats.OnDeath += HandleDeath;
@@ -63,11 +67,6 @@ namespace LUP.ST
 
         private void HandleDeath()
         {
-            if (rend != null)
-            {
-                rend.material.color = Color.black;
-            }
-
             if (character != null)
             {
                 Debug.Log($"{character.characterName} »ç¸Á!");
@@ -82,6 +81,7 @@ namespace LUP.ST
 
         void ShootBullet(Vector3 direction)
         {
+            visual?.PlayAttackAnimation();
             CombatUtility.ShootBullet(
                 stats,
                 bulletPrefab,
@@ -93,7 +93,8 @@ namespace LUP.ST
 
         public NodeState Retire(RangeBlackBoard character)
         {
-            SetColor(Color.black);
+            
+            Debug.Log($"{name} ¢º Retire (»ç¸Á)");
             return NodeState.SUCCESS;
         }
 
@@ -226,7 +227,7 @@ namespace LUP.ST
         private void StartReload()
         {
             if (isReloading) return;
-
+            visual?.PlayReloadAnimation();
             isReloading = true;
             reloadStartTime = Time.time;
             SetColor(Color.yellow);
