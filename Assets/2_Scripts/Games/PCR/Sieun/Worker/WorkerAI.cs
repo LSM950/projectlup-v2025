@@ -10,9 +10,11 @@ namespace LUP.PCR
     {
         [Header("State")]
         [SerializeField] private float hunger;
-        [SerializeField] private BuildingBase dest; 
-        //[SerializeField] private Dictionary<StructureBase, >; 
-        
+
+
+
+
+
         private bool Ishunger;
         private bool hasNewTask = false;
         private bool hasPausedTask = false;
@@ -29,10 +31,17 @@ namespace LUP.PCR
         private UnitMover mover;
         private IUnitMoveable moverAdapter;
         private BTNode root;
-        // 생산 작업 참조
+
+        [Header("Task")]
         private ProductableBuilding currentTaskBuilding = null;
         private ProductableBuilding pausedTaskBuilding = null;
         private ProductableBuilding newAssignedBuilding = null;
+        [SerializeField] private BuildingBase dest;
+        //@TODO: BuildingSystem에 있는 실제 currBuildings 적용하기
+
+
+
+
 
         public WorkerBlackboard LocalBlackboard { get; private set; }
         public float Hunger
@@ -83,6 +92,8 @@ namespace LUP.PCR
 
         public void InitBTReferences()
         {
+            //currBuildings
+
             worker = GetComponent<Worker>();
             mover = GetComponent<UnitMover>();
             moverAdapter = mover as IUnitMoveable;
@@ -164,6 +175,7 @@ namespace LUP.PCR
         {
             if (root == null) return;
             root?.Evaluate();
+
 
             // Hunger = Mathf.Clamp01(hunger - Time.deltaTime * 0.01f);
             // protected, private 보호수준에 막힘.

@@ -6,7 +6,7 @@ namespace LUP.PCR
     public class AGridMap : MonoBehaviour
     {
         [Header("Map Settings")]
-        [SerializeField] float tileSize = 5f;
+        [SerializeField] float tileSize = 5;
         [SerializeField] LayerMask unwalkableMask; // wall
 
         public ANode[,] grid;
@@ -37,15 +37,15 @@ namespace LUP.PCR
             int width = sourceInfoTiles.GetLength(0);
             int height = sourceInfoTiles.GetLength(1);
 
+
             grid = new ANode[width, height];
 
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    Vector3 worldPosition =
-                        GridToWorldPosition(new Vector2Int(x, y));
-
+                    Vector3 worldPosition = GridToWorldPosition(new Vector2Int(x, y));
+                    
                     //bool walkable = sourceInfoTiles[x, y].tileType != TileType.WALL;
                     bool walkable = !Physics.CheckSphere(worldPosition, tileSize * 0.4f, unwalkableMask);
 
@@ -58,7 +58,10 @@ namespace LUP.PCR
         // Vector2Int(데이터좌표) -> Vector3(월드 좌표) 변환 
         public Vector3 GridToWorldPosition(Vector2Int gridPos)
         {
-            return gridStartPoint + new Vector3(gridPos.x * tileSize + tileSize / 2f, gridPos.y * tileSize + tileSize / 2f, 0);
+            float xPos = gridPos.x * tileSize + tileSize / 2f;
+            float yPos = -(gridPos.y * tileSize + tileSize / 2f);
+
+            return gridStartPoint + new Vector3(xPos, yPos, -2.5f);
         }
 
         // Vector3(월드 좌표) -> ANode (내부에 x, y 인덱스 포함)
@@ -66,8 +69,11 @@ namespace LUP.PCR
         {
             if (grid == null) { return null; }
 
-            int x = Mathf.Clamp(Mathf.FloorToInt((worldPosition.x - gridStartPoint.x) / tileSize), 0, grid.GetLength(0) - 1);
-            int y = Mathf.Clamp(Mathf.FloorToInt((worldPosition.y - gridStartPoint.y) / tileSize), 0, grid.GetLength(1) - 1);
+            int x = Mathf.FloorToInt((worldPosition.x - gridStartPoint.x) / tileSize);
+            int y = Mathf.FloorToInt(-(worldPosition.y - gridStartPoint.y) / tileSize);
+
+            x = Mathf.Clamp(x, 0, grid.GetLength(0) - 1);
+            y = Mathf.Clamp(y, 0, grid.GetLength(1) - 1);
 
             return grid[x, y];
         }
@@ -93,10 +99,11 @@ namespace LUP.PCR
         {
             if (grid == null) return;
 
+
             foreach (var node in grid)
             {
                 Gizmos.color = node.isWalkable ? Color.green : Color.red;
-                Gizmos.DrawCube(node.worldPos, Vector3.one * (tileSize * 0.9f));
+                Gizmos.DrawCube(node.worldPos, Vector3.one * (tileSize));
             }
 
             if (pathToDraw != null)
@@ -105,7 +112,6 @@ namespace LUP.PCR
                 for (int i = 0; i < pathToDraw.Count - 1; i++)
                 {
                     Gizmos.DrawLine(pathToDraw[i].worldPos, pathToDraw[i + 1].worldPos);
-
                 }
             }
         }

@@ -9,6 +9,7 @@ namespace LUP.PCR
     public class WorkerDataCenter : MonoBehaviour
     {
         [SerializeField] PCRDataCenter pcrDataCenter;
+        [SerializeField] TestBuildingSystem testBuildingSystem;
         [SerializeField] AGridMap aGrid;
         [SerializeField] WorkerAI workerAI;
 
@@ -53,16 +54,18 @@ namespace LUP.PCR
 
         public void TestInitData() //@TODO:혼자 테스트 하는 용. 테스트한 후에 지울것. notWalls 가 Null이라서 만듬.
         {
-            pcrDataCenter.tileInfoes = new TileInfo[28, 15];
+            pcrDataCenter.tileInfoes = new TileInfo[GridSize.x, GridSize.y];
 
-            for (int i = 0; i < 28; i++)
+            for (int i = 0; i < GridSize.x; i++)
             {
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < GridSize.y; j++)
                 {
+
+
+
                     pcrDataCenter.tileInfoes[i, j] = new TileInfo(TileType.NONE, BuildingType.NONE, WallType.NONE, new Vector2Int(i, j), 1);
                 }
             }
-
         }
 
 
