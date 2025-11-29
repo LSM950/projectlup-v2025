@@ -85,28 +85,6 @@ namespace LUP.RL
 
             //Attack Action
             {
-                //List<Node> childList = new List<Node>();
-
-                //Wait wait = new Wait(enemyBlackBoard, this);
-                //BlackboardConditionNode isAtkCollTime = new BlackboardConditionNode(enemyBlackBoard, ConditionCheckEnum.INREADYTOATK, false, wait);
-
-                //ActionAttack actionAttack = new ActionAttack(enemyBlackBoard, this);
-
-                //List<(ConditionCheckEnum, bool)> whishConditions = new()
-                //{
-                //    (ConditionCheckEnum.INHITTEDSTATE, false),
-                //    (ConditionCheckEnum.INREADYTOATK, true)
-                //};
-                //BlackboardMultiConditionNode inHittedState_InReadyToAtk = new BlackboardMultiConditionNode(enemyBlackBoard, whishConditions, actionAttack);
-
-                //childList.Add(isAtkCollTime);
-                //childList.Add(inHittedState_InReadyToAtk);
-
-                //SelectorNode selectorNode = new SelectorNode(childList);
-                //BlackboardConditionNode isTargetInAtkRange = new BlackboardConditionNode(enemyBlackBoard, ConditionCheckEnum.TargetINATKRANGE, true, selectorNode);
-
-                //midleNodes.Add(isTargetInAtkRange);
-
                 midleNodes.Add(MakeAtkDefaultNode());
             }
 

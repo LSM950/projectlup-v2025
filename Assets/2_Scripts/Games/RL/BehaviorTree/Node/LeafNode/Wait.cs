@@ -10,11 +10,11 @@ namespace LUP.RL
         }
         public override NodeState Evaluate()
         {
-            //UnityEngine.Debug.Log("Action Wait");
+            UnityEngine.Debug.Log("Action Idle");
 
-            if(behaviorTree.GetCurrentAnimState().IsName("Wait") == false)
+            if(behaviorTree.GetCurrentAnimState().IsName("Idle") == false)
             {
-                behaviorTree.PlayAnimation(ActionState.Wait, this);
+                behaviorTree.PlayAnimation(ActionState.Idle, this);
 
                 SetNavAgentDeActivate(true);
             }
