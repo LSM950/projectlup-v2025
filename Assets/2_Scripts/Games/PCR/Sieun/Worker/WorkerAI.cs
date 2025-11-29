@@ -33,9 +33,9 @@ namespace LUP.PCR
         private BTNode root;
 
         [Header("Task")]
-        private ProductableBuilding currentTaskBuilding = null;
-        private ProductableBuilding pausedTaskBuilding = null;
-        private ProductableBuilding newAssignedBuilding = null;
+        private BuildingBase currentTaskBuilding = null;
+        private BuildingBase pausedTaskBuilding = null;
+        private BuildingBase newAssignedBuilding = null;
         [SerializeField] private BuildingBase dest;
         //@TODO: BuildingSystem에 있는 실제 currBuildings 적용하기
 
@@ -196,7 +196,7 @@ namespace LUP.PCR
             //}
         }
 
-        public void AssignTask(ProductableBuilding building)
+        public void AssignTask(BuildingBase building)
         {
             CancelOrReplaceCurrentTask();
 
@@ -204,9 +204,9 @@ namespace LUP.PCR
             HasNewTask = true;
 
             LocalBlackboard.SetValue(BBKeys.TargetBuilding, building);
-
             //@TODO : 구조 확정되면 추가하기
-            //LocalBlackboard.SetValue(BBKeys.TargetPosition, building.GetWorkerEntranceWorldPos(null));
+            LocalBlackboard.SetValue(BBKeys.TargetPosition, building.entrancePos);
+            
             //if (building.currBuildState is ProductableState ps)
             //{
             //    LocalBlackboard.SetValue(BBKeys.ProductionStateData, ps.Data);

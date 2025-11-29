@@ -60,9 +60,6 @@ namespace LUP.PCR
             {
                 for (int j = 0; j < GridSize.y; j++)
                 {
-
-
-
                     pcrDataCenter.tileInfoes[i, j] = new TileInfo(TileType.NONE, BuildingType.NONE, WallType.NONE, new Vector2Int(i, j), 1);
                 }
             }
