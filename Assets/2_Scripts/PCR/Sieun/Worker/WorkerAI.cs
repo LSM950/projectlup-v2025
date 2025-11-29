@@ -11,9 +11,14 @@ namespace LUP.PCR
         [Header("State")]
         [SerializeField] private float hunger;
         [SerializeField] private BuildingBase dest; 
+        //[SerializeField] private Dictionary<StructureBase, >; 
+        
         private bool Ishunger;
         private bool hasNewTask = false;
         private bool hasPausedTask = false;
+        private bool isWorking = false;
+
+
 
         [Header("BT Time")]
         private float btTickInterval = 0.1f;
@@ -58,6 +63,16 @@ namespace LUP.PCR
             }
         }
 
+        public bool IsWorking
+        {
+            get => isWorking;
+            set
+            {
+                isWorking = value;
+                LocalBlackboard.SetValue(BBKeys.IsWorking, isWorking);
+            }
+        }
+
         // 로컬 블랙보드->동적 데이터 동기화
         // WorkerAI의 변수 값이 바뀌면 -> 블랙보드도 즉시 업데이트됨
         // BT 노드들은 변수를 직접 안 보고 블랙보드의 Key만 봄
@@ -92,11 +107,9 @@ namespace LUP.PCR
             LocalBlackboard.SetValue<Vector2Int>(BBKeys.TargetPosition, dest.entrancePos);
 
             LocalBlackboard.SetValue(BBKeys.HasNewTask, hasNewTask);
-            LocalBlackboard.SetValue(BBKeys.HasNewTask, hasNewTask);
-
-
-            LocalBlackboard.SetValue(BBKeys.HasNewTask, hasNewTask);
             LocalBlackboard.SetValue(BBKeys.HasPausedTask, hasPausedTask);
+            LocalBlackboard.SetValue(BBKeys.IsWorking, isWorking);
+
         }
 
         void SettingBT()
@@ -151,10 +164,7 @@ namespace LUP.PCR
         {
             if (root == null) return;
             root?.Evaluate();
-        }
 
-        private void Update()
-        {
             // Hunger = Mathf.Clamp01(hunger - Time.deltaTime * 0.01f);
             // protected, private 보호수준에 막힘.
             // @TODO: ProductableBuilding의 currBuildState 가져오는 방법 고민하기 
@@ -173,6 +183,7 @@ namespace LUP.PCR
             //}
             //}
         }
+
         public void AssignTask(ProductableBuilding building)
         {
             CancelOrReplaceCurrentTask();
@@ -185,13 +196,12 @@ namespace LUP.PCR
             //@TODO : 구조 확정되면 추가하기
             //LocalBlackboard.SetValue(BBKeys.TargetPosition, building.GetWorkerEntranceWorldPos(null));
             //if (building.currBuildState is ProductableState ps)
-            {
-                //LocalBlackboard.SetValue(BBKeys.ProductionStateData, ps.Data);
-                //LocalBlackboard.SetValue(BBKeys.IsProductionCompleted, ps.Data.IsCompleted);
-                //LocalBlackboard.SetValue(BBKeys.ProductionProgress, ps.Data.Progress);
-            }
+            //{
+            //    LocalBlackboard.SetValue(BBKeys.ProductionStateData, ps.Data);
+            //    LocalBlackboard.SetValue(BBKeys.IsProductionCompleted, ps.Data.IsCompleted);
+            //    LocalBlackboard.SetValue(BBKeys.ProductionProgress, ps.Data.Progress);
+            //}
         }
-
         private void CancelOrReplaceCurrentTask()
         {
             if (currentTaskBuilding != null)
@@ -205,13 +215,11 @@ namespace LUP.PCR
             LocalBlackboard.Remove(BBKeys.TargetPosition);
             HasNewTask = false;
         }
-
         public void ClearPausedTask()
         {
             pausedTaskBuilding = null;
             HasPausedTask = false;
         }
-
         public void StartWorkingAt(ProductableBuilding building)
         {
             LocalBlackboard.SetValue(BBKeys.TargetBuilding, building);
@@ -223,7 +231,6 @@ namespace LUP.PCR
             currentTaskBuilding = null;
            // OnTaskFinished?.Invoke(this);
         }
-
         public void OnAte()
         {
             Hunger = 0f;
