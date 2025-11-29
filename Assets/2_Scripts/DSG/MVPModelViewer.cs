@@ -10,9 +10,6 @@ namespace LUP.DSG
 
         private GameObject currentModel;
 
-        /// <summary>
-        /// MVP 캐릭터 프리팹을 화면에 표시
-        /// </summary>
         public void ShowMVPModel(GameObject modelPrefab)
         {
             Clear();
@@ -32,12 +29,7 @@ namespace LUP.DSG
             currentModel.transform.localScale = Vector3.one * 1.2f;
 
             Character character = currentModel.GetComponent<Character>();
-            if(character != null)
-            {
-                character.SetSkinColor(mvp.char1Color);
-            }
-
-
+            
             // 전용 레이어 적용 (카메라에만 보이게)
             int layer = LayerMask.NameToLayer("MVPDisplayModel");
             SetLayerRecursively(currentModel, layer);
