@@ -1,10 +1,10 @@
+using LUP.DSG.Utils.Enums;
 using System;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using LUP.DSG.Utils.Enums;
 
 namespace LUP.DSG
 {
@@ -26,15 +26,13 @@ namespace LUP.DSG
 
         public int selectedSlot = -1;
 
-        private void Awake()
+        public void Init()
         {
             FormationSystem formationSystem = FindAnyObjectByType<FormationSystem>();
             OnSelected = formationSystem.PlaceCharacter;
             OnDeselected = formationSystem.ReleaseCharacter;
-        }
 
-        private void Start()
-        {
+            selectedButton.Init();
             selectedButton.button.onClick.AddListener(OnButtonClicked);
         }
 

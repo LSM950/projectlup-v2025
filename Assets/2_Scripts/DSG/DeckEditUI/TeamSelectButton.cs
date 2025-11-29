@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LUP.DSG
 {
@@ -11,7 +13,17 @@ namespace LUP.DSG
         private FormationSystem formationSystem;
 
         public int teamIndex;
-        public IEnumerator OnStageEnter()
+
+        private void Awake()
+        {
+            StageInitializeInvoker.OnDSGStagePostInitialize += PostInitialize;
+        }
+        private void OnDestroy()
+        {
+            StageInitializeInvoker.OnDSGStagePostInitialize -= PostInitialize;
+        }
+
+        private void PostInitialize(DeckStrategyStage stage)
         {
             formationSystem = FindAnyObjectByType<FormationSystem>();
 
@@ -20,9 +32,6 @@ namespace LUP.DSG
             {
                 toggle.isOn = true;
             }
-
-            //OnToggleChanged(true);
-            yield return null;
         }
 
         void OnToggleChanged(bool isOn)
