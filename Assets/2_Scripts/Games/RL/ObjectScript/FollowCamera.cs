@@ -46,16 +46,18 @@ namespace LUP.RL
             Vector3 playerPosition = player.gameObject.transform.position;
             Vector3 followedPosition = new Vector3(playerPosition.x, this.transform.position.y, playerPosition.z - ViewportZOffset);
 
-            if (CheckInBound())
-                this.transform.position = followedPosition;
+            float clampedX = Mathf.Clamp(followedPosition.x, LeftBound.x + L_ROffset, RightBound.x - L_ROffset);
+            float clampedZ = Mathf.Clamp(followedPosition.z, DownBound.z - ViewportZOffset + U_DOffset, UpBound.z + ViewportZOffset - U_DOffset);
+
+            this.transform.position = new Vector3(clampedX, this.transform.position.y, clampedZ);
         }
 
         bool CheckInBound()
         {
-            if (LeftBound.x < this.transform.position.x &&
-                RightBound.x > this.transform.position.x &&
-                DownBound.z - ViewportZOffset < this.transform.position.z &&
-                UpBound.z + ViewportZOffset > this.transform.position.z)
+            if (LeftBound.x + L_ROffset < this.transform.position.x &&
+                RightBound.x - L_ROffset > this.transform.position.x &&
+                DownBound.z - ViewportZOffset - U_DOffset < this.transform.position.z &&
+                UpBound.z + ViewportZOffset + U_DOffset > this.transform.position.z)
                 return true;
 
             return false;
