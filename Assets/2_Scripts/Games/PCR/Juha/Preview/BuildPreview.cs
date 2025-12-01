@@ -10,7 +10,10 @@ namespace LUP.PCR
         GameObject powerStationPreview;
         [SerializeField]
         GameObject stoneMinePreview;
-
+        [SerializeField]
+        GameObject moleFarmPreview;
+        [SerializeField]
+        GameObject workStationPreview;
 
         [SerializeField]
         Material canBuildMaterial;
@@ -108,7 +111,7 @@ namespace LUP.PCR
                     break;
 
                 case BuildingType.MOLEFARM:
-
+                    currPreview = moleFarmPreview;
                     break;
 
                 case BuildingType.POWERSTATION:
@@ -116,6 +119,9 @@ namespace LUP.PCR
                     break;
                 case BuildingType.STONEMINE:
                     currPreview = stoneMinePreview;
+                    break;
+                case BuildingType.WORKSTATION:
+                    currPreview = workStationPreview;
                     break;
                 default:
 

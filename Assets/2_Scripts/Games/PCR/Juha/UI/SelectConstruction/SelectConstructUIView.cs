@@ -10,11 +10,13 @@ namespace LUP.PCR
         [SerializeField]
         private Button wheatFarmBtn;
         [SerializeField]
-        private Button mushroomFarmBtn;
+        private Button moleFarmBtn;
         [SerializeField]
         private Button powerStationBtn;
         [SerializeField]
         private Button stoneMineBtn;
+        [SerializeField]
+        private Button workStationBtn;
 
         // Back Button
         [SerializeField]
@@ -27,15 +29,17 @@ namespace LUP.PCR
         private void Awake()
         {
             wheatFarmBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.WHEATFARM));
-            mushroomFarmBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.MUSHROOMFARM));
+            moleFarmBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.MOLEFARM));
             powerStationBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.POWERSTATION));
             stoneMineBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.STONEMINE));
+            workStationBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.WORKSTATION));
 
             backBtn?.onClick.AddListener(() => OnClickBack?.Invoke());
             wheatFarmBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
-            mushroomFarmBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
+            moleFarmBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
             powerStationBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
             stoneMineBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
+            workStationBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
 
 
 

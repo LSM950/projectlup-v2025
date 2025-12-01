@@ -30,6 +30,7 @@ namespace LUP.PCR
         STONEMINE,
         IRONMINE,
         COALMINE,
+        WORKSTATION,
     }
 
     public enum WallType

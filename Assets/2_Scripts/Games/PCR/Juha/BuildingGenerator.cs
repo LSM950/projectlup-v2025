@@ -13,13 +13,15 @@ namespace LUP.PCR
         [SerializeField]
         private GameObject wheatFarmPrefab;
         [SerializeField]
-        private GameObject mushroomFarmPrefab;
+        private GameObject moleFarmPrefab;
         [SerializeField]
         private GameObject restaurantPrefab;
         [SerializeField]
         private GameObject powerStationPrefab;
         [SerializeField]
         private GameObject stoneMinePrefab;
+        [SerializeField]
+        private GameObject workStationPrefab;
 
 
         [SerializeField]
@@ -54,8 +56,8 @@ namespace LUP.PCR
                     buildingObject = Instantiate(wheatFarmPrefab, pos, Quaternion.identity);
 
                     break;
-                case BuildingType.MUSHROOMFARM:
-                    buildingObject = Instantiate(mushroomFarmPrefab, pos, Quaternion.identity);
+                case BuildingType.MOLEFARM:
+                    buildingObject = Instantiate(moleFarmPrefab, pos, Quaternion.identity);
 
                     break;
                 case BuildingType.RESTAURANT:
@@ -70,6 +72,10 @@ namespace LUP.PCR
                     buildingObject = Instantiate(stoneMinePrefab, pos, Quaternion.identity);
                     
                     break;
+                case BuildingType.WORKSTATION:
+                    buildingObject = Instantiate(workStationPrefab, pos, Quaternion.identity);
+
+                    break;
             }
 
             if (buildingObject == null)
@@ -78,7 +84,6 @@ namespace LUP.PCR
             }
 
             BuildingBase building = buildingObject.GetComponent<BuildingBase>();
-
             return building;
         }
 

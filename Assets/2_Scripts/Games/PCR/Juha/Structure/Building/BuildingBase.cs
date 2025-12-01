@@ -45,7 +45,10 @@ namespace LUP.PCR
             currBuildState.Enter(this);
         }
 
-
+        // TODO: 임시 입구 설정. 입구가 왼쪽도 있어야하고 오른쪽도 있어야하는 느낌..
+        public void SetEntrance(Vector2Int pivotPos)
+        {
+            entrancePos = pivotPos;
+        }
     }
-
 }

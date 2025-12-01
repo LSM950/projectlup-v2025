@@ -91,6 +91,7 @@ namespace LUP.PCR
                 }
 
                 tileMap.UpdateTilebyBuilding(type, pivotTile);
+                building.SetEntrance(pivotTile.tileInfo.pos);
 
                 buildingId++;
             }
