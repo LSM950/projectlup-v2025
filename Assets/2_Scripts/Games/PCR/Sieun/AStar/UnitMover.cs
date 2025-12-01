@@ -7,7 +7,7 @@ namespace LUP.PCR
     public class UnitMover : MonoBehaviour
     {
         public Vector3 CurrentDestination => currentDestination;
-        [SerializeField] AGridMap gridMap;
+        [SerializeField] public AGridMap gridMap;
         [SerializeField] float moveSpeed = 5f;
 
         private APathfinding pathfinder;
@@ -33,7 +33,7 @@ namespace LUP.PCR
             //        FindPath(hit);
             //    }
             //}
-            MoveAlongPath();
+            //MoveAlongPath();
         }
 
         //void FindPath(RaycastHit hit)
@@ -53,16 +53,9 @@ namespace LUP.PCR
             ANode startNode = gridMap.GetNodeFromWorldPosition(transform.position);
             ANode targetNode = gridMap.GetNodeFromWorldPosition(worldPos);
 
-            if (targetNode == null || !targetNode.isWalkable)
-            {
-                //@TODO // 시스템메시지 UI 호출
-                return;
-            }
-
             List<ANode> calculatedPath = pathfinder.FindPath(startNode, targetNode);
 
-            //@TODO
-            //: 만약 경로를 못 찾았으면 목적지만이라도 설정할지, 멈출지 결정
+            //@TODO : 만약 경로를 못 찾았으면 목적지만이라도 설정할지, 멈출지 결정
             if (calculatedPath == null || calculatedPath.Count == 0)
             {
                 currentDestination = worldPos;
@@ -73,7 +66,7 @@ namespace LUP.PCR
                 ProcessPath(calculatedPath);
             }
 
-            MoveAlongPath();
+            //MoveAlongPath();
         }
         public void SetDestination(Vector2Int gridPos)
         {
@@ -84,9 +77,13 @@ namespace LUP.PCR
             ANode startNode = gridMap.GetNodeFromWorldPosition(transform.position);
             ANode targetNode = gridMap.GetNodeFromGridPos(gridPos);
 
+            gridMap.debugStartNode = startNode;
+            gridMap.debugTargetNode = targetNode;
+
             if (targetNode == null || !targetNode.isWalkable)
             {
                 //@TODO // 시스템메시지 UI 호출
+                Debug.LogError($"[UnitMover] 목표 지점({gridPos})은 갈 수 없는 곳입니다! (Null이거나 Wall)");
                 return;
             }
 
@@ -94,10 +91,14 @@ namespace LUP.PCR
 
             if (calculatedPath != null && calculatedPath.Count > 0)
             {
+                Debug.Log($"[UnitMover] 경로 찾기 성공! 노드 개수: {calculatedPath.Count}");
                 ProcessPath(calculatedPath);
             }
+            else
+            {
+                Debug.LogWarning($"[UnitMover] 경로를 찾을 수 없습니다. 시작점: {startNode.indexX},{startNode.indexY} / 목표점: {gridPos}");
+            }
 
-            MoveAlongPath();
         }
         private void ProcessPath(List<ANode> newPath)
         {
@@ -109,7 +110,7 @@ namespace LUP.PCR
             currentDestination = gridMap.GetNodeWorldPosition(path[path.Count - 1]);
         }
 
-        private void MoveAlongPath()
+        public void MoveAlongPath()
         {
             if (path == null || currentIndex >= path.Count) { return; }
 

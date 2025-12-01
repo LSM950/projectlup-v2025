@@ -12,6 +12,7 @@ namespace LUP.PCR
         [SerializeField] TestBuildingSystem testBuildingSystem;
         [SerializeField] AGridMap aGrid;
         [SerializeField] WorkerAI workerAI;
+        [HideInInspector] public TileInfo[,] tileInfoes;
 
         //IEnumerator Start()
         //{
@@ -55,6 +56,7 @@ namespace LUP.PCR
         public void TestInitData() //@TODO:혼자 테스트 하는 용. 테스트한 후에 지울것. notWalls 가 Null이라서 만듬.
         {
             pcrDataCenter.tileInfoes = new TileInfo[GridSize.x, GridSize.y];
+            tileInfoes = pcrDataCenter.tileInfoes;
 
             for (int i = 0; i < GridSize.x; i++)
             {

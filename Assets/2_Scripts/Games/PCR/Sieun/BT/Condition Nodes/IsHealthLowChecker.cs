@@ -9,7 +9,7 @@ namespace LUP.PCR
 
         int logLoopCount = 0;
 
-        public override NodeState Evaluate()
+       protected override NodeState OnUpdate()
         {
             float currentHunger = GetData<float>(BBKeys.Hunger);
             
@@ -18,14 +18,14 @@ namespace LUP.PCR
             
             if (isHungry)
             {
-                Debug.Log("배고픔 감지됨.");
+                Debug.Log("1-1. 배고픔 감지됨.");
                 return NodeState.SUCCESS;
             }
             else
             {
                 if (logLoopCount == 0)
                 {
-                    Debug.Log("아직 배고프지 않음.");
+                    Debug.Log("1-1. 아직 배고프지 않음.");
                     logLoopCount += 1;
                 }
                 return NodeState.FAILURE;

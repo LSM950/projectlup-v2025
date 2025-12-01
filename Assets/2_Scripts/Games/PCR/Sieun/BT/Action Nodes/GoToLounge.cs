@@ -8,7 +8,7 @@ namespace LUP.PCR
         bool started = false;
         Vector2Int loungePos;
 
-        public override NodeState Evaluate()
+        protected override NodeState OnUpdate()
         {
             if (Mover == null) return NodeState.FAILURE;
 

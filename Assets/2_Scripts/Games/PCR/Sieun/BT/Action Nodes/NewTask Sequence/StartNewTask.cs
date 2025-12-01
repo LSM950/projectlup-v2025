@@ -8,8 +8,7 @@ namespace LUP.PCR
         float timer = 0f;
         float duration = 3f;
 
-
-        public override NodeState Evaluate()
+        protected override NodeState OnUpdate()
         {
             ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.TargetBuilding);
             if (building == null) return NodeState.FAILURE;

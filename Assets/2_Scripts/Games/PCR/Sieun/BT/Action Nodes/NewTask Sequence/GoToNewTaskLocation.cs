@@ -7,8 +7,8 @@ namespace LUP.PCR
     {
         public GoToNewTaskLocation(WorkerBlackboard blackboard) : base(blackboard) { }
         bool arrived = false;
-    
-        public override NodeState Evaluate()
+
+        protected override NodeState OnUpdate()
         {
             if (!arrived)
             {

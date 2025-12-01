@@ -4,27 +4,47 @@ namespace LUP.PCR
 {
     public class GoToEatingPlace : WorkerBlackboardNode
     {
+        private UnitMover mover;
+        private Vector2Int eatingPlace;
+
         public GoToEatingPlace(WorkerBlackboard blackboard) : base(blackboard) { }
 
-        public override NodeState Evaluate()
+        protected override void OnStart()
         {
-            UnitMover mover = GetData<UnitMover>(BBKeys.UnitMover);
-            Vector3 eatingPos = GetData<Vector3>(BBKeys.TargetPosition);
+            mover = GetData<UnitMover>(BBKeys.UnitMover);
 
-            if (eatingPos == null || mover == null)
+            if (HasData(BBKeys.Restaurant))
             {
-                return NodeState.FAILURE;
+                BuildingBase restaurantBuilding = GetData<BuildingBase>(BBKeys.Restaurant);
+                SetData<Vector2Int>(BBKeys.TargetPosition, restaurantBuilding.entrancePos);
+
+                eatingPlace = GetData<Vector2Int>(BBKeys.TargetPosition);
+
+                if (eatingPlace == null)
+                {
+                    Debug.Log("1-3. 식당이 없습니다.");
+                }
+                if (mover != null)
+                {
+                    mover.SetDestination(eatingPlace);
+                }
             }
-  
-            bool isArrived = mover.IsArrived();
-            if (isArrived)
+        }
+        protected override NodeState OnUpdate()
+        {
+            if (mover == null || eatingPlace == null) { return NodeState.FAILURE; }
+
+            if (mover.IsArrived())
             {
+                Debug.Log("1-3. 식당 도착!");
                 return NodeState.SUCCESS;
             }
-            
-            mover.SetDestination(eatingPos);
-            Debug.Log("식당으로 이동 중...");
-            return NodeState.RUNNING;
+            else
+            {
+                mover.MoveAlongPath();
+                Debug.Log("1-3. 식당으로 이동 중...");
+                return NodeState.RUNNING;
+            }
         }
     }
 

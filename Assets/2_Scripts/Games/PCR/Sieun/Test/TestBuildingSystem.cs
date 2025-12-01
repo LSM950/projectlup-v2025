@@ -16,50 +16,50 @@ namespace LUP.PCR
         private int buildingId = 1; // 테스트 Id.
 
         // Load Wall, Building Data
-        public void InitBuildingSystem(PCRDataCenter dataCenter, BuildingGenerator buildingGenerator, BuildPreview buildPreview)
+        public void InitBuildingSystem(WorkerDataCenter dataCenter, BuildingGenerator buildingGenerator, BuildPreview buildPreview)
         {
             this.buildingGenerator = buildingGenerator;
             this.buildPreview = buildPreview;
 
-            List<WallDataInfo> wallInfoes = dataCenter.wallDatas;
-            currWalls = new Dictionary<int, WallBase>();
-            currBuildings = new Dictionary<int, BuildingBase>();
+            //List<WallDataInfo> wallInfoes = dataCenter.wallDatas;
+            //currWalls = new Dictionary<int, WallBase>();
+            //currBuildings = new Dictionary<int, BuildingBase>();
 
-            // 임시 id 할당
-            int wallId = 1;
+            //// 임시 id 할당
+            //int wallId = 1;
 
-            // wall Init
-            for (int i = 0; i < wallInfoes.Count; i++)
-            {
-                WallType wallType = wallInfoes[i].type;
-                Vector2Int wallPos = wallInfoes[i].pos;
+            //// wall Init
+            //for (int i = 0; i < wallInfoes.Count; i++)
+            //{
+            //    WallType wallType = wallInfoes[i].type;
+            //    Vector2Int wallPos = wallInfoes[i].pos;
 
-                GameObject wallObject = buildingGenerator.CreateInitWall(wallType, wallPos);
-                if (!wallObject)
-                {
-                    Debug.Log("wallObject is null");
-                    continue;
-                }
+            //    GameObject wallObject = buildingGenerator.CreateInitWall(wallType, wallPos);
+            //    if (!wallObject)
+            //    {
+            //        Debug.Log("wallObject is null");
+            //        continue;
+            //    }
 
-                WallBase wall = wallObject.GetComponent<WallBase>();
+            //    WallBase wall = wallObject.GetComponent<WallBase>();
 
-                if (!wall)
-                {
-                    Debug.Log("WallBase is Null");
-                    continue;
-                }
+            //    if (!wall)
+            //    {
+            //        Debug.Log("WallBase is Null");
+            //        continue;
+            //    }
 
-                if (!currWalls.ContainsKey(wallId))
-                {
-                    currWalls.Add(wallId, wall);
-                }
-                else
-                {
-                    Debug.Log("wallId already exists");
-                }
+            //    if (!currWalls.ContainsKey(wallId))
+            //    {
+            //        currWalls.Add(wallId, wall);
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("wallId already exists");
+            //    }
 
-                wallId++;
-            }
+            //    wallId++;
+            //}
 
             Debug.Log("BuildingSystem Init");
         }

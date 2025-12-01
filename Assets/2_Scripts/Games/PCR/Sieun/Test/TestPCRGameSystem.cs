@@ -47,10 +47,10 @@ namespace LUP.PCR
             tileMap.InitializeTileMap(dataCenter.tileInfoes);
 
             // DigWallPreview Init
-            digWallPreview.UpdateAllDigWallPreview(tileMap);
+            //digWallPreview.UpdateAllDigWallPreview(tileMap);
 
             // BuildPreview Init
-            buildPreview.Init(tileMap);
+            //buildPreview.Init(tileMap);
 
             // TaskController Init
             //taskController.InitTaskController(uiCenter, digWallPreview, buildPreview, tileMap, buildingSystem);

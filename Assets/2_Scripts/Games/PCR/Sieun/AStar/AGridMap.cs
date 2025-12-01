@@ -14,6 +14,10 @@ namespace LUP.PCR
 
         Vector3 gridStartPoint;
         [HideInInspector] public List<ANode> pathToDraw;
+        [HideInInspector] public ANode debugStartNode;
+        [HideInInspector] public ANode debugTargetNode;
+
+
 
         //[SerializeField] int gridXCount = 10;
         //[SerializeField] int gridYCount = 10;
@@ -23,6 +27,10 @@ namespace LUP.PCR
         /// PCRGameSystem 혹은 초기화 매니저에서 호출해야 함
         /// <param name="tileData">PCRDataCenter의 TileInfo 배열</param>
         /// </summary>
+        /// 
+
+
+
         public void InitMap(TileInfo[,] tileData)
         {
             gridStartPoint = transform.position;
@@ -102,8 +110,8 @@ namespace LUP.PCR
 
             foreach (var node in grid)
             {
-                Gizmos.color = node.isWalkable ? Color.green : Color.red;
-                Gizmos.DrawCube(node.worldPos, Vector3.one * (tileSize));
+                Gizmos.color = node.isWalkable ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
+                Gizmos.DrawCube(node.worldPos, Vector3.one * (tileSize * 0.9f));
             }
 
             if (pathToDraw != null)
@@ -114,7 +122,51 @@ namespace LUP.PCR
                     Gizmos.DrawLine(pathToDraw[i].worldPos, pathToDraw[i + 1].worldPos);
                 }
             }
+
+            if (debugStartNode != null)
+            {
+                Gizmos.color = new Color(0, 0, 1, 0.3f);
+                Gizmos.DrawSphere(debugStartNode.worldPos, tileSize * 0.5f);
+            }
+
+            if (debugTargetNode != null)
+            {
+                Gizmos.color = new Color(1, 0, 0, 0.3f);
+                Gizmos.DrawSphere(debugTargetNode.worldPos, tileSize * 0.5f);
+                Gizmos.DrawLine(debugTargetNode.worldPos, debugTargetNode.worldPos + Vector3.up * 10f);
+            }
         }
 
+        [ContextMenu("Print Walkable Nodes")]
+        public void PrintWalkableNodes()
+        {
+            if (grid == null)
+            {
+                Debug.LogWarning("그리드가 아직 생성되지 않았습니다. 게임 실행(Play) 후에 눌러보세요.");
+                return;
+            }
+
+            string result = "--- 갈 수 있는 좌표 목록 (Walkable Nodes) ---\n";
+            int count = 0;
+
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    if (grid[x, y].isWalkable)
+                    {
+                        result += $"[{x}, {y}] ";
+                        count++;
+
+                        // 보기 좋게 10개씩 줄바꿈
+                        if (count % 10 == 0) result += "\n";
+                    }
+                }
+            }
+            Debug.Log($"{result}\n------------------------------------------\n총 {count}개의 이동 가능 타일 발견");
+        }
+
+
     }
+
 }
