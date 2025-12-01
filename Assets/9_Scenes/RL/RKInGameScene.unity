@@ -205,7 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 21273662}
   m_Layer: 0
-  m_Name: TargetPoint
+  m_Name: EnemyTargetPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 21273661}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.4, z: -0.023}
+  m_LocalPosition: {x: 0, y: 1.28, z: 0.089}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3043,6 +3043,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &867593486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 867593487}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &867593487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867593486}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9711135, z: -0, w: -0.23861817}
+  m_LocalPosition: {x: 0.235, y: 1.3999999, z: 0.427}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5344231552073012534}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &884638499
 GameObject:
   m_ObjectHideFlags: 0
@@ -8066,6 +8097,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4653806187325674338, guid: 811ab4b7681f5eb46a5e3ab434a7084d, type: 3}
+      propertyPath: TargetPoint
+      value: 
+      objectReference: {fileID: 21273662}
+    - target: {fileID: 4653806187325674338, guid: 811ab4b7681f5eb46a5e3ab434a7084d, type: 3}
       propertyPath: targetPoint
       value: 
       objectReference: {fileID: 21273662}
@@ -8083,6 +8118,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3718031789471357492, guid: 811ab4b7681f5eb46a5e3ab434a7084d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 21273662}
+    - targetCorrespondingSourceObject: {fileID: 3718031789471357492, guid: 811ab4b7681f5eb46a5e3ab434a7084d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 867593487}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5363232532340469621, guid: 811ab4b7681f5eb46a5e3ab434a7084d, type: 3}
       insertIndex: -1
@@ -9759,6 +9797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   baseSpeed: 2
+  targetPoint: {fileID: 1677994831}
   isMoving: 0
 --- !u!114 &4170653225879060440
 MonoBehaviour:
@@ -9810,7 +9849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 984337599}
   bulletData: {fileID: 11400000, guid: d53534de4136a0947b53cbb669fc0c67, type: 2}
-  fireDelay: 100
+  fireDelay: 1
 --- !u!114 &4170653225879060443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10476,8 +10515,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ba776602c7677c41ae13a43c191de01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 21273662}
-  bulletData: {fileID: 11400000, guid: 057e87fa32d0e774ca82ad866326342f, type: 2}
+  spawnPoint: {fileID: 867593487}
+  bulletData: {fileID: 11400000, guid: cf803e79d45d5c248bf05d671fb2132d, type: 2}
   fireDelay: 1
 --- !u!114 &5344231552073012543
 MonoBehaviour:

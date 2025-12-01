@@ -13,12 +13,21 @@ namespace LUP.RL
         {
             {
                 enemy = GetComponent<Enemy>();
-             
+                var playerMove = FindFirstObjectByType<PlayerMove>();
+
+                if (playerMove == null)
+                {
+                    Debug.LogWarning("No PlayerMove found");
+                    return;
+                }
+
+
                 Target = FindFirstObjectByType<PlayerMove>().gameObject;
+               
                 if (Target == null)
                     UnityEngine.Debug.LogWarning("Can't find Target(Plaeyr)");
 
-                targetPos = Target.transform;
+                targetPos = playerMove.targetPoint;
                 if (enemy.Type == EnemyType.Ranged)
                 {
                     shooter = enemy.GetComponent<ShooterComp>();
@@ -56,7 +65,7 @@ namespace LUP.RL
             {
                 if (AtkCollTime == 0)
                 {
-                    shooter.TryShoot(Target.transform, enemy.EnemyStats.Attack);
+                    shooter.TryShoot(targetPos, enemy.EnemyStats.Attack);
 
                     // ÄðÅ¸ÀÓ ¸®ÇÊ
                     AtkCollTime = FullAttackCoolTime;   

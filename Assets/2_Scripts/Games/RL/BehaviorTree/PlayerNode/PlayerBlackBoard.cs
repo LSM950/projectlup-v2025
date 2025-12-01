@@ -34,7 +34,7 @@ namespace LUP.RL
                 return null;
             }
 
-            Enemy[] enemies = currentRoom.GetComponentsInChildren<Enemy>(true);
+            Enemy[] enemies = currentRoom.GetComponentsInChildren<Enemy>(false);
             if (enemies.Length == 0)
             {
                 return null;
@@ -44,8 +44,13 @@ namespace LUP.RL
 
             foreach (var e in enemies)
             {
+
                 if (e == null) continue;
-                float dist = Vector3.Distance(Health.transform.position, e.transform.position);
+                if (e.TargetPoint == null)
+                {
+                    Debug.Log("point null");
+                }
+                float dist = Vector3.Distance(Health.transform.position, e.TargetPoint.position);
                 if (dist < minDist)
                 {
                     minDist = dist;

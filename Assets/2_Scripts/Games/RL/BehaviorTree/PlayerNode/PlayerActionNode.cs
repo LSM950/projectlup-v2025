@@ -31,8 +31,7 @@ namespace LUP.RL
                 return NodeState.Fail;
             }
 
-            //bb.Shooter.TryShoot(findtarget.transform, bb.Health.Adata.currentData.Attack);
-            //lastFireTime = Time.time;
+
 
             if (bt.GetCurrentAnimState().IsName("Attack") == false)
             {
@@ -49,8 +48,7 @@ namespace LUP.RL
 
         public override void OnAnimationInTargetRate()
         {
-            Debug.Log("น฿ป็");
-            bb.Shooter.TryShoot(target.transform, bb.Health.Adata.currentData.Attack);
+            bb.Shooter.TryShoot(target.TargetPoint.transform, bb.Health.Adata.currentData.Attack);
             lastFireTime = Time.time;
         }
     }

@@ -20,7 +20,7 @@ namespace LUP.RL
         private EnemyBlackBoard blackBoard;
         private EnemyBehaviorTree behaviorTree;
         [SerializeField] private float hpbaroffsetY = 5;
-        
+        public Transform TargetPoint;
         void Start()
         {
             EnemyStats.MaxHp = 50;
