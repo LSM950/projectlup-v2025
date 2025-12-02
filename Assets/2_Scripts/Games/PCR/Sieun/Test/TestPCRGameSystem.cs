@@ -41,7 +41,7 @@ namespace LUP.PCR
             dataCenter.InitData();
 
             // BuildingSystem Init
-            buildingSystem.InitBuildingSystem(dataCenter, buildingGenerator, buildPreview);
+            //buildingSystem.InitBuildingSystem(dataCenter, buildingGenerator, buildPreview);
 
             // TileMap Init
             tileMap.InitializeTileMap(dataCenter.tileInfoes);
