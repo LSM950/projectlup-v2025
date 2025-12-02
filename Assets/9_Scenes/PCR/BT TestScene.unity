@@ -53547,27 +53547,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3489063902025893404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5325230888958673759}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 037262107a73fe64494da275aad4e774, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildingGenerator: {fileID: 3770741667135980379}
-  buildingSystem: {fileID: 6915965668507143932}
-  tileMap: {fileID: 7934961180802562647}
-  taskController: {fileID: 8812501192733880219}
-  dataCenter: {fileID: 1943386908742582315}
-  uiCenter: {fileID: 5837669488612015204}
-  digWallPreview: {fileID: 8999083131665197433}
-  buildPreview: {fileID: 1207909848661856728}
-  resourceCenter: {fileID: 0}
 --- !u!23 &3497439158744440985
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -78172,7 +78151,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3053574861845572324}
-  - component: {fileID: 3489063902025893404}
   - component: {fileID: 5325230888958673760}
   m_Layer: 0
   m_Name: TestPCRGameSystem
