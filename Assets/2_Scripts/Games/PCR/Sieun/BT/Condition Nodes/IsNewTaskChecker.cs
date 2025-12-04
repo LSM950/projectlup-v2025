@@ -7,11 +7,12 @@ namespace LUP.PCR
         public IsNewTaskChecker(WorkerBlackboard blackboard) : base(blackboard) { }
         protected override NodeState OnUpdate()
         {
-            ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.TargetBuilding);
-            Vector2Int entrancePos = GetData<Vector2Int>(BBKeys.TargetPosition);
 
-            return building != null && entrancePos != null && OwnerAI != null 
-                && OwnerAI.HasNewTask ? NodeState.SUCCESS : NodeState.FAILURE;
+            ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.TargetBuilding);
+
+            bool hasNewTask = GetData<bool>(BBKeys.HasNewTask);
+
+            return building != null && hasNewTask ? NodeState.SUCCESS : NodeState.FAILURE;
         }
     }
 }

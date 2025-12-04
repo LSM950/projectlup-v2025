@@ -10,13 +10,12 @@ namespace LUP.PCR
     public class WorkerAI : MonoBehaviour
     {
         [Header("State")]
-        [SerializeField] private float hunger;
+        [SerializeField] private float hunger = 0;
+        private bool isHunger = false;
 
-        private bool Ishunger;
-        private bool hasNewTask = false;
-
-        //@TODO: ProductableState state != null && IsStarted() && !IsCompleted() 일 때 true가 되게 하기.
+        //@TODO : 일하고 있는 상태를 어떤식으로 정의할지 고민하기.
         private bool isWorking = true; 
+        private bool hasNewTask = false;
 
         [Header("BT Time")]
         private float btTickInterval = 0.1f;
@@ -34,6 +33,7 @@ namespace LUP.PCR
         [SerializeField] private ProductableBuilding restaurantBuilding = null;
         [SerializeField] private ProductableBuilding loungeBuilding = null;
 
+
         public WorkerBlackboard LocalBlackboard { get; private set; }
         public float Hunger
         {
@@ -44,6 +44,22 @@ namespace LUP.PCR
                 LocalBlackboard.SetValue(BBKeys.Hunger, hunger);
             }
         }
+
+        public bool IsHunger
+        {
+            get => isHunger;
+            set
+            {
+                isHunger = value;
+                if (hunger >= HungerRules.Hunger)
+                {
+                    isHunger = true;
+                }
+                LocalBlackboard.SetValue(BBKeys.IsHunger, isHunger);
+            }
+        }
+
+
         public bool IsWorking
         {
             get => isWorking;
@@ -53,6 +69,10 @@ namespace LUP.PCR
                 LocalBlackboard.SetValue(BBKeys.IsWorking, isWorking);
             }
         }
+
+       
+
+
         public bool HasNewTask
         {
             get => hasNewTask;
@@ -65,7 +85,7 @@ namespace LUP.PCR
         
         public void InitBTRules()
         {
-            Ishunger = hunger >= HungerRules.Hunger;
+            isHunger = hunger >= HungerRules.Hunger;
         }
         public void InitBTReferences()
         {
@@ -87,8 +107,7 @@ namespace LUP.PCR
 
             // BT 상태 초기화
             LocalBlackboard.SetValue(BBKeys.Hunger, hunger);
-            bool IsHunger = hunger >= HungerRules.Hunger;
-            LocalBlackboard.SetValue(BBKeys.IsHungry, IsHunger);
+            LocalBlackboard.SetValue(BBKeys.IsHunger, IsHunger);
 
             // 건물 생성되는 시점부터 자동으로 초기화될 위치 : 식당, 라운지
             LocalBlackboard.SetValue<BuildingBase>(BBKeys.Restaurant, restaurantBuilding);
@@ -127,7 +146,7 @@ namespace LUP.PCR
         {
             new IsNewTaskChecker(LocalBlackboard),
             new GoToNewTaskLocation(LocalBlackboard),
-            new StartNewTask(LocalBlackboard)
+            //new StartNewTask(LocalBlackboard)
         });
 
         // Root Selector: 배고픔 → 작업/휴식
@@ -144,7 +163,12 @@ namespace LUP.PCR
             if (root == null) return;
             root?.Evaluate();
 
-            // Hunger = Mathf.Clamp01(hunger - Time.deltaTime * 0.01f);
+            if(!isHunger)
+            {
+                // 배고프게 만들기
+                Hunger = Mathf.Clamp01(hunger + Time.deltaTime * 0.1f);
+            }
+
             // protected, private 보호수준에 막힘.
             // @TODO: ProductableBuilding의 currBuildState 가져오는 방법 고민하기 
             //if (currentTaskBuilding != null && currentTaskBuilding.currBuildState is ProductableState pState && pState != null)
@@ -165,15 +189,14 @@ namespace LUP.PCR
 
         //@TODO : AssignTask()를 어디서 어떻게 호출하게 할지 생각하기
         // 지금은 임시로 버튼UI OnClick(미리 오브젝트 자체를 지정)으로 건물 위치가 지정되게 했다.
-        public void AssignTask(ProductableBuilding building)
+        void AssignTask(ProductableBuilding building)
         {
             CancelOrReplaceCurrentTask();
 
             currentTaskBuilding = building;
             HasNewTask = true;
-
-            LocalBlackboard.SetValue(BBKeys.TargetBuilding, building);
-            LocalBlackboard.SetValue(BBKeys.TargetPosition, building.entrancePos);
+            LocalBlackboard.SetValue(BBKeys.HasNewTask, true);
+            LocalBlackboard.SetValue(BBKeys.TargetBuilding, currentTaskBuilding);
         }
         private void CancelOrReplaceCurrentTask()
         {
@@ -186,24 +209,6 @@ namespace LUP.PCR
             IsWorking = false;
             HasNewTask = false;
         }
-        
-        public void StartWorkingAt(ProductableBuilding building)
-        {
-            LocalBlackboard.SetValue(BBKeys.TargetBuilding, building);
-            //LocalBlackboard.SetValue(BBKeys.TargetPosition, building.GetWorkerEntranceWorldPos(null));
-            //OnTaskStarted?.Invoke(this);
-        }
-        public void FinishWorking()
-        {
-            currentTaskBuilding = null;
-           // OnTaskFinished?.Invoke(this);
-        }
-        public void OnAte()
-        {
-            Hunger = 0f;
-           // OnEatCompleted?.Invoke(this);
-        }
-
     }
 
 }

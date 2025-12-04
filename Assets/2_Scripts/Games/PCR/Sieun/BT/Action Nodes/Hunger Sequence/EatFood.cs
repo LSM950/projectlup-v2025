@@ -6,7 +6,7 @@ namespace LUP.PCR
     {
         public EatFood(WorkerBlackboard blackboard) : base(blackboard) { }
         float timer = 0f;
-        float duration = 3f;
+        float duration = 1f;
 
         protected override NodeState OnUpdate()
         {
@@ -18,11 +18,14 @@ namespace LUP.PCR
                 Debug.Log($"1-4. 식사 중... {timer:F1}/{duration}");
                 return NodeState.RUNNING;
             }
+            else
+            {
+                currentHunger = 0f;
+                SetData<float>(BBKeys.Hunger, currentHunger);
 
-
-            currentHunger = 0f;
-            Debug.Log("1-4. 식사 완료!");
-            return NodeState.SUCCESS;
+                Debug.Log("1-4. 식사 완료!");
+                return NodeState.SUCCESS;
+            }
         }
     }
 

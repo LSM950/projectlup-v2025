@@ -4,33 +4,49 @@ namespace LUP.PCR
 {
     public class GoToLounge : WorkerBlackboardNode
     {
+        BuildingBase loungePlace;
+
         public GoToLounge(WorkerBlackboard blackboard) : base(blackboard) { }
-        bool started = false;
-        Vector2Int loungePos;
+
+        protected override void OnStart()
+        {
+            if (HasData(BBKeys.Lounge))
+            {
+                loungePlace = GetData<BuildingBase>(BBKeys.Lounge);
+                
+                if(loungePlace == null)
+                {
+                    Debug.Log("3. 라운지가 없습니다.");
+                }
+                else if (Mover != null)
+                {
+                    //@TODO : OnStart() 안에서 호출하면..라운지 위치가 바뀔 때 어떻게 대응할지 고민하기 
+                    Mover.SetDestination(loungePlace.entrancePos); 
+                    //SetData<Vector2Int>(BBKeys.TargetPosition, LoungeBuilding.entrancePos);
+                }
+            }
+        }
+
 
         protected override NodeState OnUpdate()
         {
-            if (Mover == null) return NodeState.FAILURE;
-
-            if (!started)
+            if (Mover == null || loungePlace == null) { return NodeState.FAILURE; }
             {
-                //@TODO : 구조 확정되면 라운지 위치 지정하기
-                //Mover.MoveTo(loungePos);
-                Mover.SetDestination(loungePos);
-                //SetData(BBKeys.TargetPosition, loungePos);
-                started = true;
-
-                if (!Mover.IsArrived())
+                if (Mover.IsArrived())
                 {
-                    Debug.Log("라운지로 이동 중...");
+                    Debug.Log("3. 라운지 도착. 휴식 중...");
+
+                    return NodeState.SUCCESS;
                 }
+                else
+                {
+                    Mover.MoveAlongPath();
 
-                return NodeState.RUNNING;
+                    Debug.Log("3. 라운지로 이동 중...");
+
+                    return NodeState.RUNNING;
+                }
             }
-
-            Debug.Log("라운지 도착. 휴식 중...");
-            started = false;
-            return NodeState.SUCCESS;
         }
     }
 }

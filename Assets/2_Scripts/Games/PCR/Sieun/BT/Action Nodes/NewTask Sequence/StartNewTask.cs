@@ -11,11 +11,15 @@ namespace LUP.PCR
         protected override NodeState OnUpdate()
         {
             ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.TargetBuilding);
-            if (building == null) return NodeState.FAILURE;
-
-            OwnerAI?.StartWorkingAt(building);
-            SetData(BBKeys.HasNewTask, false);
-            return NodeState.SUCCESS;
+            if (building == null)
+            {
+                return NodeState.FAILURE;
+            }
+            else
+            {
+                SetData(BBKeys.HasNewTask, false);
+                return NodeState.SUCCESS;
+            }
         }
     }
 }

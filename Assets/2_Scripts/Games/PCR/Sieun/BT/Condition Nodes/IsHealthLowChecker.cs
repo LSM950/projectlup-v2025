@@ -12,9 +12,8 @@ namespace LUP.PCR
        protected override NodeState OnUpdate()
         {
             float currentHunger = GetData<float>(BBKeys.Hunger);
-            
             bool isHungry = currentHunger >= HungerRules.Hunger;
-            SetData(BBKeys.IsHungry, isHungry);
+            SetData(BBKeys.IsHunger, isHungry);
             
             if (isHungry)
             {

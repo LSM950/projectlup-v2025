@@ -8,7 +8,7 @@ namespace LUP.PCR
         public const string UnitMover = "UnitMover";
 
         public const string Hunger = "Hunger";
-        public const string IsHungry = "IsHungry";
+        public const string IsHunger = "IsHunger";
 
         public const string HasNewTask = "HasNewTask";
         public const string HasPausedTask = "HasPausedTask";
