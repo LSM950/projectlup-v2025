@@ -48,7 +48,6 @@ namespace LUP.RL
 
         private void HandleEnemyDeath(Enemy enemy)
         {
-            //자기 자신을 매개변수로 던졌음
             spawnedEnemies.Remove(enemy);
         }
 

@@ -131,6 +131,7 @@ namespace LUP.RL
                 {
                     stageController.onStageClear.AddListener(GameClear);
 
+                    //¿Ã∞≈ ø÷ æ»µ !!
                     controlledPlayer = stageController.player.gameObject.GetComponent<Archer>();
 
                     if (controlledPlayer == null)

@@ -17,6 +17,9 @@ namespace LUP.RL
         public void Init(Enemy enemy)
         {
             target = enemy;
+            slider.maxValue = enemy.EnemyStats.MaxHp;
+            slider.value = enemy.EnemyStats.MaxHp;
+
         }
         void Awake()
         {
@@ -35,7 +38,7 @@ namespace LUP.RL
        
         Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
 
-            if (screenPos.z < 0) return; 
+            if (screenPos.z < 0) return; // 카메라 뒤면 무시
 
             rect.position = screenPos;
         }
@@ -44,8 +47,6 @@ namespace LUP.RL
         {
             slider.maxValue = health.MaxHp;
             slider.value = health.CurrentHp;
-
-            //이벤트 연결
             health.OnHpChanged += UpdateBar;
             UpdateBar(health.CurrentHp, health.MaxHp);
         }
@@ -56,6 +57,7 @@ namespace LUP.RL
             if(current <= 0)
             {
                 Destroy(gameObject);
+                //gameObject.SetActive(false);
             }
         }
     }
