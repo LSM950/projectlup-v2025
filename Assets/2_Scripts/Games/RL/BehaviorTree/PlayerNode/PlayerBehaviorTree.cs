@@ -95,8 +95,8 @@ namespace LUP.RL
                     calledAnimName = "Hitted";
                     break;
 
-                case ActionState.Idle:
-                    calledAnimName = "Idle";
+                case ActionState.Wait:
+                    calledAnimName = "Wait";
                     break;
 
                 case ActionState.Die:
@@ -109,7 +109,7 @@ namespace LUP.RL
 
             stateInfo = GetCurrentAnimState();
 
-            if (stateInfo.IsName("Idle") || stateInfo.IsName("MoveTo") || stateInfo.IsName("Attack"))
+            if (stateInfo.IsName("Wait") || stateInfo.IsName("MoveTo") || stateInfo.IsName("Attack"))
             {
                 currentRunningLeafNode = caller;
                 animator.speed = palySpeed;
