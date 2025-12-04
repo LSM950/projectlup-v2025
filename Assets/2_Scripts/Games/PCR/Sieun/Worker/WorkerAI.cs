@@ -189,7 +189,7 @@ namespace LUP.PCR
 
         //@TODO : AssignTask()를 어디서 어떻게 호출하게 할지 생각하기
         // 지금은 임시로 버튼UI OnClick(미리 오브젝트 자체를 지정)으로 건물 위치가 지정되게 했다.
-        void AssignTask(ProductableBuilding building)
+        public void AssignTask(ProductableBuilding building)
         {
             CancelOrReplaceCurrentTask();
 
