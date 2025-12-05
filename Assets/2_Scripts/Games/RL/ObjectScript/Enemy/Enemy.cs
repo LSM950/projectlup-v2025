@@ -81,7 +81,7 @@ namespace LUP.RL
              blackBoard.Alive = false;
 
            
-            behaviorTree.ResetWorkingNodeIndex();
+            //behaviorTree.ResetWorkingNodeIndex();
         }
 
 
