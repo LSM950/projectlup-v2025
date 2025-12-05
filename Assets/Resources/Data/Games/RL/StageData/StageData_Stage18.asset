@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: StageData_Stage18
   m_EditorClassIdentifier: 
   StageName: Stage3
-  roomprefab: {fileID: 8748780283676770839, guid: 44fd9d39ea85da34eacd5863005e4d72, type: 3}
+  roomprefab: {fileID: 4316829406320920912, guid: fe61f40312a104a42af78b5253f462b3, type: 3}
   playerSpawn: {x: 1, y: 3}
   enemySpawn:
   - {x: 7, y: 2, z: 2}
-  - {x: 7, y: 2, z: 5}
-  - {x: 2, y: 2, z: 8}
   obstacles:
   - {x: 3, y: 5}

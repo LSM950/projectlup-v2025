@@ -17,7 +17,5 @@ MonoBehaviour:
   playerSpawn: {x: 1, y: 3}
   enemySpawn:
   - {x: 5, y: 2, z: 3}
-  - {x: 7, y: 2, z: 7}
-  - {x: 2, y: 2, z: 8}
   obstacles:
   - {x: 6, y: 3}
