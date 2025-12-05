@@ -50,8 +50,14 @@ namespace LUP.RL
 
             Vector3 hitPosition = other.ClosestPoint(transform.position);
 
-            distortionCoroutine = StartCoroutine(ChangeDistortion(WallMaterial.GetFloat("_Distortion"), TargetDistortion, 2.0f));
-            WallMaterial.SetVector("_StartPosition", hitPosition);
+            if (WallMaterial)
+                distortionCoroutine = StartCoroutine(ChangeDistortion(WallMaterial.GetFloat("_Distortion"), TargetDistortion, 2.0f));
+
+            if(WallMaterial)
+            {
+                WallMaterial.SetVector("_StartPosition", hitPosition);
+            }
+            
         }
 
         void OnTriggerStay(Collider other)
@@ -60,7 +66,11 @@ namespace LUP.RL
                 return;
 
             Vector3 StayedPosition = other.ClosestPoint(transform.position);
-            WallMaterial.SetVector("_StartPosition", StayedPosition);
+            if(WallMaterial)
+            {
+                WallMaterial.SetVector("_StartPosition", StayedPosition);
+            }
+            
         }
 
         private void OnTriggerExit(Collider other)
@@ -74,8 +84,8 @@ namespace LUP.RL
                 distortionCoroutine = null;
             }
 
-
-            distortionCoroutine = StartCoroutine(ChangeDistortion(WallMaterial.GetFloat("_Distortion"), 0f, 0.5f));
+            if (WallMaterial)
+                distortionCoroutine = StartCoroutine(ChangeDistortion(WallMaterial.GetFloat("_Distortion"), 0f, 0.5f));
 
             StartCoroutine(DisableRendererAfterDelay(1.0f));
         }
@@ -88,11 +98,15 @@ namespace LUP.RL
             {
                 timer += Time.deltaTime;
                 float value = Mathf.Lerp(start, end, timer / duration);
-                WallMaterial.SetFloat("_Distortion", value);
+
+                if (WallMaterial)
+                    WallMaterial.SetFloat("_Distortion", value);
+
                 yield return null;
             }
 
-            WallMaterial.SetFloat("_Distortion", end);
+            if (WallMaterial)
+                WallMaterial.SetFloat("_Distortion", end);
         }
 
         private IEnumerator DisableRendererAfterDelay(float delay)
