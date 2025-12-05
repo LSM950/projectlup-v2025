@@ -71,6 +71,7 @@ namespace LUP.DSG
         public void OnHitMeleeAttackEvent()
         {
             OnHitAttack?.Invoke();
+            OnPunchEffect();
         }
 
         public void OnShootRangeAttackEvent()
