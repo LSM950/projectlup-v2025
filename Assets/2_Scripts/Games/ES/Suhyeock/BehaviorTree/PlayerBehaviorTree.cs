@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 namespace LUP.ES
 {
@@ -72,7 +73,8 @@ namespace LUP.ES
        
             MovingCondition movingCondition = new MovingCondition(blackboard);
             MoveAction moveAction = new MoveAction(blackboard, characterController);
-            Parallel combatParallel = new Parallel(new List<BTNode> { handleActionsSelector, movingCondition, moveAction });
+            UpdateAimDirectionAction updateAimDirectionAction = new UpdateAimDirectionAction(blackboard);
+            Parallel combatParallel = new Parallel(new List<BTNode> { updateAimDirectionAction, handleActionsSelector, movingCondition, moveAction });
 
 
             rootNode = new Selector(new List<BTNode>
@@ -83,5 +85,7 @@ namespace LUP.ES
                 combatParallel,
             });
         }
+
+
     }
 }

@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 
 namespace LUP.ES
@@ -5,7 +6,7 @@ namespace LUP.ES
     public class EnemyDeathAction : BTNode
     {
         EnemyBlackboard blackboard;
-        float deathTime = 2f;
+        float deathTime = 3f;
 
         public EnemyDeathAction(EnemyBlackboard blackboard)
         {
@@ -16,12 +17,19 @@ namespace LUP.ES
         {
             blackboard.navMeshAgent.speed = 0;
             deathTime -= Time.deltaTime;
+            blackboard.ChangeState(EnemyState.Death);
             if (deathTime < 0)
             {
                 RangedEnemyBlackboard enemyBlackboard = blackboard as RangedEnemyBlackboard;
                 if (enemyBlackboard != null)
                 {
                     enemyBlackboard.gun.Destroy();
+                    
+
+                }
+                if (blackboard.lootSpawner != null)
+                {
+                    blackboard.lootSpawner.SpawnLoot();
                 }
                 Object.Destroy(blackboard.gameObject);
             }
