@@ -12,7 +12,7 @@ namespace LUP.RL
             if (collision.gameObject.CompareTag("Player"))
             {
                 StageController stageCenter = FindAnyObjectByType<StageController>();
-                if (stageCenter != null && stageCenter.IsCurrentRoomCleared() == false)
+                if (stageCenter != null && stageCenter.IsCurrentRoomCleared() == true)
                 {
                     stageCenter.LoadNextRoom();
                 }

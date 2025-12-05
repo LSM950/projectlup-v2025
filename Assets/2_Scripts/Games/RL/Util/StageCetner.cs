@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using TMPro.Examples;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -34,10 +35,10 @@ namespace LUP.RL
         private int currentStage = 0;
         public bool GameClear = false;
         private EnemySpawner currentSpawner;
-
+        private NavMeshSurface surfcae;
         public void Start()
         {
-        
+            surfcae = FindFirstObjectByType<NavMeshSurface>();
         }
         public void LoadNextRoom()
         {
@@ -84,6 +85,7 @@ namespace LUP.RL
         {
             currentRoom = Instantiate(data.roomprefab, Vector3.zero, Quaternion.identity, roomParent);
 
+            surfcae.BuildNavMesh();
             var bb = player.GetComponent<PlayerBlackBoard>();
             if (bb != null)
                 bb.SetCurrentRoom(currentRoom.transform);

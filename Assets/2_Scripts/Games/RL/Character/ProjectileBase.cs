@@ -19,11 +19,18 @@ public class ProjectileBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
-        if (enemy != null)
+        Archer player = other.GetComponent <Archer>();
+
+        if (enemy)
         {
             enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
+        else  if(player)
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     private void Update()
