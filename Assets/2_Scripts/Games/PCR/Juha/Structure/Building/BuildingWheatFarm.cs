@@ -39,8 +39,9 @@ namespace LUP.PCR
 
         public override void Init()
         {
+            ConstructScreen.SetActive(false);
             // 작업자 있는지 데이터 필요.
-            hasWork = false;
+            hasWork = true;
 
             // 저장된 건물 정보랑 상태 가져오기
             SetupProductionData();

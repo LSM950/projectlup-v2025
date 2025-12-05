@@ -42,8 +42,10 @@ namespace LUP.PCR
 
         public override void Init()
         {
+            ConstructScreen.SetActive(false);
+
             // 작업자 있는지 데이터 필요.
-            hasWork = false;
+            hasWork = true;
 
             // 임시 건축 데이터 할당.
             currConstructionData = new ConstructionData();

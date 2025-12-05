@@ -17,6 +17,8 @@ namespace LUP.PCR
         private Button stoneMineBtn;
         [SerializeField]
         private Button workStationBtn;
+        [SerializeField]
+        private Button restaurantBtn;
 
         // Back Button
         [SerializeField]
@@ -33,6 +35,7 @@ namespace LUP.PCR
             powerStationBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.POWERSTATION));
             stoneMineBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.STONEMINE));
             workStationBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.WORKSTATION));
+            restaurantBtn?.onClick.AddListener(() => OnBuildingTypeChanged?.Invoke(BuildingType.RESTAURANT));
 
             backBtn?.onClick.AddListener(() => OnClickBack?.Invoke());
             wheatFarmBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
@@ -40,6 +43,7 @@ namespace LUP.PCR
             powerStationBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
             stoneMineBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
             workStationBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
+            restaurantBtn?.onClick.AddListener(() => OnClickSelectedBuilding?.Invoke());
 
 
 

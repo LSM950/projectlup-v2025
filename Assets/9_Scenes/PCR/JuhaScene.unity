@@ -1028,6 +1028,7 @@ MonoBehaviour:
   stoneMinePreview: {fileID: 0}
   moleFarmPreview: {fileID: 0}
   workStationPreview: {fileID: 0}
+  restaurantPreview: {fileID: 0}
   canBuildMaterial: {fileID: 2100000, guid: e83917b034519d34498dfbc4287a6ffe, type: 2}
   canNotBuildMaterial: {fileID: 2100000, guid: 044b5dbc77c50624ea56fc58511daff3, type: 2}
   canBuild: 0

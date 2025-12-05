@@ -17,6 +17,7 @@ namespace LUP.PCR
         public int level;
         public Vector2Int entrancePos; // 작업자 도달 위치
         public PCRResourceCenter resourceCenter;
+        public GameObject ConstructScreen;
 
         protected IBuildState currBuildState;
         protected bool hasWork;
