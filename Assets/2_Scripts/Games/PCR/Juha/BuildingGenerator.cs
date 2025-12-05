@@ -53,27 +53,27 @@ namespace LUP.PCR
             switch (type)
             {
                 case BuildingType.WHEATFARM:
-                    buildingObject = Instantiate(wheatFarmPrefab, pos, Quaternion.identity);
+                    buildingObject = Instantiate(wheatFarmPrefab, pos, Quaternion.identity, buildingSpawnTransform);
 
                     break;
                 case BuildingType.MOLEFARM:
-                    buildingObject = Instantiate(moleFarmPrefab, pos, Quaternion.identity);
+                    buildingObject = Instantiate(moleFarmPrefab, pos, Quaternion.identity, buildingSpawnTransform);
 
                     break;
                 case BuildingType.RESTAURANT:
-                    buildingObject = Instantiate(restaurantPrefab, pos, Quaternion.identity);
+                    buildingObject = Instantiate(restaurantPrefab, pos, Quaternion.identity, buildingSpawnTransform);
                     
                     break;
                 case BuildingType.POWERSTATION:
-                    buildingObject = Instantiate(powerStationPrefab, pos, Quaternion.identity);
+                    buildingObject = Instantiate(powerStationPrefab, pos, Quaternion.identity, buildingSpawnTransform);
 
                     break;
                 case BuildingType.STONEMINE:
-                    buildingObject = Instantiate(stoneMinePrefab, pos, Quaternion.identity);
+                    buildingObject = Instantiate(stoneMinePrefab, pos, Quaternion.identity, buildingSpawnTransform);
                     
                     break;
                 case BuildingType.WORKSTATION:
-                    buildingObject = Instantiate(workStationPrefab, pos, Quaternion.identity);
+                    buildingObject = Instantiate(workStationPrefab, pos, Quaternion.identity, buildingSpawnTransform);
 
                     break;
             }

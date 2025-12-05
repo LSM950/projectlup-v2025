@@ -520,7 +520,7 @@ MonoBehaviour:
   uiCenter: {fileID: 5837669487630064610}
   digWallPreview: {fileID: 8999083130498600703}
   buildPreview: {fileID: 1207909849776977502}
-  resourceCenter: {fileID: 0}
+  resourceCenter: {fileID: 1335741885925663309}
 --- !u!1 &6495882768642773417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,6 +1309,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3053574862826589538}
     m_Modifications:
+    - target: {fileID: 146030969374808672, guid: cc5a6000dd1ad2e499094317c8aa1f04, type: 3}
+      propertyPath: m_Name
+      value: ProductableBuildingUI
+      objectReference: {fileID: 0}
     - target: {fileID: 184259510828983733, guid: cc5a6000dd1ad2e499094317c8aa1f04, type: 3}
       propertyPath: moleFarmBtn
       value: 
@@ -1373,6 +1377,10 @@ PrefabInstance:
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2992012506225078188, guid: cc5a6000dd1ad2e499094317c8aa1f04, type: 3}
+      propertyPath: m_Name
+      value: Panels
+      objectReference: {fileID: 0}
     - target: {fileID: 3042312817939102518, guid: cc5a6000dd1ad2e499094317c8aa1f04, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -1384,6 +1392,10 @@ PrefabInstance:
     - target: {fileID: 3130881099677751582, guid: cc5a6000dd1ad2e499094317c8aa1f04, type: 3}
       propertyPath: m_fontAsset
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3248959355514211309, guid: cc5a6000dd1ad2e499094317c8aa1f04, type: 3}
+      propertyPath: m_Name
+      value: Window
       objectReference: {fileID: 0}
     - target: {fileID: 3470702946370897607, guid: cc5a6000dd1ad2e499094317c8aa1f04, type: 3}
       propertyPath: m_AnchorMax.y

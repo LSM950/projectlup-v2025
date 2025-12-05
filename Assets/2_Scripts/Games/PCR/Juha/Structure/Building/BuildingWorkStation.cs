@@ -31,12 +31,20 @@ namespace LUP.PCR
 
         private void Update()
         {
+            if (!hasWork)
+            {
+                return;
+            }
+
             float deltaTime = Time.deltaTime;
             currBuildState?.Tick(this, deltaTime);
         }
 
         public override void Init()
         {
+            // 작업자 있는지 데이터 필요.
+            hasWork = false;
+
             // 임시 건축 데이터 할당.
             currConstructionData = new ConstructionData();
             currConstructionData.time = 10;

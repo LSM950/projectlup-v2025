@@ -40,29 +40,29 @@ namespace LUP.PCR
         public void TestNotWalls()
         {
 
-            notWalls.Add(new Vector2Int(4, 0));
-            notWalls.Add(new Vector2Int(2, 1));
-            notWalls.Add(new Vector2Int(3, 1));
-            notWalls.Add(new Vector2Int(4, 1));
-            notWalls.Add(new Vector2Int(5, 1));
-            notWalls.Add(new Vector2Int(6, 1));
-            notWalls.Add(new Vector2Int(4, 2));
-            notWalls.Add(new Vector2Int(2, 3));
-            notWalls.Add(new Vector2Int(3, 3));
-            notWalls.Add(new Vector2Int(4, 3));
-            notWalls.Add(new Vector2Int(5, 3));
-            notWalls.Add(new Vector2Int(6, 3));
-            notWalls.Add(new Vector2Int(7, 3));
-            notWalls.Add(new Vector2Int(7, 4));
-            notWalls.Add(new Vector2Int(7, 5));
-            notWalls.Add(new Vector2Int(7, 6));
+            notWalls.Add(new Vector2Int(10, 0));
+            notWalls.Add(new Vector2Int(8, 1));
+            notWalls.Add(new Vector2Int(9, 1));
+            notWalls.Add(new Vector2Int(10, 1));
+            notWalls.Add(new Vector2Int(11, 1));
+            notWalls.Add(new Vector2Int(12, 1));
+            notWalls.Add(new Vector2Int(10, 2));
+            notWalls.Add(new Vector2Int(8, 3));
+            notWalls.Add(new Vector2Int(9, 3));
+            notWalls.Add(new Vector2Int(10, 3));
+            notWalls.Add(new Vector2Int(11, 3));
+            notWalls.Add(new Vector2Int(12, 3));
+            notWalls.Add(new Vector2Int(13, 3));
+            notWalls.Add(new Vector2Int(13, 4));
+            notWalls.Add(new Vector2Int(13, 5));
+            notWalls.Add(new Vector2Int(13, 6));
+            notWalls.Add(new Vector2Int(14, 6));
+            notWalls.Add(new Vector2Int(12, 6));
+            notWalls.Add(new Vector2Int(11, 6));
+            notWalls.Add(new Vector2Int(10, 6));
+            notWalls.Add(new Vector2Int(9, 6));
             notWalls.Add(new Vector2Int(8, 6));
-            notWalls.Add(new Vector2Int(6, 6));
-            notWalls.Add(new Vector2Int(5, 6));
-            notWalls.Add(new Vector2Int(4, 6));
-            notWalls.Add(new Vector2Int(3, 6));
-            notWalls.Add(new Vector2Int(2, 6));
-            notWalls.Add(new Vector2Int(1, 6));
+            notWalls.Add(new Vector2Int(7, 6));
 
         }
 

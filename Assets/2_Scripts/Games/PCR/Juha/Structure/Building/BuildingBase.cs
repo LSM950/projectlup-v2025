@@ -19,6 +19,7 @@ namespace LUP.PCR
         public PCRResourceCenter resourceCenter;
 
         protected IBuildState currBuildState;
+        protected bool hasWork;
 
         public abstract void Init();// 건물 정보랑 상태 가져올 매개변수 확장 필요
 
@@ -49,6 +50,16 @@ namespace LUP.PCR
         public void SetEntrance(Vector2Int pivotPos)
         {
             entrancePos = pivotPos;
+        }
+
+        public void EnterWorker()
+        {
+            hasWork = true;
+        }
+
+        public void ExitWorker()
+        {
+            hasWork = false;
         }
     }
 }

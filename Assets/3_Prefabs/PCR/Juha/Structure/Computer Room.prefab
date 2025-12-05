@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4812171733287524627}
   - component: {fileID: 8294129363095075160}
   - component: {fileID: 4884755055704212659}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Computer Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
