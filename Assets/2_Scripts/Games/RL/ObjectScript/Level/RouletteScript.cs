@@ -26,11 +26,11 @@ public class RouletteScript : MonoBehaviour
     void Start()
     {
         if (spinButton == null) return;
-
+        resultPanel.SetActive(false);
         spinButton.onClick.AddListener(OnButtonClick);
         adapter = new PlatformAdapter();
         adapter.LinkToPlatform();
-        resultPanel.SetActive(false);
+     
         //·ê·¿¿¡  ¹öÇÁ¸®½ºÆ®¿¬°á
         buffList.AddRange(adapter.gainableBuffDatas);
     }
