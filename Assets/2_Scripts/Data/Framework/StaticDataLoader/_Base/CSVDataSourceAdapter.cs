@@ -4,10 +4,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
 
-/// <summary>
-/// CSV 데이터 소스 어댑터
-/// Google Sheets CSV Export로부터 데이터를 로드하고 파싱합니다
-/// </summary>
 public class CSVDataSourceAdapter : IDataSourceAdapter
 {
     public IEnumerator LoadData(string url, System.Action<string> onSuccess, System.Action<string> onError)
