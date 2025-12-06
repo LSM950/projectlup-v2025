@@ -19,7 +19,7 @@ namespace LUP.DSG
         //private UserData.Team friendlyTeam = new UserData.Team();
 
         [SerializeField]
-        private UserData.Team enemyTeam;
+        private Team enemyTeam;
 
         public GameObject[] friendlySlots = new GameObject[5];
         public GameObject[] enemySlots = new GameObject[5];
@@ -369,8 +369,6 @@ namespace LUP.DSG
 
                 ApplyMVP(mvp, i + 1, character.Name, character.Color, character.Score, character.Prefab);
             }
-
-            LUP.StageManager.Instance.GetCurrentStage().LoadStage(StageKind.DSG, 3);
         }
         public void BackupDeadCharacter(string name, Color color, float score, GameObject prefab)
         {

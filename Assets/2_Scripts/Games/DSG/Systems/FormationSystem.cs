@@ -13,7 +13,7 @@ namespace LUP.DSG
 
         public GameObject[] slots = new GameObject[5];
 
-        public UserData.Team selectedTeam { get; private set; }
+        public Team selectedTeam { get; private set; }
 
         [SerializeField]
         private Transform characterListContent;
@@ -54,10 +54,13 @@ namespace LUP.DSG
                 DeckStrategyRuntimeData runtimeData = (DeckStrategyRuntimeData)stage.RuntimeData;
                 if(runtimeData == null || runtimeData.Teams.Count == 0)
                 {
-                    runtimeData.Teams[selectedTeamIndex] = new UserData.Team();
+                    runtimeData.Teams[selectedTeamIndex] = new Team();
                 }
 
-                ResetCharacterList(runtimeData.Teams[selectedTeamIndex]);
+                if(characterListContent != null)
+                {
+                    ResetCharacterList(runtimeData.Teams[selectedTeamIndex]);
+                }
 
                 selectedCount = 0;
                 selectedTeam = runtimeData.Teams[selectedTeamIndex];
@@ -77,24 +80,32 @@ namespace LUP.DSG
 
                 if (selectedTeam.characters[i] == null || selectedTeam.characters[i].characterID == 0) continue;
 
-                CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
-                foreach (var icon in icons)
+                if(characterListContent != null)
                 {
-                    if (icon.characterInfo.characterID == selectedTeam.characters[i].characterID)
+                    CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
+                    foreach (var icon in icons)
                     {
-                        if (icon.selectedButton.isSelected)
+                        if (icon.characterInfo.characterID == selectedTeam.characters[i].characterID)
                         {
-                            ReleaseCharacter(icon.characterInfo.characterID, icon.selectedButton);
-                            icon.selectedSlot = -1;
-                        }
-                        else
-                        {
-                            PlaceCharacterInPlaceTeam(icon.characterInfo, icon.selectedButton, i);
-                            icon.selectedSlot = i;
-                        }
+                            if (icon.selectedButton.isSelected)
+                            {
+                                ReleaseCharacter(icon.characterInfo.characterID, icon.selectedButton);
+                                icon.selectedSlot = -1;
+                            }
+                            else
+                            {
+                                PlaceCharacterInPlaceTeam(icon.characterInfo, icon.selectedButton, i);
+                                icon.selectedSlot = i;
+                            }
 
-                        break;
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    slot.SetSelectedCharacter(selectedTeam.characters[i], false);
+                    ++selectedCount;
                 }
             }
         }
@@ -172,7 +183,7 @@ namespace LUP.DSG
             }
         }
 
-        private void ResetCharacterList(UserData.Team team)
+        private void ResetCharacterList(Team team)
         {
             CharactersList list = characterListContent.GetComponentInParent<CharactersList>();
             if (list != null)
@@ -201,7 +212,7 @@ namespace LUP.DSG
             for (int i = 0; i < slots.Length; ++i)
             {
                 LineupSlot slot = slots[i].GetComponent<LineupSlot>();
-                if (runtimeData.Teams[selectedTeamIndex] == null) runtimeData.Teams[selectedTeamIndex] = new UserData.Team();
+                if (runtimeData.Teams[selectedTeamIndex] == null) runtimeData.Teams[selectedTeamIndex] = new Team();
                 runtimeData.Teams[selectedTeamIndex] = selectedTeam;
             }
         }
