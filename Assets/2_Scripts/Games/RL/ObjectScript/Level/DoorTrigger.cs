@@ -6,19 +6,24 @@ namespace LUP.RL
 
     public class DoorTrigger : MonoBehaviour
     {
-        private bool colider = false;
+        
         void OnCollisionEnter(Collision collision)
         {
-            if (colider) return;
             if (collision.gameObject.CompareTag("Player"))
             {
-                colider = true;
-
-                StageController stageManager = FindAnyObjectByType<StageController>();
-                if (stageManager != null)
+                StageController stageCenter = FindAnyObjectByType<StageController>();
+                if (stageCenter == null)
+                {
+                    return;
+                }
+                if(stageCenter.IsCurrentRoomCleared() == true)
                 {
 
-                    stageManager.LoadNextRoom();
+                    stageCenter.LoadNextRoom();
+                }
+                else
+                {
+                    Debug.Log("몬스터남아있음");
                 }
 
             }

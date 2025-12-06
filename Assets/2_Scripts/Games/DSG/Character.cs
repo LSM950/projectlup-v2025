@@ -43,10 +43,40 @@ namespace LUP.DSG
         {
             StageInitializeInvoker.OnDSGStagePostInitialize -= PostInitialize;
             StageInitializeInvoker.OnDSGStageInitialize -= Initialize;
+
+            if (battleComp != null && animationComp != null)
+            {
+                battleComp.OnAttackStarted -= animationComp.StartAttackAnimation;
+                //battleComp.OnReachedTargetPos -= animationComp.EndDashLoop;
+                battleComp.OnDamaged -= animationComp.PlayHittedAnimation;
+                battleComp.OnDie -= animationComp.PlayDiedAnimation;
+
+                animationComp.OnHitAttack -= battleComp.ApplyDamageOnce;
+                animationComp.OnShootRangeAttack -= battleComp.TrySpawnProjectileForRangedAttack;
+            }
         }
 
         private void Initialize(DeckStrategyStage stage)
         {
+        }
+        public void ManualInitializeAfterSpawn()
+        {
+            if (battleComp == null)
+                battleComp = GetComponent<BattleComponent>();
+            if (animationComp == null)
+                animationComp = GetComponent<AnimationComponent>();
+            if (statusEffectComp == null)
+                statusEffectComp = GetComponent<StatusEffectComponent>();
+            if (scoreComp == null)
+                scoreComp = GetComponent<ScoreComponent>();
+
+            battleComp.OnAttackStarted += animationComp.StartAttackAnimation;
+            battleComp.OnDamaged += animationComp.PlayHittedAnimation;
+            battleComp.OnDie += animationComp.PlayDiedAnimation;
+
+            animationComp.OnHitAttack += battleComp.ApplyDamageOnce;
+            animationComp.OnShootRangeAttack += battleComp.TrySpawnProjectileForRangedAttack;
+
             Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
             foreach (var canvas in canvases)
             {
@@ -69,13 +99,7 @@ namespace LUP.DSG
 
         private void PostInitialize(DeckStrategyStage stage)
         {
-            battleComp.OnAttackStarted += animationComp.StartAttackAnimation;
-            battleComp.OnReachedTargetPos += animationComp.EndDashLoop;
-            battleComp.OnDamaged += animationComp.PlayHittedAnimation;
-            battleComp.OnDie += animationComp.PlayDiedAnimation;
 
-            animationComp.OnHitAttack += battleComp.ApplyDamageOnce;
-            animationComp.OnShootRangeAttack += battleComp.TrySpawnProjectileForRangedAttack;
         }
 
         public void EndTurn()
@@ -115,11 +139,10 @@ namespace LUP.DSG
             characterData = data;
             characterModelData = modelData;
             gameObject.SetActive(true);
-            if (characterInfoUI != null)
-            {
-                characterInfoUI.SetCharacterInfo(data.type, info.characterLevel);
-                characterInfoUI.gameObject.SetActive(true);
-            }
+            if (characterInfoUI == null) return;
+
+            characterInfoUI.SetCharacterInfo(data.type, info.characterLevel);
+            characterInfoUI.gameObject.SetActive(true);
 
             UpdateCombatPower();
         }
@@ -144,10 +167,20 @@ namespace LUP.DSG
         public void ActiveBattleUI()
         {
             if (chracterBattleUI == null) return;
+
             chracterBattleUI.Init(this);
 
             chracterBattleUI.gameObject.SetActive(true);
             characterInfoUI.gameObject.SetActive(false);
+        }
+
+        public void DestroyUI()
+        {
+            characterInfoUI.gameObject.SetActive(false);
+            chracterBattleUI.gameObject.SetActive(false);
+            Destroy(characterInfoUI);
+            Destroy(chracterBattleUI);
+
         }
     }
 }

@@ -4,7 +4,8 @@ namespace LUP.RL
 {
     public class RootNode : Node
     {
-        Node topChildNode;
+        [HideInInspector]
+        public Node topChildNode;
         public RootNode(Node singleChildNode)
         {
             topChildNode = singleChildNode;

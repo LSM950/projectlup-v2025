@@ -1,4 +1,4 @@
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace LUP.RL
@@ -11,13 +11,25 @@ namespace LUP.RL
         }
         public override NodeState Evaluate()
         {
-            blackBoard.Alive = false;
+            if(!behaviorTree.GetCurrentAnimState().IsName("Die"))
+            {
+                blackBoard.Alive = false;
+
+                behaviorTree.PlayAnimation(ActionState.Die, this);
+            }
+            
+
             return NodeState.Success;
+        }
+
+        public override void OnAnimationInTargetRate()
+        {
+            MonoBehaviour.Destroy(behaviorTree.thisCharacter);
         }
 
         public override void OnAnimationEnd(AnimatorStateInfo animInfo)
         {
-
+            MonoBehaviour.Destroy(behaviorTree.thisCharacter);
         }
     }
 }

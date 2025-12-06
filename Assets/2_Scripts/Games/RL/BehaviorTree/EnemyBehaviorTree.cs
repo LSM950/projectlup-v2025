@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace LUP.RL
@@ -137,8 +137,8 @@ namespace LUP.RL
         // Update is called once per frame
         void Update()
         {
-            if (enemyBlackBoard.Alive == false)
-                return;
+            //if (enemyBlackBoard.Alive == false)
+            //    return;
 
             if (rootnode != null)
             {
@@ -160,7 +160,7 @@ namespace LUP.RL
 
             List<(ConditionCheckEnum, bool)> whishConditions = new()
                 {
-                    (ConditionCheckEnum.INHITTEDSTATE, false),
+                    //(ConditionCheckEnum.INHITTEDSTATE, false),
                     (ConditionCheckEnum.INREADYTOATK, true)
                 };
             BlackboardMultiConditionNode inHittedState_InReadyToAtk = new BlackboardMultiConditionNode(enemyBlackBoard, whishConditions, actionAttack);

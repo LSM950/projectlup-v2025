@@ -54,6 +54,8 @@ namespace LUP.DSG
 
         [SerializeField]
         private DataCenter dataCenter;
+        [SerializeField]
+        private SkillUIPanel skillUIPanel;
 
         public static BattleSystem Instance { get; private set; }
         private Dictionary<string, (Color Color, float Score)> deadScores = new();
@@ -61,8 +63,9 @@ namespace LUP.DSG
 
         void Awake()
         {
+            StageInitializeInvoker.OnDSGStagePostInitialize += Initialize;
             StageInitializeInvoker.OnDSGStagePostInitialize += PostInitialize;
-
+            
             if (Instance == null)
             {
                 Instance = this;
@@ -75,10 +78,15 @@ namespace LUP.DSG
 
         private void OnDestroy()
         {
+            StageInitializeInvoker.OnDSGStagePostInitialize -= Initialize;
             StageInitializeInvoker.OnDSGStagePostInitialize -= PostInitialize;
         }
 
         private void PostInitialize(DeckStrategyStage stage)
+        {
+            
+        }
+        private void Initialize(DeckStrategyStage stage)
         {
             for (int i = 0; i < enemySlots.Length; i++)
             {
@@ -259,6 +267,7 @@ namespace LUP.DSG
                 List<LineupSlot> targetList = GetSkillTargets(currentChar);
                 currentChar.BattleComp.Skill(targetList);
                 StartCoroutine(WaitForAttackEnd(currentChar));
+                skillUIPanel.ShowSkillPanel(currentChar);
             }
             else
             {

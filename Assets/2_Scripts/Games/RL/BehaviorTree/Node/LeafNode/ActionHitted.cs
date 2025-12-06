@@ -11,13 +11,17 @@ namespace LUP.RL
         }
         public override NodeState Evaluate()
         {
-            if(behaviorTree.GetCurrentAnimState().IsName("Attack") == true)
+
+            //UnityEngine.Debug.Log("Action Hitted");
+
+            if(behaviorTree.GetCurrentAnimState().IsName("Attack"))
             {
+                blackBoard.InHittedState = false;
+                blackBoard.OnHitted = false;
 
+                nodeState = NodeState.Fail;
+                return nodeState;
             }
-
-
-            UnityEngine.Debug.Log("Action Hitted");
 
             if (isAnimOnPlayed)
             {
@@ -39,7 +43,7 @@ namespace LUP.RL
 
         public override void OnAnimationEnd(AnimatorStateInfo animInfo)
         {
-            UnityEngine.Debug.Log("Hit Animation Ended");
+            //UnityEngine.Debug.Log("Hit Animation Ended");
             isAnimOnPlayed = false;
             nodeState = NodeState.Success;
             blackBoard.InHittedState = false;

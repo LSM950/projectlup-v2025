@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace LUP.RL
@@ -12,7 +12,7 @@ namespace LUP.RL
         MoveTo,
         Attack,
         Hitted,
-        Wait,
+        Idle,
         Die
     }
 
@@ -102,13 +102,15 @@ namespace LUP.RL
                     calledAnimName = "Hitted";
                     break;
 
-                case ActionState.Wait:
-                    calledAnimName = "Wait";
+                case ActionState.Idle:
+                    calledAnimName = "Idle";
                     break;
 
                 case ActionState.Die:
                     calledAnimName = "Die";
-                    break;
+                    currentRunningLeaf = caller;
+                    Animator.Play(calledAnimName, 0, 0.0f);
+                    return;
 
                 default:
                     break;
@@ -116,7 +118,7 @@ namespace LUP.RL
 
             stateInfo = GetCurrentAnimState();
 
-            if (stateInfo.IsName("Wait") || stateInfo.IsName("MoveTo"))
+            if (stateInfo.IsName("Idle") || stateInfo.IsName("MoveTo"))
             {
                 currentRunningLeaf = caller;
                 Animator.Play(calledAnimName);
@@ -146,6 +148,13 @@ namespace LUP.RL
         {
             stateInfo = Animator.GetCurrentAnimatorStateInfo(0);
             return stateInfo;
+        }
+
+        public void ResetWorkingNodeIndex()
+        {
+            SelectorNode firstSelectorNode= (SelectorNode)rootnode.topChildNode;
+            firstSelectorNode.ResetWorkingNodeIndex();
+
         }
     }
 }
