@@ -13,10 +13,12 @@ namespace LUP.RL
         {
             if(target == null)
             {
-                Debug.Log(" get null");
                 return;
             }
-            GameObject obj = Instantiate(bulletData.bulletPrefab, spawnPoint.position, spawnPoint.rotation);
+            var dir = (target.position - spawnPoint.position).normalized;
+            var rot = Quaternion.LookRotation(dir);
+            //Instantiate(bulletData.bulletPrefab, spawnPoint.position, rot);
+            GameObject obj = Instantiate(bulletData.bulletPrefab, spawnPoint.position, rot);
             ProjectileBase tilebase = obj.GetComponent<ProjectileBase>();
             tilebase.Init(bulletData, gameObject, attackValue, target);
         }

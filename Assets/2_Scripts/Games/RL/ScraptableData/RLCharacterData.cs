@@ -10,7 +10,7 @@ public struct BaseStats
     public int Attack;
     public int speed;
     public int MaxHp;
-
+    public int Exp;
 }
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
 public class RLCharacterData : ScriptableObject, IDisplayable

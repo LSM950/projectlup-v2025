@@ -8,7 +8,7 @@ namespace LUP.RL
         [Header("이동 속도")]
         public float speed = 5f;
         public float baseSpeed = 5f;
-       
+        public Transform targetPoint;
         public  bool isMoving = false;
         private void Start()
         {

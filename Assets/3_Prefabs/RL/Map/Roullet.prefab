@@ -122,9 +122,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spinButton: {fileID: 0}
-  roulette: {fileID: 5282182174267594856}
-  roulettePanel: {fileID: 0}
-  resultPanel: {fileID: 0}
+  RoulletPanel: {fileID: 0}
+  RoulletImagel: {fileID: 0}
+  resultPanel: {fileID: 4414689588285614007, guid: 44f5087564f9cbc4d88de75c69267e96, type: 3}
   resultImage: {fileID: 0}
   buffList:
   - {fileID: 11400000, guid: 54e6e3dae78328742aeb2291cf27c713, type: 2}

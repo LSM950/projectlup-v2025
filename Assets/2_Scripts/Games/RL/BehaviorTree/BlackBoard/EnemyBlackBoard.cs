@@ -6,15 +6,34 @@ namespace LUP.RL
 {
     public class EnemyBlackBoard : BlackBoard
     {
+        [HideInInspector]
+        public Enemy enemy;
+
+       [HideInInspector]
+       public ShooterComp shooter;
         private void Start()
         {
             {
-                Target = FindFirstObjectByType<PlayerMove>().gameObject;
+                enemy = GetComponent<Enemy>();
+                var playerMove = FindFirstObjectByType<PlayerMove>();
 
+                if (playerMove == null)
+                {
+                    Debug.LogWarning("No PlayerMove found");
+                    return;
+                }
+
+
+                Target = FindFirstObjectByType<PlayerMove>().gameObject;
+               
                 if (Target == null)
                     UnityEngine.Debug.LogWarning("Can't find Target(Plaeyr)");
 
-                targetPos = Target.transform;
+                targetPos = playerMove.targetPoint;
+                if (enemy.Type == EnemyType.Ranged)
+                {
+                    shooter = enemy.GetComponent<ShooterComp>();
+                }
             }
 
 
@@ -32,16 +51,31 @@ namespace LUP.RL
             float deltaTime = Time.deltaTime;
             if (Target == null || targetPos == null)
             {
-                Debug.Log("xxx");
                 return;
             }
+            
             TargetDistance = Vector3.Distance(targetPos.position, gameObject.transform.position);
 
+         
 
-
-            AtkCollTime = AtkCollTime - deltaTime * AtkCoolTimeRecoverySpeed;
+            AtkCollTime -= deltaTime * AtkCoolTimeRecoverySpeed;
             if (AtkCollTime < 0)
+            
                 AtkCollTime = 0;
+
+            //if (enemy.Type == EnemyType.Ranged && shooter != null)
+            //{
+            //    if (AtkCollTime == 0)
+            //    {
+            //        shooter.TryShoot(targetPos, enemy.EnemyStats.Attack);
+
+            //        // 쿨타임 리필
+            //        AtkCollTime = FullAttackCoolTime;
+            //    }
+
+            //    // 원거리 몬스터는 아래 로직 안 타게 종료
+            //    return;
+            //}
 
 
             {

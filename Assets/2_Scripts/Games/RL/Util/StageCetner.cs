@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using TMPro.Examples;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -33,76 +34,125 @@ namespace LUP.RL
         public GridGenerator gridSystem;
         private int currentStage = 0;
         public bool GameClear = false;
-
-        public void Start()
-        {
-            bb = player.GetComponent<PlayerBlackBoard>();
-            if (bb == null)
-            {
-                return;
-            }
-            bb.Initialize(player.gameObject);
-        }
+        public EnemySpawner currentSpawner;
         public void LoadNextRoom()
         {
-            //방이 하나라도  있으면 다  삭제
-            if (roomParent.childCount > 0)
+            ClearPreviousRoom();
+
+            if (!HasMoreStages())
             {
-                foreach (Transform child in roomParent)
-                {
-                    Destroy(child.gameObject);
-                }
+                HandleStageClear();
+                return;
             }
 
-            if (currentStage < stageData.Count)
+            if (player == null) return;
+
+            StageData data = stageData[currentStage];
+
+            CreateRoom(data);
+            UpdateStageUI();
+            MovePlayerToSpawn(data);
+            SpawnEnemies(data);
+            SpawnObstacles(data);
+
+            Debug.Log($"Stage {currentStage} ({data.StageName}) 로드 완료");
+            currentStage++;
+        }
+        private void ClearPreviousRoom()
+        {
+            if (roomParent.childCount == 0) return;
+
+            foreach (Transform child in roomParent)
             {
-                if (player == null) return;
-                StageData data = stageData[currentStage];
-                currentRoom = Instantiate(data.roomprefab, Vector3.zero, Quaternion.identity, roomParent);
-                var bb = player.GetComponent<PlayerBlackBoard>();
-                if(bb != null)
+                Destroy(child.gameObject);
+            }
+        }
+
+
+        private void HandleStageClear()
+        {
+            onStageClear.Invoke();
+            GameClear = true;
+        }
+
+
+        private void CreateRoom(StageData data)
+        {
+            currentRoom = Instantiate(data.roomprefab, Vector3.zero, Quaternion.identity, roomParent);
+
+            var bb = player.GetComponent<PlayerBlackBoard>();
+            if (bb != null)
                 bb.SetCurrentRoom(currentRoom.transform);
-                //UI 갱신
-                if (stageText != null)
-                {
-                    stageText.text = $"Stage {currentStage}";
-                }
+        }
 
-                //플레이어 찾기
-                var tile = gridSystem.GetTile(data.playerSpawn.x, data.playerSpawn.y);
-                if (tile != null)
-                {
-                    Vector3 spawnPos = tile.worldPos;
-                    spawnPos.y = 1.5f;
-                    player.position = spawnPos;
-                }
-                GameObject spawnerObj = Instantiate(enemySpawnerPrefab, Vector3.zero, Quaternion.identity, currentRoom.transform);
 
-                EnemySpawner spawner = spawnerObj.GetComponent<EnemySpawner>();
+        private void UpdateStageUI()
+        {
+            if (stageText != null)
+                stageText.text = $"Stage {currentStage}";
+        }
 
-                spawner.Init(data);    // 여기서 StageData 전달!
 
-                //장애물 배치
-                foreach (var pos in data.obstacles)
-                {
+        private void MovePlayerToSpawn(StageData data)
+        {
+            var tile = gridSystem.GetTile(data.playerSpawn.x, data.playerSpawn.y);
+            if (tile == null) return;
 
-                    var t = gridSystem.GetTile(pos.x, pos.y);
-                    Vector3 spawnPos = t.worldPos + Vector3.up * 1.3f;
-                    Instantiate(obstaclePrefab, spawnPos, Quaternion.identity, currentRoom.transform);
-                }
-                Debug.Log($" Stage {currentStage} ({data.StageName}) 로드 완료");
-                currentStage++;
+            Vector3 spawnPos = tile.worldPos;
+            spawnPos.y = 1.5f;
+            player.position = spawnPos;
+        }
+        private void SpawnEnemies(StageData data)
+        {
+            GameObject spawnerObj = Instantiate(enemySpawnerPrefab, Vector3.zero, Quaternion.identity, currentRoom.transform);
+            EnemySpawner spawner = spawnerObj.GetComponent<EnemySpawner>();
+            currentSpawner = spawner;   
+            spawner.Init(data);
+        }
+        private void SpawnObstacles(StageData data)
+        {
+            foreach (var pos in data.obstacles)
+            {
+                var t = gridSystem.GetTile(pos.x, pos.y);
+                if (t == null) continue;
+
+                Vector3 spawnPos = t.worldPos + Vector3.up * 1.3f;
+                Instantiate(obstaclePrefab, spawnPos, Quaternion.identity, currentRoom.transform);
+            }
+        }
+        public bool IsCurrentRoomCleared()
+        {
+            if (currentStage == 0)
+            {
+                Debug.Log("첫 번째 스테이지 자동 클리어");
+                return true;
+            }
+            //Debug.Log($"호출");
+            //if (currentSpawner == null)
+            //{
+            //    Debug.Log($"spawner null 호출");
+            //    return true;
+            //}
+            // Destroy이 된 Enemy들이 null로 남아있을 수 있기때문에.
+            currentSpawner.spawnedEnemies.RemoveAll(e => e == null || e.Equals(null));
+            if (currentSpawner.spawnedEnemies.Count == 0)
+            {
+                Debug.Log($"몬스터 개수 : {currentSpawner.spawnedEnemies.Count}");
+                return true;
             }
             else
             {
-                onStageClear.Invoke();
-                GameClear = true;
+                Debug.Log($"false {currentSpawner.spawnedEnemies.Count}");
+                return false;
             }
-
         }
         public int GetStageNum()
         {
             return currentStage;
+        }
+        private bool HasMoreStages()
+        {
+            return currentStage < stageData.Count;
         }
         public int GetMaxStageNum()
         {

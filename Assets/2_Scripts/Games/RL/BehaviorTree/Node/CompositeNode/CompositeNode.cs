@@ -14,6 +14,11 @@ namespace LUP.RL
         {
             childListNodes = childlist;
         }
+
+        public void ResetWorkingNodeIndex()
+        {
+            currWorkingNodeIndex = 0;
+        }
     }
 }
 
