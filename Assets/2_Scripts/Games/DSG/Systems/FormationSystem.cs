@@ -57,7 +57,10 @@ namespace LUP.DSG
                     runtimeData.Teams[selectedTeamIndex] = new Team();
                 }
 
-                ResetCharacterList(runtimeData.Teams[selectedTeamIndex]);
+                if(characterListContent != null)
+                {
+                    ResetCharacterList(runtimeData.Teams[selectedTeamIndex]);
+                }
 
                 selectedCount = 0;
                 selectedTeam = runtimeData.Teams[selectedTeamIndex];
@@ -77,24 +80,32 @@ namespace LUP.DSG
 
                 if (selectedTeam.characters[i] == null || selectedTeam.characters[i].characterID == 0) continue;
 
-                CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
-                foreach (var icon in icons)
+                if(characterListContent != null)
                 {
-                    if (icon.characterInfo.characterID == selectedTeam.characters[i].characterID)
+                    CharacterIcon[] icons = characterListContent.GetComponentsInChildren<CharacterIcon>();
+                    foreach (var icon in icons)
                     {
-                        if (icon.selectedButton.isSelected)
+                        if (icon.characterInfo.characterID == selectedTeam.characters[i].characterID)
                         {
-                            ReleaseCharacter(icon.characterInfo.characterID, icon.selectedButton);
-                            icon.selectedSlot = -1;
-                        }
-                        else
-                        {
-                            PlaceCharacterInPlaceTeam(icon.characterInfo, icon.selectedButton, i);
-                            icon.selectedSlot = i;
-                        }
+                            if (icon.selectedButton.isSelected)
+                            {
+                                ReleaseCharacter(icon.characterInfo.characterID, icon.selectedButton);
+                                icon.selectedSlot = -1;
+                            }
+                            else
+                            {
+                                PlaceCharacterInPlaceTeam(icon.characterInfo, icon.selectedButton, i);
+                                icon.selectedSlot = i;
+                            }
 
-                        break;
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    slot.SetSelectedCharacter(selectedTeam.characters[i], false);
+                    ++selectedCount;
                 }
             }
         }

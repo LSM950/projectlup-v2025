@@ -218,12 +218,22 @@ namespace LUP.DSG
 
         public void ChangeScene(int sceneIndex)
         {
-            //0: main
-            //1: edit
-            //2: battle
-            //3: result
+            //0: edit
+            //1: battle
+            //2: result
 
             LoadStage(StageKind, sceneIndex);
+        }
+
+        public void BattleEnd()
+        {
+            BattleSystem battleSystem = GetComponent<BattleSystem>();
+
+            if (battleSystem != null)
+            {
+                battleSystem.EndBattle("Defeat");
+                LoadStage(StageKind, 2);
+            }
         }
 
     }

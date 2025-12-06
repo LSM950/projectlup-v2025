@@ -1260,7 +1260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36ec254000067f44cb8e36cf24563b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterModelDataTable: {fileID: 11400000, guid: 8e5a2cc3fdef4b04698bae1932d8687b, type: 2}
   mvpData: {fileID: 11400000, guid: b5420738ed619244288d3ed612d3f9fe, type: 2}
 --- !u!4 &523391682
 Transform:
