@@ -9,7 +9,7 @@ namespace LUP.DSG
         [SerializeField] private GameObject panel;
         [SerializeField] private Transform canvas;
 
-        private Vector2 OurhiddenPos = new Vector2(-1530, 294);
+        private Vector2 OurhiddenPos = new Vector2(-1530, 405);
         private Vector2 OurshowPos = new Vector2(-680, 405);
 
         private Vector2 EnmyhiddenPos = new Vector2(1594, 405);
