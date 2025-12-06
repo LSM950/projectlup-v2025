@@ -797,6 +797,7 @@ MonoBehaviour:
   StageKind: 5
   DeckDataList: []
   CharacterDataList: []
+  characterModelDataTable: {fileID: 0}
 --- !u!4 &1324564633
 Transform:
   m_ObjectHideFlags: 0
@@ -1192,9 +1193,9 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1324564633}
   - {fileID: 1386064156}
   - {fileID: 898209435}
   - {fileID: 1721387822}
   - {fileID: 482555209}
   - {fileID: 1073673931}
-  - {fileID: 1324564633}
