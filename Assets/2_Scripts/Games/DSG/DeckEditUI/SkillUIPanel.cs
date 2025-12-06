@@ -15,7 +15,7 @@ namespace LUP.DSG
         private Vector2 EnmyhiddenPos = new Vector2(1594, 405);
         private Vector2 EnmyshowPos = new Vector2(707, 405);
 
-        private float slideDuration = 0.5f;
+        private float slideDuration = 0.7f;
 
         private void Start()
         {
@@ -41,7 +41,7 @@ namespace LUP.DSG
                 bannerImage.color = Color.red;
 
                 seq.Append(rt.DOAnchorPos(EnmyshowPos, slideDuration).SetEase(Ease.OutCubic));
-                seq.AppendInterval(2f);
+                seq.AppendInterval(1.5f);
                 seq.Append(rt.DOAnchorPos(EnmyhiddenPos, slideDuration).SetEase(Ease.OutCubic));
             }
             else
@@ -49,7 +49,7 @@ namespace LUP.DSG
                 rt.anchoredPosition = OurhiddenPos;
 
                 seq.Append(rt.DOAnchorPos(OurshowPos, slideDuration).SetEase(Ease.OutCubic));
-                seq.AppendInterval(2f);
+                seq.AppendInterval(1.5f);
                 seq.Append(rt.DOAnchorPos(OurhiddenPos, slideDuration).SetEase(Ease.OutCubic));
             }
 

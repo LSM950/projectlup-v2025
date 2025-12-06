@@ -7,6 +7,8 @@ namespace LUP.DSG
     public class PickRandomTarget : AttackTargetSelectorBase
     {
         public PickRandomTarget(BattleSystem battle) : base(battle) { }
+
+        public override TargetPatternType PatternType => TargetPatternType.Random;
         public override LineupSlot SelectEnemyTarget(Character Attacker)
         {
             if (battle == null || Attacker == null)

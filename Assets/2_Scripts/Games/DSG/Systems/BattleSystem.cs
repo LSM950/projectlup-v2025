@@ -46,7 +46,7 @@ namespace LUP.DSG
         private List<Character> battleSequence = new List<Character>();
         private List<GameObject> sequenceImage = new List<GameObject>();
 
-        private IAttackTargetSelector targetSelector;
+        private ChainedTargetSelector targetSelector;
 
         private int currentTurnIndex = 0;
         private int currentRound = 1;
@@ -447,18 +447,16 @@ namespace LUP.DSG
         }
         private List<LineupSlot> GetSkillTargets(Character caster)
         {
-            var result = new List<LineupSlot>();
+            List<LineupSlot> result = new List<LineupSlot>();
             int targetCount = 1;
-
-            PickRandomTarget randomSelector = new PickRandomTarget(this);
 
             if (caster.BattleComp.skillInfo != null)
                 targetCount = Mathf.Max(1, caster.BattleComp.skillInfo.targetCount);
 
             for (int i = 0; i < targetCount; i++)
             {
-                var target = randomSelector.SelectEnemyTarget(caster);
-                if (target == null)
+                LineupSlot target = targetSelector.SelectSettingTarget(caster,TargetPatternType.Random);
+                if (target == null) //@TODO 버그
                     break;
 
                 if (!result.Contains(target))

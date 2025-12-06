@@ -381,6 +381,8 @@ namespace LUP.DSG
             maxSkillGauge = 100;
             currGauge = 0;
             isSkillOn = false;
+            isUsingSkill = false;
+            SkillTargetSlot.Clear();
             OnChangeGauge?.Invoke(currGauge);
         }
 

@@ -94,11 +94,15 @@ MonoBehaviour:
   panel: {fileID: 8265005829968445088}
   healthSlider: {fileID: 5554488253537722840}
   gaugeSlider: {fileID: 7842092411742527968}
+  centerAreaImage: {fileID: 2428734159058280406}
   spritePairs:
   - Name: 0
     Sprite: {fileID: 21300000, guid: c7f9169d3f6486d4db06d01c66192d65, type: 3}
   - Name: 2
     Sprite: {fileID: 21300000, guid: b8744436a6a5ec347bd455ec406b450c, type: 3}
+  paperIcon: {fileID: 21300000, guid: 5bf22c6b6f7373e49aef037b9abc53c6, type: 3}
+  rockIcon: {fileID: 21300000, guid: bc3deb52ffccc714ba5c2369c45328bb, type: 3}
+  scissorsIcon: {fileID: 21300000, guid: e17fb07c7bc94ad46832913c942e19c4, type: 3}
   offset: {x: 0, y: 2, z: 0}
 --- !u!1 &569745631309147520
 GameObject:
@@ -242,7 +246,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -544,7 +548,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -758,14 +762,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.09433961, g: 0.01735493, b: 0.01735493, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: e17fb07c7bc94ad46832913c942e19c4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
