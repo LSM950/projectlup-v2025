@@ -441,6 +441,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3671444772161597846}
+  - component: {fileID: 2110891525171273448}
   m_Layer: 0
   m_Name: Stage2
   m_TagString: Untagged
@@ -470,6 +471,23 @@ Transform:
   - {fileID: 5327584680163042258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2110891525171273448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5892875016011890028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35fa8e5775450e24396f941bbec683cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backWall: {fileID: 876183174199666639}
+  leftWall: {fileID: 1106386348740318118}
+  rightWall: {fileID: 5429050395324466375}
+  frontLeftWall: {fileID: 8294132983491061977}
+  frontRightWall: {fileID: 2587003416192243999}
 --- !u!1 &8293928979947364944
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,7 +934,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3246327178022657178, guid: e9032d69e4aaeb6419b4ea4041857994, type: 3}
       propertyPath: m_Name
-      value: BackDoor
+      value: BackWall
       objectReference: {fileID: 0}
     - target: {fileID: 3967832326476459245, guid: e9032d69e4aaeb6419b4ea4041857994, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1051,7 +1069,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4302744988974679900, guid: ec02433a03c0c5747a29491458a19001, type: 3}
       propertyPath: m_Name
-      value: RightFront
+      value: LeftFront
       objectReference: {fileID: 0}
     - target: {fileID: 6677869039496255417, guid: ec02433a03c0c5747a29491458a19001, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

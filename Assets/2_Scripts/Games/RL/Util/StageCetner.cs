@@ -8,6 +8,7 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 namespace LUP.RL
 {
 
@@ -22,6 +23,7 @@ namespace LUP.RL
 
         [Header("플레이어 Transform")]
         public Transform player;
+        private PlayerMove[] players;
 
         [Header("UI 연결")]
         public TextMeshProUGUI stageText;
@@ -31,6 +33,7 @@ namespace LUP.RL
         private GameObject currentRoom;
         private PlayerBlackBoard bb;
         public UnityEvent onStageClear;
+        public UnityEvent onMoveToNextRoom;
         public GridGenerator gridSystem;
         private int currentStage = 0;
         public bool GameClear = false;
@@ -57,6 +60,8 @@ namespace LUP.RL
 
             Debug.Log($"Stage {currentStage} ({data.StageName}) 로드 완료");
             currentStage++;
+
+            onMoveToNextRoom.Invoke();
         }
         private void ClearPreviousRoom()
         {
@@ -80,9 +85,18 @@ namespace LUP.RL
         {
             currentRoom = Instantiate(data.roomprefab, Vector3.zero, Quaternion.identity, roomParent);
 
-            var bb = player.GetComponent<PlayerBlackBoard>();
-            if (bb != null)
-                bb.SetCurrentRoom(currentRoom.transform);
+            players = FindObjectsByType<PlayerMove>(FindObjectsSortMode.None);
+
+            for(int i = 0; i < players.Length; i++)
+            {
+                var bb = players[i].gameObject.GetComponent<PlayerBlackBoard>();
+                if (bb != null)
+                    bb.SetCurrentRoom(currentRoom.transform);
+            }
+
+            //var bb = player.GetComponent<PlayerBlackBoard>();
+            //if (bb != null)
+            //    bb.SetCurrentRoom(currentRoom.transform);
         }
 
 
@@ -99,7 +113,7 @@ namespace LUP.RL
             if (tile == null) return;
 
             Vector3 spawnPos = tile.worldPos;
-            spawnPos.y = 1.5f;
+            spawnPos.y = 0.5f;
             player.position = spawnPos;
         }
         private void SpawnEnemies(StageData data)

@@ -31,6 +31,7 @@ namespace LUP.RL
         private Dictionary<ItemData, int> gainItem = new Dictionary<ItemData, int>();
 
         private StageController stageController;
+        private FollowCamera followCamera;
 
         public bool gameClear = false;
 
@@ -53,58 +54,9 @@ namespace LUP.RL
 
         private Archer controlledPlayer = null;
 
-
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //platformAdapter = new PlatformAdapter();
-
-            //if (platformAdapter != null)
-            //{
-            //    platformAdapter.LinkToPlatform();
-            //    platformAdapter.LoadSpawnableItemData();
-
-            //    LoadInGameData();
-
-            //}
-
-            //{
-            //    stageController = GameObject.FindFirstObjectByType<StageController>();
-            //    if (stageController == null)
-            //    {
-            //        UnityEngine.Debug.LogError("Fail To Find StageController!", this.gameObject);
-            //    }
-
-            //    else
-            //    {
-            //        stageController.onStageClear.AddListener(GameClear);
-            //        controlledPlayer = stageController.player.gameObject.GetComponent<Archer>();
-
-            //        if (controlledPlayer == null)
-            //            UnityEngine.Debug.LogError("Fail to Find Player!!");
-            //    }
-            //}
-
-            //InitInGameUIElement();
-
-            ////Temp
-            //debugMode = false;
-
-            //AddItem1Btn.onClick.AddListener(AddItem1);
-            //AddItem2Btn.onClick.AddListener(AddItem2);
-            //AddItem3Btn.onClick.AddListener(AddItem3);
-
-            //AddTestItemBtn.onClick.AddListener(AddTestItem);
-
-            //ClearGameBtn.onClick.AddListener(GameClear);
-            //DebugBtn.onClick.AddListener(ChangeDebugMode);
-
-            //SetDebugMode(debugMode);
-
-            //DebugPanel.SetActive(false);
-            /////////////
-
-            //Confirm.onClick.AddListener(UploadGameResult);
+ 
         }
 
         public void InitializeCenter()
@@ -124,18 +76,31 @@ namespace LUP.RL
                 stageController = GameObject.FindFirstObjectByType<StageController>();
                 if (stageController == null)
                 {
-                    UnityEngine.Debug.LogError("Fail To Find StageController!", this.gameObject);
+                    UnityEngine.Debug.LogError("Fail To Find StageController!");
                 }
 
                 else
                 {
                     stageController.onStageClear.AddListener(GameClear);
+                    stageController.onMoveToNextRoom.AddListener(OnMoveToNextRoom);
 
-                    //¿Ã∞≈ ø÷ æ»µ !!
                     controlledPlayer = stageController.player.gameObject.GetComponent<Archer>();
 
                     if (controlledPlayer == null)
                         UnityEngine.Debug.LogError("Fail to Find Player!!");
+                }
+            }
+
+            {
+                followCamera = GameObject.FindFirstObjectByType<FollowCamera>();
+                if (followCamera == null)
+                {
+                    UnityEngine.Debug.LogError("Fail To Find FollowCam");
+                }
+
+                else
+                {
+                    followCamera.FindTarget();
                 }
             }
 
@@ -203,28 +168,12 @@ namespace LUP.RL
         void InitInGameUIElement()
         {
             {
-                //gameResultPanel = GameObject.FindWithTag("InGame_GameResultPanel");
-                //if (gameResultPanel == null)
-                //{
-                //    UnityEngine.Debug.LogError("Can't Find InGame ResultPanel by Tag", this.gameObject);
-                //    return;
-                //}
                 if (gameResultPanel != null)
                 {
                     gameResultPanel.SetActive(false);
                 }
 
             }
-
-
-            //{
-            //    gamePausePanel = GameObject.FindWithTag("GamePausePanel");
-
-            //    if (gamePausePanel == null)
-            //        UnityEngine.Debug.LogError("Can't Find InGame GamePausePanel by Tag");
-
-            //    //pauseBtn.gameObject.SetActive(true);
-            //}
 
             {
                 ButtonRule[] circleButtons = mainCanvas.GetComponentsInChildren<ButtonRule>();
@@ -243,6 +192,11 @@ namespace LUP.RL
                 }
             }
 
+        }
+
+        void OnMoveToNextRoom()
+        {
+            followCamera.FindTarget();
         }
 
         void OnPauseBtnClicked()
@@ -308,7 +262,6 @@ namespace LUP.RL
 
 
             gameClear = true;
-            //pauseBtn.gameObject.SetActive(false);
 
         }
 
