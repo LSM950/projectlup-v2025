@@ -20,6 +20,11 @@ namespace LUP.RL
 
         void Start()
         {
+            FindTarget();
+        }
+
+        public void FindTarget()
+        {
             player = FindFirstObjectByType<PlayerMove>();
             room = FindFirstObjectByType<BaseRoom>();
 

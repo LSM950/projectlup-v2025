@@ -33,6 +33,7 @@ namespace LUP.RL
         private GameObject currentRoom;
         private PlayerBlackBoard bb;
         public UnityEvent onStageClear;
+        public UnityEvent onMoveToNextRoom;
         public GridGenerator gridSystem;
         private int currentStage = 0;
         public bool GameClear = false;
@@ -59,6 +60,8 @@ namespace LUP.RL
 
             Debug.Log($"Stage {currentStage} ({data.StageName}) 로드 완료");
             currentStage++;
+
+            onMoveToNextRoom.Invoke();
         }
         private void ClearPreviousRoom()
         {

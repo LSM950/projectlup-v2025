@@ -225,6 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1714278173974876553}
+  - component: {fileID: 4240507104122558930}
   m_Layer: 0
   m_Name: Stage1
   m_TagString: Untagged
@@ -241,7 +242,7 @@ Transform:
   m_GameObject: {fileID: 4316829406320920912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -2.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -254,6 +255,23 @@ Transform:
   - {fileID: 183150914126730663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4240507104122558930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4316829406320920912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35fa8e5775450e24396f941bbec683cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backWall: {fileID: 8971305202228165231}
+  leftWall: {fileID: 7752362804702625384}
+  rightWall: {fileID: 2104777445265672955}
+  frontLeftWall: {fileID: 659451176364901332}
+  frontRightWall: {fileID: 1181832407909427530}
 --- !u!1 &5810479660233467390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,9 +1325,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -1082230229798809128, guid: 47feab6824c906f499614ad10c931a7b, type: 3}
-    - {fileID: -2287217530054597063, guid: 47feab6824c906f499614ad10c931a7b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
