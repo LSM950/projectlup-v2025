@@ -2531,7 +2531,7 @@ GameObject:
   - component: {fileID: 940147698664845262}
   - component: {fileID: 4565055029744188784}
   m_Layer: 0
-  m_Name: Characater_Throw
+  m_Name: Characater_F003TwoHandSword
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2566,7 +2566,7 @@ Animator:
   m_GameObject: {fileID: 6828710996149563988}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: cc1712ea388d853459b64b2f4348dc18, type: 3}
-  m_Controller: {fileID: 9100000, guid: 29902efc962e7eb4184dceda4d144cbb, type: 2}
+  m_Controller: {fileID: 9100000, guid: f97c9817fbfa9a5449ebb5b73212a262, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
