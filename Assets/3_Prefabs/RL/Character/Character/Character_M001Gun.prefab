@@ -3343,6 +3343,7 @@ GameObject:
   - component: {fileID: 7612875603782973029}
   - component: {fileID: 6645526702506752614}
   - component: {fileID: 5459647009846201476}
+  - component: {fileID: 4821899344086932619}
   m_Layer: 0
   m_Name: Character_M001Gun
   m_TagString: Player
@@ -3537,6 +3538,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &4821899344086932619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307492492725346322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e324571cbc24f634c8dcb7a2415324c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 1
+  weaponHandPos: {fileID: 0}
+  rotate: {x: 0, y: 0, z: 0}
 --- !u!1 &7448991517649501306
 GameObject:
   m_ObjectHideFlags: 0

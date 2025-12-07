@@ -17,10 +17,12 @@ public class RLCharacterData : ScriptableObject, IDisplayable
 {
     [SerializeField] private string characterName;
     [SerializeField] private Sprite characterPreviewImage;
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject characterPrefab;
+    [SerializeField] private GameObject weaponPrefab;
     [SerializeField] public BaseStats stats;
 
-    public GameObject CharacterPrefab => prefab;
+    public GameObject CharacterPrefab => characterPrefab;
+    public GameObject WeaponPrefab => weaponPrefab;
     public Sprite CharacterPreview => characterPreviewImage;
     public string Name => characterName;
 

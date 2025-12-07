@@ -14,22 +14,22 @@ public class CharacterPreviewAnimation : MonoBehaviour
 
     private void Start()
     {
-        ChangeSpriteSheet("short");
+        //ChangeSpriteSheet("short");
     }
 
-    public void ChangeSpriteSheet(string type)
+    public void ChangeSpriteSheet(string name)
     {
-        string resourcePath = type switch
+        string resourcePath = name switch
         {
-            "long" => "Image/RL/ChracterImage/PreviewIdleImage/long",
-            "middle" => "Image/RL/ChracterImage/PreviewIdleImage/middle",
-            "short" => "Image/RL/ChracterImage/PreviewIdleImage/short",
+            "M001" => "Image/RL/ChracterImage/PreviewIdleImage/M001Idles",
+            "M002" => "Image/RL/ChracterImage/PreviewIdleImage/M002Idles",
+            "F003" => "Image/RL/ChracterImage/PreviewIdleImage/F003Idles",
             _ => null
         };
 
         if (string.IsNullOrEmpty(resourcePath))
         {
-            Debug.LogError($"알 수 없는 스프라이트 타입 '{type}' 입니다.");
+            Debug.LogError($"알 수 없는 스프라이트 타입 '{name}' 입니다.");
             return;
         }
 

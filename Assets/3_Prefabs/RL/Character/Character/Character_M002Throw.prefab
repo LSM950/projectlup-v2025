@@ -3420,6 +3420,7 @@ GameObject:
   - component: {fileID: 7871019758126876951}
   - component: {fileID: 1265453785419522939}
   - component: {fileID: 7620406225046536264}
+  - component: {fileID: 7385305111531072378}
   m_Layer: 0
   m_Name: Character_M002Throw
   m_TagString: Player
@@ -3614,6 +3615,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &7385305111531072378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7541701515102328502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e324571cbc24f634c8dcb7a2415324c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 3
+  weaponHandPos: {fileID: 0}
+  rotate: {x: 0, y: 0, z: 0}
 --- !u!1 &7572996501368188206
 GameObject:
   m_ObjectHideFlags: 0

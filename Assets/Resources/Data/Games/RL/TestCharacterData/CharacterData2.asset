@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3759627024bc246ad1c78f200d79fc, type: 3}
   m_Name: CharacterData2
   m_EditorClassIdentifier: 
-  characterName: Character2
-  characterPreviewImage: {fileID: 21300000, guid: 97b2dddd129fd024e9ad68e65f9cd490, type: 3}
-  prefab: {fileID: 0}
+  characterName: M002
+  characterPreviewImage: {fileID: -1443197757, guid: 4dded9571581b7542945e7859c0a1c26, type: 3}
+  characterPrefab: {fileID: 7541701515102328502, guid: 5311c77fba3e40240b9ae0cf847a2125, type: 3}
+  weaponPrefab: {fileID: 0}
   stats:
     Hp: 120
     Attack: 8
     speed: 5
     MaxHp: 0
+    Exp: 0
   characterType: 2
