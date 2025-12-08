@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LUP.PCR
@@ -19,6 +19,17 @@ namespace LUP.PCR
         private Worker worker;
         private UnitMover mover;
         private BTNode root;
+
+        private void OnEnable()
+        {
+            // @TODO : 싱글톤으로 교체하기
+            WorkerDataCenter dataCenter = this.transform.root.GetComponent<WorkerDataCenter>();
+
+            if(dataCenter != null)
+            {
+                dataCenter.RegisterWorker(this);
+            }
+        }
 
         //@TODO: BuildingSystem에 있는 실제 currBuildings 및 건물타입ID로 건물 조회해서 entrancePos 접근하기.
         // 지금은 임시로 건물 프리팹 자체에서 직접 entrancePos 를 가져온다.
