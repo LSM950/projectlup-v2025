@@ -2340,8 +2340,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_HandleRect: {fileID: 883555149}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: -0.0000008501705
+  m_Size: 0.43526715
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4533,6 +4533,7 @@ GameObject:
   - component: {fileID: 448903803}
   - component: {fileID: 448903805}
   - component: {fileID: 448903804}
+  - component: {fileID: 448903806}
   m_Layer: 5
   m_Name: CharacterImage
   m_TagString: Untagged
@@ -4598,6 +4599,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448903802}
   m_CullTransparentMesh: 1
+--- !u!114 &448903806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448903802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9177ab3a2bf83949953b46d7ad57a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetImage: {fileID: 448903804}
+  frameRate: 30
+  loop: 1
 --- !u!1 &450588070
 GameObject:
   m_ObjectHideFlags: 0
@@ -10896,10 +10912,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6108676454b49f34aa48d6e6a373e816, type: 2}
   - {fileID: 11400000, guid: 3a2ff84ab95e9554c83e08088f28864c, type: 2}
   - {fileID: 11400000, guid: 18b9025c7b57fe34fad10c348e8ac6a3, type: 2}
-  - {fileID: 11400000, guid: b7079f901169ee242b03975f11f185c1, type: 2}
-  - {fileID: 11400000, guid: 124001582f2ac874e8dceacc30b07baf, type: 2}
-  - {fileID: 11400000, guid: 7c695a85e86158642bd44b17781b66cf, type: 2}
-  - {fileID: 11400000, guid: dc187020f51f9ce489f3ca3c549120a0, type: 2}
   rogueLikespawnableItemDatas:
   - {fileID: 11400000, guid: e721468ea88d69c4fa56d6845958a1ec, type: 2}
   - {fileID: 11400000, guid: c0b8c501bd3ddd84cbdf6708590f7efc, type: 2}
@@ -14594,7 +14606,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 47.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -22816,7 +22828,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 29.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -30093,7 +30105,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 18.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

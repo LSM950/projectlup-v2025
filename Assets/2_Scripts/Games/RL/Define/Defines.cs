@@ -8,6 +8,15 @@ namespace Roguelike.Define
         Middle,
         Short
     }
+
+    public enum WeaponType
+    {
+        None,
+        Gun,
+        TwoHandSword,
+        Throw
+    }
+
     public enum DisplayableDataType
     {
         None,

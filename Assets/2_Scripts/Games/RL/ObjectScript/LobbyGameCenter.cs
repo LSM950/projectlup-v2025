@@ -99,52 +99,6 @@ namespace LUP.RL
             Time.timeScale = 1;
         }
 
-
-        //async void Start()
-        //{
-        //    IsInitializeReady = false;
-
-        //    platformAdapter = new PlatformAdapter();
-
-        //    if (platformAdapter != null)
-        //    {
-        //        await platformAdapter.LinkToPlatform();
-
-        //        chapterDatas = platformAdapter.chapterDatas;
-        //        characterDatas = platformAdapter.characterDatas;
-
-        //        int savedLastSeletedChapter = platformAdapter.LastSeletedChapter;
-        //        int savedLastSeletedCharacter = platformAdapter.LastSeletedCharacter;
-
-        //        if ((savedLastSeletedChapter >= 0 && savedLastSeletedCharacter >= 0) &&
-        //            savedLastSeletedChapter < chapterDatas.Length && savedLastSeletedCharacter < characterDatas.Length)
-        //        {
-        //            SetPastGameData(savedLastSeletedChapter, savedLastSeletedCharacter);
-        //        }
-
-        //        else
-        //        {
-        //            //이상현상 감지시 0으로 설정
-        //            SetPastGameData(0, 0);
-        //        }
-
-        //        ChapterDisplayedOffset = savedLastSeletedChapter < 0 ? 0 : savedLastSeletedChapter;
-        //        //CharacterScrollSelectionOffset = savedLastSeletedCharacter < 0 ? 0 : savedLastSeletedCharacter;
-        //    }
-
-        //    if (mainCanvas == null)
-        //    {
-        //        UnityEngine.Debug.LogError("Bind Main Canvas!");
-        //    }
-
-        //    InitLobbyUIElement();
-
-        //    IsInitializeReady = true;
-
-        //    Time.timeScale = 1;
-        //}
-
-        // Update is called once per frame
         void Update()
         {
 
@@ -293,12 +247,6 @@ namespace LUP.RL
 
         void SetPastGameData(int savedLastSeletedChapter, int savedLastSeletedCharacter)
         {
-            //SelectedChapterImage.sprite = chapterDatas[savedLastSeletedChapter].GetDisplayableImage();
-            //SelectedCharacterImage.sprite = characterDatas[savedLastSeletedCharacter].GetDisplayableImage();
-
-            //ChapterSelectBtn.image.sprite = chapterDatas[savedLastSeletedChapter].GetDisplayableImage();
-            //CharacterSelectBtn.buttonImage.sprite = characterDatas[savedLastSeletedCharacter].GetDisplayableImage();
-
             selectedChapter = chapterDatas[savedLastSeletedChapter];
             selectedCharacter = characterDatas[savedLastSeletedCharacter];
 

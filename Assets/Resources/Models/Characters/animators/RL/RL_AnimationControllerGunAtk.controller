@@ -116,7 +116,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RL_AnimationControllerShortAtk
+  m_Name: RL_AnimationControllerGunAtk
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -269,7 +269,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 3094330708855449807, guid: a3b2bd75dc433e742844e9c7e0ecb01e, type: 3}
+  m_Motion: {fileID: 4785533290275872030, guid: b5a0456ea6fec8c4a8d5dd5ff8279089, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

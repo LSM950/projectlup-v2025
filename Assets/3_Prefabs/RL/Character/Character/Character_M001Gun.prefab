@@ -3343,8 +3343,9 @@ GameObject:
   - component: {fileID: 7612875603782973029}
   - component: {fileID: 6645526702506752614}
   - component: {fileID: 5459647009846201476}
+  - component: {fileID: 4821899344086932619}
   m_Layer: 0
-  m_Name: Character_Bow
+  m_Name: Character_M001Gun
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3430,7 +3431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 0}
-  animator: {fileID: 6116554385579333815}
 --- !u!114 &6071367806874889985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3457,7 +3457,7 @@ Animator:
   m_GameObject: {fileID: 7307492492725346322}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 34df67499536ae84e8bf251e2b1ed52e, type: 3}
-  m_Controller: {fileID: 9100000, guid: b4093304cfe808e48a3b9ea7d1f23a16, type: 2}
+  m_Controller: {fileID: 9100000, guid: a4f8e5736677ee147bc8cd10aeb95159, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3538,6 +3538,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &4821899344086932619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307492492725346322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e324571cbc24f634c8dcb7a2415324c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 1
+  weaponHandPos: {fileID: 4303303937723777412}
+  weaponPos: {x: 0, y: 0.023, z: 0.037}
+  rotate: {x: -165.243, y: 0, z: 90}
 --- !u!1 &7448991517649501306
 GameObject:
   m_ObjectHideFlags: 0

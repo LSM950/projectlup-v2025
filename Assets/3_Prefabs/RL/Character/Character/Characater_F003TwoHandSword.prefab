@@ -2530,8 +2530,9 @@ GameObject:
   - component: {fileID: 3474553915367472426}
   - component: {fileID: 940147698664845262}
   - component: {fileID: 4565055029744188784}
+  - component: {fileID: -8916505213670709273}
   m_Layer: 0
-  m_Name: Characater_Throw
+  m_Name: Characater_F003TwoHandSword
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2566,7 +2567,7 @@ Animator:
   m_GameObject: {fileID: 6828710996149563988}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: cc1712ea388d853459b64b2f4348dc18, type: 3}
-  m_Controller: {fileID: 9100000, guid: 29902efc962e7eb4184dceda4d144cbb, type: 2}
+  m_Controller: {fileID: 9100000, guid: f97c9817fbfa9a5449ebb5b73212a262, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2718,6 +2719,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &-8916505213670709273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6828710996149563988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e324571cbc24f634c8dcb7a2415324c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 2
+  weaponHandPos: {fileID: 2988717444787214632}
+  weaponPos: {x: -0.109, y: 0.05, z: 0.058}
+  rotate: {x: 0, y: 0, z: 71.983}
 --- !u!1 &6865476572672903943
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,8 @@ namespace LUP.RL
 
         private RLCharacterData previewCharacterData = null;
 
+        private InventoryCharacterEquipPanel inventoryCharacterEquipPanel;
+
         private void Awake()
         {
             characterPriveiw = GetComponentInChildren<CharacterPriveiwPanel>();
@@ -26,7 +28,7 @@ namespace LUP.RL
                 UnityEngine.Debug.LogError("Main CharacterSeletPanel fail to Load Other Panel");
             }
 
-
+            inventoryCharacterEquipPanel = FindFirstObjectByType<InventoryCharacterEquipPanel>();
         }
 
         public void InitPreviewData(RLCharacterData characterData)
@@ -66,7 +68,8 @@ namespace LUP.RL
                 pannelController.OnSubPannelErase();
             }
 
-
+            if (inventoryCharacterEquipPanel)
+                inventoryCharacterEquipPanel.SetInventoryCharacterPrieViewAnimImage(previewCharacterData.Name);
 
             ErasePanel();
         }

@@ -3420,8 +3420,9 @@ GameObject:
   - component: {fileID: 7871019758126876951}
   - component: {fileID: 1265453785419522939}
   - component: {fileID: 7620406225046536264}
+  - component: {fileID: 7385305111531072378}
   m_Layer: 0
-  m_Name: Character_Short
+  m_Name: Character_M002Throw
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3462,7 +3463,7 @@ Animator:
   m_GameObject: {fileID: 7541701515102328502}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d13ae30e3e6e1e94a90e5083e25ecf5f, type: 3}
-  m_Controller: {fileID: 9100000, guid: f97c9817fbfa9a5449ebb5b73212a262, type: 2}
+  m_Controller: {fileID: 9100000, guid: 29902efc962e7eb4184dceda4d144cbb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3614,6 +3615,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &7385305111531072378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7541701515102328502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e324571cbc24f634c8dcb7a2415324c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 3
+  weaponHandPos: {fileID: 1029926835808247130}
+  weaponPos: {x: 0.028, y: -0.019, z: 0.019}
+  rotate: {x: 0, y: 0, z: 65.213}
 --- !u!1 &7572996501368188206
 GameObject:
   m_ObjectHideFlags: 0

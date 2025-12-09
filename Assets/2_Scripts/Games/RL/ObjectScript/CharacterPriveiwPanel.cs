@@ -8,12 +8,12 @@ public class CharacterPriveiwPanel : MonoBehaviour
     public GameObject characterPreviewObject;
     public CharacterStatBox characterStatBox;
 
-    private Image previewCharacterImage;
+    private CharacterPreviewAnimation previewCharacterAnimImage;
     private TextMeshProUGUI previewCharacaterNameText;
 
     private void Awake()
     {
-        previewCharacterImage = characterPreviewObject.GetComponent<Image>();
+        previewCharacterAnimImage = characterPreviewObject.GetComponent<CharacterPreviewAnimation>();
         previewCharacaterNameText = characterPreviewObject.GetComponentInChildren<TextMeshProUGUI>();
     }
 
@@ -30,7 +30,12 @@ public class CharacterPriveiwPanel : MonoBehaviour
 
     public void SetCharacterPreview(RLCharacterData characterData)
     {
-        previewCharacterImage.sprite = characterData.GetDisplayableImage();
+        //previewCharacterImage.sprite = characterData.GetDisplayableImage();
+
+        string charaterName = characterData.Name;
+
+        previewCharacterAnimImage.ChangeSpriteSheet(charaterName);
+
         previewCharacaterNameText.SetText(characterData.GetDisplayableName());
 
         characterStatBox.UpdateStatBox(characterData);
