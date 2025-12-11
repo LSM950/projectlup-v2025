@@ -11,7 +11,7 @@ namespace LUP.PCR
         protected override NodeState OnUpdate()
         {
             ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.AssignedWorkplace);
-            //bool hasNewTask = GetData<bool>(BBKeys.HasNewTask);
+            //OwnerAI.HasTask = GetData<bool>(BBKeys.HasTask);
             
             if (building == null)
             {
@@ -22,7 +22,6 @@ namespace LUP.PCR
                 timer += Time.deltaTime;
                 Debug.Log($"2-3. 할당받은 작업 진행중... {timer:F1}/{duration}");
                 OwnerAI.HasTask = true;
-                //SetData(sBBKeys.HasTask, true);
 
                 return NodeState.RUNNING;
             }
@@ -31,7 +30,6 @@ namespace LUP.PCR
                 timer = 0f;
                 BB.Remove(BBKeys.AssignedWorkplace);
                 OwnerAI.HasTask = false;
-                // SetData(BBKeys.HasTask, false);
                 
                 Debug.Log("2-3. 작업 완료.");
                 return NodeState.SUCCESS;
