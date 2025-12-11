@@ -12,7 +12,7 @@ namespace LUP.PCR
         [Header("State")]
         [SerializeField] private float hunger = 0;
         private bool isHunger = false;
-        private bool isWorking = true; 
+        private bool hasTask = true; 
         //private bool hasNewTask = false;
 
         [Header("Component")]
@@ -71,13 +71,13 @@ namespace LUP.PCR
             }
         }
 
-        public bool IsWorking
+        public bool HasTask
         {
-            get => isWorking;
+            get => hasTask;
             set
             {
-                isWorking = value;
-                LocalBlackboard.SetValue(BBKeys.IsWorking, isWorking);
+                hasTask = value;
+                LocalBlackboard.SetValue(BBKeys.HasTask, hasTask);
             }
         }
         
@@ -112,7 +112,7 @@ namespace LUP.PCR
            // currentTaskBuilding = workerStationBuilding;
            // LocalBlackboard.SetValue<BuildingBase>(BBKeys.AssignedWorkplace, currentTaskBuilding); 
            // LocalBlackboard.SetValue(BBKeys.HasNewTask, hasNewTask);
-           LocalBlackboard.SetValue(BBKeys.IsWorking, isWorking);
+           LocalBlackboard.SetValue(BBKeys.HasTask, hasTask);
 
         }
 

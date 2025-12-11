@@ -21,7 +21,8 @@ namespace LUP.PCR
             {
                 timer += Time.deltaTime;
                 Debug.Log($"2-3. 할당받은 작업 진행중... {timer:F1}/{duration}");
-                SetData(BBKeys.IsWorking, true);
+                OwnerAI.HasTask = true;
+                //SetData(sBBKeys.HasTask, true);
 
                 return NodeState.RUNNING;
             }
@@ -29,7 +30,8 @@ namespace LUP.PCR
             {
                 timer = 0f;
                 BB.Remove(BBKeys.AssignedWorkplace);
-                SetData(BBKeys.IsWorking, false);
+                OwnerAI.HasTask = false;
+                // SetData(BBKeys.HasTask, false);
                 
                 Debug.Log("2-3. 작업 완료.");
                 return NodeState.SUCCESS;

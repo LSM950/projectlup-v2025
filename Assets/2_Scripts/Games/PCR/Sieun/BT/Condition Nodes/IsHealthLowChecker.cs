@@ -11,8 +11,9 @@ namespace LUP.PCR
         {
             float currentHunger = GetData<float>(BBKeys.Hunger);
             bool isHungry = currentHunger >= HungerRules.HungryThreshold;
-            SetData(BBKeys.IsHunger, isHungry);
-            
+
+            OwnerAI.IsHunger = isHungry;
+
             if (isHungry)
             {
                 return ReturnAndLog(NodeState.SUCCESS, "배고픔 감지됨!");

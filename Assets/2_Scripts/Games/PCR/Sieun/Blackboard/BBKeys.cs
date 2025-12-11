@@ -10,7 +10,7 @@ namespace LUP.PCR
         public const string Hunger = "Hunger";
         public const string IsHunger = "IsHunger";
 
-        public const string IsWorking = "IsWorking";
+        public const string HasTask = "HasTask";
 
         public const string WorkerStation = "WorkerStation";
         public const string Restaurant = "Restaurant";

@@ -21,7 +21,7 @@ namespace LUP.PCR
                currentHunger = 0f;
                timer = 0f;
                OwnerAI.Hunger = currentHunger;
-               SetData<float>(BBKeys.Hunger, currentHunger);
+               //SetData<float>(BBKeys.Hunger, currentHunger);
 
                return ReturnAndLog(NodeState.SUCCESS, $"1-4. ½Ä»ç Áß... {timer:F1}/{duration}");
             }
