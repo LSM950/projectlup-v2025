@@ -38,25 +38,6 @@ namespace LUP.ST
             return data.Stats.CurrentHealth <= data.Stats.MaxHealth * 0.3f;
         }
 
-        public static bool CheckCoverAhead(MonsterData data)
-        {
-            if (data.target == null) return false;
 
-            Vector3 dir = (data.target.position - data.transform.position).normalized;
-            RaycastHit hit;
-
-            if (Physics.Raycast(data.transform.position, dir, out hit, data.coverCheckDistance, data.coverLayer))
-            {
-                data.hidePosition = hit.point - dir * 1f;
-                return true;
-            }
-
-            return false;
-        }
-
-        public static bool CheckHideCooldownOK(MonsterData data)
-        {
-            return (Time.time - data.lastHideTime) >= data.hideCooldown;
-        }
     }
 }

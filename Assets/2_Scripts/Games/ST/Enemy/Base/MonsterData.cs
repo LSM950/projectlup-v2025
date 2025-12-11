@@ -5,6 +5,9 @@ namespace LUP.ST
 
     public class MonsterData : MonoBehaviour, IPoolable
     {
+        [Header("몬스터 타입")]
+        public MonsterType monsterType = MonsterType.Grunt;
+
         [Header("드롭")]
         public DropTable dropTable;
         public GameObject dropPrefab;
@@ -22,11 +25,6 @@ namespace LUP.ST
         public float stunDuration = 2f;
         public float skillDuration = 2f;
 
-        [Header("엄폐 설정")]
-        public LayerMask coverLayer;
-        public float coverCheckDistance = 5f;
-        public float hideCooldown = 10f;
-        [HideInInspector] public float lastHideTime = -999f;
 
 
         // 상태 플래그
@@ -39,12 +37,14 @@ namespace LUP.ST
 
         private MonsterSpawner spawner;
         private StatComponent stats;
+        private VisualComponent visual;
         private Renderer rend;
         private Color originalColor;
 
         void Awake()
         {
             stats = GetComponent<StatComponent>();
+            visual = GetComponent<VisualComponent>();
             if (stats == null)
             {
                 Debug.LogError($"{gameObject.name}: StatComponent가 없습니다!");
@@ -95,7 +95,6 @@ namespace LUP.ST
             isStunned = false;
             isUsingSkill = false;
             isHiding = false;
-            lastHideTime = -999f;
             lastRetargetTime = 0f;
 
             if (stats != null)
@@ -151,6 +150,7 @@ namespace LUP.ST
         }
 
         public StatComponent Stats => stats;
+        public VisualComponent Visual => visual;
         public bool IsDead => stats != null && stats.IsDead;
 
         public void ApplyStun()
@@ -247,9 +247,7 @@ namespace LUP.ST
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, stats.AttackRange);
 
-                Gizmos.color = Color.green;
-                Vector3 dir = (target.position - transform.position).normalized;
-                Gizmos.DrawRay(transform.position, dir * coverCheckDistance);
+
             }
         }
     }

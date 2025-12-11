@@ -55,6 +55,7 @@ namespace LUP.ST
                 modelInstance.transform.localPosition = modelOffset;  // (0,0,0) 이어야 함
                 modelInstance.transform.localRotation = Quaternion.identity;
                 modelInstance.transform.localScale = Vector3.one * modelScale;
+
             }
 
             animator = modelInstance.GetComponent<Animator>();

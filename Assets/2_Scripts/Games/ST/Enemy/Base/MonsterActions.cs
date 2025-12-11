@@ -13,6 +13,7 @@ namespace LUP.ST
         public static NodeState Idle(MonsterData data)
         {
             data.ResetColor();
+            data.Visual?.SetMoving(false);
             return NodeState.RUNNING;
         }
 
@@ -26,6 +27,8 @@ namespace LUP.ST
                 return NodeState.FAILURE;  // 죽은 플레이어 공격 안 함!
             }
 
+            data.Visual?.SetMoving(false);
+
             data.transform.LookAt(new Vector3(data.target.position.x, data.transform.position.y, data.target.position.z));
 
             // 원거리 공격
@@ -34,6 +37,7 @@ namespace LUP.ST
                 if (!data.Stats.IsAttacking && data.Stats.CanStartAttack())
                 {
                     data.Stats.StartAttack();
+                    data.Visual?.PlayAttackAnimation();
                     data.SetColor(Color.yellow);
                 }
 
@@ -64,6 +68,7 @@ namespace LUP.ST
                 if (!data.Stats.IsAttacking && data.Stats.CanStartAttack())
                 {
                     data.Stats.StartAttack();
+                    data.Visual?.PlayAttackAnimation();
                     data.SetColor(Color.red);
                 }
 
@@ -89,38 +94,13 @@ namespace LUP.ST
             return NodeState.RUNNING;
         }
 
-        public static NodeState Hide(MonsterData data)
-        {
-            if (!data.isHiding)
-            {
-                data.isHiding = true;
-                data.lastHideTime = Time.time;
-            }
-
-            float distance = Vector3.Distance(data.transform.position, data.hidePosition);
-
-            if (distance > 0.5f)
-            {
-                Vector3 direction = (data.hidePosition - data.transform.position).normalized;
-                data.transform.position += direction * data.Stats.MoveSpeed * Time.deltaTime;
-            }
-
-            if (Time.time - data.lastHideTime >= 3f)
-            {
-                data.isHiding = false;
-                return NodeState.SUCCESS;
-            }
-
-            return NodeState.RUNNING;
-        }
-
         public static NodeState MoveToPlayer(MonsterData data)
         {
 
             if (data.target == null) return NodeState.FAILURE;
 
             data.ResetColor();
-
+            data.Visual?.SetMoving(true);
             Vector3 direction = (data.target.position - data.transform.position).normalized;
             data.transform.position += direction * data.Stats.MoveSpeed * Time.deltaTime;
 
