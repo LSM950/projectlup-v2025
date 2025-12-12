@@ -1283,7 +1283,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.45
+  m_fontSize: 55.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4704,6 +4704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1495318605}
   - component: {fileID: 1495318606}
+  - component: {fileID: 1495318607}
   m_Layer: 5
   m_Name: Option Parent
   m_TagString: Untagged
@@ -4756,6 +4757,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1495318607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495318604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3d813a6297d9e4f914b35f7ec4a86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffIcon: {fileID: 0}
+  buffNameText: {fileID: 0}
 --- !u!1 &1521448124
 GameObject:
   m_ObjectHideFlags: 0
@@ -6508,6 +6523,7 @@ GameObject:
   - component: {fileID: 2128353276}
   - component: {fileID: 2128353279}
   - component: {fileID: 2128353280}
+  - component: {fileID: 2128353281}
   m_Layer: 5
   m_Name: BuffSecletion
   m_TagString: Untagged
@@ -6613,6 +6629,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2128353281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128353275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d28a08a892f369449aa5507fd422265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 0}
+  buffIcons: []
+  scrollSpeed: 800
+  resetY: -600
+  startY: 600
+  isSpinning: 0
+  currentBuff: {fileID: 0}
 --- !u!1 &2145899447
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,8 +14,9 @@ namespace LUP.RL
             if(!behaviorTree.GetCurrentAnimState().IsName("Die"))
             {
                 blackBoard.Alive = false;
-
+             
                 behaviorTree.PlayAnimation(ActionState.Die, this);
+                SetNavAgentDeActivate(true);
             }
             
 
