@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b3759627024bc246ad1c78f200d79fc, type: 3}
-  m_Name: CharacterData4
+  m_Name: F001_CharacterData
   m_EditorClassIdentifier: 
-  characterName: Character4
-  characterPreviewImage: {fileID: 21300000, guid: 97b2dddd129fd024e9ad68e65f9cd490, type: 3}
-  prefab: {fileID: 0}
+  characterName: F001
+  characterPreviewImage: {fileID: 1056671488, guid: 3b032d0df33d9ad4caf35b688b74ac09, type: 3}
+  characterPrefab: {fileID: 2023117235042773731, guid: bf07ee9ded79c4742a26297167a15776, type: 3}
+  weaponPrefab: {fileID: 0}
+  weaponProjecTile: {fileID: 1645209392318072, guid: 4c6fcd1cc32d8e6409b636fc975e83e5, type: 3}
+  projecTileSpeed: 5
   stats:
     Hp: 110
     Attack: 8
     speed: 3
     MaxHp: 0
-  characterType: 2
+    Exp: 0
+  characterType: 1

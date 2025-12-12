@@ -13,8 +13,10 @@ namespace Roguelike.Define
     {
         None,
         Gun,
+        OneHandSword,
         TwoHandSword,
-        Throw
+        Throw,
+        Magic
     }
 
     public enum DisplayableDataType
