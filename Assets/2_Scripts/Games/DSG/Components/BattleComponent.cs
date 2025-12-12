@@ -220,7 +220,7 @@ namespace LUP.DSG
 
             float damage = DamageCalculator.Calculator(ctx);
 
-            targetChar.BattleComp.TakeDamage(1000);
+            targetChar.BattleComp.TakeDamage(damage);
             owner.ScoreComp.UpdateDamageDealt(damage);
 
             Camera mainCam = Camera.main;
