@@ -2,6 +2,7 @@ using Roguelike.Define;
 using Roguelike.Util;
 using System;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -63,15 +64,22 @@ namespace LUP.RL
         public PlayerMove PlayerMove => playerMove;
 
         private Archer controlledPlayer = null;
+
+
+        private RoguelikeStage stage;
+
+
         private void Awake()
         {
             Instance = this;
         }
       
-        void Start()
+        private void Start()
         {
-            //PlayerSpawner spawner = FindFirstObjectByType<PlayerSpawner>();
-            //spawner.playerSpawn();
+            stage = FindFirstObjectByType<RoguelikeStage>();
+
+            if (stage == null)
+                Debug.Log("Fail To Find Stage Object");
         }
 
         public void InitializeCenter()
@@ -131,6 +139,9 @@ namespace LUP.RL
             Confirm.onClick.AddListener(UploadGameResult);
 
             SpawnPlayer();
+
+            IItemable item = ItemManager.Instance.GetItem("Wood");
+            stage.inventory.AddItem(item, 5);
         }
 
         // Update is called once per frame

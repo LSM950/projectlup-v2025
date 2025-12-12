@@ -2340,8 +2340,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_HandleRect: {fileID: 883555149}
   m_Direction: 0
-  m_Value: -0.0000008491848
-  m_Size: 0.4346116
+  m_Value: -0.0000008346688
+  m_Size: 0.42477876
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5238,6 +5238,9 @@ MonoBehaviour:
   DataList: []
   lobbyGameCenter: {fileID: 1088144376}
   inGameCenter: {fileID: 0}
+  inventory:
+    filename: 
+    _serializedSlots: []
 --- !u!4 &529481089
 Transform:
   m_ObjectHideFlags: 0
@@ -10076,6 +10079,7 @@ MonoBehaviour:
   selectedChapter: {fileID: 0}
   selectedCharacter: {fileID: 0}
   IsInitializeReady: 0
+  stage: {fileID: 529481088}
 --- !u!4 &1088144377
 Transform:
   m_ObjectHideFlags: 0
@@ -14592,7 +14596,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47.6
+  m_fontSize: 46.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -22814,7 +22818,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.25
+  m_fontSize: 28.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -24651,7 +24655,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 29.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -30091,7 +30095,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.95
+  m_fontSize: 18.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -34245,6 +34249,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 529481089}
   - {fileID: 940852492}
   - {fileID: 2082884451}
   - {fileID: 1153858111}
@@ -34252,4 +34257,3 @@ SceneRoots:
   - {fileID: 1837566740}
   - {fileID: 2023433799}
   - {fileID: 1088144377}
-  - {fileID: 529481089}

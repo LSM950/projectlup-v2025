@@ -1283,7 +1283,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55.35
+  m_fontSize: 45.5
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3032,6 +3032,9 @@ MonoBehaviour:
   DataList: []
   lobbyGameCenter: {fileID: 0}
   inGameCenter: {fileID: 2078515833}
+  inventory:
+    filename: 
+    _serializedSlots: []
 --- !u!4 &884638501
 Transform:
   m_ObjectHideFlags: 0
@@ -6374,6 +6377,7 @@ MonoBehaviour:
   DebugBtn: {fileID: 359245200}
   DebugPanel: {fileID: 814423453}
   Confirm: {fileID: 1261940684}
+  stage: {fileID: 884638500}
 --- !u!4 &2078515834
 Transform:
   m_ObjectHideFlags: 0

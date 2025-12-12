@@ -121,6 +121,7 @@ public class PlatformAdapter
     {
         platform.LoadStage(LUP.Define.StageKind.RL, 1);
         //testPlatform.LoadRogueLikeGameScene(RoguelikeScene.GameScene);
+
     }
 
     public bool LoadSpawnableItemData()
