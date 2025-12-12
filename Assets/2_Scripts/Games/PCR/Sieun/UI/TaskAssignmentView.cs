@@ -48,7 +48,6 @@ namespace LUP.PCR
 
         public void RenderWorkerList(List<WorkerAI> workers)
         {
-            Debug.Log($"[View] 버튼 생성 시작: {workers.Count}개 생성 예정");
             ClearContent(workerListContent);
 
             for (int i = 0; i < workers.Count; i++)
@@ -60,6 +59,7 @@ namespace LUP.PCR
                 if (worker.IsHunger)
                 {
                     icon = iconHungry;
+
                 }
 
                 WorkerUIItem item = Instantiate(workerItemPrefab, workerListContent);

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace LUP.PCR
 {
-
     public class TaskAssignmentPresenter : MonoBehaviour
     {
         [Header("References")]
@@ -17,7 +16,7 @@ namespace LUP.PCR
         [SerializeField] private GameObject buildingGroup;
         [SerializeField] private List<ProductableBuilding> allBuildings;
 
-        private BuildingBase currentSelectedBuilding;
+        private ProductableBuilding currentSelectedBuilding;
 
         private void Awake()
         {
@@ -33,6 +32,16 @@ namespace LUP.PCR
                 buildingGroup.GetComponentsInChildren<ProductableBuilding>(true, allBuildings);
             }
         }
+        //private void OnEnable()
+        //{
+        //    view.OnBuildingClick += HandleProductionRequest;
+        //}
+        //private void OnDisable()
+        //{
+        //    view.OnBuildingClick -= HandleProductionRequest;
+        //}
+
+
         private void Start()
         {
             view.OnBuildingClick += HandleBuildingSelected;
@@ -43,9 +52,25 @@ namespace LUP.PCR
             view.ClearWorkerList();
         }
 
+
+        // @TODO : 실제 생산 시스템과 연동
+        //private void HandleProductionRequest(ProductableBuilding building)
+        //{
+        //    WorkerAI worker = dataCenter.GetBestWorker(building.entrancePos);
+
+        //    if(worker != null)
+        //    {
+        //        worker.AssignTask(currentSelectedBuilding);
+        //        Debug.Log($"[AutoAssign] {worker.name} -> {building.name} (가장 오래 쉼: {Time.time - worker.LastWorkEndTime:F1}초)");
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning($"[AutoAssign] {building.name}에 보낼 작업자가 없습니다!");
+        //    }
+        //}
+
         private void HandleBuildingSelected(ProductableBuilding building)
         {
-
             currentSelectedBuilding = building;
 
             view.UpdateStatusText($"선택됨: {building.name}\n투입할 작업자를 선택하세요.");
@@ -78,6 +103,7 @@ namespace LUP.PCR
             view.ClearWorkerList();
             view.UpdateStatusText("작업을 지시할 건물을 선택하세요.");
         }
+
 
 
 

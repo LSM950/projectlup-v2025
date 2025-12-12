@@ -19,6 +19,7 @@ namespace LUP.PCR
 
         void Start()
         {
+            gridMap = this.transform.root.GetComponentInChildren<AGridMap>();
             pathfinder = new APathfinding(gridMap);
         }
 

@@ -6,7 +6,7 @@ namespace LUP.PCR
 {
     public class WorkerDataCenter : MonoBehaviour
     {
-        
+
         [Header("단일 건물")]
         [SerializeField] private BuildingBase restaurant;
         [SerializeField] private BuildingBase station;
@@ -23,9 +23,9 @@ namespace LUP.PCR
         private bool isInitialized = false;
         private void Awake()
         {
-            Initialize();
+            InitializeReferences();
         }
-        private void Initialize()
+        private void InitializeReferences()
         {
             if (isInitialized) return;
 
@@ -42,7 +42,7 @@ namespace LUP.PCR
         {
             if (!isInitialized)
             {
-                Initialize();
+                InitializeReferences();
             }
 
             if (!workers.Contains(newWorker))
@@ -51,6 +51,24 @@ namespace LUP.PCR
 
                 newWorker.InitBTReferences();
                 newWorker.SetGlobalBuildings(restaurant, station);
+            }
+        }
+
+        public void InitWorkers()
+        {
+            // 테스트용
+            for (int i = 0; i < workers.Count; i++)
+            {
+                workers[i].InitWorkerData(i, $"Chulsoo_{i + 1}");
+                workers[i].InitBTReferences();
+            }
+        }
+
+        public void SetupTestProfiles()
+        {
+            for (int i = 0; i < workers.Count; i++)
+            {
+                workers[i].InitWorkerData(i, $"Worker_{i + 1}");
             }
         }
 
@@ -66,7 +84,7 @@ namespace LUP.PCR
 
             for (int i = 0; i < count; i++)
             {
-                if(workers[i] != null)
+                if (workers[i] != null)
                 {
                     if (i >= workers.Count)
                     {
@@ -93,11 +111,62 @@ namespace LUP.PCR
 
             }
 
-            Debug.Log($"전체 워커 {workers.Count}명 / 일 가능 워커 : {idleList.Count}명");
-
             return idleList;
         }
 
+
+        public WorkerAI GetBestWorker(Vector2Int targetGridPos)
+        {
+            WorkerAI bestWorker = null;
+
+            float minScore = float.MaxValue;
+            float tolerance = 0.1f; // 오차 범위
+
+            ANode targetNode = aGrid.GetNodeFromGridPos(targetGridPos);
+
+            if (targetNode == null || !targetNode.isWalkable)
+            {
+                return null;
+            }
+
+            for (int i = 0; i < workers.Count; i++)
+            {
+                WorkerAI w = workers[i];
+
+                if (w == null || w.HasTask)
+                {
+                    continue;
+                }
+
+                ANode workerNode = aGrid.GetNodeFromWorldPosition(w.transform.position);
+                if (workerNode == null)
+                {
+                    continue;
+                }
+
+                // 맨해튼 거리
+                int dx = Mathf.Abs(workerNode.indexX - targetNode.indexX);
+                int dy = Mathf.Abs(workerNode.indexY - targetNode.indexY);
+
+                float distScore = dx + dy;
+
+                if (distScore < minScore - tolerance)
+                {
+                    minScore = distScore;
+                    bestWorker = w;
+                }
+                else if (Mathf.Abs(distScore - minScore) <= tolerance)
+                {
+                    if (bestWorker != null && w.GetInstanceID() < bestWorker.GetInstanceID())
+                    {
+                        bestWorker = w;
+                    }
+                }
+
+            }
+
+            return bestWorker;
+        }
     }
 }
 

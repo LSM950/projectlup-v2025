@@ -6,6 +6,16 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace LUP.PCR
 {
+    //[System.Serializable]
+    //public class WorkerProfile
+    //{
+    //}
+
+
+
+
+
+
     [RequireComponent(typeof(Worker))]
     [RequireComponent(typeof(UnitMover))]
     public class WorkerAI : MonoBehaviour
@@ -32,6 +42,8 @@ namespace LUP.PCR
             }
         }
 
+
+        //@TODO : restaurant든 station이든 건물 위치는 받아와서 처리하기
         public void SetGlobalBuildings(BuildingBase restaurant, BuildingBase station)
         {
             // 건물 생성되는 시점부터 자동으로 초기화될 위치 : 식당, 작업 스테이션
@@ -44,10 +56,10 @@ namespace LUP.PCR
 
         //@TODO: BuildingSystem에 있는 실제 currBuildings 및 건물타입ID로 건물 조회해서 entrancePos 접근하기.
         // 지금은 임시로 건물 프리팹 자체에서 직접 entrancePos 를 가져온다.
-        
 
-        //
         public WorkerBlackboard LocalBlackboard { get; private set; }
+        public float LastWorkEndTime { get; private set; } = 0f;
+
         public float Hunger
         {
             get => hunger;
@@ -86,7 +98,20 @@ namespace LUP.PCR
             {
                 hasTask = value;
                 LocalBlackboard.SetValue(BBKeys.HasTask, hasTask);
+
+                if (value == false)
+                {
+                    LastWorkEndTime = Time.time;
+                }
+
             }
+        }
+
+        public void InitWorkerData(int id, string name)
+        {
+            //profile = new WorkerProfile { id = id, workerName = name };
+            //this.name = $"Worker_{name}"; // 오브젝트 이름 변경
+            LastWorkEndTime = Time.time;   // 게임 시작 시점 or 일 끝난 시점 기록
         }
         
         public void InitBTReferences()
@@ -98,6 +123,7 @@ namespace LUP.PCR
             InitBlackboard();
             CheckHungerState();
             SettingBT();
+            GetComponentInChildren<WorkerOverlayUI>().Setup(this);
         }
 
         private void InitBlackboard()
