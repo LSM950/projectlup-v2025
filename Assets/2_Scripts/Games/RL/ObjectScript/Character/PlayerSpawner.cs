@@ -19,7 +19,6 @@ namespace LUP.RL
         }
         public GameObject playerSpawn()
         {
-            Debug.Log("spawn");
 
             Vector3 spawnPos = GetGridWorldPos(fixedSpawnGrid);
             playerInstance = Instantiate(ArcherPrefab, spawnPos, Quaternion.identity);

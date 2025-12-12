@@ -7,10 +7,13 @@ namespace LUP.RL
     {
         [SerializeField]
         public string StageName;
+        [Header("·ë ÇÁ¸®ÆÕ")]
         public GameObject roomprefab;
-        public Vector2Int playerSpawn;
-        public List<Vector3Int> enemySpawn;
-        //public List<Vector2Int> Roullet; 
+
+        public Vector2Int playerSpawnPoint;
+
+        public List<EnemySpawnEntry> enemySpawn;
+
         public List<Vector2Int> obstacles;
     }
 

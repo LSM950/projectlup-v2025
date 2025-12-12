@@ -2,19 +2,24 @@ using LUP.RL;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 namespace LUP.RL
 {
     public class EnemySpawner : MonoBehaviour
     {
+        [Header("StageData")]
         public StageData stageData;
-        public GameObject enemyprefab;
+
         public GameObject hpbarPrefab;
-        public List<Enemy> spawnedEnemies = new();
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        //private void Awake()
-        //{
-        //    spawnedEnemies = new List<Enemy>();
-        //}
+
+
+        private List<Enemy> SpawnedEnemies = new();
+        public List<Enemy> spawnedEnemies => SpawnedEnemies;
+    
+        private void Start()
+        {
+        
+        }
         public void Init(StageData data)
         {
             stageData = data;
@@ -22,24 +27,31 @@ namespace LUP.RL
         }
         void SpawnEnemies()
         {
-            if (stageData == null) return;
-            Transform roomParent = transform.parent;
-
-            foreach (Vector2Int pos in stageData.enemySpawn)
+            if(stageData == null)
             {
-                Vector3 worldPos = new Vector3(pos.x, 1.5f, pos.y);
-                Enemy enemy = Instantiate(enemyprefab, worldPos, Quaternion.identity, roomParent)
-                  .GetComponent<Enemy>();
-                enemy.HpbarPrefab = hpbarPrefab;
-                spawnedEnemies.Add(enemy);
-                Debug.Log($"{spawnedEnemies.Count}마리의 적 생성 완료 Enemy::{spawnedEnemies.Count})");
+                Debug.Log("spawnEnemy  : null stageData");
             }
 
+            Transform roomParent = transform.parent;
+
+            foreach (var entry in stageData.enemySpawn)
+            {
+                Vector3 worldPos = GridToWorld(entry.gridPos);
+
+                Enemy enemy = Instantiate(entry.enemy.prefab, worldPos, Quaternion.identity, roomParent)
+                  .GetComponent<Enemy>();
+
+                enemy.HpbarPrefab = hpbarPrefab;
+                SpawnedEnemies.Add(enemy);
+                Debug.Log("spawn success");
+            }
    
         }
-
-
-
+        //좌표변환
+        Vector3 GridToWorld(Vector2Int grid)
+        {
+            return new Vector3(grid.x, 1.5f, grid.y);
+        }
         private void OnEnable()
         {
             Enemy.ObjectOnEnemyDied += HandleEnemyDeath;

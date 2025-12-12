@@ -20,7 +20,6 @@ namespace LUP.RL
         public int gridZ = 15;
         private void Awake()
         {
-            Debug.Log("GridGenerator Awake ½ÇÇàµÊ", this);
             Instance = this;
         }
         void Start()
