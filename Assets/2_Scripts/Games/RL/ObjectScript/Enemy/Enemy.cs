@@ -74,13 +74,10 @@ namespace LUP.RL
         private void Die()
         {
             OnEnemyDied?.Invoke(expValue);
+             blackBoard.Alive = false;
 
             ObjectOnEnemyDied?.Invoke(this);
 
-          
-             blackBoard.Alive = false;
-
-           
             //behaviorTree.ResetWorkingNodeIndex();
         }
 

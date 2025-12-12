@@ -18,8 +18,4 @@ MonoBehaviour:
   enemySpawn:
   - enemy: {fileID: 11400000, guid: 888621de1925e2141956ed167455a64a, type: 2}
     gridPos: {x: 1, y: 2}
-  - enemy: {fileID: 11400000, guid: d095659b069ab0743b08a145097fc21c, type: 2}
-    gridPos: {x: 0, y: 0}
-  - enemy: {fileID: 0}
-    gridPos: {x: 0, y: 0}
   obstacles: []

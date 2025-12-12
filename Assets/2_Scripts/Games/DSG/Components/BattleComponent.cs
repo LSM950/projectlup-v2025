@@ -311,6 +311,7 @@ namespace LUP.DSG
 
             SkillTargetSlot = targetList;
             targetPosition = skillInfo.AttackPosition;
+
             HandleAttackStart();
 
             isUsingSkill = true;

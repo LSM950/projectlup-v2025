@@ -30,6 +30,7 @@ namespace LUP.RL
             if(stageData == null)
             {
                 Debug.Log("spawnEnemy  : null stageData");
+                return;
             }
 
             Transform roomParent = transform.parent;
@@ -38,7 +39,7 @@ namespace LUP.RL
             {
                 Vector3 worldPos = GridToWorld(entry.gridPos);
 
-                Enemy enemy = Instantiate(entry.enemy.prefab, worldPos, Quaternion.identity, roomParent)
+                Enemy enemy = Instantiate(entry.enemy.prefab, worldPos, Quaternion.identity, roomParent.transform)
                   .GetComponent<Enemy>();
 
                 enemy.HpbarPrefab = hpbarPrefab;
