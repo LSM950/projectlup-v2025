@@ -6,58 +6,73 @@ namespace LUP.ES
     {
         private MeleeWeapon meleeWeapon;
         private Transform playerTransform;
-        private LineRenderer lineRenderer;
         public float heightOffset = 0.1f;
-        public int segments = 50;        // 곡선의 부드러움 정도
+        public int segments = 50;        // 둥근 정도
+        public Color meshColor = new Color(0, 0.5f, 0, 0.5f);
+
+        private Mesh mesh;
+        private MeshFilter meshFilter;
+        private MeshRenderer meshRenderer;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            meleeWeapon = GetComponent<MeleeWeapon>();
+            meshFilter = GetComponent<MeshFilter>();
+            meleeWeapon = GetComponentInParent<MeleeWeapon>();
             GameObject player = GameObject.FindWithTag("Player");
             playerTransform = player.transform;
-            lineRenderer = GetComponent<LineRenderer>(); 
-            lineRenderer.useWorldSpace = true;
-            lineRenderer.alignment = LineAlignment.TransformZ;
-            lineRenderer.loop = false;
+            meshRenderer = GetComponent<MeshRenderer>();
+
+            mesh = new Mesh();
+            meshFilter.mesh = mesh;
+
+            Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+            mat.color =  meshColor;
+            meshRenderer.material = mat;
             //DrawViewField();
         }
 
         private void LateUpdate()
         {
-            DrawViewField();
+            DrawMesh();
         }
 
-        public void DrawViewField()
+        public void DrawMesh()
         {
-            int pointCount = segments + 1;
-            Vector3[] points = new Vector3[pointCount + 1];
+            int vertexCount = segments + 2;
+            Vector3[] vertices = new Vector3[vertexCount];
+            int[] triangles = new int[segments * 3];
+
+            vertices[0] = Vector3.zero;
 
             MeleeWeaponItemData data = meleeWeapon.weaponItem.data as MeleeWeaponItemData;
-            Vector3 centerPos = playerTransform.position;
-            Quaternion currentRot = playerTransform.rotation;
 
             float startAngle = -data.attackAngle / 2f;
             float angleStep = data.attackAngle / segments;
 
-            for (int i = 0; i < pointCount; i++)
+            for (int i = 0; i <= segments; i++)
             {
-                float currentAngelRad = Mathf.Deg2Rad * (startAngle + (angleStep * i));
-                float x = Mathf.Sin(currentAngelRad) * data.range;
-                float z = Mathf.Cos(currentAngelRad) * data.range;
+                float currentAngleRed = Mathf.Deg2Rad * (startAngle + (angleStep * i));
 
-                Vector3 localOffset = new Vector3(x, 0, z);
-                Vector3 WorldPos = centerPos + (currentRot * localOffset);
+                float x = Mathf.Sin(currentAngleRed) * data.range;
+                float z = Mathf.Cos(currentAngleRed) * data.range;
 
-                WorldPos.y = centerPos.y + heightOffset;
-                points[i] = WorldPos;
+                vertices[i + 1] = new Vector3(x, 0.05f, z);
+
+                if (i < segments)
+                {
+                    triangles[i * 3] = 0;
+                    triangles[i * 3 + 1] = i + 1;
+                    triangles[i * 3 + 2] = i + 2;
+                }
             }
 
-            points[pointCount] = centerPos;
-            points[pointCount].y += heightOffset;
+            mesh.Clear();
+            mesh.vertices = vertices;
+            mesh.triangles = triangles;
+            mesh.RecalculateNormals();
 
-            lineRenderer.positionCount = points.Length;
-            lineRenderer.SetPositions(points);
+
         }
     }
 }

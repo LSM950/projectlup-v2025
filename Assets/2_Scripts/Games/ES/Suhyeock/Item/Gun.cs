@@ -22,13 +22,10 @@ namespace LUP.ES
         private float nextAttackTime = 0f;
 
         private FollowCamera cameraScript;
-        private void Awake()
+        public void Init(int id)
         {
             bulletPool = GetComponent<BulletObjectPool>();
-        }
-
-        private void Start()
-        {
+            selectedWeaponId = id;
             state = WeaponState.READY;
             BaseItemData itemData = itemDataBase.GetItemByID(selectedWeaponId);
             RangedWeaponItemData weaponData = itemData as RangedWeaponItemData;

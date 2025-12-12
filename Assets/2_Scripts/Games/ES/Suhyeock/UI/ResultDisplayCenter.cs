@@ -8,8 +8,8 @@ namespace LUP.ES
 {
     public class ResultDisplayCenter : MonoBehaviour
     {
-        public EventBroker eventBroker;
-        public ItemCenter itemCenter; //테스트 용
+        private EventBroker eventBroker;
+        private ItemCenter itemCenter; //테스트 용
         public GameObject resultPanel;
         public GameObject ItemDisplayContent;
         public GameObject itemSlotPrefab;
@@ -22,7 +22,8 @@ namespace LUP.ES
         {
             resultPanel.SetActive(false);
             //lobbyButton.onClick.AddListener(LoadLobby);
-
+            eventBroker = FindAnyObjectByType<EventBroker>();
+            itemCenter = FindAnyObjectByType<ItemCenter>();
             contentParent = ItemDisplayContent.transform;
             if (eventBroker != null )
             {
@@ -36,10 +37,6 @@ namespace LUP.ES
             {
                 eventBroker.OnGameFinished -= ShowResult;
             }
-        }
-        private void LoadLobby()
-        {
-            SceneManager.LoadScene("KKS_Lobby");
         }
 
         public void ShowInventoryItems(List<Item> items)

@@ -10,7 +10,6 @@ namespace LUP.ES
         public LayerMask targetLayer;
         public Transform playerTransform;
         private float nextAttackTime = 0f;
-        private MeleeRangedIndicator meleeRangedIndicator;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -18,8 +17,6 @@ namespace LUP.ES
             BaseItemData itemData = itemDataBase.GetItemByID(selectedWeaponId);
             MeleeWeaponItemData weaponData = itemData as MeleeWeaponItemData;
             weaponItem = new WeaponItem(weaponData);
-            meleeRangedIndicator = GetComponent<MeleeRangedIndicator>();
-            meleeRangedIndicator.DrawViewField();
         }
 
         // Update is called once per frame
