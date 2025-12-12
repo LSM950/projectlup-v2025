@@ -166,7 +166,8 @@ namespace LUP.PCR
         {
             hungerSequence,
             workingSequence,
-            new GoToWorkerStation(LocalBlackboard)
+            //new GoToWorkerStation(LocalBlackboard),
+            new RoamAroundBuilding(LocalBlackboard),
         });
         }
 
