@@ -38,6 +38,10 @@ namespace LUP.DSG
 
             var instance = Instantiate(prefab, characterPivot.position, characterPivot.rotation);
 
+            Transform transform = instance.GetComponent<PortraitTransform>().portraitTransform;
+            previewCamera.transform.position = new Vector3(previewCamera.transform.position.x, transform.position.y, previewCamera.transform.position.z);
+            //Debug.Log(transform.position);
+
             yield return new WaitForEndOfFrame();
 
             RenderTexture currentRT = RenderTexture.active;
