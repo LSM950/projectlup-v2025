@@ -20,7 +20,7 @@ namespace LUP.ES
         [HideInInspector]
         public WeaponItem weaponItem;
         public Transform leftHandGrip;
-        public abstract void Attack();
+        public abstract bool Attack();
 
         private void Start()
         {

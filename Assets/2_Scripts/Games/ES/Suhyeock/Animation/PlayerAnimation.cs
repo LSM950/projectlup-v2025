@@ -8,6 +8,7 @@ namespace LUP.ES
         public Transform spine;
         [HideInInspector]
         public PlayerBlackboard blackboard;
+        public Vector3 spineOffset;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -21,12 +22,15 @@ namespace LUP.ES
             if (blackboard.healthComponent.isDead == true)
                 return;
             UpdateAnimation();
-            if (blackboard.weapon.state == WeaponState.ATTACKING ||
-                blackboard.weapon.state == WeaponState.RELOADING)
-            {
-                Vector3 targetPosition = spine.transform.position + transform.forward * 10f;
-                spine.transform.LookAt(targetPosition);
-            }
+            //if (blackboard.weapon.state == WeaponState.ATTACKING ||
+            //    blackboard.weapon.state == WeaponState.RELOADING ||
+            //    blackboard.moveState == MoveState.IDLE)
+            //{
+            //}
+            
+            Vector3 targetPosition = spine.transform.position + transform.forward * 10f;
+            spine.transform.LookAt(targetPosition);
+            spine.Rotate(spineOffset);
         }
 
         void UpdateAnimation()

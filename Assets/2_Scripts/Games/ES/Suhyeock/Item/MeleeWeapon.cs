@@ -27,11 +27,11 @@ namespace LUP.ES
 
         }
 
-        public override void Attack()
+        public override bool Attack()
         {
             if (Time.time < nextAttackTime)
             {
-                return;
+                return false;
             }
 
             nextAttackTime = Time.time + weaponItem.data.timeBetAttack;
@@ -58,6 +58,7 @@ namespace LUP.ES
                     }
                 }
             }
+            return true;
 
         }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LUP.ES
 {
-    [CreateAssetMenu(fileName = "PrefabDataBase", menuName = "Scriptable Objects/PrefabDataBase")]
+    [CreateAssetMenu(fileName = "PrefabDataBase", menuName = "ES/PrefabDataBase")]
     public class PrefabDataBase : ScriptableObject
     {
         [System.Serializable]

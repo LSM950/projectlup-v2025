@@ -1025,8 +1025,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc2213e485c231449a2b4e41d530b83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventBroker: {fileID: 0}
-  itemCenter: {fileID: 0}
   resultPanel: {fileID: 1761131963}
   ItemDisplayContent: {fileID: 1217470068}
   itemSlotPrefab: {fileID: 6511714564501465791, guid: 46f7f8b739eb9dc479396202e8bd6f49, type: 3}
@@ -8618,6 +8616,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8382978363877592038, guid: 67e92f84d29c07245b1dec3c9e6bac90, type: 3}
+      propertyPath: spineOffset.y
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 884996925007334372, guid: 67e92f84d29c07245b1dec3c9e6bac90, type: 3}
       propertyPath: canvas
       value: 
@@ -8712,7 +8714,7 @@ PrefabInstance:
       objectReference: {fileID: 1413288532}
     - target: {fileID: 6348856284375335552, guid: 67e92f84d29c07245b1dec3c9e6bac90, type: 3}
       propertyPath: CurrentWeaponID
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6384529989836699630, guid: 67e92f84d29c07245b1dec3c9e6bac90, type: 3}
       propertyPath: m_Name

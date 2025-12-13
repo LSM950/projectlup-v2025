@@ -405,6 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spine: {fileID: 6463942672253196300}
   blackboard: {fileID: 0}
+  spineOffset: {x: 0, y: 25, z: 0}
 --- !u!114 &3506545580059947036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftHandWeight: 1
+  maxWeight: 1
 --- !u!4 &5637162466898647464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5344231552994531198, guid: ab6e17c960027b04d83fcbdc44489ebb, type: 3}

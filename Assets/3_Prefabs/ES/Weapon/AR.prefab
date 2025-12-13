@@ -162,11 +162,11 @@ MonoBehaviour:
   maxRange: 10
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 471
+    m_Bits: 479
   firePoint: {fileID: 2321805441089541401}
   visibleColor: {r: 0, g: 1, b: 0, a: 1}
   blockedColor: {r: 1, g: 0, b: 0, a: 1}
-  lineWidth: 0.5
+  lineWidth: 0.2
   bulletPrefab: {fileID: 0}
 --- !u!1 &3123275523873866052
 GameObject:
