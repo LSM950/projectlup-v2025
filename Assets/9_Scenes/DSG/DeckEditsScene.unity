@@ -941,7 +941,7 @@ Transform:
   m_GameObject: {fileID: 206547675}
   serializedVersion: 2
   m_LocalRotation: {x: 0.008726558, y: 0, z: 0, w: 0.999962}
-  m_LocalPosition: {x: 0, y: 1.7, z: -0.2}
+  m_LocalPosition: {x: 0, y: 1.7, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5770,6 +5770,7 @@ MonoBehaviour:
   previewCamera: {fileID: 206547679}
   characterPivot: {fileID: 460501202}
   renderTexture: {fileID: 8400000, guid: f0abc2bb8881e2744bdb927262909e3d, type: 2}
+  controller: {fileID: 9100000, guid: 041915e6ef5fffe4982bd1926e2d6f4c, type: 2}
 --- !u!4 &1722222856
 Transform:
   m_ObjectHideFlags: 0
