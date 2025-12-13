@@ -264,9 +264,9 @@ namespace LUP.DSG
             characterUICanvas.SetActive(false);
 
             //카메라 배틀 인트로
-            //Camera camera = Camera.main;
-            //BattleCameraDirector Director = camera.GetComponent<BattleCameraDirector>();
-            //yield return Director.PlayBattleIntroSequence().WaitForCompletion();
+            Camera camera = Camera.main;
+            BattleCameraDirector Director = camera.GetComponent<BattleCameraDirector>();
+            yield return Director.PlayBattleIntroSequence().WaitForCompletion();
             yield return null;
 
             for (int i = 0; i < friendlySlots.Length; i++)
@@ -630,7 +630,8 @@ namespace LUP.DSG
         }
         public void OnClickSpeedButton()
         {
-            if (currentGameSpeed == 0f)
+            float Curr = Time.timeScale; //@TODO 구조개선 timescale XX
+            if (Curr == 0f)
             {
                 return;
             }
