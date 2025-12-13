@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LUP
 {
@@ -8,18 +9,20 @@ namespace LUP
         public BaseRuntimeData RuntimeData;
         public List<ExtractionStaticData> DataList;
 
-        protected override void Awake() 
+        // 변수명은 예시이니 바꾸셔도 됩니다.
+        public Inventory ESInven;
+
+        protected override void Awake()
         {
             base.Awake();
             StageKind = Define.StageKind.ES;
         }
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+
         void Start()
         {
 
         }
 
-        // Update is called once per frame
         void Update()
         {
 
@@ -29,7 +32,9 @@ namespace LUP
         {
             yield return base.OnStageEnter();
             //구현부
-            
+
+            // InventoryManager를 통해 ES 인벤토리 로드 및 등록
+            ESInven = InventoryManager.Instance.LoadOrCreateInventory("ES", "ESInventory.json");
 
             yield return null;
         }

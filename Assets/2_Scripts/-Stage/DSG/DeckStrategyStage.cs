@@ -1,11 +1,8 @@
-﻿using LUP.DSG;
-using LUP.DSG.Utils.Enums;
+﻿using LUP.DSG.Utils.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace LUP.DSG
 {
@@ -30,12 +27,14 @@ namespace LUP.DSG
         public List<DeckCharacterStaticData> CharacterDataList;
         public CharacterModelDataTable characterModelDataTable;
 
+
         protected override void Awake() 
         {
             base.Awake();
             StageKind = Define.StageKind.DSG;
+
         }
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+
         void Start()
         {
 
@@ -62,9 +61,21 @@ namespace LUP.DSG
                 }
             }
 
+            // PCR 인벤토리 접근 가능 여부 확인
+            if (InventoryManager.Instance.HasInventory("PCR"))
+                Debug.Log("[DSGStage] PCR 인벤토리 접근 가능");
+            else
+                Debug.LogWarning("[DSGStage] PCR 인벤토리가 아직 로드되지 않았습니다!");
+
             StageInitializeInvoker.Invoke(this);
 
             yield return null;
+        }
+
+        // PCR 팀의 공유 인벤토리 가져오기
+        public Inventory GetSharedInventory()
+        {
+            return InventoryManager.Instance.GetInventory("PCR");
         }
 
         public override IEnumerator OnStageStay()

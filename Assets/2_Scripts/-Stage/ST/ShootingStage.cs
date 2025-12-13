@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LUP
 {
@@ -8,19 +9,19 @@ namespace LUP
         public BaseRuntimeData RuntimeData;
         public List<ShootingStaticData> DataList;
 
+
         protected override void Awake() 
         {
             base.Awake();
             StageKind = Define.StageKind.ST;
+
         }
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
 
         }
 
-        // Update is called once per frame
         void Update()
         {
 
@@ -29,12 +30,23 @@ namespace LUP
         public override IEnumerator OnStageEnter()
         {
             yield return base.OnStageEnter();
-            
             //구현부
 
+            // PCR 인벤토리 접근 가능 여부 확인
+            if (InventoryManager.Instance.HasInventory("PCR"))
+                Debug.Log("[STStage] PCR 인벤토리 접근 가능");
+            else
+                Debug.LogWarning("[STStage] PCR 인벤토리가 아직 로드되지 않았습니다!");
 
             yield return null;
         }
+
+        // PCR 팀의 공유 인벤토리 가져오기
+        public Inventory GetSharedInventory()
+        {
+            return InventoryManager.Instance.GetInventory("PCR");
+        }
+
         public override IEnumerator OnStageStay()
         {
             yield return base.OnStageStay();
