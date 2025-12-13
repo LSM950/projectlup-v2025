@@ -7,6 +7,7 @@ namespace LUP.RL
 {
     public class GridGenerator : MonoBehaviour
     {
+        public static GridGenerator Instance;
         [SerializeField]
         public Transform plane;
     
@@ -17,6 +18,10 @@ namespace LUP.RL
         
         public int gridX = 10;
         public int gridZ = 15;
+        private void Awake()
+        {
+            Instance = this;
+        }
         void Start()
         {
         

@@ -2,6 +2,7 @@ using Roguelike.Define;
 using Roguelike.Util;
 using System;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace LUP.RL
 {
     public class InGameCenter : MonoBehaviour
     {
+        public static InGameCenter Instance;
         [Header("레벨데이터")]
         public LevelDataTable levelTable;
 
@@ -19,7 +21,8 @@ namespace LUP.RL
         public GameObject gameResultPanel;
         public GameObject gamePausePanel;
 
-        PlatformAdapter platformAdapter;
+        [HideInInspector]
+        public PlatformAdapter platformAdapter;
 
         [SerializeField]
         private ChapterData chapterData;
@@ -27,7 +30,7 @@ namespace LUP.RL
         [SerializeField]
         private RLCharacterData characterData;
 
-        private ItemData[] spawnableItemDatas;
+        //private ItemData[] spawnableItemDatas;
         private Dictionary<ItemData, int> gainItem = new Dictionary<ItemData, int>();
 
         private StageController stageController;
@@ -38,27 +41,54 @@ namespace LUP.RL
         public Action<GameObject> OnPlayerCharacterSpawned;
 
         //------Temp Test Button
-        public Button AddItem1Btn;
-        public Button AddItem2Btn;
-        public Button AddItem3Btn;
-        public Button AddTestItemBtn;
+        //public Button AddItem1Btn;
+        //public Button AddItem2Btn;
+        //public Button AddItem3Btn;
+        //public Button AddTestItemBtn;
 
-        public Button ClearGameBtn;
-        public Button DebugBtn;
+        //public Button ClearGameBtn;
+        //public Button DebugBtn;
 
-        private bool debugMode = false;
+        //private bool debugMode = false;
 
-        public GameObject DebugPanel;
+        //public GameObject DebugPanel;
         //------------------------
 
         private CircleButton pauseBtn;
         public Button Confirm;
 
+        private GameObject player;
+        private PlayerMove playerMove;
+
+        public GameObject Player => player;
+        public PlayerMove PlayerMove => playerMove;
+
         private Archer controlledPlayer = null;
 
-        void Start()
+
+        private RoguelikeStage stage;
+
+        [HideInInspector]
+        public ItemSpawner itemSpawner;
+
+        private void Awake()
         {
- 
+            Instance = this;
+        }
+      
+        private void Start()
+        {
+            stage = FindFirstObjectByType<RoguelikeStage>();
+
+            if (stage == null)
+                Debug.Log("Fail To Find Stage Object");
+
+            itemSpawner = FindFirstObjectByType<ItemSpawner>();
+            if(itemSpawner)
+            {
+                itemSpawner.OnItemGained += OnGainSpawnableItem;
+            }
+
         }
 
         public void InitializeCenter()
@@ -68,7 +98,7 @@ namespace LUP.RL
             if (platformAdapter != null)
             {
                 platformAdapter.LinkToPlatform();
-                platformAdapter.LoadSpawnableItemData();
+                //platformAdapter.LoadSpawnableItemData();
 
                 LoadInGameData();
 
@@ -99,25 +129,28 @@ namespace LUP.RL
             InitInGameUIElement();
 
             //Temp
-            debugMode = false;
+            //debugMode = false;
 
-            AddItem1Btn.onClick.AddListener(AddItem1);
-            AddItem2Btn.onClick.AddListener(AddItem2);
-            AddItem3Btn.onClick.AddListener(AddItem3);
+            ////AddItem1Btn.onClick.AddListener(AddItem1);
+            ////AddItem2Btn.onClick.AddListener(AddItem2);
+            ////AddItem3Btn.onClick.AddListener(AddItem3);
 
-            AddTestItemBtn.onClick.AddListener(AddTestItem);
+            ////AddTestItemBtn.onClick.AddListener(AddTestItem);
 
-            ClearGameBtn.onClick.AddListener(GameClear);
-            DebugBtn.onClick.AddListener(ChangeDebugMode);
+            //ClearGameBtn.onClick.AddListener(GameClear);
+            //DebugBtn.onClick.AddListener(ChangeDebugMode);
 
-            SetDebugMode(debugMode);
+            //SetDebugMode(debugMode);
 
-            DebugPanel.SetActive(false);
+            //DebugPanel.SetActive(false);
             ///////////
 
             Confirm.onClick.AddListener(UploadGameResult);
 
             SpawnPlayer();
+
+            IItemable item = ItemManager.Instance.GetItem("Wood");
+            stage.inventory.AddItem(item, 5);
         }
 
         // Update is called once per frame
@@ -129,9 +162,25 @@ namespace LUP.RL
         void LoadInGameData()
         {
             LoadSelectionData();
-            LoadSpawnableItemData();
+            //LoadSpawnableItemData();
         }
+        public void RegisterPlayer(GameObject newplayer)
+        {
+            player = newplayer;
+            if (player == null)
+            {
+                Debug.LogError("RegisterPlayer failed: player is null");
+                return;
+            }
 
+            playerMove = player.GetComponent<PlayerMove>();
+            if (PlayerMove == null)
+            {
+                Debug.LogError("RegisterPlayer failed: PlayerMove not found");
+            }
+
+            Debug.Log($"Player registered to InGameCenter: {player.name}");
+        }
         void LoadSelectionData()
         {
             if (platformAdapter.LoadSelectionData())
@@ -146,18 +195,18 @@ namespace LUP.RL
             }
         }
 
-        void LoadSpawnableItemData()
-        {
-            if (platformAdapter.LoadSpawnableItemData())
-            {
-                spawnableItemDatas = platformAdapter.spawnableItemDatas;
-            }
+        //void LoadSpawnableItemData()
+        //{
+        //    if (platformAdapter.LoadSpawnableItemData())
+        //    {
+        //        spawnableItemDatas = platformAdapter.spawnableItemDatas;
+        //    }
 
-            else
-            {
-                UnityEngine.Debug.LogWarning("SpawnableItemData is Empty!", this.gameObject);
-            }
-        }
+        //    else
+        //    {
+        //        UnityEngine.Debug.LogWarning("SpawnableItemData is Empty!", this.gameObject);
+        //    }
+        //}
 
         void InitInGameUIElement()
         {
@@ -226,6 +275,8 @@ namespace LUP.RL
 
             OnPlayerCharacterSpawned?.Invoke(character);
 
+            itemSpawner.SetPlayerPos(character.transform);
+
             FollowCamera followCamera = FindFirstObjectByType<FollowCamera>();
             if(followCamera)
             {
@@ -261,6 +312,11 @@ namespace LUP.RL
             buffScrollPanel.OpenPanel(buffs, DisplayableDataType.ItemData);
         }
 
+        public void OnEnemyDie(Transform diePosition)
+        {
+            //AddItem(spawnableItemDatas[0]);
+        }
+
         public void AddItem(ItemData pickedItem)
         {
             if (!gainItem.ContainsKey(pickedItem))
@@ -274,27 +330,32 @@ namespace LUP.RL
             }
         }
 
-        void AddItem1()
-        {
-            AddItem(spawnableItemDatas[0]);
-        }
+        //void AddItem1()
+        //{
+        //    AddItem(spawnableItemDatas[0]);
+        //}
 
-        void AddItem2()
-        {
-            AddItem(spawnableItemDatas[1]);
-        }
+        //void AddItem2()
+        //{
+        //    AddItem(spawnableItemDatas[1]);
+        //}
 
-        void AddItem3()
-        {
-            AddItem(spawnableItemDatas[2]);
-        }
+        //void AddItem3()
+        //{
+        //    AddItem(spawnableItemDatas[2]);
+        //}
 
-        void AddTestItem()
-        {
-            ItemData TestItem = ScriptableObject.CreateInstance<ItemData>();
-            TestItem.SetDisplayableImage(spawnableItemDatas[2].GetDisplayableImage());
+        //void AddTestItem()
+        //{
+        //    ItemData TestItem = ScriptableObject.CreateInstance<ItemData>();
+        //    TestItem.SetDisplayableImage(spawnableItemDatas[2].GetDisplayableImage());
 
-            AddItem(TestItem);
+        //    AddItem(TestItem);
+        //}
+
+        public void RoomClear()
+        {
+            itemSpawner.OnRoomCleared();
         }
 
         void GameClear()
@@ -309,40 +370,46 @@ namespace LUP.RL
 
         }
 
-        void ChangeDebugMode()
-        {
-            debugMode = !debugMode;
+        //void ChangeDebugMode()
+        //{
+        //    debugMode = !debugMode;
 
-            SetDebugMode(debugMode);
-        }
+        //    SetDebugMode(debugMode);
+        //}
 
-        void SetDebugMode(bool enable)
-        {
-            if(enable)
-            {
-                Time.timeScale = 0f;
-            }
+        //void SetDebugMode(bool enable)
+        //{
+        //    if(enable)
+        //    {
+        //        Time.timeScale = 0f;
+        //    }
 
-            else
-            {
-                Time.timeScale = 1f;
-            }
+        //    else
+        //    {
+        //        Time.timeScale = 1f;
+        //    }
 
                 
 
-            DebugPanel.SetActive(enable);
+        //    DebugPanel.SetActive(enable);
 
-            AddItem1Btn.gameObject.SetActive(enable);
-            AddItem2Btn.gameObject.SetActive(enable);
-            AddItem3Btn.gameObject.SetActive(enable);
-            AddTestItemBtn.gameObject.SetActive(enable);
+        //    AddItem1Btn.gameObject.SetActive(enable);
+        //    AddItem2Btn.gameObject.SetActive(enable);
+        //    AddItem3Btn.gameObject.SetActive(enable);
+        //    AddTestItemBtn.gameObject.SetActive(enable);
 
-            ClearGameBtn.gameObject.SetActive(enable);
+        //    ClearGameBtn.gameObject.SetActive(enable);
+        //}
+
+        void OnGainSpawnableItem(int itemID)
+        {
+            IItemable item = ItemManager.Instance.GetItem(itemID);
+            stage.inventory.AddItem(item, 1);
         }
 
         void ShowGameResult()
         {
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
 
             ResultGainItemScrollPanel resultIteScrollPanel = inGamePopupPanels.GetComponentInChildren<ResultGainItemScrollPanel>(true);
             resultIteScrollPanel.SetScrollPanelType(ScrollRect.MovementType.Elastic, LayoutDirection.Grid);

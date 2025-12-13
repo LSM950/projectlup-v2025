@@ -128,7 +128,8 @@ namespace LUP.RL
 
         private void MovePlayerToSpawn(StageData data)
         {
-            var tile = gridSystem.GetTile(data.playerSpawn.x, data.playerSpawn.y);
+            var tile = gridSystem.GetTile(data.playerSpawnPoint.x, data.playerSpawnPoint.y);
+
             if (tile == null) return;
 
             Vector3 spawnPos = tile.worldPos;
@@ -175,8 +176,9 @@ namespace LUP.RL
             }
             else
             {
+                //@TODO
                 Debug.Log($"false {currentSpawner.spawnedEnemies.Count}");
-                return false;
+                return true;
             }
         }
         public int GetStageNum()

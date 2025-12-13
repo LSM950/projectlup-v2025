@@ -22,7 +22,10 @@ namespace LUP.RL
         public event System.Action OnArcherDataReady;
         List<BuffData> randomBuffs = new List<BuffData>();
         List<BuffData> GetBuffList = new List<BuffData>();
-        private bool isSelecting = false;
+        [SerializeField]
+        private Hpbar hpbar;
+        public GameObject HpbarPrefab;
+        [SerializeField] private float hpbaroffsetY = 5;
         void Awake()
         {
             if (CData == null)
@@ -35,7 +38,19 @@ namespace LUP.RL
 
         }
         //구독 
-
+        private void Start()
+        {
+        
+        GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * hpbaroffsetY, Quaternion.identity);
+            if(barObj == null)
+            {
+                Debug.Log("bar없음");
+            }
+    //hpbar = barObj.GetComponent<Hpbar>();
+    //        hpbar.Init(this);
+    //hpbar.SetHealthSystem(healthSystem);
+    //ShowBuffSelection();
+    }
         //버프 뽑기
         void ShowBuffSelection()
         {
@@ -47,7 +62,7 @@ namespace LUP.RL
 
 
             randomBuffs.Clear(); // 리스트 비우기
-                                 //버프3개뽑기
+                                 //버프3개뽑기     
             while (randomBuffs.Count < 3)
             {
                 BuffData candidate = allBuffs[UnityEngine.Random.Range(0, allBuffs.Count)];
@@ -97,7 +112,6 @@ namespace LUP.RL
 
             buffSelectionUI.SetActive(false);
             Time.timeScale = 1f;
-            isSelecting = false;
         }
         public List<BuffData> GetActiveBufflist()
         {
@@ -108,15 +122,18 @@ namespace LUP.RL
             Enemy.OnEnemyDied += GainExp;
 
         }
+        private void OnDisable()
+        {
+            Enemy.OnEnemyDied -= GainExp;
+        }
         private void GainExp(int exp)
         {
             var data = levelTable.GetLevelData(Adata.level);
-            if (data == null) Debug.Log("데이터테이블없음");
             Adata.xp += exp;
             if (Adata.xp >= data.RequiredExp)
                 LevelUp();
-            Debug.Log($"플레이어가 {exp} 경험치 획득! 현재 총 {Adata.xp}");
             OnExpChanged?.Invoke();
+            Debug.Log($"플레이어가 {exp} 경험치 획득! 현재 총 {Adata.xp}");
         }
         private void LevelUp()
         {

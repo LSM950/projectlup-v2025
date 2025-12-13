@@ -32,6 +32,37 @@ Transform:
   - {fileID: 3217879020344210898}
   m_Father: {fileID: 5435137419966055898}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &234494353712929494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7817998646823636333}
+  m_Layer: 0
+  m_Name: TargetPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7817998646823636333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234494353712929494}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.018030167, y: 1.509, z: -0.10525894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1680393261219834051}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &251816014841050718
 GameObject:
   m_ObjectHideFlags: 0
@@ -3935,11 +3966,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8845519063124067650}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.41, y: 0.89000005, z: 5.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7817998646823636333}
   - {fileID: 3393118355423908506}
   - {fileID: 1182011767329298578}
   - {fileID: 9110257750312754902}
@@ -4007,14 +4039,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d036a60862a144ba77228545a53e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   EnemyStats:
     Hp: 0
     Attack: 0
     speed: 0
     MaxHp: 0
+    Exp: 0
   expValue: 10
   gridPos: {x: 0, y: 0}
   HpbarPrefab: {fileID: 3769882633132983047, guid: 9e482a2640f931a429d283a4c86f98be, type: 3}
+  hpbaroffsetY: 5
+  TargetPoint: {fileID: 7817998646823636333}
 --- !u!54 &4586143398316460639
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4040,7 +4076,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &499112899708964800
 MonoBehaviour:
@@ -4072,9 +4108,11 @@ MonoBehaviour:
   HittedAccumTime: 0
   RampageTime: 3
   TargetDistance: 100
-  Target: {fileID: 0}
+  Target: {fileID: 234494353712929494}
   targetPos: {fileID: 0}
   agent: {fileID: 0}
+  enemy: {fileID: 0}
+  shooter: {fileID: 0}
 --- !u!114 &2616535689786105532
 MonoBehaviour:
   m_ObjectHideFlags: 0
