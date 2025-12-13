@@ -34,6 +34,8 @@ namespace LUP.ST
         [HideInInspector] public float skillEndTime = 0f;
         [HideInInspector] public bool isHiding = false;
         [HideInInspector] public Vector3 hidePosition;
+        [HideInInspector] public bool isAttackingFlag = false;
+        [HideInInspector] public bool hasAppliedHit = false;
 
         private MonsterSpawner spawner;
         private StatComponent stats;
@@ -81,8 +83,8 @@ namespace LUP.ST
             //Å¸°Ù ¾ø¾îÁö¸é ¹Ù·Î ´Ù¸¥ Å¸°Ù Àâ±â
             if (target != null)
             {
-                RangeBlackBoard targetInfo = target.GetComponent<RangeBlackBoard>();
-                if (targetInfo != null && targetInfo.IsHpZero())
+                StatComponent targetStats = target.GetComponent<StatComponent>();
+                if (targetStats != null && targetStats.IsDead)
                 {
                     Debug.Log($"{gameObject.name}: Å¸°Ù {target.name} »ç¸Á! ´Ù¸¥ Å¸°Ù Ã£±â...");
                     FindNearestPlayer();
@@ -183,6 +185,12 @@ namespace LUP.ST
             if (players.Length == 0) return;
             if (players.Length == 1)
             {
+                StatComponent stats = players[0].GetComponent<StatComponent>();
+                if (stats != null && stats.IsDead)
+                {
+                    target = null;
+                    return;
+                }
                 target = players[0].transform;
                 return;
             }
@@ -192,8 +200,8 @@ namespace LUP.ST
 
             foreach (GameObject player in players)
             {
-                RangeBlackBoard playerInfo = player.GetComponent<RangeBlackBoard>();
-                if (playerInfo != null && playerInfo.IsHpZero())
+                StatComponent playerStats = player.GetComponent<StatComponent>();
+                if (playerStats != null && playerStats.IsDead)
                 {
                     continue;  // Á×¾úÀ¸¸é ½ºÅµ!
                 }

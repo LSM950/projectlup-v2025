@@ -19,36 +19,49 @@ namespace LUP.ST
 
         public static NodeState Attack(MonsterData data)
         {
-            Debug.Log($"{data.name}: Attack 진입!");
             if (data.target == null) return NodeState.FAILURE;
 
-            RangeBlackBoard targetInfo = data.target.GetComponent<RangeBlackBoard>();
-            if (targetInfo != null && targetInfo.IsHpZero())
+            StatComponent targetStats = data.target.GetComponent<StatComponent>();
+            if (targetStats != null && targetStats.IsDead)
             {
-                return NodeState.FAILURE;  // 죽은 플레이어 공격 안 함!
+                return NodeState.FAILURE;
+            }
+
+            // 공격 범위 벗어나면 실패
+            float distance = Vector3.Distance(data.transform.position, data.target.position);
+            if (distance > data.Stats.AttackRange)
+            {
+                data.isAttackingFlag = false;
+                data.Stats.CancelAttack();
+                return NodeState.FAILURE;
             }
 
             data.Visual?.SetMoving(false);
-
             data.transform.LookAt(new Vector3(data.target.position.x, data.transform.position.y, data.target.position.z));
 
-            // 원거리 공격
-            if (data.bulletPrefab != null && data.firePoint != null)
+            // 공격 시작
+            if (!data.Stats.IsAttacking)
             {
+                if (!data.Stats.CanStartAttack()) return NodeState.RUNNING;
+
                 Debug.Log($"{data.name}: 공격 시작!");
-                if (!data.Stats.IsAttacking && data.Stats.CanStartAttack())
-                {
-                    data.Stats.StartAttack();
-                    data.Visual?.PlayAttackAnimation();
-                    data.SetColor(Color.yellow);
-                }
+                data.Stats.StartAttack();
+                data.Visual?.PlayAttackAnimation();
+                data.isAttackingFlag = true;
+                data.hasAppliedHit = false;  // 리셋
+            }
 
-                AttackState attackState = data.Stats.UpdateAttack();
+            AttackState attackState = data.Stats.UpdateAttack();
 
-                if (attackState == AttackState.Hit)
+            // Hit 타이밍에 한 번만 데미지
+            if (attackState == AttackState.Hit && !data.hasAppliedHit)
+            {
+                data.hasAppliedHit = true;
+
+                if (data.bulletPrefab != null && data.firePoint != null)
                 {
+                    // 원거리 공격
                     Vector3 direction = (data.target.position - data.firePoint.position).normalized;
-
                     CombatUtility.ShootBullet(
                         data.Stats,
                         data.bulletPrefab,
@@ -56,45 +69,29 @@ namespace LUP.ST
                         direction,
                         "Player"
                     );
-
-                    data.SetColor(Color.cyan);
                 }
-                else if (attackState == AttackState.End)
+                else
                 {
-                    data.ResetColor();
-                }
-            }
-            // 근접 공격
-            else
-            {
-                Debug.Log($"{data.name}: 공격 시작!");
-                if (!data.Stats.IsAttacking && data.Stats.CanStartAttack())
-                {
-                    data.Stats.StartAttack();
-                    data.Visual?.PlayAttackAnimation();
-                    data.SetColor(Color.red);
-                }
-
-                AttackState attackState = data.Stats.UpdateAttack();
-
-                if (attackState == AttackState.Hit)
-                {
+                    // 근접 공격
                     IDamageable damageable = data.target.GetComponent<IDamageable>();
                     if (damageable != null)
                     {
                         float damage = data.Stats.CalculateDamage();
                         damageable.TakeDamage(damage);
+                        Debug.Log($"{data.name}: 데미지 {damage} 적용!");
                     }
-
-                    data.SetColor(Color.magenta);
-                }
-                else if (attackState == AttackState.End)
-                {
-                    data.ResetColor();
                 }
             }
 
-            return NodeState.RUNNING;
+            // 공격 종료
+            if (attackState == AttackState.End)
+            {
+                Debug.Log($"{data.name}: 공격 종료");
+                data.isAttackingFlag = false;
+                return NodeState.SUCCESS;
+            }
+
+            return NodeState.RUNNING; 
         }
 
         public static NodeState MoveToPlayer(MonsterData data)

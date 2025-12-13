@@ -65,6 +65,8 @@ MonoBehaviour:
   skillEndTime: 0
   isHiding: 0
   hidePosition: {x: 0, y: 0, z: 0}
+  isAttackingFlag: 0
+  hasAppliedHit: 0
 --- !u!114 &8731306736451821969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,9 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79aa2818530ed4489e9c8a9627f6eb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 300
+  maxHealth: 100000
   currentHealth: 0
-  attackDamage: 20
+  attackDamage: 100
   defense: 10
   moveSpeed: 10
   attackRange: 2
@@ -146,7 +148,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 48
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &5929084774207938005
 CapsuleCollider:
