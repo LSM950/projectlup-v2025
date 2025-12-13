@@ -18,13 +18,14 @@ namespace LUP
         [SerializeField]
         private CurrentQuestListData currentQuestListData;
 
-        // Inventory inven;
+        public Inventory inven;
 
-        protected override void Awake() 
+        protected override void Awake()
         {
             base.Awake();
             StageKind = Define.StageKind.Main;
         }
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -50,39 +51,19 @@ namespace LUP
             {
                 QuestManager.Instance.Trigger(123, 1);
             }
+
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                IItemable item = ItemManager.Instance.GetItem("체력포션");
+                inven.AddItem(item, 5);
+            }
         }
 
         public override IEnumerator OnStageEnter()
         {
             yield return base.OnStageEnter();
 
-            //// Inventory 생성 및 파일명 설정
-            //string inventoryFilename = "inventory.json";
-
-            //if (JsonDataHelper.FileExists(inventoryFilename))
-            //{
-            //    // 기존 인벤토리 로드
-            //    inven = JsonDataHelper.LoadData<Inventory>(inventoryFilename);
-            //    if (inven != null)
-            //    {
-            //        inven.filename = inventoryFilename;
-            //        inven.InitializeFromJson();  // Dictionary 복원
-            //        Debug.Log("[MainStage] 인벤토리 로드 완료");
-            //    }
-            //    else
-            //    {
-            //        Debug.LogWarning("[MainStage] 인벤토리 로드 실패, 새로 생성");
-            //        inven = new Inventory();
-            //        inven.filename = inventoryFilename;
-            //    }
-            //}
-            //else
-            //{
-            //    // 새 인벤토리 생성
-            //    inven = new Inventory();
-            //    inven.filename = inventoryFilename;
-            //    Debug.Log("[MainStage] 새 인벤토리 생성");
-            //}
+            inven = InventoryManager.Instance.LoadOrCreateInventory("Main", "MainInventory.json");
 
             yield return null;
         }

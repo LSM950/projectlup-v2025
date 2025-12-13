@@ -27,16 +27,12 @@ namespace LUP.DSG
         public List<DeckCharacterStaticData> CharacterDataList;
         public CharacterModelDataTable characterModelDataTable;
 
-        // 변수명은 예시이니 바꾸셔도 됩니다.
-        public Inventory DSGInven;
 
         protected override void Awake() 
         {
             base.Awake();
             StageKind = Define.StageKind.DSG;
 
-            // 파일명은 팀끼리 구분되기만 하면 자유롭게 사용하셔도 됩니다.
-            DSGInven.filename = "DSGInventory.json";
         }
 
         void Start()
@@ -65,36 +61,21 @@ namespace LUP.DSG
                 }
             }
 
-            // Inventory 생성 및 파일명 설정
-            string inventoryFilename = DSGInven.filename;
-
-            if (JsonDataHelper.FileExists(inventoryFilename))
-            {
-                // 기존 인벤토리 로드
-                DSGInven = JsonDataHelper.LoadData<Inventory>(inventoryFilename);
-                if (DSGInven != null)
-                {
-                    DSGInven.filename = inventoryFilename;
-                    DSGInven.InitializeFromJson();  // Dictionary 복원
-                    Debug.Log("[ESStage] 인벤토리 로드 완료");
-                }
-                else
-                {
-                    Debug.LogWarning("[ESStage] 인벤토리 로드 실패, 새로 생성");
-                    DSGInven = new Inventory();
-                    DSGInven.filename = inventoryFilename;
-                }
-            }
+            // PCR 인벤토리 접근 가능 여부 확인
+            if (InventoryManager.Instance.HasInventory("PCR"))
+                Debug.Log("[DSGStage] PCR 인벤토리 접근 가능");
             else
-            {
-                DSGInven = new Inventory();
-                DSGInven.filename = inventoryFilename;
-                Debug.Log("[ESStage] 새 인벤토리 생성");
-            }
+                Debug.LogWarning("[DSGStage] PCR 인벤토리가 아직 로드되지 않았습니다!");
 
             StageInitializeInvoker.Invoke(this);
 
             yield return null;
+        }
+
+        // PCR 팀의 공유 인벤토리 가져오기
+        public Inventory GetSharedInventory()
+        {
+            return InventoryManager.Instance.GetInventory("PCR");
         }
 
         public override IEnumerator OnStageStay()
