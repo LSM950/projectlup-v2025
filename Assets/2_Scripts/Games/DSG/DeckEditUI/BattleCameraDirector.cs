@@ -1,12 +1,15 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using DG.Tweening;
 
 namespace LUP.DSG
 {
     public class BattleCameraDirector : MonoBehaviour
     {
+        private Vector3 originPosition;
+
         [SerializeField]
         private Vector3 friendlyIntroCamPosition;
 
@@ -18,6 +21,11 @@ namespace LUP.DSG
 
         [SerializeField]
         private Vector3 enemyIntroCamRotation;
+
+        private void Awake()
+        {
+            originPosition = transform.position;
+        }
 
         private void FixedUpdate()
         {
@@ -64,6 +72,16 @@ namespace LUP.DSG
             seq.Join(transform.DORotateQuaternion(originRot, 1f));
 
             return seq;
+        }
+
+        public void FocusOnTarget(Vector3 targetPosition)
+        {
+            transform.DOMoveX(targetPosition.x, 0.5f);
+        }
+
+        public void BackToOriginPos(float delay = 0f)
+        {
+            transform.DOMoveX(originPosition.x, 0.5f).SetDelay(delay);
         }
     }
 }

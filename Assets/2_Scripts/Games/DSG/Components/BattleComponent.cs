@@ -98,8 +98,6 @@ namespace LUP.DSG
         {
             if (owner.AnimationComp.currentState == EAnimStateType.StartDash_Fwd)
             {
-                Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, battleCameraDirector.transform.position.z);
-
                 Debug.Log(targetPosition);
                 Debug.Log(impactApplied);
                 transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, (moveSpeed * Time.deltaTime));
@@ -152,6 +150,7 @@ namespace LUP.DSG
                     {
                         ApplyDamageOnce();
                         impactApplied = true;
+                        battleCameraDirector.BackToOriginPos(0.5f);
                     }
 
                     StartCoroutine(WaitForRangeAttackEnd());
@@ -197,13 +196,6 @@ namespace LUP.DSG
             HandleAttackStart();
 
             isAttacking = true;
-
-            if(!battleCameraDirector)
-            {
-                Camera camera = Camera.main;
-                battleCameraDirector = camera.GetComponent<BattleCameraDirector>();
-            }
-
         }
         public void ApplyDamageOnce()
         {
@@ -339,6 +331,12 @@ namespace LUP.DSG
                 case EWeaponType.Melee_OneHanded:
                 case EWeaponType.Melee_TwoHanded:
                     OnStartDash?.Invoke();
+                    if (!battleCameraDirector)
+                    {
+                        Camera camera = Camera.main;
+                        battleCameraDirector = camera.GetComponent<BattleCameraDirector>();
+                        battleCameraDirector.FocusOnTarget(targetPosition);
+                    }
                     break;
                 case EWeaponType.Magic:
                 case EWeaponType.Gun_Rifle:
@@ -358,6 +356,14 @@ namespace LUP.DSG
 
             projectileTargetPosition = targetSlots[0].AttackedPosition.position;
             projectileTargetPosition.y += 1.2f;
+
+
+            if (!battleCameraDirector)
+            {
+                Camera camera = Camera.main;
+                battleCameraDirector = camera.GetComponent<BattleCameraDirector>();
+                battleCameraDirector.FocusOnTarget(targetPosition);
+            }
         }
 
         public virtual void Die()
