@@ -1,24 +1,17 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace LUP.PCR
 { 
     public class IsNewTaskChecker : WorkerBlackboardNode
     {
-        public IsNewTaskChecker(WorkerBlackboard blackboard) : base(blackboard) { }
+        public IsNewTaskChecker(WorkerBlackboard bb) : base(bb) { }
         protected override NodeState OnUpdate()
         {
-            ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.TargetBuilding);
-            bool hasNewTask = GetData<bool>(BBKeys.HasNewTask);
+            BuildingBase building = GetData<BuildingBase>(BBKeys.AssignedWorkplace);
 
-            return building != null && hasNewTask ?
-            LogAndReturn(NodeState.SUCCESS, "2-1. »õ ÀÛ¾÷ ¹ß»ı!")
-            : LogAndReturn(NodeState.FAILURE, "2-1. ÇÒ´çµÈ ÀÛ¾÷ÀÌ ¾ø½À´Ï´Ù.");
-        }
-
-        T LogAndReturn<T>(T value, string message)
-        {
-            Debug.Log(message + $" (°ª: {value})");
-            return value;
+            return building != null
+                ? ReturnAndLog(NodeState.SUCCESS, "2-1. ì˜ˆì•½ëœ ì‘ì—…ì´ ìˆìŠµë‹ˆë‹¤.")
+                : ReturnAndLog(NodeState.FAILURE, "2-1. í• ë‹¹ëœ ì‘ì—…ì´ ì—†ìŠµë‹ˆë‹¤.");
         }
     }
 }

@@ -19,24 +19,25 @@ namespace LUP.PCR
 
         void Start()
         {
+            gridMap = this.transform.root.GetComponentInChildren<AGridMap>();
             pathfinder = new APathfinding(gridMap);
         }
 
-        void Update()
-        {
-            //@TODO : FindPath(RaycastHit hit) UI랑 연동되게 수정하기
-            //if (Input.GetMouseButtonDown(0))
-            //{
-            //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //void Update()
+        //{
+        //    //@TODO : FindPath(RaycastHit hit) UI랑 연동되게 수정하기
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            //    // 바닥과 충돌 검사
-            //    if (Physics.Raycast(ray, out RaycastHit hit))
-            //    {
-            //        FindPath(hit);
-            //    }
-            //}
-            //MoveAlongPath();
-        }
+        //        // 바닥과 충돌 검사
+        //        if (Physics.Raycast(ray, out RaycastHit hit))
+        //        {
+        //            FindPath(hit);
+        //        }
+        //    }
+        //    MoveAlongPath();
+        //}
 
         //void FindPath(RaycastHit hit)
         //{
@@ -81,9 +82,9 @@ namespace LUP.PCR
             return gridMap.GetNodeFromWorldPosition(transform.position);
         }
 
-        public void SetDestination(Vector2Int gridPos)
+        public bool SetDestination(Vector2Int gridPos)
         {
-            if (gridMap == null || pathfinder == null) return;
+            if (gridMap == null || pathfinder == null) return false;
 
             //ANode startNode = gridMap.GetNodeFromWorldPosition(transform.position);
             ANode startNode = GetStartNodeByPhysics();
@@ -101,20 +102,22 @@ namespace LUP.PCR
             if (targetNode == null || !targetNode.isWalkable)
             {
                 //@TODO // 시스템메시지 UI 호출
-                Debug.LogError($"[UnitMover] 목표 지점({gridPos})은 갈 수 없는 곳입니다! (Null이거나 Wall)");
-                return;
+                //Debug.LogError($"[UnitMover] 목표 지점({gridPos})은 갈 수 없는 곳입니다! (Null이거나 Wall)");
+                return false;
             }
 
             List<ANode> calculatedPath = pathfinder.FindPath(startNode, targetNode);
 
             if (calculatedPath != null && calculatedPath.Count > 0)
             {
-                Debug.Log($"[UnitMover] 경로 찾기 성공! 노드 개수: {calculatedPath.Count}");
+                //Debug.Log($"[UnitMover] 경로 찾기 성공! 노드 개수: {calculatedPath.Count}");
                 ProcessPath(calculatedPath);
+                return true;
             }
             else
             {
-                Debug.LogWarning($"[UnitMover] 경로를 찾을 수 없습니다. 시작점: {startNode.indexX},{startNode.indexY} / 목표점: {gridPos}");
+                return false;
+                //Debug.LogWarning($"[UnitMover] 경로를 찾을 수 없습니다. 시작점: {startNode.indexX},{startNode.indexY} / 목표점: {gridPos}");
             }
 
         }

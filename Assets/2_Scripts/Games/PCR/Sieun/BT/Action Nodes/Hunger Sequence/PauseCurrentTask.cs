@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace LUP.PCR
 {
@@ -8,38 +8,17 @@ namespace LUP.PCR
 
         protected override NodeState OnUpdate()
         {
-            bool isWorking = GetData<bool>(BBKeys.IsWorking);
-            bool hasNewTask = GetData<bool>(BBKeys.HasNewTask);
-            ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.TargetBuilding);
+            BuildingBase building = GetData<BuildingBase>(BBKeys.AssignedWorkplace);
 
-            if (isWorking) 
+            if (building != null) 
             {
-                Debug.Log("1-2. ÀÏÇÏ´ø ÁßÀÌ¾úÀ½...");
-                
-                if (building == null)
-                {
-                    Debug.Log("1-2. ÇÒ´çµÈ °Ç¹° ¾øÀ½!");
-                    return NodeState.FAILURE; // nothing to pause
-                }
-                else
-                {
-                    Debug.Log($"1-2. ÀÛ¾÷ ÁßÀÌ´ø {building.buildingName}ÀÇ ÀÛ¾÷À» Ãë¼ÒÇß½À´Ï´Ù.");
-                    building.StopProduction();
-
-                    BB.Remove(BBKeys.TargetBuilding);
-                    SetData(BBKeys.IsWorking, false);
-
-                    return NodeState.SUCCESS;
-                }
-            }
-            else if(hasNewTask)
-            {
-                Debug.Log($"1-2. ÀÛ¾÷ ¿¹Á¤ÀÎ {building.buildingName}ÀÇ ÀÛ¾÷À» Ãë¼ÒÇß½À´Ï´Ù.");
-                return NodeState.SUCCESS;
+                building.ExitWorker();
+                Debug.Log($"1-2. ë°°ê³ í””ìœ¼ë¡œ ì¸í•´ {building.buildingName} ì‘ì—…ì„ ì·¨ì†Œí–ˆìŠµë‹ˆë‹¤.");
             }
 
-            Debug.Log("1-2. ¿¹¾àµÇ°Å³ª ÁøÇàÁßÀÎ ÀÛ¾÷ÀÌ ¾ø½À´Ï´Ù.");
-            return NodeState.FAILURE;
+            OwnerAI.HasTask = false;
+
+            return NodeState.SUCCESS;
         }
     }
 }

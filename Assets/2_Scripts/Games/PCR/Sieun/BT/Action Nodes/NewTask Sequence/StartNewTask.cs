@@ -1,16 +1,17 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace LUP.PCR
 {
     public class StartNewTask : WorkerBlackboardNode
     {
-        public StartNewTask(WorkerBlackboard blackboard) : base(blackboard) { }
+        public StartNewTask(WorkerBlackboard bb) : base(bb) { }
         float timer = 0f;
         float duration = 3f;
 
         protected override NodeState OnUpdate()
         {
-            ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.TargetBuilding);
+            ProductableBuilding building = GetData<ProductableBuilding>(BBKeys.AssignedWorkplace);
+            //OwnerAI.HasTask = GetData<bool>(BBKeys.HasTask);
             
             if (building == null)
             {
@@ -19,18 +20,18 @@ namespace LUP.PCR
             else if(timer < duration)
             {
                 timer += Time.deltaTime;
-                Debug.Log($"2-3. ÇÒ´ç¹ÞÀº ÀÛ¾÷ ÁøÇàÁß... {timer:F1}/{duration}");
-                SetData(BBKeys.IsWorking, true);
+                Debug.Log($"2-3. í• ë‹¹ë°›ì€ ìž‘ì—… ì§„í–‰ì¤‘... {timer:F1}/{duration}");
+                OwnerAI.HasTask = true;
 
                 return NodeState.RUNNING;
             }
             else
             {
                 timer = 0f;
-                SetData(BBKeys.HasNewTask, false);
-                SetData(BBKeys.IsWorking, true);
-                BB.Remove(BBKeys.TargetBuilding);
-                Debug.Log("2-3. ÀÛ¾÷ ¿Ï·á.");
+                BB.Remove(BBKeys.AssignedWorkplace);
+                OwnerAI.HasTask = false;
+                
+                Debug.Log("2-3. ìž‘ì—… ì™„ë£Œ.");
                 return NodeState.SUCCESS;
             }
         }

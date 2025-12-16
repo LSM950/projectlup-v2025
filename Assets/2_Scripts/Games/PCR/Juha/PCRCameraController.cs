@@ -1,3 +1,4 @@
+using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -7,6 +8,7 @@ namespace LUP.PCR
 {
     public class PCRCameraController : MonoBehaviour
     {
+
         public float speed = 10f;
         private Vector2 currPos, prePos;
         private Vector3 movePos;

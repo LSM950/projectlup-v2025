@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LUP.PCR
 {
@@ -36,6 +36,5 @@ namespace LUP.PCR
         }
         protected virtual void OnStart() { }
         protected abstract NodeState OnUpdate();
-
     }
 }
