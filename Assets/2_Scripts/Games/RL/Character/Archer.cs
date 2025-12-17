@@ -7,9 +7,14 @@ namespace LUP.RL
 {
     public class Archer : MonoBehaviour
     {
-        [Header("캐릭터 데이터")]
-        [SerializeField] public RLCharacterData CData;
-        [SerializeField] public ArcherData Adata;
+        [Header("캐릭터 템플릿 데이터 (SO)")]
+        [SerializeField] private RLCharacterData characterTemplate;
+
+
+        [Header("런타임 데이터")]
+        private RunTimeData runtimeData; 
+
+
         [SerializeField] public LevelDataTable levelTable;
         //public BaseStats stats;
 
@@ -23,62 +28,49 @@ namespace LUP.RL
         public event System.Action OnArcherDataReady;
         List<BuffData> randomBuffs = new List<BuffData>();
         List<BuffData> GetBuffList = new List<BuffData>();
+
+        [Header("UI ")]
         [SerializeField]
         private Hpbar hpbar;
         public GameObject HpbarPrefab;
-
-        public HealthCenter healthCenter;
+        private HealthCenter healthCenter;
         [SerializeField] private float hpbaroffsetY = 5;
+        // 외부 접근용 프로퍼티
+        public RunTimeData RuntimeData => runtimeData;
+        public HealthCenter HealthCenter => healthCenter;
+
+
         void Awake()
         {
-            if (CData == null)
-            {
-                return;
-            }
-            Adata = new ArcherData(CData, 100, 10);
-            OnArcherDataReady?.Invoke();
-            Debug.Log($"현재 체력 :  {Adata.currentData.MaxHp}");
+            InitializeCharacter();
 
         }
-        //구독 
         private void Start()
         {
-            healthCenter = new HealthCenter(Adata.currentData.MaxHp);
-            if (healthCenter == null)
+            InitaliUI();
+        }
+        private void InitializeCharacter()
+        {
+            if(characterTemplate == null)
             {
-                Debug.Log("health null");
-                return;
-
+                Debug.Log("null template data");
             }
-       
+            runtimeData = new RunTimeData(characterTemplate);
+            OnArcherDataReady?.Invoke();
+            Debug.Log($"[Archer] 캐릭터 초기화 완료 - 체력: {runtimeData.currentData}, 공격력: {runtimeData.currentData.Attack}");
+        }
+        private void InitaliUI()
+        {
+            healthCenter = new HealthCenter(RuntimeData.currentData.MaxHp);
+
+
             GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * hpbaroffsetY, Quaternion.identity);
-        
             hpbar = barObj.GetComponent<Hpbar>();
             hpbar.Init(this);
             hpbar.SetHealthSystem(healthCenter);
-            //Hpbar playerbar = Instantiate(HpbarPrefab);
-            //playerbar.Init(this);
-            //hpbar = Instantiate(HpbarPrefab);  // 변수에 할당
-
-            //GameObject barObj = Instantiate(HpbarPrefab, transform.position + Vector3.up * hpbaroffsetY, Quaternion.identity);
-            //if (barObj == null)
-            //{
-            //    Debug.Log("bar없음");
-            //}
-            //hpbar = barObj.GetComponent<Hpbar>();
-            //hpbar.Init(this);
-            //hpbar.SetHealthSystem(healthCenter);
-            //hpbar.Init(this);  // Init 한 번만 호출
-            //GameObject barObj = Instantiate(HpbarPrefab, transform.positiosn + Vector3.up * hpbaroffsetY, Quaternion.identity);
-            //if (barObj == null)
-            //{
-            //    Debug.Log("bar없음");
-            //}
-            //hpbar = barObj.GetComponent<Hpbar>();
-            //hpbar.Init(this);
-            //hpbar.SetHealthSystem(healthCenter);
-            //ShowBuffSelection();
         }
+
+     
         //버프 뽑기
         void ShowBuffSelection()
         {
@@ -124,18 +116,18 @@ namespace LUP.RL
             switch (buff.type)
             {
                 case BuffType.AddMaxHp:
-                    Adata.currentData.Attack += 5;
+                    RuntimeData.currentData.Attack += 5;
                     break;
 
                 case BuffType.AddAtkHigh:
-                    Adata.currentData.Hp += 30;
+                    RuntimeData.currentData.Hp += 30;
                     break;
 
                 case BuffType.AddSpeed:
-                    Adata.currentData.speed += 1;
+                    RuntimeData.currentData.speed += 1;
                     break;
             }
-            Debug.Log($"버프 적용됨: {buff.name} | HP: {Adata.currentData.Hp}, 공격력: {Adata.currentData.Attack}, 속도: {Adata.currentData.speed}");
+            Debug.Log($"버프 적용됨: {buff.name} | HP: {RuntimeData.currentData.Hp}, 공격력: {RuntimeData.currentData.Attack}, 속도: {RuntimeData.currentData.speed}");
             GetBuffList.Add(buff);
 
             buffSelectionUI.SetActive(false);
@@ -156,26 +148,26 @@ namespace LUP.RL
         }
         private void GainExp(int exp)
         {
-            var data = levelTable.GetLevelData(Adata.level);
-            Adata.xp += exp;
-            if (Adata.xp >= data.RequiredExp)
+            var data = levelTable.GetLevelData(RuntimeData.level);
+            RuntimeData.xp += exp;
+            if (RuntimeData.xp >= data.RequiredExp)
                 LevelUp();
             OnExpChanged?.Invoke();
-            Debug.Log($"플레이어가 {exp} 경험치 획득! 현재 총 {Adata.xp}");
+            Debug.Log($"플레이어가 {exp} 경험치 획득! 현재 총 {RuntimeData.xp}");
         }
         private void LevelUp()
         {
-            Adata.level++;
-            Adata.xp = 0;
-            var levelData = levelTable.GetLevelData(Adata.level);
+            RuntimeData.level++;
+            RuntimeData.xp = 0;
+            var levelData = levelTable.GetLevelData(RuntimeData.level);
             if (levelData != null)
             {
-                Adata.currentData.Attack = levelData.AttackBouns;
-                Adata.currentData.Hp = levelData.HpBouns;
-                Adata.currentData.MaxHp = levelData.HpBouns;
+                RuntimeData.currentData.Attack = levelData.AttackBouns;
+                RuntimeData.currentData.Hp = levelData.HpBouns;
+                RuntimeData.currentData.MaxHp = levelData.HpBouns;
             }
             ShowBuffSelection();
-            Debug.Log($"레벨{Adata.level}, 체력 :  {Adata.currentData.Hp} ,  공격력  {Adata.currentData.Attack}");
+            Debug.Log($"레벨{RuntimeData.level}, 체력 :  {RuntimeData.currentData.Hp} ,  공격력  {RuntimeData.currentData.Attack}");
         }
     }
 }

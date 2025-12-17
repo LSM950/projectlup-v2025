@@ -31,7 +31,7 @@ namespace LUP.RL
         // Player¿ë È£Ãâ
         public void Init(Archer archer)
         {
-            Init(archer.transform, archer.healthCenter);
+            Init(archer.transform, archer.HealthCenter);
         }
 
         void Awake()
