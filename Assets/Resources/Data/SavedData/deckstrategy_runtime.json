@@ -47,24 +47,24 @@
                     "characterLevel": 5
                 },
                 {
-                    "characterID": 3,
-                    "characterModelID": 3,
-                    "characterLevel": 10
-                },
-                {
                     "characterID": 5,
                     "characterModelID": 5,
                     "characterLevel": 7
                 },
                 {
-                    "characterID": 6,
-                    "characterModelID": 6,
-                    "characterLevel": 11
-                },
-                {
                     "characterID": 7,
                     "characterModelID": 7,
                     "characterLevel": 8
+                },
+                {
+                    "characterID": 3,
+                    "characterModelID": 3,
+                    "characterLevel": 10
+                },
+                {
+                    "characterID": 6,
+                    "characterModelID": 6,
+                    "characterLevel": 11
                 },
                 {
                     "characterID": 3,

@@ -1,9 +1,10 @@
+using LUP.DSG.Utils.Enums;
 using System.ComponentModel;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
-using LUP.DSG.Utils.Enums;
 
 namespace LUP.DSG
 {
@@ -54,18 +55,13 @@ namespace LUP.DSG
             StringBuilder sb = new StringBuilder("LV." + level.ToString());
             levelText.text = sb.ToString();
 
-            if (attribute == EAttributeType.ROCK)
-            {
-                attributeIcon.color = Color.red;
-            }
-            else if (attribute == EAttributeType.SCISSORS)
-            {
-                attributeIcon.color = Color.green;
-            }
-            else
-            {
-                attributeIcon.color = Color.blue;
-            }
+            FormationSystem system = FindFirstObjectByType<FormationSystem>();
+            Sprite typeIcon = system.GetTypeByAttributeImage(attribute);
+
+            if (typeIcon == null)
+                return;
+
+            attributeIcon.sprite = typeIcon;
         }
     }
 }

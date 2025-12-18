@@ -1,3 +1,4 @@
+using LUP.DSG.Utils.Enums;
 using ST;
 using System.Collections;
 using Unity.VisualScripting;
@@ -19,6 +20,8 @@ namespace LUP.DSG
         private Transform characterListContent;
         [SerializeField]
         private CharacterFilterPanel filterPanel;
+
+        [SerializeField] private Sprite paperIcon, rockIcon, scissorsIcon;
 
         public int selectedTeamIndex = 0;
         public int selectedCount = 0;
@@ -215,6 +218,27 @@ namespace LUP.DSG
                 if (runtimeData.Teams[selectedTeamIndex] == null) runtimeData.Teams[selectedTeamIndex] = new Team();
                 runtimeData.Teams[selectedTeamIndex] = selectedTeam;
             }
+        }
+
+        public Sprite GetTypeByAttributeImage(EAttributeType type)
+        {
+            Sprite typeIcon = null;
+            switch (type)
+            {
+                case EAttributeType.ROCK:
+                    typeIcon = rockIcon;
+                    break;
+                case EAttributeType.PAPER:
+                    typeIcon = paperIcon;
+                    break;
+                case EAttributeType.SCISSORS:
+                    typeIcon = scissorsIcon;
+                    break;
+                default:
+                    typeIcon = null; break;
+            }
+
+            return typeIcon;
         }
     }
 
