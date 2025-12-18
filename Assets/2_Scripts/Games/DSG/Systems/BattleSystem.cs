@@ -188,7 +188,7 @@ namespace LUP.DSG
 
                     if (!CharacterIconCache.TryGetByCharacterId(characterId, out sprite))
                     {
-                        CharacterIconCache.TryGetByModelId(modelId, out sprite);
+                        CharacterIconCache.TryGetByModelId(characterId, out sprite);
                     }
 
                     if (sprite != null)
