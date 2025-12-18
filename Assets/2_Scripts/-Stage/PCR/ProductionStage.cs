@@ -6,6 +6,8 @@ namespace LUP.PCR
 {
     public class ProductionStage : BaseStage
     {
+        private PCRGameSystem gameSystem;
+
         public BaseRuntimeData productionRuntimeData;
 
         public List<BuildingStaticData> buildingDataList;
@@ -22,6 +24,8 @@ namespace LUP.PCR
         {
             base.Awake();
             StageKind = Define.StageKind.PCR;
+
+            gameSystem = GetComponent<PCRGameSystem>();
         }
 
         void Start()
@@ -41,6 +45,8 @@ namespace LUP.PCR
 
             // InventoryManager를 통해 PCR 인벤토리 로드 및 등록
             PCRInven = InventoryManager.Instance.LoadOrCreateInventory("PCR", "PCRInventory.json");
+
+            gameSystem.InitPCRGameSystem();
 
             yield return null;
         }
@@ -141,13 +147,13 @@ namespace LUP.PCR
 
                 List<BuildingInfo> newBuildingDataList = new List<BuildingInfo>();
 
-                int id = 1;
+                runtimeData.BuildingId = 1;
+
                 foreach (InitialBuildingStaticData initialBuildingData in initialBuildingDataList)
                 {
-                    BuildingInfo newBuildingInfo = new BuildingInfo(id, 1, new Vector2Int(initialBuildingData.x, initialBuildingData.y), initialBuildingData.buildingType);
+                    BuildingInfo newBuildingInfo = new BuildingInfo(runtimeData.GenerateId(), 1, new Vector2Int(initialBuildingData.x, initialBuildingData.y), initialBuildingData.buildingType);
 
                     newBuildingDataList.Add(newBuildingInfo);
-                    id++;
                 }
 
                 runtimeData.BuildingInfoList = newBuildingDataList;
@@ -236,26 +242,30 @@ namespace LUP.PCR
             return null;
         }
 
-        public List<InitialBuildingStaticData> GetInitialBuildingDataList()
+        public List<BuildingInfo> GetBuildingInfoList()
         {
-            if (initialBuildingDataList == null)
+            ProductionRuntimeData runtimeData = productionRuntimeData as ProductionRuntimeData;
+
+            if (runtimeData.BuildingInfoList == null)
             {
                 Debug.LogError("[ProductionStage] InitialBuildingDataList이 비어있습니다.");
                 return null;
             }
 
-            return initialBuildingDataList;
+            return runtimeData.BuildingInfoList;
         }
 
-        public List<InitialWallStaticData> GetInitialWallDataList()
+        public List<WallInfo> GetWallInfoList()
         {
-            if (initialWallDataList == null)
+            ProductionRuntimeData runtimeData = productionRuntimeData as ProductionRuntimeData;
+
+            if (runtimeData.WallInfoList == null)
             {
                 Debug.LogError("[ProductionStage] InitialWallDataList이 비어있습니다.");
                 return null;
             }
 
-            return initialWallDataList;
+            return runtimeData.WallInfoList;
         }
 
     }

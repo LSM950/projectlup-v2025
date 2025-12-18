@@ -64,7 +64,7 @@ namespace LUP.PCR
             // 지금은 초기값으로 초기화하는 작업으로 테스트
             // 미리 저장된 값 대신 임의의 값으로 대체
             // 다음에는 저장된 데이터를 받아와서 갱신해준다.
-            level = 0;
+            level = 1;
             currStorage = 0;
             buildingName = "MoleFarm";
 

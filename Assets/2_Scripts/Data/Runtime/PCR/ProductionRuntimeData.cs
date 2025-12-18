@@ -7,6 +7,7 @@ public class ProductionRuntimeData : BaseRuntimeData
 {
     [SerializeField] private int playerId;
     [SerializeField] private bool hasSavedGame;
+    [SerializeField] private int buildingId;
 
     [SerializeField] private List<LUP.PCR.BuildingInfo> buildingInfoList = new List<LUP.PCR.BuildingInfo>();
     [SerializeField] private List<LUP.PCR.ProductionInfo> productionInfoList = new List<LUP.PCR.ProductionInfo>();
@@ -24,6 +25,12 @@ public class ProductionRuntimeData : BaseRuntimeData
     {
         get => hasSavedGame;
         set => SetValue(ref hasSavedGame, value);
+    }
+
+    public int BuildingId
+    {
+        get => buildingId;
+        set => SetValue(ref buildingId, value);
     }
 
     public List<LUP.PCR.BuildingInfo> BuildingInfoList
@@ -99,5 +106,10 @@ public class ProductionRuntimeData : BaseRuntimeData
     public List<LUP.PCR.WallInfo> GetWallInfoList()
     {
         return wallInfoList;
+    }
+
+    public int GenerateId()
+    {
+        return BuildingId++;
     }
 }
