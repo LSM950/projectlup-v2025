@@ -17,7 +17,7 @@ namespace LUP.RL
         public Action<int> OnItemGained;
 
         //1번은 공용 재화, 2번은 장비구슬
-        private Dictionary<ItemType, Queue<GameObject>> poolDictionaray;
+        private Dictionary<RLDropItemType, Queue<GameObject>> poolDictionaray;
 
         public int SpawnCrystalPoolNum = 10;
 
@@ -28,21 +28,21 @@ namespace LUP.RL
         {
             //playerPos = FindFirstObjectByType<PlayerMove>().GetComponent<Transform>();
 
-            poolDictionaray = new Dictionary<ItemType, Queue<GameObject>>();
+            poolDictionaray = new Dictionary<RLDropItemType, Queue<GameObject>>();
 
-            for (int i = 1; i < (int)ItemType.Max; i++)
+            for (int i = 1; i < (int)RLDropItemType.Max; i++)
             {
-                ItemType itemType = (ItemType)i;
+                RLDropItemType itemType = (RLDropItemType)i;
                 poolDictionaray[itemType] = new Queue<GameObject>();
                 GameObject targetPrefabObject = commoditiesPrefab;
 
                 switch (itemType)
                 {
-                    case ItemType.Commodities:
+                    case RLDropItemType.Commodities:
                         targetPrefabObject = commoditiesPrefab;
                         break;
 
-                    case ItemType.equipment:
+                    case RLDropItemType.equipment:
                         targetPrefabObject = equipmentPrefab;
                         break;
                 }
@@ -72,10 +72,10 @@ namespace LUP.RL
 
         public void SpawnItem(Transform spawnPos)
         {
-            Array values = Enum.GetValues(typeof(RLSpanableItem));
+            Array values = Enum.GetValues(typeof(RLItemID));
 
-            RLSpanableItem randomSpawnItem = (RLSpanableItem)values.GetValue(UnityEngine.Random.Range(0, values.Length - 1));
-            ItemType spanwedItemType = (ItemType)((int)randomSpawnItem / 10000);
+            RLItemID randomSpawnItem = (RLItemID)values.GetValue(UnityEngine.Random.Range(0, values.Length - 1));
+            RLDropItemType spanwedItemType = (RLDropItemType)((int)randomSpawnItem / 10000);
 
             GameObject obj = poolDictionaray[spanwedItemType].Dequeue();
             obj.SetActive(true);
@@ -90,7 +90,7 @@ namespace LUP.RL
 
         }
 
-        public void ReturnCrystal(ItemType type, GameObject obj)
+        public void ReturnCrystal(RLDropItemType type, GameObject obj)
         {
             SpawnItemCrystal comp = obj.GetComponent<SpawnItemCrystal>();
 

@@ -87,7 +87,7 @@ namespace Roguelike.Define
 
     }
 
-    public enum ItemType
+    public enum RLDropItemType
     {
         Commodities = 1,
         equipment = 2,
@@ -95,7 +95,15 @@ namespace Roguelike.Define
         Max
 
     }
-    public enum RLSpanableItem
+
+    public enum RLEquipTierType
+    {
+        Weapon = 1,
+        Armor = 2,
+        Shoes = 3
+    }
+
+    public enum RLItemID
     {
         Wood = 10001,
         Meat = 10002,

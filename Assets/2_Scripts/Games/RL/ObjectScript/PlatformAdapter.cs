@@ -1,4 +1,5 @@
 using LUP;
+using LUP.ES;
 using Roguelike.Define;
 using Roguelike.Util;
 using System;
@@ -17,10 +18,6 @@ namespace LUP.RL
 
         public ChapterData[] chapterDatas { get; private set; }
         public RLCharacterData[] characterDatas { get; private set; }
-
-        //public ItemData[] spawnableItemDatas { get; private set; }
-
-        //public ItemData[] inventoryItmeDatas { get; private set; }
 
         public BuffData[] gainableBuffDatas { get; private set; }
 
@@ -43,7 +40,6 @@ namespace LUP.RL
 
             if (platform)
             {
-                //await waitUntilPlatformDataReady();
                 runtimesaveData = (RoguelikeRuntimeData)platform.RuntimeData;
                 staticData = platform.DataList;
             }
@@ -70,17 +66,10 @@ namespace LUP.RL
             chapterDatas = testPlatform.chapterDatas;
             characterDatas = testPlatform.characterDatas;
 
-            //LastSeletedChapter = testPlatform.LastSeletedChapter;
-            //LastSeletedCharacter = testPlatform.LastSeletedCharacter;
-
             LastSeletedChapter = runtimesaveData.lastSelectedCharacter;
             LastSeletedCharacter = runtimesaveData.lastPlayedChapter;
 
             gainableBuffDatas = testPlatform.buffDatas;
-
-            //inventoryItmeDatas = testPlatform.inventoryItmeDatas;
-
-            //spawnableItemDatas = testPlatform.spawnableItemDatas;
 
             if ((chapterDatas == null || chapterDatas.Length == 0) ||
                 (characterDatas == null || characterDatas.Length == 0))
@@ -93,15 +82,12 @@ namespace LUP.RL
 
         public void UploadSelectionData(ChapterData selectedChapter, RLCharacterData selectedCharacter)
         {
-            //testPlatform.UploadSelectionDataToFlatform(selectedChapter, selectedCharacter);
             runtimesaveData.selectedChapter = selectedChapter;
             runtimesaveData.selectedCharacter = selectedCharacter;
         }
 
         public bool LoadSelectionData()
         {
-            //var (SelectedChapter, SelectedCharacter) = testPlatform.GetSelectionData();
-
             ChapterData SelectedChapter = runtimesaveData.selectedChapter;
             RLCharacterData SelectedCharacter = runtimesaveData.selectedCharacter;
 
@@ -187,8 +173,13 @@ namespace LUP.RL
                 IItemable RLStageItem = ItemManager.Instance.GetItem(itemData.GetDisplayableName());
                 roguelikeStage.inventory.AddItem(RLStageItem, gainNum);
             }
-
         }
+
+        public int GetItemAmountInInventory(RLItemID item)
+        {
+            return roguelikeStage.inventory.GetItemCount((int)item);
+        }
+
 
         public ItemData[] GetInventoryItems()
         {
@@ -210,31 +201,26 @@ namespace LUP.RL
                 dynamicInventoryItemData.itemType = item.Type;
 
                 RLInventory[i] = dynamicInventoryItemData;
-
-                //for (int count = 0; count < spawnableItemDatas.Length; count++)
-                //{
-                //    if (spawnableItemDatas[count].GetDisplayableName() == itemName)
-                //    {
-                //        dynamicInventoryItemData.SetDisplayableImage(spawnableItemDatas[count].GetDisplayableImage());
-                //        dynamicInventoryItemData.SetExtraInfo(itemAmount);
-                //        dynamicInventoryItemData.itemType = item.Type;
-                //        break;
-                //    }
-                //}
-
             }
 
             return RLInventory;
         }
 
-        //MonoBehavior를 부착할 수 없어서, 코루틴 사용 불가(이건 오브젝트 없이 New로써 사용할 거라서 절대 절대 Mono 부착 금지)
-        //void waitUntilPlatformDataReady()
-        //{
-        //    while (platform.RuntimeData == null)
-        //        yield return new WaitForSeconds(0.1f);
+        public EquipData[] GetInventoryEquips()
+        {
+            List<InventorySlot> inventorySlots = roguelikeStage.inventory.GetAllItems();
 
-        //    runtimesaveData = (RoguelikeRuntimeData)platform.RuntimeData;
-        //}
+            for(int i = 0; i < inventorySlots.Count;i++)
+            {
+                InventorySlot slot = inventorySlots[i];
+                if (slot.Item.Type != Define.ItemType.Weapon || slot.Item.Type != Define.ItemType.Armor)
+                    continue;
+
+
+            }
+
+            return new EquipData[inventorySlots.Count];
+        }
 
         public async Task waitUntilPlatformDataReady()
         {
