@@ -5422,6 +5422,9 @@ MonoBehaviour:
   - {fileID: 895510914}
   characterListContent: {fileID: 1197695711}
   filterPanel: {fileID: 2115691459}
+  paperIcon: {fileID: 21300000, guid: 5bf22c6b6f7373e49aef037b9abc53c6, type: 3}
+  rockIcon: {fileID: 21300000, guid: bc3deb52ffccc714ba5c2369c45328bb, type: 3}
+  scissorsIcon: {fileID: 21300000, guid: e17fb07c7bc94ad46832913c942e19c4, type: 3}
   selectedTeamIndex: 0
   selectedCount: 0
 --- !u!1 &1710040306

@@ -4,6 +4,7 @@ using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 namespace LUP.DSG
@@ -70,6 +71,11 @@ namespace LUP.DSG
                 portrait.sprite = null;
                 portrait.color = portraitColor;
             }
+
+            FormationSystem system = FindFirstObjectByType<FormationSystem>();
+            Sprite typeIcon = system.GetTypeByAttributeImage(type);
+
+            attributeIcon.sprite = typeIcon;
         }
 
         public void OnButtonClicked()

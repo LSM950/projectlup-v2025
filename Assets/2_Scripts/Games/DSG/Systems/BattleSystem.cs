@@ -55,6 +55,7 @@ namespace LUP.DSG
 
         private int currentTurnIndex = 0;
         private int currentRound = 1;
+        private float currentGameSpeed = 1f;
         private bool isBattleStart = false;
 
         [SerializeField]
@@ -166,8 +167,6 @@ namespace LUP.DSG
                 Character character = battleSequence[i];
                 character.battleIndex = i;
 
-
-
                 var icon = Instantiate(iconPrefab, characterSequenceList);
                 var bg = icon.transform.Find("Background")?.GetComponent<Image>();
                 if (bg != null)
@@ -268,6 +267,7 @@ namespace LUP.DSG
             Camera camera = Camera.main;
             BattleCameraDirector Director = camera.GetComponent<BattleCameraDirector>();
             yield return Director.PlayBattleIntroSequence().WaitForCompletion();
+            yield return null;
 
             for (int i = 0; i < friendlySlots.Length; i++)
             {
@@ -321,14 +321,14 @@ namespace LUP.DSG
 
             if (currentChar.BattleComp.isSkillOn)
             {
-                List<LineupSlot> targetList = randomTargetSelector.SelectcountEnemyTargets(currentChar, currentChar.BattleComp.skillInfo.targetCount);
+                List<LineupSlot> targetList = randomTargetSelector.SelectEnemyTargets(currentChar, currentChar.BattleComp.skillInfo.targetCount);
                 currentChar.BattleComp.Skill(targetList);
                 StartCoroutine(WaitForAttackEnd(currentChar));
                 onStartSkill?.Invoke(currentChar);
             }
             else
             {
-                LineupSlot targetslot = targetSelector.SelectEnemyTarget(currentChar);
+                List<LineupSlot> targetslot = targetSelector.SelectEnemyTargets(currentChar, 2);
                 currentChar.BattleComp.Attack(targetslot);
                 StartCoroutine(WaitForAttackEnd(currentChar));
                 onStartAttack?.Invoke(currentChar);
@@ -612,6 +612,50 @@ namespace LUP.DSG
         {
             sequenceImage[index].gameObject.SetActive(false);
         }
-    }
+        public void OnClickPauseButton()
+        {
+            float Curr = Time.timeScale;
+            TextMeshProUGUI pauseText = battleCanvas.transform.Find("RightTop/PauseButton/PauseText").GetComponent<TextMeshProUGUI>();
 
+            if (Curr == 0f)
+            {
+                pauseText.SetText("Pause");
+                Time.timeScale = currentGameSpeed;
+            }
+            else
+            {
+                pauseText.SetText("Resume");
+                Time.timeScale = 0f;
+            }
+        }
+        public void OnClickSpeedButton()
+        {
+            float Curr = Time.timeScale; //@TODO 구조개선 timescale XX
+            if (Curr == 0f)
+            {
+                return;
+            }
+
+            TextMeshProUGUI speedText = battleCanvas.transform.Find("RightTop/SpeedButton/SpeedText").GetComponent<TextMeshProUGUI>();
+
+            if (currentGameSpeed == 1f)
+            {
+                speedText.SetText("2X");
+                Time.timeScale = 2f;
+                currentGameSpeed = Time.timeScale;
+            }
+            else if (currentGameSpeed == 2f)
+            {
+                speedText.SetText("4X");
+                Time.timeScale = 4f;
+                currentGameSpeed = Time.timeScale;
+            }
+            else
+            {
+                speedText.SetText("1X");
+                Time.timeScale = 1f;
+                currentGameSpeed = Time.timeScale;
+            }
+        }
+    }
 }
