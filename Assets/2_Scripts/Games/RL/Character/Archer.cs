@@ -18,11 +18,11 @@ namespace LUP.RL
         [SerializeField] public LevelDataTable levelTable;
         //public BaseStats stats;
 
-        [Header("버프 관련")]
-        public List<BuffData> allBuffs;          // 인스펙터에서 등록
-        public GameObject buffSelectionUI;       // 전체 패널 (Canvas 안)
-        public Transform optionParent;           // 버튼들을 넣을 부모 (예: Horizontal Layout)
-        public GameObject optionButtonPrefab;    // 버튼 프리팹 (Text만 있어도 OK)
+        //[Header("버프 관련")]
+        //public List<BuffData> allBuffs;          // 인스펙터에서 등록
+        //public GameObject buffSelectionUI;       // 전체 패널 (Canvas 안)
+        //public Transform optionParent;           // 버튼들을 넣을 부모 (예: Horizontal Layout)
+        //public GameObject optionButtonPrefab;    // 버튼 프리팹 (Text만 있어도 OK)
 
         public event System.Action OnExpChanged;
         public event System.Action OnArcherDataReady;
@@ -39,7 +39,8 @@ namespace LUP.RL
         public RunTimeData RuntimeData => runtimeData;
         public HealthCenter HealthCenter => healthCenter;
 
-
+        private PlayerBuff playerBuff;
+        public PlayerBuff PlayerBuff => playerBuff;
         void Awake()
         {
            
@@ -50,6 +51,9 @@ namespace LUP.RL
         private void Start()
         {
             InitaliUI();
+            playerBuff = GetComponent<PlayerBuff>();
+            playerBuff.init(this);
+            playerBuff.ShowBuffSelection();
         }
         private void InitializeCharacter()
         {
@@ -69,45 +73,6 @@ namespace LUP.RL
         }
 
      
-        //버프 뽑기
-        void ShowBuffSelection()
-        {
-            buffSelectionUI.SetActive(true);
-
-            //기존 버튼 제거
-            foreach (Transform child in optionParent)
-                Destroy(child.gameObject);
-
-
-            randomBuffs.Clear(); // 리스트 비우기
-                                 //버프3개뽑기     
-            while (randomBuffs.Count < 3)
-            {
-                BuffData candidate = allBuffs[UnityEngine.Random.Range(0, allBuffs.Count)];
-                if (!randomBuffs.Contains(candidate))
-                {
-                    randomBuffs.Add(candidate);
-                }
-            }
-
-            foreach (BuffData buff in randomBuffs)
-            {
-                //프리팹 복제
-                GameObject btnObj = Instantiate(optionButtonPrefab, optionParent);
-                //인덱스 번호 매기기
-
-                //  복사본으로  생성
-                BuffData copy = ScriptableObject.CreateInstance<BuffData>();
-                copy.buffName = buff.buffName;
-                copy.SetDisplayableImage(buff.GetDisplayableImage());
-
-                OptionButtonUI btnUI = btnObj.GetComponent<OptionButtonUI>();
-                btnUI.SetData(copy, this);
-
-
-            }
-            Time.timeScale = 0;
-        }
         public void ApplyBuff(BuffData buff)
         {
             if (buff == null) Debug.Log("null");
@@ -125,15 +90,7 @@ namespace LUP.RL
                     RuntimeData.currentData.speed += 1;
                     break;
             }
-            Debug.Log($"버프 적용됨: {buff.name} | HP: {RuntimeData.currentData.Hp}, 공격력: {RuntimeData.currentData.Attack}, 속도: {RuntimeData.currentData.speed}");
             GetBuffList.Add(buff);
-
-            buffSelectionUI.SetActive(false);
-            Time.timeScale = 1f;
-        }
-        public List<BuffData> GetActiveBufflist()
-        {
-            return GetBuffList;
         }
         private void OnEnable()
         {
@@ -141,7 +98,6 @@ namespace LUP.RL
             Enemy.OnEnemyDied += GainExp;
             if(healthCenter != null)
             {
-                Debug.Log("구독");
                 healthCenter.OnDead += Die;
             }
          
@@ -154,7 +110,6 @@ namespace LUP.RL
         }
         private void Die()
         {
-            Debug.Log("플레이어 사망");
             Destroy(gameObject, 0.1f);
         }
         private void OnDisable()
@@ -168,7 +123,6 @@ namespace LUP.RL
             if (RuntimeData.xp >= data.RequiredExp)
                 LevelUp();
             OnExpChanged?.Invoke();
-            Debug.Log($"플레이어가 {exp} 경험치 획득! 현재 총 {RuntimeData.xp}");
         }
         private void LevelUp()
         {
@@ -181,7 +135,7 @@ namespace LUP.RL
                 RuntimeData.currentData.Hp = levelData.HpBouns;
                 RuntimeData.currentData.MaxHp = levelData.HpBouns;
             }
-            ShowBuffSelection();
+            playerBuff.ShowBuffSelection();
             Debug.Log($"레벨{RuntimeData.level}, 체력 :  {RuntimeData.currentData.Hp} ,  공격력  {RuntimeData.currentData.Attack}");
         }
         
