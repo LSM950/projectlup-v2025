@@ -2534,7 +2534,7 @@ GameObject:
   - component: {fileID: 3673444283788110230}
   - component: {fileID: -5526740946226788320}
   m_Layer: 0
-  m_Name: Characater_F003TwoHandSword
+  m_Name: Character_F003TwoHandSword
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

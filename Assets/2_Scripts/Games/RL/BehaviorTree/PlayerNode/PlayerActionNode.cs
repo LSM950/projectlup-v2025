@@ -17,6 +17,7 @@ namespace LUP.RL
         {
             bb = blackboard;
             bt = behaviorTree;
+
         }
 
         public override NodeState Evaluate()

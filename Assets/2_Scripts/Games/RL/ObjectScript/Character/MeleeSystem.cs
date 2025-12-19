@@ -17,7 +17,7 @@ namespace LUP.RL
         public void Awake()
         {
             Owner = transform.root.gameObject;
-            hitcolider.enabled = false;
+            //hitcolider.enabled = false;
 
         }
         public void EnableHitbox()
@@ -43,19 +43,26 @@ namespace LUP.RL
 
         private void OnTriggerEnter(Collider other)
         {
-
-            Enemy enemy = other.GetComponent<Enemy>();
-            Archer archer = other.GetComponent<Archer>();
             if (hitcolider.enabled == false) return;
             if (other.gameObject == Owner) return;
 
-            if (enemy == null) return;
+            Enemy enemy = other.GetComponentInParent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(Damage);
+                Debug.Log($"Enemy 피격 : {enemy.name}, 데미지 : {Damage}");
+                return;
+            }
 
-            enemy.TakeDamage(Damage); Debug.Log($"충돌한 객체 : {other} : 받은 데미지 : ${Damage}");
-            
-            
+            // Player
+            Archer archer = other.GetComponentInParent<Archer>();
+            if (archer != null)
+            {
+                archer.TakeDamage(Damage);
+                Debug.Log($"Player 피격 : {archer.name}, 데미지 : {Damage}");
+                return;
+            }
 
-           
         }
     }
 }
