@@ -1,8 +1,10 @@
 using LUP.DSG;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static OpenCvSharp.ML.DTrees;
+
 
 namespace LUP.DSG
 {
@@ -13,6 +15,10 @@ namespace LUP.DSG
         [SerializeField] private Transform characterPivot;
         [SerializeField] private RenderTexture renderTexture;
         [SerializeField] private RuntimeAnimatorController controller;
+
+        public static event Action<int, Sprite> OnCharacterIconReady;
+
+        private readonly HashSet<int> _inFlightCharacterIds = new HashSet<int>();
 
         private AnimatorOverrideController portraitOverride;
 
@@ -71,8 +77,6 @@ namespace LUP.DSG
             CharacterIconCache.SetByCharacterId(cacheKeyCharacterId, sprite);
             CharacterIconCache.SetByModelId(modelId, sprite);
 
-            Debug.Log($"[CharacterIconGenerator] 아이콘 생성 완료. characterId={cacheKeyCharacterId}, modelId={modelId}");
-
             Destroy(instance);
         }
         public IEnumerator GenerateIconByModelRoutine(DeckStrategyStage stage, int modelId)
@@ -80,26 +84,34 @@ namespace LUP.DSG
             // modelId 기준으로 이미 캐시에 있으면 스킵
             if (CharacterIconCache.TryGetByModelId(modelId, out _))
             {
-                Debug.Log($"[CharacterIconGenerator] modelId {modelId} 는 이미 캐시에 있음, 스킵");
                 yield break;
             }
 
             if (stage == null)
             {
-                Debug.LogError("[CharacterIconGenerator] stage 가 null 입니다. (GenerateIconByModelRoutine)");
                 yield break;
             }
 
             GameObject prefab = stage.GetCharacterPrefab(modelId);
             if (prefab == null)
             {
-                Debug.LogError($"[CharacterIconGenerator] modelId {modelId} 프리팹을 찾지 못했습니다. (GenerateIconByModelRoutine)");
                 yield break;
             }
 
-            Debug.Log($"[CharacterIconGenerator] Instantiate prefab {prefab.name} for modelId={modelId} (model-only)");
-
             var instance = Instantiate(prefab, characterPivot.position, characterPivot.rotation);
+
+            var animator = instance.GetComponent<Animator>();
+            if (animator != null)
+                animator.runtimeAnimatorController = controller;
+
+            var portraitTf = instance.GetComponent<PortraitTransform>();
+            if (portraitTf != null)
+            {
+                previewCamera.transform.position =
+                    new Vector3(previewCamera.transform.position.x,
+                                portraitTf.portraitTransform.position.y,
+                                previewCamera.transform.position.z);
+            }
 
             yield return new WaitForEndOfFrame();
 
@@ -124,10 +136,8 @@ namespace LUP.DSG
                 100f
             );
             CharacterIconCache.SetByModelId(modelId, sprite);
-
-            Debug.Log($"[CharacterIconGenerator] 아이콘 생성 완료 (model-only). modelId={modelId}");
-
             Destroy(instance);
         }
+       
     }
 }
