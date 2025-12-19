@@ -34,6 +34,7 @@ namespace LUP.DSG
         private CharacterBattleUI chracterBattleUI;
 
         public int IconCacheKey { get; private set; }
+        public Sprite BattleIcon { get; private set; }
         public EWeaponType weaponType;
 
         private void Awake()
@@ -194,6 +195,10 @@ namespace LUP.DSG
             chracterBattleUI.gameObject.SetActive(false);
             Destroy(characterInfoUI);
             Destroy(chracterBattleUI);
+        }
+        public void SetBattleIcon(Sprite sprite)
+        {
+            BattleIcon = sprite;
         }
     }
 }

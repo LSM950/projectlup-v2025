@@ -199,6 +199,7 @@ namespace LUP.DSG
                         portrait.preserveAspect = true;
                         portrait.type = Image.Type.Simple;
                         portrait.material = null;
+                        character.SetBattleIcon(sprite);
                     }
                     else
                     {
