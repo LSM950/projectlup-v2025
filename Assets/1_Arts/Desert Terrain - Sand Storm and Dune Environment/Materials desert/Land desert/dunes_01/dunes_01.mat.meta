@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 697022fc7d9e87542b6af7cdc4671749
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 80363
+  packageName: Desert Terrain- Sand Storm and Dune Environment
+  packageVersion: 4.0.0
+  assetPath: Assets/Desert Terrain - Sand Storm and Dune Environment/Materials desert/Land
+    desert/dunes_01/dunes_01.mat
+  uploadId: 667109

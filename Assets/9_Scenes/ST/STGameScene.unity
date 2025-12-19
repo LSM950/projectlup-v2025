@@ -4189,7 +4189,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c285799c82bbeca498183027761c4737, type: 2}
+  - {fileID: 2100000, guid: 78008d4dbcc539e438b79f43aa6e749d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12060,6 +12060,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2039701011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1589786748
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6411118957916983744, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_Name
+      value: sand_storm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 27.851028
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 76.02689
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6411118957916983773, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 757ee42a97718994f9006dc0ee7ab6ff, type: 3}
 --- !u!1 &1591349857
 GameObject:
   m_ObjectHideFlags: 0
@@ -15893,16 +15950,45 @@ MonoBehaviour:
   - {fileID: 767011372}
   - {fileID: 1777509194}
   waves:
-  - waveName: wav1
-    monsterCount: 1
+  - waveName: Wave1
+    monsterCount: 15
+    spawnInterval: 1
+    delayBeforeNextWave: 1
+    monsters:
+    - prefab: {fileID: 7855042958750180503, guid: 493464c16c0d00b4aa6a32b0205f9cc7, type: 3}
+      count: 1
+      spawnDelay: 1
+    - prefab: {fileID: 7855042958750180503, guid: 7d04c6faa26c56942b71cdbebb684d51, type: 3}
+      count: 1
+      spawnDelay: 1
+    useRandomSpawn: 1
+    randomSpawnCount: 15
+  - waveName: Wave2
+    monsterCount: 25
+    spawnInterval: 1
+    delayBeforeNextWave: 1
+    monsters:
+    - prefab: {fileID: 7855042958750180503, guid: 493464c16c0d00b4aa6a32b0205f9cc7, type: 3}
+      count: 1
+      spawnDelay: 1
+    - prefab: {fileID: 7855042958750180503, guid: 7d04c6faa26c56942b71cdbebb684d51, type: 3}
+      count: 1
+      spawnDelay: 1
+    - prefab: {fileID: 7855042958750180503, guid: 6cc30340fba80134086e64b2f45fcf79, type: 3}
+      count: 1
+      spawnDelay: 1
+    useRandomSpawn: 1
+    randomSpawnCount: 25
+  - waveName: Wave3
+    monsterCount: 35
     spawnInterval: 1
     delayBeforeNextWave: 1
     monsters:
     - prefab: {fileID: 7855042958750180503, guid: 7d04c6faa26c56942b71cdbebb684d51, type: 3}
       count: 1
       spawnDelay: 1
-    useRandomSpawn: 0
-    randomSpawnCount: 0
+    useRandomSpawn: 1
+    randomSpawnCount: 35
   autoStartWaves: 1
   showDebugLogs: 1
 --- !u!4 &2040641705
@@ -16772,3 +16858,4 @@ SceneRoots:
   - {fileID: 930500933}
   - {fileID: 511334152}
   - {fileID: 151069430}
+  - {fileID: 1589786748}
