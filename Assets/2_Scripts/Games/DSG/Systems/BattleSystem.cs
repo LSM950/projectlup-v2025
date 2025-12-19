@@ -322,10 +322,7 @@ namespace LUP.DSG
 
             if (currentChar.BattleComp.isSkillOn)
             {
-                List<LineupSlot> targetList = randomTargetSelector.SelectEnemyTargets(currentChar, currentChar.BattleComp.skillInfo.targetCount);
-                currentChar.BattleComp.Skill(targetList);
-                StartCoroutine(WaitForAttackEnd(currentChar));
-                onStartSkill?.Invoke(currentChar);
+                StartCoroutine(FocusSkillCaster(currentChar));
             }
             else
             {
@@ -626,10 +623,24 @@ namespace LUP.DSG
         {
             sequenceImage[index].gameObject.SetActive(false);
         }
-        public void OnClickPauseButton()
+
+        private IEnumerator FocusSkillCaster(Character currentChar)
         {
-            float Curr = Time.timeScale;
-            TextMeshProUGUI pauseText = battleCanvas.transform.Find("RightTop/PauseButton/PauseText").GetComponent<TextMeshProUGUI>();
+            currentChar.BattleComp.isAttacking = true;
+
+            onStartSkill?.Invoke(currentChar);
+            Camera camera = Camera.main;
+            Transform cameraOrigin = camera.transform;
+            BattleCameraDirector Director = camera.GetComponent<BattleCameraDirector>();
+            yield return Director.FocusOnSkillCaster(currentChar.transform, cameraOrigin).WaitForCompletion();
+
+            Director.FocusOnTarget(cameraOrigin.position);
+
+            List<LineupSlot> targetList = randomTargetSelector.SelectcountEnemyTargets(currentChar, currentChar.BattleComp.skillInfo.targetCount);
+            currentChar.BattleComp.Skill(targetList);
+            StartCoroutine(WaitForAttackEnd(currentChar));
+        }
+    }
 
             if (Curr == 0f)
             {

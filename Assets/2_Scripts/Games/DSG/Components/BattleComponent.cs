@@ -1,17 +1,19 @@
+using LUP.DSG.Utils;
 using LUP.DSG.Utils.Enums;
 using NUnit.Framework;
 using System;
 using System.Collections;
-using TMPro;
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using TMPro;
+using Unity.Mathematics;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.UI.GridLayoutGroup;
-using System.Runtime.CompilerServices;
-using System.Linq;
-using UnityEngine.UIElements;
-using Unity.Mathematics;
-using LUP.DSG.Utils;
+using DG.Tweening;
 
 namespace LUP.DSG
 {
@@ -135,7 +137,7 @@ namespace LUP.DSG
                     isAttacking = false;
 
                     ObjectFader fader = GetComponent<ObjectFader>();
-                    fader.OffFade();
+                    fader.FaderOff();
                 }
             }
             else if (bullet != null)
@@ -316,9 +318,7 @@ namespace LUP.DSG
 
         public void Skill(List<LineupSlot> targetList)
         {
-            if (isAttacking || isUsingSkill) return;
-
-            targetSlots = targetList;
+            SkillTargetSlot = targetList;
             targetPosition = skillInfo.AttackPosition;
 
             HandleAttackStart();
@@ -337,9 +337,9 @@ namespace LUP.DSG
                     {
                         Camera camera = Camera.main;
                         battleCameraDirector = camera.GetComponent<BattleCameraDirector>();
-                        battleCameraDirector.FocusOnTarget(targetPosition);
                     }
 
+                    battleCameraDirector.FocusOnTarget(targetPosition);
                     ObjectFader fader = GetComponent<ObjectFader>();
                     fader.isActive = true;
                     break;
@@ -366,8 +366,9 @@ namespace LUP.DSG
             {
                 Camera camera = Camera.main;
                 battleCameraDirector = camera.GetComponent<BattleCameraDirector>();
-                battleCameraDirector.FocusOnTarget(targetPosition);
             }
+
+            battleCameraDirector.FocusOnTarget(projectileTargetPosition);
         }
 
         public virtual void Die()
@@ -431,6 +432,15 @@ namespace LUP.DSG
         public void AttackStart()
         {
             OnAttackStarted?.Invoke(owner.weaponType);
+        }
+
+        public IEnumerator FocusSkillCaster()
+        {
+            Transform cameraOrigin = Camera.main.transform;
+
+            yield return battleCameraDirector.FocusOnSkillCaster(transform, cameraOrigin).WaitForCompletion();
+
+            battleCameraDirector.FocusOnTarget(targetPosition);
         }
     }
 }

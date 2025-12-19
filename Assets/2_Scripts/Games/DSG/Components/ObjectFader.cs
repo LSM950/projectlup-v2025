@@ -15,6 +15,7 @@ public class ObjectFader : MonoBehaviour
     private float proximityRadius = 2.0f;
     private Collider[] hitColliders;
     private HashSet<ObjectFader> lastTargets = new HashSet<ObjectFader>();
+    public List<ObjectFader> ignoreTargets = new List<ObjectFader>();
 
     void Start()
     {
@@ -104,7 +105,14 @@ public class ObjectFader : MonoBehaviour
     //    Gizmos.DrawSphere(transform.position, proximityRadius);
     //}
 
-    public void OffFade()
+    public void FaderOn(List<ObjectFader> targets)
+    {
+        ignoreTargets = targets;
+        ignoreTargets.Add(this);
+        isActive = true;
+    }
+
+    public void FaderOff()
     {
         foreach (ObjectFader target in lastTargets)
         {

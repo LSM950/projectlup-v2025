@@ -222,4 +222,5 @@ MonoBehaviour:
   fadeSpeed: 1
   doFade: 0
   isActive: 0
-  proximityRaduis: 3
+  proximityRadius: 2
+  ignoreTargets: []
