@@ -41,13 +41,14 @@ namespace LUP.RL
         {
             EnemyStats.MaxHp = 20;
             EnemyStats.Hp = EnemyStats.MaxHp;
+            EnemyStats.Attack = 5;
+            EnemyStats.speed = 3;
             healthCenter = new HealthCenter(EnemyStats.MaxHp);
         }
         void Start()
         {
           
-            EnemyStats.Attack = 5;
-            EnemyStats.speed = 3;
+         
             
       
        

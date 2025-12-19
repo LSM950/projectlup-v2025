@@ -13,6 +13,7 @@ namespace LUP.RL
 
         public void TryAttack(Transform target, int damage)
         {
+            Debug.Log("try attack");
             if (!weapon)
             {
                 Debug.Log("nullweapon");
@@ -21,14 +22,24 @@ namespace LUP.RL
             }
             switch (weapon.weaponType)
             {
-                case RWeaponType.Throw:
-                    fireSystem.TryFire(target, damage);
 
+                case RWeaponType.Throw:
+                    Debug.Log("try fire");
+                    fireSystem.TryFire(target, damage);
                     break;
                 case RWeaponType.TwoHandSword:
                     meleeWeapon.MeleeAttack(damage);
-
                     break;
+                case RWeaponType.OneHandSword:
+                    meleeWeapon.MeleeAttack(damage);
+                    break;
+                case RWeaponType.Gun:
+                    fireSystem.TryFire(target, damage);
+                    break;
+                case RWeaponType.Magic:
+                    fireSystem.TryFire(target, damage);
+                    break;
+
                     //case RWeaponType.OneHandSword;
 
 
