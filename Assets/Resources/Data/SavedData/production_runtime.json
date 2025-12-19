@@ -2,6 +2,7 @@
     "filename": "production_runtime.json",
     "playerId": 0,
     "hasSavedGame": true,
+    "buildingId": 6,
     "buildingInfoList": [
         {
             "buildingId": 1,
@@ -38,6 +39,15 @@
                 "y": 6
             },
             "buildingType": 9
+        },
+        {
+            "buildingId": 5,
+            "level": 0,
+            "gridPos": {
+                "x": 11,
+                "y": 3
+            },
+            "buildingType": 7
         }
     ],
     "productionInfoList": [],

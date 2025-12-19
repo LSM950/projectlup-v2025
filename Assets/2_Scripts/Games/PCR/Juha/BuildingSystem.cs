@@ -67,9 +67,25 @@ namespace LUP.PCR
 
         public void RemoveWall(WallBase wall)
         {
-            curWallInfoList.Remove(wall.GetWallInfo());
+            //foreach (WallInfo wallInfo in curWallInfoList)
+            //{
+            //    if (wallInfo.gridPos == wall.GetWallInfo().gridPos)
+            //    {
+            //        if (curWallInfoList.Remove(wallInfo))
+            //        {
+            //            Debug.Log("벽 제거 적용 완료!");
+            //            break;
+            //        }
+            //    }
+            //}
+
+            if (curWallInfoList.Remove(wall.GetWallInfo()))
+            {
+                Debug.Log("벽 제거 적용 완료!");
+            }
+
             UpdateDigTile(wall);
-            Destroy(wall);
+            Destroy(wall.gameObject);
         }
 
 
@@ -144,6 +160,7 @@ namespace LUP.PCR
 
                 BuildingInfo newBuildingInfo = new BuildingInfo(id, 0, pivotTile.tileInfo.pos, (int)type);
                 building.SetBuildingInfo(newBuildingInfo);
+                curBuildingInfoList.Add(newBuildingInfo);
             }
         }
     }
