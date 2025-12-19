@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1dcfa0da95fa8e5488bcfb7061839a4c, type: 3}
-  m_Name: Equip
+  m_Name: Gun
   m_EditorClassIdentifier: 
-  itemName: equip
-  itemImage: {fileID: 21300000, guid: 48ce26cd44e6b9d4fa6353cfb4dedcb6, type: 3}
+  itemName: Gun_N
+  itemImage: {fileID: 21300000, guid: 400dd0db31ee0b14fa0fd74d3fd8fc6b, type: 3}
   itemAmount: 0
+  itemType: 1

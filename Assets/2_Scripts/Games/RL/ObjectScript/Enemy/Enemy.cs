@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using LUP.RL;
+using Roguelike.Define;
 using System;
 using UnityEngine;
 namespace LUP.RL
@@ -77,7 +78,7 @@ namespace LUP.RL
  
             ObjectOnEnemyDied?.Invoke(this);
             OnEnemyDied?.Invoke(expValue);
-
+            
             //behaviorTree.ResetWorkingNodeIndex();
         }
 

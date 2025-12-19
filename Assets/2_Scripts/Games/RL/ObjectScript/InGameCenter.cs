@@ -66,7 +66,7 @@ namespace LUP.RL
         private Archer controlledPlayer = null;
 
 
-        private RoguelikeStage stage;
+        //private RoguelikeStage stage;
 
         [HideInInspector]
         public ItemSpawner itemSpawner;
@@ -78,10 +78,10 @@ namespace LUP.RL
       
         private void Start()
         {
-            stage = FindFirstObjectByType<RoguelikeStage>();
+            //stage = FindFirstObjectByType<RoguelikeStage>();
 
-            if (stage == null)
-                Debug.Log("Fail To Find Stage Object");
+            //if (stage == null)
+            //    Debug.Log("Fail To Find Stage Object");
 
             itemSpawner = FindFirstObjectByType<ItemSpawner>();
             if(itemSpawner)
@@ -98,7 +98,6 @@ namespace LUP.RL
             if (platformAdapter != null)
             {
                 platformAdapter.LinkToPlatform();
-                //platformAdapter.LoadSpawnableItemData();
 
                 LoadInGameData();
 
@@ -128,29 +127,9 @@ namespace LUP.RL
 
             InitInGameUIElement();
 
-            //Temp
-            //debugMode = false;
-
-            ////AddItem1Btn.onClick.AddListener(AddItem1);
-            ////AddItem2Btn.onClick.AddListener(AddItem2);
-            ////AddItem3Btn.onClick.AddListener(AddItem3);
-
-            ////AddTestItemBtn.onClick.AddListener(AddTestItem);
-
-            //ClearGameBtn.onClick.AddListener(GameClear);
-            //DebugBtn.onClick.AddListener(ChangeDebugMode);
-
-            //SetDebugMode(debugMode);
-
-            //DebugPanel.SetActive(false);
-            ///////////
-
             Confirm.onClick.AddListener(UploadGameResult);
 
             SpawnPlayer();
-
-            IItemable item = ItemManager.Instance.GetItem("Wood");
-            stage.inventory.AddItem(item, 5);
         }
 
         // Update is called once per frame
@@ -162,7 +141,6 @@ namespace LUP.RL
         void LoadInGameData()
         {
             LoadSelectionData();
-            //LoadSpawnableItemData();
         }
         public void RegisterPlayer(GameObject newplayer)
         {
@@ -194,19 +172,6 @@ namespace LUP.RL
                 UnityEngine.Debug.LogError("Fail To Load Selection Data", this.gameObject);
             }
         }
-
-        //void LoadSpawnableItemData()
-        //{
-        //    if (platformAdapter.LoadSpawnableItemData())
-        //    {
-        //        spawnableItemDatas = platformAdapter.spawnableItemDatas;
-        //    }
-
-        //    else
-        //    {
-        //        UnityEngine.Debug.LogWarning("SpawnableItemData is Empty!", this.gameObject);
-        //    }
-        //}
 
         void InitInGameUIElement()
         {
@@ -245,8 +210,9 @@ namespace LUP.RL
             GameObject character = Instantiate(characterData.CharacterPrefab, pos, rot);
 
             WeaponHand weaponHand = character.GetComponent<WeaponHand>();
-
-            if(weaponHand)
+            FireSystem fireSystem = character.GetComponent<FireSystem>();
+            MeleeSystem meleeSystem = character.GetComponent<MeleeSystem>();
+            if (weaponHand)
             {
                 Transform weaponHandPos = weaponHand.weaponHandPos;
                 GameObject weaponPrefab = characterData.WeaponPrefab;
@@ -258,15 +224,23 @@ namespace LUP.RL
                     weapon.transform.localPosition = weaponHand.weaponPos;
                     weapon.transform.localRotation = Quaternion.Euler(weaponHand.rotate);
 
-                    if(weaponHand.weaponType == WeaponType.Throw)
+                    if(weaponHand.weaponType == RWeaponType.Throw)
                     {
                         SetCustumProjectile(character);
                         character.GetComponent<FireSystem>().bulletData.bulletPrefab = characterData.GetWeaponProjecTile();
                     }
+                    else if(weaponHand.weaponType == RWeaponType.TwoHandSword)
+                    {
+                        Collider hitcol = weapon.GetComponent<Collider>();
+                        if(hitcol && meleeSystem)
+                        {
+                            meleeSystem.hitcolider = hitcol;
+                        }
+                    }
 
                 }
 
-                else if(weaponHand.weaponType == WeaponType.Magic)
+                else if(weaponHand.weaponType == RWeaponType.Magic)
                 {
                     SetCustumProjectile(character);
                     character.GetComponent<FireSystem>().bulletData.bulletPrefab = characterData.GetWeaponProjecTile();
@@ -330,29 +304,6 @@ namespace LUP.RL
             }
         }
 
-        //void AddItem1()
-        //{
-        //    AddItem(spawnableItemDatas[0]);
-        //}
-
-        //void AddItem2()
-        //{
-        //    AddItem(spawnableItemDatas[1]);
-        //}
-
-        //void AddItem3()
-        //{
-        //    AddItem(spawnableItemDatas[2]);
-        //}
-
-        //void AddTestItem()
-        //{
-        //    ItemData TestItem = ScriptableObject.CreateInstance<ItemData>();
-        //    TestItem.SetDisplayableImage(spawnableItemDatas[2].GetDisplayableImage());
-
-        //    AddItem(TestItem);
-        //}
-
         public void RoomClear()
         {
             itemSpawner.OnRoomCleared();
@@ -369,42 +320,26 @@ namespace LUP.RL
             gameClear = true;
 
         }
-
-        //void ChangeDebugMode()
-        //{
-        //    debugMode = !debugMode;
-
-        //    SetDebugMode(debugMode);
-        //}
-
-        //void SetDebugMode(bool enable)
-        //{
-        //    if(enable)
-        //    {
-        //        Time.timeScale = 0f;
-        //    }
-
-        //    else
-        //    {
-        //        Time.timeScale = 1f;
-        //    }
-
-                
-
-        //    DebugPanel.SetActive(enable);
-
-        //    AddItem1Btn.gameObject.SetActive(enable);
-        //    AddItem2Btn.gameObject.SetActive(enable);
-        //    AddItem3Btn.gameObject.SetActive(enable);
-        //    AddTestItemBtn.gameObject.SetActive(enable);
-
-        //    ClearGameBtn.gameObject.SetActive(enable);
-        //}
-
         void OnGainSpawnableItem(int itemID)
         {
             IItemable item = ItemManager.Instance.GetItem(itemID);
-            stage.inventory.AddItem(item, 1);
+            ItemData gaindedItem = ScriptableObject.CreateInstance<ItemData>();
+
+            gaindedItem.SetItemName(item.ItemName);
+            gaindedItem.SetDisplayableImage(item.Icon);
+
+            AddItem(gaindedItem);
+
+            //string itemName = item.ItemName;
+            //for(int i = 0; i < spawnableItemDatas.Length; i++)
+            //{
+            //    if (spawnableItemDatas[i].GetDisplayableName() == itemName)
+            //    {
+            //        AddItem(spawnableItemDatas[i]);
+            //    }
+            //}
+
+
         }
 
         void ShowGameResult()

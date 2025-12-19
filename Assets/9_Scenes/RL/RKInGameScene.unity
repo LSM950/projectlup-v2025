@@ -422,7 +422,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 290625634}
   m_Father: {fileID: 884638501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &158861902
@@ -437,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c271a07f5c83d4486e5d1812b93ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnPool: {fileID: 290625634}
   commoditiesPrefab: {fileID: 4847828870351137405, guid: 672ce3f3e78f87547a29acc9aab87149, type: 3}
   equipmentPrefab: {fileID: 7453162596359211281, guid: fe8a7fa127c797849aa208e694444443, type: 3}
   SpawnCrystalPoolNum: 10
@@ -535,6 +537,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229355787}
   m_CullTransparentMesh: 1
+--- !u!1 &290625633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 290625634}
+  m_Layer: 0
+  m_Name: itemCrystalPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &290625634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290625633}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 158861901}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &340034085
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1317,7 +1350,7 @@ PrefabInstance:
     - target: {fileID: 3359419598414265477, guid: 1ad05a3647aa9d742afaf5d6747a1b77, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      objectReference: {fileID: 11400000, guid: 93b610d164ccddf4caf8f1add2886b32, type: 2}
     - target: {fileID: 3359419598414265477, guid: 1ad05a3647aa9d742afaf5d6747a1b77, type: 3}
       propertyPath: m_fontColor.b
       value: 0
@@ -1337,7 +1370,7 @@ PrefabInstance:
     - target: {fileID: 3359419598414265477, guid: 1ad05a3647aa9d742afaf5d6747a1b77, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      objectReference: {fileID: 2180264, guid: 93b610d164ccddf4caf8f1add2886b32, type: 2}
     - target: {fileID: 3359419598414265477, guid: 1ad05a3647aa9d742afaf5d6747a1b77, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190080
@@ -3619,7 +3652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5282182174267594856, guid: 4eb40a8af588e78428b5603acccee063, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5631129958417596390, guid: 4eb40a8af588e78428b5603acccee063, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5217,7 +5250,7 @@ PrefabInstance:
       objectReference: {fileID: 8545765936226037536, guid: 280e7744556d2e74f9dd571ad63d3f16, type: 3}
     - target: {fileID: 4232202831219542408, guid: 7ff1ae7d8c7de0b408fd37dbd60b7c6e, type: 3}
       propertyPath: stageData.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4232202831219542408, guid: 7ff1ae7d8c7de0b408fd37dbd60b7c6e, type: 3}
       propertyPath: roomPrefabs.Array.size
@@ -5226,7 +5259,7 @@ PrefabInstance:
     - target: {fileID: 4232202831219542408, guid: 7ff1ae7d8c7de0b408fd37dbd60b7c6e, type: 3}
       propertyPath: 'stageData.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: d25c92a78199f8b41896b97e2cb61b8a, type: 2}
+      objectReference: {fileID: 11400000, guid: 4dfd7d4d907ff1548bf23d53d71cebd5, type: 2}
     - target: {fileID: 4232202831219542408, guid: 7ff1ae7d8c7de0b408fd37dbd60b7c6e, type: 3}
       propertyPath: 'stageData.Array.data[1]'
       value: 
