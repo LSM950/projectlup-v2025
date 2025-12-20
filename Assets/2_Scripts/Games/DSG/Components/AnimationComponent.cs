@@ -17,6 +17,9 @@ namespace LUP.DSG
 
         public EAnimStateType currentState { get; private set; }
 
+        public ActionEffect hitEffect { private get; set; }
+        public ActionEffect attackEffect;
+
         private BattleCameraDirector battleCameraDirector;
 
         void Start()
@@ -43,18 +46,23 @@ namespace LUP.DSG
             {
                 case EWeaponType.Melee_OneHanded:
                     currentState = EAnimStateType.Attack_Melee_OneHanded;
+                    attackEffect = ActionEffect.Attack_Melee_OneHanded;
                     break;
                 case EWeaponType.Melee_TwoHanded:
                     currentState = EAnimStateType.Attack_Melee_TwoHanded;
+                    attackEffect = ActionEffect.Attack_Melee_TwoHanded;
                     break;
                 case EWeaponType.Gun_Rifle:
                     currentState = EAnimStateType.Attack_Range_Rifle;
+                    attackEffect = ActionEffect.Attack_Gun_Rifle;
                     break;
                 case EWeaponType.Magic:
                     currentState = EAnimStateType.Attack_Range_Magic;
+                    attackEffect = ActionEffect.Attack_Magic;
                     break;
                 case EWeaponType.Throw:
                     currentState = EAnimStateType.Attack_Range_Throw;
+                    attackEffect = ActionEffect.Attack_Throw;
                     break;
                 default:
                     break;
@@ -80,7 +88,7 @@ namespace LUP.DSG
             currentState = EAnimStateType.Hitted;
             SetAnimationState(currentState);
 
-            owner.ActioneffectPool.PlayVFX(ActionEffect.GetHitBasic,transform.position, Quaternion.identity,1.0f); //@TODO 캐릭터마다 애니메이션을 갖고있을지 생각해봐야됨
+            owner.ActioneffectPool.PlayVFX(hitEffect, owner.transform.position, owner.transform.rotation); //@TODO 캐릭터마다 애니메이션을 갖고있을지 생각해봐야됨
         }
 
         public void PlayDiedAnimation(int index)
@@ -104,7 +112,7 @@ namespace LUP.DSG
         {
             OnShootRangeAttack?.Invoke();
 
-            owner.ActioneffectPool.PlayVFX(ActionEffect.AttackBasic, transform.position, Quaternion.identity, 1.0f);
+            owner.ActioneffectPool.PlayVFX(attackEffect, owner.transform.position, owner.transform.rotation);
         }
 
         public void OnAttackEndEvent()
@@ -133,7 +141,7 @@ namespace LUP.DSG
 
         public void OnPunchEffect()
         {
-            owner.ActioneffectPool.PlayVFX(ActionEffect.AttackBasic, transform.position, Quaternion.identity, 1.0f);
+            owner.ActioneffectPool.PlayVFX(attackEffect, owner.transform.position, owner.transform.rotation);
         }
     }
 }

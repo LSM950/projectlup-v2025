@@ -200,7 +200,7 @@ namespace LUP.DSG
             if (targetSlots.Count < 1)
                 return;
 
-            targetPosition = targetSlots[0].AttackedPosition.position;
+            targetPosition = targetSlots[0].AttackedPosition.position; //@TODO 만약 targets가 여러명이면 다 가서 한명씩 때릴지 기획에따라 코드 바꿔야함
             HandleAttackStart();
 
             isAttacking = true;
@@ -231,9 +231,9 @@ namespace LUP.DSG
                     enemyType = targetChar.characterData.type
                 };
 
+                ActionEffect hiteffect = owner.ActioneffectPool.GetAttackEffectByGetHITEffect(owner.AnimationComp.attackEffect);
                 float damage = DamageCalculator.Calculator(ctx);
-
-                targetChar.BattleComp.TakeDamage(damage);
+                targetChar.BattleComp.TakeDamage(damage,hiteffect);
                 owner.ScoreComp.UpdateDamageDealt(damage);
             }
 
@@ -268,7 +268,7 @@ namespace LUP.DSG
                     };
 
                     float damage = DamageCalculator.Calculator(ctx) + skillInfo.damage;
-                    targetSlots[i].character.BattleComp.TakeDamage(damage);
+                    targetSlots[i].character.BattleComp.TakeDamage(damage,ActionEffect.GetHit_Skill_Test);
                     owner.ScoreComp.UpdateDamageDealt(damage);
                 }
 
@@ -292,13 +292,14 @@ namespace LUP.DSG
             InitGuage();
         }
 
-        public virtual void TakeDamage(float amount)
+        public virtual void TakeDamage(float amount,ActionEffect getHitEffect)
         {
             if (!isAlive)
                 return;
 
             currHp -= amount;
 
+            owner.AnimationComp.hitEffect = getHitEffect;
             OnDamaged?.Invoke(currHp);
             owner.ScoreComp.UpdateDamageTaken(amount);
             TriggerKnockback();
@@ -327,6 +328,7 @@ namespace LUP.DSG
 
             HandleAttackStart();
 
+            owner.AnimationComp.attackEffect = ActionEffect.Attack_Skill_Test;
             isUsingSkill = true;
             isAttacking = true;
         }
