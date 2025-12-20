@@ -27,6 +27,9 @@ namespace LUP.RL
         }
         public bool Init()
         {
+            if (btnBackGroundImage != null && btnText != null && button != null)
+                return true;
+
             btnBackGroundImage = gameObject.GetComponent<Image>();
 
             Image[] images = GetComponentsInChildren<Image>(true);

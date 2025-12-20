@@ -109,7 +109,22 @@ namespace LUP.RL
 
         void EraseAllEquipSlot()
         {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                TextImageBtn slot = slots[i];
 
+                if (slot == null)
+                    continue;
+
+                if(slot.Init())
+                {
+                    slot.btnBackGroundImage.color = new Color(159f / 255f, 151f / 255f, 151f / 255f, 1f);
+                    slot.btnIcon.sprite = null;
+                    slot.btnIcon.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+                    slot.button.onClick.RemoveAllListeners();
+                }
+                
+            }
         }
 
         void OnValidEquipSlotClicked(EquipData equipData)
