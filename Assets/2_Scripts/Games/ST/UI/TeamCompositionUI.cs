@@ -1,25 +1,47 @@
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace LUP.ST
 {
-
     public class TeamCompositionUI : MonoBehaviour
     {
         public Button[] slotButtons;            // 상단 슬롯 선택 버튼(5개)
-        public Image[] lobbyTeamImages;         // 실제 로비 씬의 팀 슬롯 이미지(5개, confirm 후 반영)
-        public Button[] characterButtons;       // 하단 캐릭터 버튼(15개)
-        public Sprite[] characterSprites;       // 캐릭터별 스프라이트(15개, 인덱스 매칭)
+        public Image[] lobbyTeamImages;         // 로비 씬 팀 슬롯 이미지(5개, confirm 후 반영)
+
+        public Button[] characterButtons;       // 하단 캐릭터 버튼(10개 = 5종 * 2)
+        public STCharacterData[] characterDatas; // 캐릭터 종류 데이터(5개)
+
         public Button confirmButton;
         public Button cancelButton;
 
-        private int selectedSlot = -1;          // 현재 선택 슬롯(없으면 -1)
-        private int[] teamCandidate = new int[5]; // 팀 후보 슬롯 별 인덱스
-        private int[] oldTeam = new int[5];     // confirm/cancel 비교용(초기 상태 저장)
+        private int selectedSlot = -1;
+
+        // 슬롯에는 "캐릭터 종류 데이터"를 저장
+        private STCharacterData[] teamCandidate = new STCharacterData[5];
+        private STCharacterData[] oldTeam = new STCharacterData[5];
+
+        private ShootingStage stage;
+        private ShootingRuntimeData SRD;
 
         void Start()
         {
-            // 초기 oldTeam/teamCandidate 동기화(예시는 0~4번 초기화)
-            for (int i = 0; i < 5; i++) teamCandidate[i] = oldTeam[i] = i;
+            stage = GameObject.FindFirstObjectByType<ShootingStage>();
+            if (stage == null)
+            {
+                Debug.LogError("ShootingStage not found in this scene.");
+                return;
+            }
+
+            SRD = stage.RuntimeData as ShootingRuntimeData;
+            if (SRD == null)
+            {
+                Debug.LogError("ShootingRuntimeData not found or wrong type.");
+                return;
+            }
+
+            // 초기 oldTeam/teamCandidate 동기화(예시: 0~4 한명씩)
+            for (int i = 0; i < 5; i++)
+                teamCandidate[i] = oldTeam[i] = characterDatas[i];
 
             // 슬롯 버튼 이벤트 연결
             for (int i = 0; i < slotButtons.Length; i++)
@@ -27,12 +49,14 @@ namespace LUP.ST
                 int idx = i;
                 slotButtons[i].onClick.AddListener(() => OnSlotSelected(idx));
             }
-            // 캐릭터 버튼 이벤트 연결
+
+            // 캐릭터 버튼 이벤트 연결 (10개)
             for (int i = 0; i < characterButtons.Length; i++)
             {
-                int idx = i;
-                characterButtons[i].onClick.AddListener(() => OnCharacterSelected(idx));
+                int btnIdx = i;
+                characterButtons[i].onClick.AddListener(() => OnCharacterSelected(btnIdx));
             }
+
             confirmButton.onClick.AddListener(OnConfirm);
             cancelButton.onClick.AddListener(OnCancel);
 
@@ -45,75 +69,118 @@ namespace LUP.ST
             RefreshUI();
         }
 
-        void OnCharacterSelected(int charIdx)
+        void OnCharacterSelected(int btnIdx)
         {
             if (selectedSlot == -1) return; // 슬롯 먼저 선택 필요
 
-            // 이미 배치된 캐릭터면 무시
-            for (int i = 0; i < 5; i++)
-                if (teamCandidate[i] == charIdx) return;
+            // 10개 버튼 → 5종 매핑
+            int typeId = btnIdx / 2; // 0~4
+            if (typeId < 0 || typeId >= characterDatas.Length) return;
 
-            teamCandidate[selectedSlot] = charIdx;
+            STCharacterData picked = characterDatas[typeId];
+            if (picked == null) return;
+
+            // 같은 캐릭터 최대 2명 제한
+            if (CountInTeam(picked, teamCandidate) >= 2) return;
+
+            // 같은 걸로 교체면 변화 없음
+            if (teamCandidate[selectedSlot] == picked) return;
+
+            teamCandidate[selectedSlot] = picked;
             RefreshUI();
+        }
+
+        int CountInTeam(STCharacterData data, STCharacterData[] team)
+        {
+            int count = 0;
+            for (int i = 0; i < team.Length; i++)
+                if (team[i] == data) count++;
+            return count;
         }
 
         void OnConfirm()
         {
             for (int i = 0; i < 5; i++)
             {
-                lobbyTeamImages[i].sprite = characterSprites[teamCandidate[i]];
+                lobbyTeamImages[i].sprite = teamCandidate[i]?.thumbnail;
                 oldTeam[i] = teamCandidate[i]; // 저장
             }
-            // 패널 비활성 처리 등 추가
+
+            SRD.SetTeam(teamCandidate);
+
             selectedSlot = -1;
             RefreshUI();
         }
 
         void OnCancel()
         {
-            // teamCandidate를 oldTeam으로 롤백
             for (int i = 0; i < 5; i++)
                 teamCandidate[i] = oldTeam[i];
-            // 패널 비활성 처리 등 추가
+
             selectedSlot = -1;
             RefreshUI();
         }
 
         void RefreshUI()
         {
+            // 타입별 현재 사용 개수(0~2)
+            int[] typeCounts = new int[characterDatas.Length];
+            for (int i = 0; i < teamCandidate.Length; i++)
+            {
+                STCharacterData d = teamCandidate[i];
+                if (d == null) continue;
+
+                // characterDatas 안에서 인덱스 찾기(5개라서 O(n)도 충분)
+                int typeId = System.Array.IndexOf(characterDatas, d);
+                if (typeId >= 0) typeCounts[typeId]++;
+            }
+
             // 슬롯 하이라이트 및 이미지 반영
             for (int i = 0; i < slotButtons.Length; i++)
             {
-                slotButtons[i].GetComponent<Image>().color = (i == selectedSlot) ? Color.yellow : Color.white;
-                slotButtons[i].GetComponentInChildren<Image>().sprite = characterSprites[teamCandidate[i]];
-                // (슬롯 안에 Image 있는 경우, 버튼 자체가 이미지라면 이 부분만)
-                // 번호/Text등이 있으면 추가적 연출도 가능
+                slotButtons[i].GetComponent<Image>().color =
+                    (i == selectedSlot) ? Color.yellow : Color.white;
+
+                var img = slotButtons[i].GetComponentInChildren<Image>();
+                if (img != null)
+                    img.sprite = teamCandidate[i]?.thumbnail;
             }
 
-            // 캐릭터 선택 상태 표시 및 상호작용 제한
-            for (int i = 0; i < characterButtons.Length; i++)
+            // 캐릭터 버튼(10개) 표시 및 상호작용 제한
+            for (int btnIdx = 0; btnIdx < characterButtons.Length; btnIdx++)
             {
-                characterButtons[i].image.sprite = characterSprites[i];
+                int typeId = btnIdx / 2;   // 0~4
+                int token = btnIdx % 2;    // 0/1 (같은 타입 2개 버튼)
 
-                // 이미 다른 슬롯에 배치된 캐릭터인지 체크
-                bool isAssigned = false;
-                for (int j = 0; j < 5; j++)
-                    if (teamCandidate[j] == i)
-                        isAssigned = true;
+                if (typeId < 0 || typeId >= characterDatas.Length)
+                {
+                    characterButtons[btnIdx].interactable = false;
+                    characterButtons[btnIdx].image.color = Color.gray;
+                    continue;
+                }
 
-                if (isAssigned)
+                STCharacterData d = characterDatas[typeId];
+                characterButtons[btnIdx].image.sprite = d?.thumbnail;
+
+                // 슬롯 선택 전에는 선택 불가(기존 UX 유지)
+                if (selectedSlot == -1)
                 {
-                    characterButtons[i].image.color = Color.gray; // 회색처리(선택됨)
-                    characterButtons[i].interactable = false;
+                    characterButtons[btnIdx].interactable = false;
+                    characterButtons[btnIdx].image.color = Color.gray;
+                    continue;
                 }
-                else
-                {
-                    // 슬롯이 선택된 경우만 선택 가능, 아니면 비활성(혹은 연출)
-                    characterButtons[i].image.color = Color.white;
-                    characterButtons[i].interactable = (selectedSlot != -1);
-                }
+
+                int count = typeCounts[typeId];
+
+                // 토큰 비활성 규칙:
+                // count==0: 둘 다 가능
+                // count==1: token0 비활성(= 하나 썼다 표시), token1만 가능
+                // count==2: 둘 다 비활성
+                bool disabled = (count >= 2) || (count == 1 && token == 0);
+
+                characterButtons[btnIdx].interactable = !disabled;
+                characterButtons[btnIdx].image.color = disabled ? Color.gray : Color.white;
             }
         }
     }
-
 }
