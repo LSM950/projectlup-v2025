@@ -111,8 +111,21 @@ namespace LUP
                 return false;
 
             string key = itemID.ToString();
+
             if (!slots.TryGetValue(key, out var slot))
-                return false;
+            {
+                for(int i = 1; i < 20; i++)
+                {
+                    string alternateKey = string.Concat(key, "_",i);
+                    if (slots.TryGetValue(alternateKey, out var altslot))
+                    {
+                        key = alternateKey;
+                        slot = altslot; break;
+                    }
+                    return false;
+                }
+            }
+
 
             if (slot.Quantity < quantity)
                 return false;

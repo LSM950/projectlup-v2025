@@ -88,6 +88,8 @@ namespace LUP.RL
 
             }
 
+            StartCoroutine(RoguelikeUtil.DelayOneFrame(ReArrnageGidPanle));
+
         }
 
         void ClearInventoryGrid()
@@ -99,6 +101,13 @@ namespace LUP.RL
                 GameObject child = gridTransform.GetChild(i).gameObject;
                 GameObject.Destroy(child);
             }
+
+            gameObject.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.UpperLeft;
+        }
+
+        void ReArrnageGidPanle()
+        {
+            gameObject.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.MiddleCenter;
         }
 
         void OnEquipItemBtnClicked(int index)

@@ -330,7 +330,9 @@ namespace LUP.RL
         void OnItemEquiped(EquipData equipData)
         {
             InventorPanel lobbyInventoryPanel = (InventorPanel)lobbyPannels[(int)PanelType.INVENTORY];
-            lobbyInventoryPanel.OnItemEquiped(equipData);
+
+            if (lobbyInventoryPanel.OnItemEquiped(equipData) == false)
+                return;
 
             lobbyGameCenter.platformAdapter.RemoveItemFromInventory(equipData.GetDisplayableName(), 1);
 

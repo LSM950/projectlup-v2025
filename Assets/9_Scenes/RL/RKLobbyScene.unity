@@ -12110,11 +12110,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 58e77fe76b516394cafae1f72e815a6f, type: 2}
   - {fileID: 11400000, guid: 6c0af199d05f0e24d8b11724d6cf4f38, type: 2}
   rogueLikecharacterDatas:
-  - {fileID: 11400000, guid: 90f72463a65e4e945a3e69ea6a1ee39e, type: 2}
-  - {fileID: 11400000, guid: 6108676454b49f34aa48d6e6a373e816, type: 2}
-  - {fileID: 11400000, guid: 3a2ff84ab95e9554c83e08088f28864c, type: 2}
   - {fileID: 11400000, guid: 18b9025c7b57fe34fad10c348e8ac6a3, type: 2}
   - {fileID: 11400000, guid: 4868606cb27807c4896c5c5508f9aafb, type: 2}
+  - {fileID: 11400000, guid: 3a2ff84ab95e9554c83e08088f28864c, type: 2}
+  - {fileID: 11400000, guid: 90f72463a65e4e945a3e69ea6a1ee39e, type: 2}
+  - {fileID: 11400000, guid: 6108676454b49f34aa48d6e6a373e816, type: 2}
   rogueLikeBuffDatas:
   - {fileID: 11400000, guid: 54e6e3dae78328742aeb2291cf27c713, type: 2}
   - {fileID: 11400000, guid: f7008bd66f0663c4489aa8210f7cbbb2, type: 2}
@@ -13909,7 +13909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.1}
-  m_AnchoredPosition: {x: 0, y: -5.0000153}
+  m_AnchoredPosition: {x: 0, y: -5.0000305}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1310355152

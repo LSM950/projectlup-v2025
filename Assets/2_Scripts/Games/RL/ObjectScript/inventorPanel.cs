@@ -85,16 +85,19 @@ namespace LUP.RL
 
         }
 
-        public void OnItemEquiped(EquipData equipData)
+        public bool OnItemEquiped(EquipData equipData)
         {
             RLCharacterData characterData = pannelController.lobbyGameCenter.GetselectedCharacter();
 
             if (CheckCanEquipToSlot(characterData.EquipItems, equipData))
             {
                 EquipItem(ref characterData.EquipItems, equipData);
+                InventoryCharacterEquipPanel.UpdateCharacterEquipSlot(characterData.EquipItems);
+
+                return true;
             }
 
-            InventoryCharacterEquipPanel.UpdateCharacterEquipSlot(characterData.EquipItems);
+            return false;
 
 
         }
