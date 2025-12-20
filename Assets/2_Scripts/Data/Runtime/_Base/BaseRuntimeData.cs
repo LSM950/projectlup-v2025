@@ -58,7 +58,6 @@ public abstract class BaseRuntimeData
         }
         else // 코루틴 러너가 없으면 즉시 저장
         {
-
             SaveDataImmediate();
             Debug.LogWarning($"[{GetType().Name}] 코루틴 러너가 설정되지 않아 즉시 저장합니다.");
         }
