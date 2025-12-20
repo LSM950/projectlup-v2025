@@ -20,6 +20,11 @@ namespace LUP.ES
         private bool isAiming = false;
         private Vector3 currentTargetPos;
         private Rigidbody playerRigidbody;
+        private bool isCharging = false;
+        private float currentChargeTime = 0f;
+        private Vector3 lastAimDirection;
+        private ThrowingWeaponData weaponData;
+        private Animator animator;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
@@ -34,13 +39,14 @@ namespace LUP.ES
             projectilePool = GetComponent<BulletObjectPool>();
             state = WeaponState.READY;
             BaseItemData itemData = itemDataBase.GetItemByID(selectedWeaponId);
-            ThrowingWeaponData weaponData = itemData as ThrowingWeaponData;
+            weaponData = itemData as ThrowingWeaponData;
             weaponItem = new WeaponItem(weaponData);
             if (weaponData != null)
             {
                 projectilePool.Init(projectilePrefab);
             }
             PlayerBlackboard playerBlackboard = FindAnyObjectByType<PlayerBlackboard>();
+            animator = playerBlackboard.animator;
             playerRigidbody = playerBlackboard.GetComponent<Rigidbody>();
             playerTransform = playerBlackboard.transform;
             firePointTransform = playerTransform.Find("Fire Point");
@@ -49,23 +55,48 @@ namespace LUP.ES
                 rightJoystick = rightObj.GetComponent<FixedJoystick>();
         }
 
+        private void Update()
+        {
+            if (isCharging)
+            {
+                HandleChargeInput();
+            }
+        }
 
+        private void HandleChargeInput()
+        {
+            if (rightJoystick.Direction.magnitude > 0.01f)
+            {
+                currentChargeTime += Time.deltaTime;
+                currentChargeTime = Mathf.Clamp(currentChargeTime, 0, weaponData.maxChargeTime);
+
+                Vector3 inputDir = new Vector3(rightJoystick.Direction.x, 0, rightJoystick.Direction.y).normalized;
+                if (inputDir != Vector3.zero)
+                {
+                    lastAimDirection = inputDir;
+                }
+                Debug.Log(currentChargeTime);
+            }
+            else if (isCharging)
+            {
+                isCharging = false;
+                animator.SetFloat("ThrowSpeed", 1f);
+            }
+        }
         public override bool Attack()
         {
             if (Time.time < nextAttackTime)
             {
                 return false;
             }
-
-            nextAttackTime = Time.time + weaponItem.data.timeBetAttack;
-            ThrowingWeaponData data = weaponItem.data as ThrowingWeaponData;
-            Vector3 targetPos = CalculateTargetPosition(data);
+ 
+            Vector3 targetPos = CalculateTargetPosition(weaponData);
 
             GameObject obj = projectilePool.Get();
             ThrowerProjectile projectile = obj.GetComponent<ThrowerProjectile>();
             if (projectile != null)
             {
-                projectile.Init(projectilePool, firePointTransform.position, Quaternion.identity, data.damage, data.attackRadius);
+                projectile.Init(projectilePool, firePointTransform.position, Quaternion.identity, weaponData.damage, weaponData.attackRadius);
             }
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -79,6 +110,7 @@ namespace LUP.ES
                 rb.linearVelocity = velocity;
 
             }
+            nextAttackTime = Time.time + weaponItem.data.timeBetAttack;
             return true;
         }
 
@@ -103,29 +135,18 @@ namespace LUP.ES
 
         private Vector3 CalculateTargetPosition(ThrowingWeaponData data)
         {
-            Vector2 input = rightJoystick.Direction;
+            if (currentChargeTime <= 0f)
+            {
+                return transform.position + (lastAimDirection * data.minRange);
+            }
+            float chargeRatio = currentChargeTime / data.maxChargeTime;
 
-            float inputPower = input.magnitude;
+            float currentDistance = Mathf.Lerp(data.minRange, data.range, chargeRatio);
 
-            
-
-            inputPower = Mathf.Clamp01(inputPower);
-            Vector3 aimDir = new Vector3(input.x, 0, input.y).normalized;
-            float currentDistance = inputPower * data.range;
-            Vector3 aimOffset = aimDir * currentDistance;
+            Vector3 aimOffset = lastAimDirection * currentDistance;
 
             Vector3 baseTargetPos = transform.position + aimOffset;
 
-            if (playerRigidbody != null)
-            {
-                Vector3 playerVel = playerRigidbody.linearVelocity; // 구버전: velocity
-                playerVel.y = 0; // 점프 등 상하 움직임은 반영 제외 (조준 안정성)
-
-                // 이동 보정값 = 내 속도 * 체공 시간
-                Vector3 movementPrediction = playerVel * timeToTarget;
-
-                return baseTargetPos + movementPrediction;
-            }
 
             return baseTargetPos;
         }
@@ -147,6 +168,17 @@ namespace LUP.ES
             result.y = Vy;
 
             return result;
+        }
+
+        public void SetIsCharging(bool isCharging)
+        {
+            this.isCharging = isCharging;
+            currentChargeTime = 0f;
+        }
+
+        public void ThrowStart()
+        {
+            lastAimDirection = new Vector3(rightJoystick.Direction.x, 0, rightJoystick.Direction.y).normalized;
         }
     }
 }

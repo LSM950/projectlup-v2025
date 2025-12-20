@@ -18,6 +18,7 @@ namespace LUP.ES
             animator = blackboard.animator;
             EqipWeapon();
         }
+
         void EqipWeapon()
         {
             Transform handTransform;

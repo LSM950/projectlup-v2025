@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: ItemDataBase
   m_EditorClassIdentifier: 
   items:
-  - rid: 6702098846560026898
-  - rid: 6702098846560026899
-  - rid: 6702098846560026900
-  - rid: 6702098846560026901
-  - rid: 6702098846560026902
-  - rid: 6702098846560026903
-  - rid: 6702098846560026904
-  - rid: 6702098846560026905
-  - rid: 6702098846560026906
+  - rid: 6702098869169684636
+  - rid: 6702098869169684637
+  - rid: 6702098869169684638
+  - rid: 6702098869169684639
+  - rid: 6702098869169684640
+  - rid: 6702098869169684641
+  - rid: 6702098869169684642
+  - rid: 6702098869169684643
+  - rid: 6702098869169684644
   references:
     version: 2
     RefIds:
-    - rid: 6702098846560026898
+    - rid: 6702098869169684636
       type: {class: RangedWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
         bulletSpeed: 10
         magCapacity: 8
         reloadTime: 1.2
-    - rid: 6702098846560026899
+    - rid: 6702098869169684637
       type: {class: RangedWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
         bulletSpeed: 20
         magCapacity: 30
         reloadTime: 2
-    - rid: 6702098846560026900
+    - rid: 6702098869169684638
       type: {class: RangedWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 2
@@ -70,7 +70,7 @@ MonoBehaviour:
         bulletSpeed: 25
         magCapacity: 10
         reloadTime: 4
-    - rid: 6702098846560026901
+    - rid: 6702098869169684639
       type: {class: ArmorItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 3
@@ -80,7 +80,7 @@ MonoBehaviour:
         itemType: 2
         defense: 5
         armorSlot: 0
-    - rid: 6702098846560026902
+    - rid: 6702098869169684640
       type: {class: ArmorItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 4
@@ -90,7 +90,7 @@ MonoBehaviour:
         itemType: 2
         defense: 5
         armorSlot: 1
-    - rid: 6702098846560026903
+    - rid: 6702098869169684641
       type: {class: ConsumableItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 5
@@ -102,7 +102,7 @@ MonoBehaviour:
         useTime: 5
         effectType: 0
         effectValue: 30
-    - rid: 6702098846560026904
+    - rid: 6702098869169684642
       type: {class: MaterialItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 6
@@ -111,7 +111,7 @@ MonoBehaviour:
         stackSize: 5
         itemType: 4
         tier: 0
-    - rid: 6702098846560026905
+    - rid: 6702098869169684643
       type: {class: MeleeWeaponItemData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 7
@@ -124,7 +124,7 @@ MonoBehaviour:
         range: 2
         timeBetAttack: 0.8
         attackAngle: 160
-    - rid: 6702098846560026906
+    - rid: 6702098869169684644
       type: {class: ThrowingWeaponData, ns: LUP.ES, asm: Assembly-CSharp}
       data:
         id: 8
@@ -138,3 +138,5 @@ MonoBehaviour:
         timeBetAttack: 0.9
         attackRadius: 1
         arcHeight: 4
+        maxChargeTime: 2
+        minRange: 3

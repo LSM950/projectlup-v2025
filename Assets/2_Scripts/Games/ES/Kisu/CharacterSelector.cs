@@ -60,7 +60,6 @@ namespace LUP.ES
                 default:
                     break;
             }
-            Debug.Log("현재 인덱스: " + currentIndex + "============");
             PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
         }
 
