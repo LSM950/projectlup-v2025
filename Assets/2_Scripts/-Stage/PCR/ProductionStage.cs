@@ -32,7 +32,7 @@ namespace LUP.PCR
 
         void Start()
         {
-            savefreq = 0.7f;
+            savefreq = 1f;
             saveTime = 0f;
         }
 

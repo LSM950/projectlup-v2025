@@ -40,8 +40,8 @@ namespace LUP.PCR
                 {
                     Vector3 worldPosition = GridToWorldPosition(new Vector2Int(x, y));
                     
-                    //bool walkable = sourceInfoTiles[x, y].tileType != TileType.WALL;
-                    bool walkable = !Physics.CheckSphere(worldPosition, tileSize * 0.4f, unwalkableMask);
+                    bool walkable = sourceInfoTiles[x, y].tileType != TileType.WALL;
+                    //bool walkable = !Physics.CheckSphere(worldPosition, tileSize * 0.4f, unwalkableMask);
 
                     grid[x, y] = new ANode(walkable, worldPosition, x, y);
                 }

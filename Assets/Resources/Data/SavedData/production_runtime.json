@@ -2,7 +2,7 @@
     "filename": "production_runtime.json",
     "playerId": 0,
     "hasSavedGame": true,
-    "buildingId": 7,
+    "buildingId": 8,
     "buildingInfoList": [
         {
             "buildingId": 1,
@@ -46,40 +46,65 @@
         },
         {
             "buildingId": 5,
-            "level": 0,
+            "level": 1,
             "gridPos": {
                 "x": 11,
                 "y": 3
             },
             "buildingType": 7,
-            "isConstructing": true
+            "isConstructing": false
         },
         {
             "buildingId": 6,
-            "level": 0,
+            "level": 1,
             "gridPos": {
-                "x": 11,
+                "x": 10,
                 "y": 1
             },
-            "buildingType": 6,
-            "isConstructing": true
+            "buildingType": 7,
+            "isConstructing": false
+        },
+        {
+            "buildingId": 7,
+            "level": 1,
+            "gridPos": {
+                "x": 11,
+                "y": 6
+            },
+            "buildingType": 9,
+            "isConstructing": false
         }
     ],
     "productionInfoList": [
         {
             "buildingId": 1,
-            "elapsedTime": 5.442902088165283,
-            "currentStorage": 2
+            "elapsedTime": 8.551429748535157,
+            "currentStorage": 49
         },
         {
             "buildingId": 2,
-            "elapsedTime": 5.442902088165283,
-            "currentStorage": 2
+            "elapsedTime": 8.551429748535157,
+            "currentStorage": 49
         },
         {
             "buildingId": 4,
-            "elapsedTime": 5.442902088165283,
-            "currentStorage": 2
+            "elapsedTime": 8.551429748535157,
+            "currentStorage": 49
+        },
+        {
+            "buildingId": 5,
+            "elapsedTime": 8.551429748535157,
+            "currentStorage": 49
+        },
+        {
+            "buildingId": 6,
+            "elapsedTime": 8.551429748535157,
+            "currentStorage": 30
+        },
+        {
+            "buildingId": 7,
+            "elapsedTime": 8.551429748535157,
+            "currentStorage": 27
         }
     ],
     "constructionInfoList": [
@@ -97,6 +122,18 @@
         },
         {
             "buildingId": 4,
+            "elapsedTime": 0.0
+        },
+        {
+            "buildingId": 5,
+            "elapsedTime": 0.0
+        },
+        {
+            "buildingId": 6,
+            "elapsedTime": 0.0
+        },
+        {
+            "buildingId": 7,
             "elapsedTime": 0.0
         }
     ],
@@ -426,13 +463,6 @@
         {
             "wallType": 1,
             "gridPos": {
-                "x": 11,
-                "y": 2
-            }
-        },
-        {
-            "wallType": 1,
-            "gridPos": {
                 "x": 12,
                 "y": 2
             }
@@ -693,13 +723,6 @@
             "wallType": 1,
             "gridPos": {
                 "x": 14,
-                "y": 4
-            }
-        },
-        {
-            "wallType": 1,
-            "gridPos": {
-                "x": 15,
                 "y": 4
             }
         },
