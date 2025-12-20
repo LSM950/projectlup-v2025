@@ -7,9 +7,11 @@ namespace LUP.PCR
         public TileInfo tileInfo;
 
         [SerializeField]
-        private GameObject CanActMark;
+        private GameObject canActMark;
         [SerializeField]
-        private GameObject CanNotActMark;
+        private GameObject canNotActMark;
+        [SerializeField]
+        private GameObject darkVisionMark;
 
         private void Start()
         {
@@ -24,30 +26,45 @@ namespace LUP.PCR
 
         public void ShowCanDigWallMark()
         {
-            if (CanActMark)
+            if (canActMark)
             {
-                CanActMark.SetActive(true);
+                canActMark.SetActive(true);
             }
         }
         public void HideCanDigWallMark()
         {
-            if (CanActMark)
+            if (canActMark)
             {
-                CanActMark.SetActive(false);
+                canActMark.SetActive(false);
             }
         }
         public void ShowCanNotDigWallMark()
         {
-            if (CanNotActMark)
+            if (canNotActMark)
             {
-                CanNotActMark.SetActive(true);
+                canNotActMark.SetActive(true);
             }
         }
         public void HideCanNotDigWallMark()
         {
-            if (CanNotActMark)
+            if (canNotActMark)
             {
-                CanNotActMark.SetActive(false);
+                canNotActMark.SetActive(false);
+            }
+        }
+
+        public void ShowDarkVisionMark()
+        {
+            if (darkVisionMark)
+            {
+                darkVisionMark.SetActive(true);
+            }
+        }
+        public void HideDarkVisionMark()
+        {
+            if (darkVisionMark)
+            {
+                darkVisionMark.SetActive(false);
             }
         }
     }

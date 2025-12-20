@@ -7,6 +7,9 @@ namespace LUP.PCR
         int gridWidth = 5;
         int gridHeight = 5;
 
+        int[] dx = new int[4] { -1, 1, 0, 0 };
+        int[] dy = new int[4] { 0, 0, -1, 1 };
+
         [SerializeField]
         private GameObject tilePrefab;
 
@@ -27,6 +30,7 @@ namespace LUP.PCR
                             Quaternion.identity, this.transform);
                         tiles[i, j] = tile.GetComponent<Tile>();
                         tiles[i, j].SetTileInfo(new TileInfo(TileType.PATH, BuildingType.NONE, WallType.NONE, new Vector2Int(i, j), 1));
+                        tiles[i,j].ShowDarkVisionMark();
                     }
                 }
             }
@@ -94,7 +98,42 @@ namespace LUP.PCR
                 }
             }
         }
+
+        public void UpdateVision()
+        {
+            for (int i = 0; i < GridSize.x; i++)
+            {
+                for (int j = 0; j < GridSize.y; j++)
+                {
+                    switch (tiles[i,j].tileInfo.tileType)
+                    {
+                        case TileType.PATH:
+                        case TileType.BUILDING:
+                            {
+                                ShowVisionAroundTile(i, j);
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+        public void ShowVisionAroundTile(int x, int y)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if (nx < 0 || nx >= GridSize.x || ny < 0 || ny >= GridSize.y)
+                {
+                    continue;
+                }
+
+                tiles[nx, ny].HideDarkVisionMark();
+            }
+        }
     }
-
-
 }
