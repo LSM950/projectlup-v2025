@@ -67,6 +67,11 @@ public class ProductionRuntimeData : BaseRuntimeData
         wallInfoList.Clear();
     }
 
+    public void SaveProductionDatas()
+    {
+        NotifyValueChanged();
+    }
+
     public LUP.PCR.BuildingInfo GetBuildingInfo(int buildingId)
     {
         foreach (LUP.PCR.BuildingInfo info in buildingInfoList)

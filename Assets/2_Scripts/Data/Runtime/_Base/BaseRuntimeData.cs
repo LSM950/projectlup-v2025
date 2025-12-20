@@ -49,15 +49,20 @@ public abstract class BaseRuntimeData
     {
         if (saveCoroutine != null && coroutineRunner != null)
         {
+            Debug.Log("StopCoroutine");
             coroutineRunner.StopCoroutine(saveCoroutine);
         }
 
         if (coroutineRunner != null)
         {
+            Debug.Log("StartCoroutine");
+
             saveCoroutine = coroutineRunner.StartCoroutine(SaveAfterDelay());
         }
         else // 코루틴 러너가 없으면 즉시 저장
         {
+            Debug.Log("SaveDataImmediate");
+
             SaveDataImmediate();
             Debug.LogWarning($"[{GetType().Name}] 코루틴 러너가 설정되지 않아 즉시 저장합니다.");
         }

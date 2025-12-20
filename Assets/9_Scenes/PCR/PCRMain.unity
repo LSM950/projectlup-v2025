@@ -2434,7 +2434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1936493147}
-  - component: {fileID: 1936493146}
+  - component: {fileID: 1936493149}
   - component: {fileID: 1936493148}
   m_Layer: 0
   m_Name: ProductionStage
@@ -2443,27 +2443,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1936493146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936493145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e07d2ec8cdb19754e84cf659fe5dc2c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StageKind: 2
-  buildingDataList: []
-  constructionDataList: []
-  productionDataList: []
-  initialBuildingDataList: []
-  initialWallDataList: []
-  PCRInven:
-    filename: 
-    _serializedSlots: []
 --- !u!4 &1936493147
 Transform:
   m_ObjectHideFlags: 0
@@ -2504,11 +2483,40 @@ MonoBehaviour:
   buildingSystem: {fileID: 0}
   tileMap: {fileID: 0}
   taskController: {fileID: 0}
-  dataCenter: {fileID: 0}
   uiCenter: {fileID: 0}
   digWallPreview: {fileID: 0}
   buildPreview: {fileID: 0}
   resourceCenter: {fileID: 0}
+--- !u!114 &1936493149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936493145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07d2ec8cdb19754e84cf659fe5dc2c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StageKind: 2
+  productionRuntimeData:
+    filename: 
+    playerId: 0
+    hasSavedGame: 0
+    buildingId: 0
+    buildingInfoList: []
+    productionInfoList: []
+    constructionInfoList: []
+    wallInfoList: []
+  buildingDataList: []
+  constructionDataList: []
+  productionDataList: []
+  initialBuildingDataList: []
+  initialWallDataList: []
+  PCRInven:
+    filename: 
+    _serializedSlots: []
 --- !u!1 &1941445745
 GameObject:
   m_ObjectHideFlags: 0
@@ -2632,20 +2640,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661991317a71af74bb759f88d5aa0685, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  constructionData:
-    buildingType: 0
-    level: 0
-    constructionTime: 0
-    costCount: 0
-    resourceType1: 0
-    amount1: 0
-    resourceType2: 0
-    amount2: 0
-  productionData:
-    buildingType: 0
-    level: 0
-    productionPerHour: 0
-    StorageCapacity: 0
+  wallInfoList: []
+  buildingInfoList: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

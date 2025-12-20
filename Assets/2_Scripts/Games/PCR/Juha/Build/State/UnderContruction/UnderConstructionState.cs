@@ -4,7 +4,6 @@ namespace LUP.PCR
 {
     public class UnderConstructionState : IBuildState
     {
-        public float elapsedTime;       // 누적 진행 시간
         public float totalTime;         // 총 건설 시간
         public float progressRatio;     // 진행률 (누적 진행 시간 / 총 건설 시간)
         public bool isCompledted;       // 완료 여부
@@ -16,6 +15,8 @@ namespace LUP.PCR
         public void Enter(BuildingBase building)
         {
             Debug.Log("UnderContructionState Enter");
+
+            this.building = building;
 
             // 건설중 UI 활성화
             if (building.ConstructScreen)
@@ -50,8 +51,8 @@ namespace LUP.PCR
                 return;
             }
 
-            elapsedTime += deltaTime;
-            progressRatio = Mathf.Clamp01(elapsedTime / totalTime);
+            currentConstructionInfo.elapsedTime += deltaTime;
+            progressRatio = Mathf.Clamp01(currentConstructionInfo.elapsedTime / totalTime);
 
             if (progressRatio >= 1f)
             {
@@ -66,7 +67,6 @@ namespace LUP.PCR
 
         public void Reset()
         {
-            elapsedTime = currentConstructionInfo.elapsedTime;
             totalTime = building.currentConstructionData.constructionTime;
             progressRatio = 0f;
             isCompledted = false;
@@ -83,6 +83,7 @@ namespace LUP.PCR
         public void Stop()
         {
             Reset();
+            currentConstructionInfo.elapsedTime = 0f;
         }
 
         public void Interact(BuildingBase building)
