@@ -65,6 +65,7 @@ namespace LUP.RL
             if (platformAdapter != null)
             {
                 platformAdapter.LinkToPlatform();
+                platformAdapter.LoadCharacterEquips();
 
                 chapterDatas = platformAdapter.chapterDatas;
                 characterDatas = platformAdapter.characterDatas;

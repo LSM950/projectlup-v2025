@@ -335,6 +335,7 @@ namespace LUP.RL
                 return;
 
             lobbyGameCenter.platformAdapter.RemoveItemFromInventory(equipData.GetDisplayableName(), 1);
+            lobbyGameCenter.platformAdapter.UpLoadCharacterEquips(lobbyGameCenter.GetselectedCharacter(), equipData);
 
             lobbyInventoryPanel.UpdateEquipInventoryGridPanel();
         }
@@ -347,6 +348,13 @@ namespace LUP.RL
             lobbyGameCenter.platformAdapter.AddItemToInventory(equipData.GetDisplayableName(), 1);
 
             lobbyInventoryPanel.UpdateEquipInventoryGridPanel();
+        }
+
+        public void UpdateCharactesEquip(EquipmentData equipmentData)
+        {
+            InventorPanel lobbyInventoryPanel = (InventorPanel)lobbyPannels[(int)PanelType.INVENTORY];
+            lobbyInventoryPanel.InventoryCharacterEquipPanel.UpdateCharacterEquipSlot(equipmentData);
+
         }
 
         void OnSwipeUp()

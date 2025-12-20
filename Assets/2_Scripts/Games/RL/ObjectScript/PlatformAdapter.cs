@@ -33,6 +33,8 @@ namespace LUP.RL
 
         private RoguelikeStage roguelikeStage;
 
+        public List<EquipmentData> characterEquipInfos = null;
+
         public void LinkToPlatform()
         {
             testPlatform = GameObject.FindFirstObjectByType<Test_Flatform>();
@@ -301,6 +303,26 @@ namespace LUP.RL
             }
 
             return stats.ToArray();
+        }
+
+        public void LoadCharacterEquips()
+        {
+            characterEquipInfos = new List<EquipmentData>();
+
+            characterEquipInfos.Add(runtimesaveData.F001Equips);
+            characterEquipInfos.Add(runtimesaveData.F002Equips);
+            characterEquipInfos.Add(runtimesaveData.F003Equips);
+            characterEquipInfos.Add(runtimesaveData.M001Equips);
+            characterEquipInfos.Add(runtimesaveData.M002Equips);
+        }
+
+        public void UpLoadCharacterEquips(RLCharacterData characterData, EquipData equipedData)
+        {
+            runtimesaveData.F001Equips = characterEquipInfos[(int)CharacterType.F001];
+            runtimesaveData.F002Equips = characterEquipInfos[(int)CharacterType.F002];
+            runtimesaveData.F003Equips = characterEquipInfos[(int)CharacterType.F003];
+            runtimesaveData.M001Equips = characterEquipInfos[(int)CharacterType.M001];
+            runtimesaveData.M002Equips = characterEquipInfos[(int)CharacterType.M002];
         }
     }
 }

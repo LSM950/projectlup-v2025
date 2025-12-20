@@ -1,7 +1,7 @@
 
 namespace Roguelike.Define
 {
-    public enum CharacterType
+    public enum CharacterAtkType
     {
         None,
         Long,
@@ -128,6 +128,16 @@ namespace Roguelike.Define
         Armor_R = 20006,
         Armor_E = 20007,
 
+        Max
+    }
+
+    public enum CharacterType
+    {
+        F001 = 0,
+        F002 = 1,
+        F003 = 2,
+        M001 = 3,
+        M002 = 4,
         Max
     }
 }

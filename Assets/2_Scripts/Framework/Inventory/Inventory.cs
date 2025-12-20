@@ -122,7 +122,7 @@ namespace LUP
                         key = alternateKey;
                         slot = altslot; break;
                     }
-                    return false;
+                    continue;
                 }
             }
 

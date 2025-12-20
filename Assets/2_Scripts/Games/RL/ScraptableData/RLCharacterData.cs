@@ -47,7 +47,7 @@ public class RLCharacterData : ScriptableObject, IDisplayable
 
     private int canSeletable = 1;
 
-    public CharacterType characterType = CharacterType.None;
+    public CharacterAtkType characterType = CharacterAtkType.None;
     public string GetDisplayableName() { return characterName; }
     public Sprite GetDisplayableImage() { return characterPreviewImage; }
 
