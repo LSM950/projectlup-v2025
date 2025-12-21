@@ -13,8 +13,11 @@ public class ProductionRuntimeData : BaseRuntimeData
     [SerializeField] private List<LUP.PCR.BuildingInfo> buildingInfoList = new List<LUP.PCR.BuildingInfo>();
     [SerializeField] private List<LUP.PCR.ProductionInfo> productionInfoList = new List<LUP.PCR.ProductionInfo>();
     [SerializeField] private List<LUP.PCR.ConstructionInfo> constructionInfoList = new List<LUP.PCR.ConstructionInfo>();
-   
     [SerializeField] private List<LUP.PCR.WallInfo> wallInfoList = new List<LUP.PCR.WallInfo>();
+
+    [SerializeField] private List<LUP.PCR.BuildingInfo> reservedBuildingInfoList = new List<LUP.PCR.BuildingInfo>();
+    [SerializeField] private List<LUP.PCR.BuildingInfo> assignedBuildingInfoList = new List<LUP.PCR.BuildingInfo>();
+    [SerializeField] private List<LUP.PCR.WorkerInfo> workerInfoList = new List<LUP.PCR.WorkerInfo>();
 
     public int PlayerId
     {
@@ -56,6 +59,24 @@ public class ProductionRuntimeData : BaseRuntimeData
     {
         get => constructionInfoList;
         set => SetValue(ref constructionInfoList, value);
+    }
+
+    public List<LUP.PCR.BuildingInfo> ReservedBuildingInfoList
+    {
+        get => reservedBuildingInfoList;
+        set => SetValue(ref reservedBuildingInfoList, value);
+    }
+
+    public List<LUP.PCR.BuildingInfo> AssignedBuildingInfoList
+    {
+        get => assignedBuildingInfoList;
+        set => SetValue(ref assignedBuildingInfoList, value);
+    }
+
+    public List<LUP.PCR.WorkerInfo> WorkerInfoList
+    {
+        get => workerInfoList;
+        set => SetValue(ref workerInfoList, value);
     }
 
     public override void ResetData()

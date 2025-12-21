@@ -58,22 +58,22 @@
     "productionInfoList": [
         {
             "buildingId": 1,
-            "elapsedTime": 6.490816593170166,
+            "elapsedTime": 9.407232284545899,
             "currentStorage": 17
         },
         {
             "buildingId": 2,
-            "elapsedTime": 6.490816593170166,
+            "elapsedTime": 9.407232284545899,
             "currentStorage": 17
         },
         {
             "buildingId": 4,
-            "elapsedTime": 6.490816593170166,
+            "elapsedTime": 9.407232284545899,
             "currentStorage": 17
         },
         {
             "buildingId": 5,
-            "elapsedTime": 6.490816593170166,
+            "elapsedTime": 9.407232284545899,
             "currentStorage": 17
         }
     ],
