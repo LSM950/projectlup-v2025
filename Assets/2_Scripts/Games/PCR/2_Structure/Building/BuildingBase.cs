@@ -47,7 +47,7 @@ namespace LUP.PCR
 
         public void ChangeState(IBuildState state)
         {
-            currBuildState?.Exit(this);
+            currBuildState?.Exit();
             currBuildState = state;
             currBuildState.Enter(this);
         }

@@ -26,7 +26,7 @@ namespace LUP.PCR
 
             // 추후에 가속 아이템 적용 가능하게 만들어야 한다.
             float deltaTime = Time.deltaTime;
-            currBuildState?.Tick(this, deltaTime);
+            currBuildState?.Tick(deltaTime);
         }
 
         public override void Init(ProductionRuntimeData runtimeData)
@@ -91,10 +91,6 @@ namespace LUP.PCR
         public override void Upgrade()
         {
             ChangeState(constructState);
-        }
-        public override void InteractForTouch()
-        {
-            currBuildState?.Interact(this);
         }
 
         public override void SetupProductionData()

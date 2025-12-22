@@ -16,10 +16,6 @@ namespace LUP.PCR
 
         }
 
-        public override void InteractForTouch()
-        {
-            Debug.Log("WallDust");
-        }
     }
 
 }

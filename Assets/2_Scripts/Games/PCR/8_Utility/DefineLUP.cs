@@ -81,9 +81,10 @@ namespace LUP.PCR
 
     public enum FoodType
     {
-        NONE,
-        BREAD,
-        POTATOPIZZA
+        None,
+        Bread,
+        MeatSoup,
+        GrilledMushroom
     }
 
     public enum TaskType

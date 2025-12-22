@@ -6,18 +6,20 @@ namespace LUP.PCR
     {
         protected IBuildState constructState;
         protected IBuildState completeState;
+        protected IBuildState cookingState;
 
-        public FoodType currFood;
-
-        public int maxStorage;
-        public int currStorage;
+        public FoodType currFood = FoodType.None;
+        private bool isCooking;
         // 필요 자원 만들어야 한다.
+
+        
 
         private void Awake()
         {
             buildingEvents = new BuildingEvents();
             constructState = new UnderConstructionState();
             completeState = new CompletedState();
+            cookingState = new CookingState();
         }
 
         private void Start()
@@ -36,7 +38,7 @@ namespace LUP.PCR
 
             // 추후에 가속 아이템 적용 가능하게 만들어야 한다.
             float deltaTime = Time.deltaTime;
-            currBuildState?.Tick(this, deltaTime);
+            currBuildState?.Tick(deltaTime);
         }
 
         public override void Init(ProductionRuntimeData runtimeData)
@@ -58,7 +60,6 @@ namespace LUP.PCR
                 ConstructScreen.SetActive(false);
             }
 
-            // 작업자 있는지 데이터 필요.
             hasWork = true;
             buildingName = "Restaurant";
 
@@ -76,11 +77,6 @@ namespace LUP.PCR
             }
         }
 
-        public override void InteractForTouch()
-        {
-            currBuildState?.Interact(this);
-        }
-
         public override void CompleteContruction()
         {
             // 레벨업
@@ -91,6 +87,11 @@ namespace LUP.PCR
             ChangeState(completeState);
         }
 
+        public void CompleteCooking()
+        {
+
+        }
+
         public override void Upgrade()
         {
             ChangeState(constructState);
@@ -99,17 +100,6 @@ namespace LUP.PCR
         public override void DeliverToInventory()
         {
 
-        }
-
-        public void SetupRestaurantData()
-        {
-            // 지금은 초기값으로 초기화하는 작업으로 테스트
-            // 미리 저장된 값 대신 임의의 값으로 대체
-            // 다음에는 저장된 데이터를 받아와서 갱신해준다.
-            currFood = FoodType.BREAD;
-            maxStorage = 5;
-            currStorage = 0;
-            buildingName = "Restaurant";
         }
 
     }

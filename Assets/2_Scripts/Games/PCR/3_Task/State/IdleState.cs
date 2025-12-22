@@ -60,7 +60,6 @@ namespace LUP.PCR
                             Debug.Log("Find Building");
                             OpenBuildingTaskUI(building);
 
-                            building.InteractForTouch();
                         }
                     }
                 }

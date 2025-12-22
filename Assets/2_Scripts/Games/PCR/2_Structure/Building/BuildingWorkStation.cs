@@ -34,7 +34,7 @@ namespace LUP.PCR
             }
 
             float deltaTime = Time.deltaTime;
-            currBuildState?.Tick(this, deltaTime);
+            currBuildState?.Tick(deltaTime);
         }
 
         public override void Init(ProductionRuntimeData runtimeData)
@@ -93,10 +93,6 @@ namespace LUP.PCR
 
         }
 
-        public override void InteractForTouch()
-        {
-
-        }
     }
 }
 

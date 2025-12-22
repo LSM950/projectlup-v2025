@@ -28,13 +28,13 @@ namespace LUP.PCR
             }
         }
 
-        public void Exit(BuildingBase building)
+        public void Exit()
         {
             Debug.Log("ProductableState Exit");
             Reset();
         }
 
-        public void Tick(BuildingBase building, float deltaTime)
+        public void Tick(float deltaTime)
         {
             if (!IsStarted())
             {
@@ -55,10 +55,6 @@ namespace LUP.PCR
 
                 Complete();
             }
-        }
-        public void Interact(BuildingBase building)
-        {
-
         }
 
         public void Complete()

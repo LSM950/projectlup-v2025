@@ -8,17 +8,14 @@ namespace LUP.PCR
         {
             Debug.Log("CompletedState Enter");
         }
-        public void Exit(BuildingBase building)
+        public void Exit()
         {
             Debug.Log("CompletedState Exit");
         }
-        public void Tick(BuildingBase building, float deltaTime)
+        public void Tick(float deltaTime)
         {
 
         }
-        public void Interact(BuildingBase building)
-        {
-            Debug.Log("CompletedState Interact");
-        }
+
     }
 }

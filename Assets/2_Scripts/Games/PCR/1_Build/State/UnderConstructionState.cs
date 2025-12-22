@@ -29,7 +29,7 @@ namespace LUP.PCR
 
             Start();
         }
-        public void Exit(BuildingBase building)
+        public void Exit()
         {
             if (building.ConstructScreen)
             {
@@ -40,7 +40,7 @@ namespace LUP.PCR
             // 건설 취소.
             Debug.Log("UnderContructionState Exit");
         }
-        public void Tick(BuildingBase building, float deltaTime)
+        public void Tick(float deltaTime)
         {
             if (!isStarted)
             {
@@ -84,12 +84,6 @@ namespace LUP.PCR
         {
             Reset();
             currentConstructionInfo.elapsedTime = 0f;
-        }
-
-        public void Interact(BuildingBase building)
-        {
-            // 건설 진행도 UI 활성화
-            Debug.Log("UnderContructionState Interact");
         }
     }
 }
