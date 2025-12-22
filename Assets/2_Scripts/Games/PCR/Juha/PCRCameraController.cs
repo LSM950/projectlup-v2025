@@ -9,62 +9,77 @@ namespace LUP.PCR
 
     public class PCRCameraController : MonoBehaviour
     {
-        [Header("Settings")]
-        public BoxCollider mapCollider; // 맵 범위를 지정하는 박스 콜라이더
-        public float minZoomDistance = 10f; // 가장 가까이 확대할 수 있는 거리 (최소 거리)
-        public float zoomSpeed = 5f;        // 줌 속도
-        public float dragSpeed = 1.0f;      // 드래그 감도
+        [Range(1, 10)]
+        [Header("줌 인/줌 아웃")]
+        [SerializeField] private float minZoomDistance = 10f; // 가장 가까이 확대할 수 있는 거리 (최소 거리)
+        [SerializeField] private float maxZoomDistance; // 맵 크기에 맞춰 자동으로 계산될 최대 거리
+        [SerializeField] private float zoomSpeed = 5f;        // 줌 속도
+        private float currentZoomDist;
 
-        private Camera cam;
-        private float maxZoomDistance; // 맵 크기에 맞춰 자동으로 계산될 최대 거리
-        private float currentZoomDist; // 현재 카메라와 맵 사이의 거리 (양수)
-
+        [Header("드래그")]
+        public float dragSpeed = 1.0f;
         private Vector3 dragOrigin;
         private bool isDragging = false;
+        private BoxCollider mapArea;
+        private Camera cam;
         private float mapZPos; // 맵의 Z 위치
 
         private void Awake()
         {
             cam = GetComponent<Camera>();
+            mapArea = this.transform.parent.GetComponentInChildren<BoxCollider>();
         }
 
         private void Start()
         {
-            if (mapCollider == null)
+            if (mapArea == null)
             {
-                Debug.LogError("Map Collider가 할당되지 않았습니다!");
                 return;
             }
 
-            mapZPos = mapCollider.transform.position.z;
+            SetupMapCollider();
 
-            // 1. 맵 크기를 기준으로 최대 줌(Max Distance) 자동 계산
+            mapZPos = mapArea.transform.position.z;
+            
             CalculateMaxZoomDistance();
 
-            // 2. 현재 거리 초기화
-            currentZoomDist = Mathf.Abs(transform.position.z - mapZPos);
+            // 맵과 카메라 사이의 거리
+            currentZoomDist = Mathf.Abs(transform.position.z - mapZPos); 
         }
 
         private void Update()
         {
-            if (mapCollider == null) return;
+            if (mapArea == null) return;
 
             HandleInput();
         }
 
         private void LateUpdate()
         {
-            if (mapCollider == null) return;
+            if (mapArea == null) return;
 
             // 이동 및 줌이 끝난 후 최종적으로 범위를 벗어나지 않게 고정
             ClampCameraPosition();
         }
 
-        // 맵의 가로/세로 크기에 딱 맞는 카메라 거리를 계산 (이보다 멀어지면 배경이 보임)
+        private void SetupMapCollider()
+        {
+            float totalWidth = GridSize.x * GridSize.tileSize;
+            float totalHeight = GridSize.y * GridSize.tileSize;
+
+            mapArea.size = new Vector3(totalWidth, totalHeight, 1f);
+            mapArea.center = new Vector3(totalWidth * 0.5f, -totalHeight * 0.5f, -2.5f);
+        }
+
+
+
+        // 맵의 가로/세로 크기에 딱 맞는 카메라 거리를 계산
         private void CalculateMaxZoomDistance()
         {
-            float mapHeight = mapCollider.bounds.size.y;
-            float mapWidth = mapCollider.bounds.size.x;
+            //[GridSize.x, GridSize.y];
+
+            float mapHeight = mapArea.bounds.size.y;
+            float mapWidth = mapArea.bounds.size.x;
 
             // 세로 기준으로 꽉 차는 거리
             float distHeight = (mapHeight * 0.5f) / Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
@@ -78,10 +93,9 @@ namespace LUP.PCR
 
         private void HandleInput()
         {
-            // --- [Zoom 처리] ---
             float scrollDelta = 0f;
 
-            // 1. 모바일 핀치 줌 (두 손가락)
+            // 모바일 핀치 줌 (두 손가락)
             if (Input.touchCount == 2)
             {
                 Touch touchZero = Input.GetTouch(0);
@@ -100,7 +114,7 @@ namespace LUP.PCR
                 // 모바일은 감도를 좀 낮춤
                 scrollDelta = deltaMagnitudeDiff * 0.01f * zoomSpeed;
             }
-            // 2. PC 마우스 휠 줌
+            // PC 마우스 휠 줌
             else
             {
                 // 휠을 올리면(+), 줌인(거리 감소) -> 따라서 -를 붙여줌
@@ -120,7 +134,7 @@ namespace LUP.PCR
                 transform.position = pos;
             }
 
-            // --- [Drag (Pan) 처리] ---
+            // Drag (Pan) 처리
             // 줌 도중에는 드래그 막기 (터치 2개일 때 튀는 현상 방지)
             if (Input.touchCount >= 2)
             {
@@ -160,7 +174,7 @@ namespace LUP.PCR
         // 카메라가 맵 밖으로 나가지 않도록 최종 위치 보정
         private void ClampCameraPosition()
         {
-            Bounds mapBounds = mapCollider.bounds;
+            Bounds mapBounds = mapArea.bounds;
 
             // 1. 현재 줌 거리에서 보이는 화면 반경 계산
             float halfFrustumHeight = currentZoomDist * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
@@ -174,15 +188,15 @@ namespace LUP.PCR
 
             Vector3 newPos = transform.position;
 
-            // 3. X축 Clamp (만약 줌아웃을 너무 해서 화면이 맵보다 크면 중앙 고정)
+            // X축 Clamp (만약 줌아웃을 너무 해서 화면이 맵보다 크면 중앙 고정)
             if (maxX < minX) newPos.x = mapBounds.center.x;
             else newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
 
-            // 4. Y축 Clamp
+            // Y축 Clamp
             if (maxY < minY) newPos.y = mapBounds.center.y;
             else newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
 
-            // 5. Z축 Clamp (줌) - 한번 더 확실하게 제한
+            // Z축 Clamp (줌) - 한번 더 확실하게 제한
             // (이미 HandleInput에서 했지만, 외부 요인 방지)
             // newPos.z는 mapZPos - currentZoomDist 로 설정됨
 
