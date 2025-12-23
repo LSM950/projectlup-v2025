@@ -7,8 +7,8 @@ namespace LUP.PCR
     {
         private ProductionRuntimeData pcrRuntimeData;
 
-        private List<int> curReservedBuildingInfoList;
-        private List<int> curAssignedBuildingInfoList;
+        private List<int> curReservedBuildingIdList;
+        private List<int> curAssignedBuildingIdList;
         private List<WorkerInfo> curWorkerInfoList;
         private Dictionary<int, BuildingBase> curBuildings; // 건물 Id로 BuildingBase 읽기전용
         private TileMap tileMap;
@@ -41,11 +41,12 @@ namespace LUP.PCR
 
             ProductionStage stage = StageManager.Instance.GetCurrentStage() as ProductionStage;
             pcrRuntimeData = stage.productionRuntimeData;
-            curReservedBuildingInfoList = pcrRuntimeData.ReservedBuildingIdList;
-            curAssignedBuildingInfoList = pcrRuntimeData.AssignedBuildingIdList;
+            curReservedBuildingIdList = pcrRuntimeData.ReservedBuildingIdList;
+            curAssignedBuildingIdList = pcrRuntimeData.AssignedBuildingIdList;
             curWorkerInfoList = pcrRuntimeData.WorkerInfoList;
 
             // 위 데이터 기반으로 초기화.
+
 
 
             Debug.Log("WorkerSystem Init");
