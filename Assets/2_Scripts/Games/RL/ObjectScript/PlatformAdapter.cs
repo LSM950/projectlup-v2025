@@ -33,11 +33,16 @@ namespace LUP.RL
 
         private RoguelikeStage roguelikeStage;
 
+        public List<CharacterEquipsID> characterEquipInfos = null;
+
+        private Dictionary<int, EquipData> RLEquipDictionary;
+
         public void LinkToPlatform()
         {
             testPlatform = GameObject.FindFirstObjectByType<Test_Flatform>();
             platform = GameObject.FindFirstObjectByType<RoguelikeStage>();
             roguelikeStage = GameObject.FindFirstObjectByType<RoguelikeStage>();
+            RLEquipDictionary = new Dictionary<int, EquipData>();
 
             if (platform)
             {
@@ -59,6 +64,8 @@ namespace LUP.RL
                     UnityEngine.Debug.LogError("Fail to Sync Platform data");
                 }
             }
+
+            MakeEquipTable();
 
         }
 
@@ -220,23 +227,7 @@ namespace LUP.RL
 
                 IItemable item = inventorySlots[i].Item;
 
-                string equipName = item.ItemName;
-                Sprite equipIcon = item.Icon;
-                int equipTier = item.GetInt("Tier");
-                RLEquipPos equipPos = (RLEquipPos)item.GetInt("EquipPos");
-                string equipDescription = item.Description;
-                string equipEffects = item.GetString("Effects");
-
-                EquipData dynamicInventoryEquipData = ScriptableObject.CreateInstance<EquipData>();
-
-                dynamicInventoryEquipData.SetItemName(equipName);
-                dynamicInventoryEquipData.SetDisplayableImage(equipIcon);
-                dynamicInventoryEquipData.SetExtraInfo(equipTier);
-                dynamicInventoryEquipData.equipPos = equipPos;
-                dynamicInventoryEquipData.equipStats = ExtrackEquipEffect(equipEffects);
-                dynamicInventoryEquipData.equipDescription = equipDescription;
-                //dynamicInventoryEquipData.inventorySlotKey = 
-
+                EquipData dynamicInventoryEquipData = ConvertItemToEquip(item);
                 Equips.Add(dynamicInventoryEquipData);
             }
 
@@ -245,6 +236,12 @@ namespace LUP.RL
 
             return Equips.ToArray();
         }
+
+        //public EquipData[] GetCharacterEquips(RLCharacterData targetCharacterData)
+        //{
+        //    EquipsID EquipItems = targetCharacterData.EquipItems;
+        //    List<EquipData> Equips = new List<EquipData>();
+        //}
 
         public void AddItemToInventory(string itemName, int gainNum)
         {
@@ -302,6 +299,80 @@ namespace LUP.RL
 
             return stats.ToArray();
         }
+
+        //public void LoadCharacterEquips()
+        //{
+        //    characterEquipInfos = new List<CharacterEquipsID>();
+
+        //    characterEquipInfos.Add(runtimesaveData.F001Equips);
+        //    characterEquipInfos.Add(runtimesaveData.F002Equips);
+        //    characterEquipInfos.Add(runtimesaveData.F003Equips);
+        //    characterEquipInfos.Add(runtimesaveData.M001Equips);
+        //    characterEquipInfos.Add(runtimesaveData.M002Equips);
+        //}
+
+        //public void UpLoadCharacterEquips()
+        //{
+        //    runtimesaveData.F001Equips = characterEquipInfos[(int)CharacterType.F001];
+        //    runtimesaveData.F002Equips = characterEquipInfos[(int)CharacterType.F002];
+        //    runtimesaveData.F003Equips = characterEquipInfos[(int)CharacterType.F003];
+        //    runtimesaveData.M001Equips = characterEquipInfos[(int)CharacterType.M001];
+        //    runtimesaveData.M002Equips = characterEquipInfos[(int)CharacterType.M002];
+        //}
+
+        void MakeEquipTable()
+        {
+            foreach (RLItemID itemID in Enum.GetValues(typeof(RLItemID)))
+            {
+                if (itemID == RLItemID.Max)
+                    continue;
+
+                int numID = (int)itemID;
+
+                IItemable item = ItemManager.Instance.GetItem(numID);
+
+                if (item.Type != Define.ItemType.Weapon && item.Type != Define.ItemType.Armor)
+                    continue;
+
+                EquipData dynamicInventoryEquipData = ConvertItemToEquip(item);
+
+                if(RLEquipDictionary.ContainsKey(numID) == false)
+                    RLEquipDictionary[numID] = dynamicInventoryEquipData;
+            }
+           
+        }
+
+        public EquipData GetEquipDataByID(int id)
+        {
+            if(RLEquipDictionary.ContainsKey(id))
+                return RLEquipDictionary[id];
+
+            return null;
+        }
+
+        EquipData ConvertItemToEquip(IItemable item)
+        {
+            string equipName = item.ItemName;
+            Sprite equipIcon = item.Icon;
+            int equipTier = item.GetInt("Tier");
+            RLEquipPos equipPos = (RLEquipPos)item.GetInt("EquipPos");
+            RWeaponType weaponType = (RWeaponType)item.GetInt("WeaponType");
+            string equipDescription = item.Description;
+            string equipEffects = item.GetString("Effects");
+
+            EquipData dynamicInventoryEquipData = ScriptableObject.CreateInstance<EquipData>();
+
+            dynamicInventoryEquipData.SetItemName(equipName);
+            dynamicInventoryEquipData.SetDisplayableImage(equipIcon);
+            dynamicInventoryEquipData.SetExtraInfo(equipTier);
+            dynamicInventoryEquipData.equipPos = equipPos;
+            dynamicInventoryEquipData.weaponType = weaponType;
+            dynamicInventoryEquipData.equipStats = ExtrackEquipEffect(equipEffects);
+            dynamicInventoryEquipData.equipDescription = equipDescription;
+
+            return dynamicInventoryEquipData;
+        }
+
     }
 }
 

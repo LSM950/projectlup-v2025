@@ -13,7 +13,7 @@ namespace LUP.RL
         private CharacterSelectionButtonPanel characterSelectionButton;
         private List<RLCharacterData> displayedCharacterData = new List<RLCharacterData>();
 
-        private CharacterType characterTypeFilter = CharacterType.None;
+        private CharacterAtkRangeType characterTypeFilter = CharacterAtkRangeType.None;
 
         private RLCharacterData previewCharacterData = null;
 
@@ -66,15 +66,18 @@ namespace LUP.RL
             {
                 PannelController pannelController = FindFirstObjectByType<PannelController>();
                 pannelController.OnSubPannelErase();
+                pannelController.UpdateCharactesEquip(previewCharacterData.EquipItems);
             }
 
             if (inventoryCharacterEquipPanel)
                 inventoryCharacterEquipPanel.SetInventoryCharacterPrieViewAnimImage(previewCharacterData.Name);
 
+
+
             ErasePanel();
         }
 
-        public void SetCharacterFilter(CharacterType characterType)
+        public void SetCharacterFilter(CharacterAtkRangeType characterType)
         {
             characterTypeFilter = characterType;
 
@@ -90,7 +93,7 @@ namespace LUP.RL
             {
                 RLCharacterData characterData = (RLCharacterData)displayedData[i];
 
-                if (characterTypeFilter == CharacterType.None || characterData.characterType == characterTypeFilter)
+                if (characterTypeFilter == CharacterAtkRangeType.None || characterData.characterAtkRangeType == characterTypeFilter)
                     displayedCharacterData.Add(characterData);
             }
 
@@ -124,6 +127,11 @@ namespace LUP.RL
         {
             previewCharacterData = displayedCharacterData[index];
             characterPriveiw.SetCharacterPreview(previewCharacterData);
+        }
+
+        public void UpdateCharacterEquipIcon(CharacterEquipsID characterequipsInfo)
+        {
+            inventoryCharacterEquipPanel.UpdateCharacterEquipSlot(characterequipsInfo);
         }
 
     }

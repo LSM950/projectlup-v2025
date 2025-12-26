@@ -1,6 +1,7 @@
 using Roguelike.Define;
 using Roguelike.Util;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,7 +31,7 @@ namespace LUP.RL
         private RLCharacterData characterData;
 
         //private ItemData[] spawnableItemDatas;
-        private Dictionary<ItemData, int> gainItem = new Dictionary<ItemData, int>();
+        private Dictionary<ItemData, int> gainItem = new Dictionary<ItemData, int>(new ItemDataComparer());
 
         private StageController stageController;
         private FollowCamera followCamera;

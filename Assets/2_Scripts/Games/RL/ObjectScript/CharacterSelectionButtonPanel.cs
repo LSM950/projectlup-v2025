@@ -26,7 +26,7 @@ namespace LUP.RL
 
         private CharacterSelectionScrollPanel ScrollPanel;
 
-        private CharacterType currentSelectedFilterType = CharacterType.None;
+        private CharacterAtkRangeType currentSelectedFilterType = CharacterAtkRangeType.None;
 
         [SerializeField]
         private Color normalColor = Color.red;
@@ -69,24 +69,24 @@ namespace LUP.RL
             //알리기만 하자, 상위단 패널이 현재 선택된게 무엇인지도 알게 하자
             SelectButton.onClick.AddListener(OnConfirmBtnSelected);
 
-            FilterLongBtn.onClick.AddListener(() => OnFilterBtnClicked(CharacterType.Long));
-            FilterMiddleBtn.onClick.AddListener(() => OnFilterBtnClicked(CharacterType.Middle));
-            FilterShortBtn.onClick.AddListener(() => OnFilterBtnClicked(CharacterType.Short));
+            FilterLongBtn.onClick.AddListener(() => OnFilterBtnClicked(CharacterAtkRangeType.Long));
+            FilterMiddleBtn.onClick.AddListener(() => OnFilterBtnClicked(CharacterAtkRangeType.Middle));
+            FilterShortBtn.onClick.AddListener(() => OnFilterBtnClicked(CharacterAtkRangeType.Short));
 
         }
 
         void OnConfirmBtnSelected()
         {
-            currentSelectedFilterType = CharacterType.None;
+            currentSelectedFilterType = CharacterAtkRangeType.None;
             ReFreshColor();
 
             ScrollPanel.OnSelectedCharacter();
         }
 
-        void OnFilterBtnClicked(CharacterType filteringType)
+        void OnFilterBtnClicked(CharacterAtkRangeType filteringType)
         {
             if (currentSelectedFilterType == filteringType)
-                currentSelectedFilterType = CharacterType.None;
+                currentSelectedFilterType = CharacterAtkRangeType.None;
 
             else
             {
@@ -98,27 +98,27 @@ namespace LUP.RL
             SetFilterImageHighlighte(currentSelectedFilterType);
         }
 
-        void SetFilterImageHighlighte(CharacterType filteringType)
+        void SetFilterImageHighlighte(CharacterAtkRangeType filteringType)
         {
             ReFreshColor();
 
             switch (filteringType)
             {
-                case CharacterType.None:
+                case CharacterAtkRangeType.None:
                     break;
-                case CharacterType.Long:
+                case CharacterAtkRangeType.Long:
                     btnBackGrounds[(int)Buttontype.Btn_Long].color = highlightColor;
 
                     //Temp
                     FilterLongBtn.GetComponent<TextImageBtn>().SetActive(true);
                     break;
-                case CharacterType.Middle:
+                case CharacterAtkRangeType.Middle:
                     btnBackGrounds[(int)Buttontype.Btn_Middle].color = highlightColor;
 
                     //Temp
                     FilterMiddleBtn.GetComponent<TextImageBtn>().SetActive(true);
                     break;
-                case CharacterType.Short:
+                case CharacterAtkRangeType.Short:
                     btnBackGrounds[(int)Buttontype.Btn_Short].color = highlightColor;
 
                     //Temp

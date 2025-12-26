@@ -15,16 +15,34 @@ public struct BaseStats
 }
 
 [System.Serializable]
-public struct EquipmentData
+public struct CharacterEquipsID
 {
-    public EquipData Weapon;
-    public EquipData Armor;
-    public EquipData Ring1;
-    public EquipData Ring2;
-    public EquipData Pet1;
-    public EquipData Pet2;
-    public EquipData Bracelet;
-    public EquipData Necklace;
+    public int Weapon;
+    public int Armor;
+    public int Ring1;
+    public int Ring2;
+    public int Pet1;
+    public int Pet2;
+    public int Bracelet;
+    public int Necklace;
+
+
+    public void ExtractEquipsID(int[] idArray)
+    {
+        if (idArray == null || idArray.Length < 8)
+        {
+            return;
+        }
+
+        idArray[0] = Weapon;
+        idArray[1] = Armor;
+        idArray[2] = Ring1;
+        idArray[3] = Ring2;
+        idArray[4] = Pet1;
+        idArray[5] = Pet2;
+        idArray[6] = Bracelet;
+        idArray[7] = Necklace;
+    }
 }
 
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
@@ -35,9 +53,10 @@ public class RLCharacterData : ScriptableObject, IDisplayable
     [SerializeField] private GameObject characterPrefab;
     [SerializeField] private GameObject weaponPrefab;
     [SerializeField] private GameObject weaponProjecTile = null;
+    [SerializeField] public RWeaponType weaponType;
     [SerializeField] public int projecTileSpeed = 0;
     [SerializeField] public BaseStats stats;
-    [SerializeField] public EquipmentData EquipItems;
+    [SerializeField] public CharacterEquipsID EquipItems;
 
 
     public GameObject CharacterPrefab => characterPrefab;
@@ -47,7 +66,7 @@ public class RLCharacterData : ScriptableObject, IDisplayable
 
     private int canSeletable = 1;
 
-    public CharacterType characterType = CharacterType.None;
+    public CharacterAtkRangeType characterAtkRangeType = CharacterAtkRangeType.None;
     public string GetDisplayableName() { return characterName; }
     public Sprite GetDisplayableImage() { return characterPreviewImage; }
 

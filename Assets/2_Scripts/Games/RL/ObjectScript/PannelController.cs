@@ -324,15 +324,18 @@ namespace LUP.RL
 
         public void PopEquipPanel(EquipData equipData, bool bIsInventory)
         {
-            equipInfoPopupPanel.PopupItemPanel(equipData, bIsInventory);
+            equipInfoPopupPanel.PopupItemPanel(equipData, bIsInventory, lobbyGameCenter.GetselectedCharacter());
         }
 
         void OnItemEquiped(EquipData equipData)
         {
             InventorPanel lobbyInventoryPanel = (InventorPanel)lobbyPannels[(int)PanelType.INVENTORY];
-            lobbyInventoryPanel.OnItemEquiped(equipData);
+
+            if (lobbyInventoryPanel.OnItemEquiped(equipData) == false)
+                return;
 
             lobbyGameCenter.platformAdapter.RemoveItemFromInventory(equipData.GetDisplayableName(), 1);
+            //lobbyGameCenter.platformAdapter.UpLoadCharacterEquips();
 
             lobbyInventoryPanel.UpdateEquipInventoryGridPanel();
         }
@@ -343,8 +346,16 @@ namespace LUP.RL
             lobbyInventoryPanel.OnItemReleased(equipData);
 
             lobbyGameCenter.platformAdapter.AddItemToInventory(equipData.GetDisplayableName(), 1);
+            //lobbyGameCenter.platformAdapter.UpLoadCharacterEquips();
 
             lobbyInventoryPanel.UpdateEquipInventoryGridPanel();
+        }
+
+        public void UpdateCharactesEquip(CharacterEquipsID equipmentData)
+        {
+            InventorPanel lobbyInventoryPanel = (InventorPanel)lobbyPannels[(int)PanelType.INVENTORY];
+            lobbyInventoryPanel.InventoryCharacterEquipPanel.UpdateCharacterEquipSlot(equipmentData);
+
         }
 
         void OnSwipeUp()

@@ -1,3 +1,4 @@
+using LUP.ST;
 using Roguelike.Util;
 using TMPro;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace LUP.RL
 
         private EquipData[] InventoryItmes;
 
-        private PlatformAdapter platformAdapter;
+        private PlatformAdapter platformAdapter = null;
 
         private PannelController pannelController = null;
 
@@ -61,14 +62,18 @@ namespace LUP.RL
 
         public void LoadInventoryItemData()
         {
-            platformAdapter = new PlatformAdapter();
-
-            if (platformAdapter != null)
+            if(platformAdapter == null)
             {
+                platformAdapter = new PlatformAdapter();
                 platformAdapter.LinkToPlatform();
             }
 
-            ClearInventoryGrid();
+            else
+            {
+                platformAdapter = pannelController.lobbyGameCenter.platformAdapter;
+            }
+
+                ClearInventoryGrid();
 
             //ItemData[] InventoryItmes = platformAdapter.GetInventoryItems();
             InventoryItmes = platformAdapter.GetInventoryEquips();
@@ -88,6 +93,8 @@ namespace LUP.RL
 
             }
 
+            StartCoroutine(RoguelikeUtil.DelayOneFrame(ReArrnageGidPanle));
+
         }
 
         void ClearInventoryGrid()
@@ -99,6 +106,13 @@ namespace LUP.RL
                 GameObject child = gridTransform.GetChild(i).gameObject;
                 GameObject.Destroy(child);
             }
+
+            gameObject.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.UpperLeft;
+        }
+
+        void ReArrnageGidPanle()
+        {
+            gameObject.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.MiddleCenter;
         }
 
         void OnEquipItemBtnClicked(int index)
