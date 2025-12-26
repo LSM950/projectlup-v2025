@@ -74,7 +74,7 @@ namespace LUP.PCR
             this.myInfo = info;
 
             // 이름 설정 (디버깅용)
-            gameObject.name = info.workerName;
+            gameObject.name = info.name;
 
             // 컴포넌트 및 블랙보드 초기화
             InitBTReferences();
@@ -83,7 +83,7 @@ namespace LUP.PCR
             LocalBlackboard.SetValue(BBKeys.Restaurant, restaurant);
             LocalBlackboard.SetValue(BBKeys.WorkerStation, station); // 혹은 workStationList
             
-            Debug.Log($"Worker Initialized: {info.workerName} (ID: {info.workerId})");
+            Debug.Log($"Worker Initialized: {info.name} (ID: {info.id})");
 
         }
 

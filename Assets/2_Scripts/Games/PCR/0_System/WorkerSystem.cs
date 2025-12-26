@@ -1,16 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static System.Collections.Specialized.BitVector32;
 
 namespace LUP.PCR
 {
     public class WorkerSystem : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private GameObject workerPrefab;
-        [SerializeField] private Transform workerSpawnPoint;
-
         private ProductionRuntimeData pcrRuntimeData;
 
         private List<int> curReservedBuildingIdList;
@@ -20,24 +14,39 @@ namespace LUP.PCR
         private TileMap tileMap;
 
         private BuildingBase restaurant;
+        private BuildingBase workStation;
         private List<BuildingBase> workStationList;
 
-        // Worker Logic
-        [SerializeField] private AGridMap aGrid;
-        [SerializeField] private const int maxWorkerCount = 50;
-        [SerializeField] private List<WorkerAI> activeWorkers = new List<WorkerAI>(maxWorkerCount);
-
+        [SerializeField] private GameObject workerPrefab;
+        
+        private AGridMap aGrid;
+        private int maxWorkerCount = 50;
+        private List<WorkerAI> activeWorkers;
         private bool isInitialized = false;
         private Queue<StructureBase> taskQueue = new Queue<StructureBase>();
 
         public void InitWorkerSystem(BuildingSystem buildingSystem, TileMap tileMap)
         {
-            // 타일맵 초기화
+            aGrid = GetComponentInChildren<AGridMap>();
+
+            activeWorkers = new List<WorkerAI>(maxWorkerCount);
+            workStationList = new List<BuildingBase>();
+
+            // 타일맵 & 그리드맵 초기화
             this.tileMap = tileMap;
             aGrid.InitMap(tileMap.tiles);
-
+            
             // 건물목록 초기화
             curBuildings = buildingSystem.GetCurrentBuildingDictionary();
+
+            //if (curBuildings[0] is BuildingWorkStation)
+            //{
+            //    workStation = curBuildings[0];
+            //}
+            //else
+            //{
+            //    Debug.Log("WorkStation is empty!");
+            //}
 
             // Restaurant를 buildingId: 1로 배정 예정. 추후 바뀔 수 있음.
             if (curBuildings[1] is BuildingRestaurant)
@@ -48,6 +57,9 @@ namespace LUP.PCR
             {
                 Debug.Log("Restaurant is empty!");
             }
+
+
+
 
             foreach (BuildingBase building in curBuildings.Values)
             {
@@ -63,28 +75,38 @@ namespace LUP.PCR
             curAssignedBuildingIdList = pcrRuntimeData.AssignedBuildingIdList;
             curWorkerInfoList = pcrRuntimeData.WorkerInfoList;
 
-
             // 위 데이터 기반으로 초기화.
-            SpawnSavedWorkers();
+           curWorkerInfoList.Clear();
+           activeWorkers.Clear();
+
+            InitDefaultWorkers();
+
+            isInitialized = true;
         }
-
-        private void SpawnSavedWorkers()
+        
+        private void InitDefaultWorkers()
         {
-            // 기존 리스트 초기화 (중복 방지)
-            activeWorkers.Clear();
-
-            foreach (var info in curWorkerInfoList)
+            // ID 0~4 까지는 기본 제공되는 작업자.
+            int defaultWorkerCount = 5;
+            if (curWorkerInfoList.Count == 0)
             {
-                CreateWorkerObject(info);
+                for (int i = 0; i < defaultWorkerCount; i++)
+                {
+                    WorkerInfo testInfo = new WorkerInfo();
+                    testInfo.id = i;
+                    testInfo.name = $"DefaultWorker_{i}";
+
+                    curWorkerInfoList.Add(testInfo);
+                    CreateWorkerObject(testInfo);
+                }
             }
         }
 
         private void CreateWorkerObject(WorkerInfo info)
         {
-            //if (isInitialized) return;
-            //isInitialized = true;
-
-            GameObject newWorker = Instantiate(workerPrefab, workerSpawnPoint.position, Quaternion.identity);
+            //GameObject newWorker = Instantiate(workerPrefab, (Vector2)workStationList[0].entrancePos, Quaternion.identity);
+            Vector3 defaultPos = aGrid.GridToWorldPosition(restaurant.entrancePos);
+            GameObject newWorker = Instantiate(workerPrefab, defaultPos, Quaternion.identity);
 
             WorkerAI ai = newWorker.GetComponent<WorkerAI>();
             if (ai == null) ai = ai.GetComponentInChildren<WorkerAI>();
@@ -98,31 +120,11 @@ namespace LUP.PCR
             ai.Initialize(info, restaurant, defaultStation);
         }
 
-        // [새로운 워커 고용] 게임 도중 버튼을 눌러 추가할 때 사용
-        public void HireNewWorker(string name)
-        {
-            int newId = curWorkerInfoList.Count + 1; // ID 생성
-            //WorkerInfo newInfo = new WorkerInfo { workerId = newId, workerName = name };
-
-            //curWorkerInfoList.Add(newInfo);
-
-            //CreateWorkerObject(newInfo);
-        }
-
-        // [워커 삭제]
-        public void RemoveWorker(WorkerAI worker)
-        {
-            if (activeWorkers.Contains(worker))
-            {
-                activeWorkers.Remove(worker);
-                // curWorkerInfoList.Remove(...) 
-
-                Destroy(worker.gameObject);
-            }
-        }
 
         private void Update()
         {
+            if (!isInitialized || activeWorkers == null) return;
+
             int count = activeWorkers.Count;
 
             for (int i = 0; i < count; i++)
@@ -148,7 +150,7 @@ namespace LUP.PCR
             if (taskQueue.Count == 0) return;
 
             // 노는 일꾼 찾기
-            var idleWorkers = GetIdleWorkers();
+            List<WorkerAI> idleWorkers = GetIdleWorkers();
             if (idleWorkers.Count == 0) return;
 
             // 큐에서 일감 꺼내서 배정
@@ -157,7 +159,6 @@ namespace LUP.PCR
                 StructureBase targetStructure = taskQueue.Peek();
 
                 // 해당 장소로 갈 수 있는 가장 가까운 일꾼 찾기
-                // (단순 idleWorkers[0]보다 GetBestWorker 재활용 추천)
                 WorkerAI bestWorker = GetBestInIdleWorkers(idleWorkers, targetStructure);
 
                 if (bestWorker != null)
@@ -189,6 +190,7 @@ namespace LUP.PCR
             for (int i = 0; i < activeWorkers.Count; i++)
             {
                 WorkerAI w = activeWorkers[i];
+                
                 // 작업자가 존재하고, 예약된 작업이 없을 때만 추가
                 if (w != null && !w.HasTask)
                 {
@@ -198,59 +200,6 @@ namespace LUP.PCR
 
             return idleList;
         }
-        public WorkerAI GetBestWorker(Vector2Int targetGridPos)
-        {
-            WorkerAI bestWorker = null;
-
-            float minScore = float.MaxValue;
-            float tolerance = 0.1f; // 오차 범위
-
-            ANode targetNode = aGrid.GetNodeFromGridPos(targetGridPos);
-
-            if (targetNode == null || !targetNode.isWalkable)
-            {
-                return null;
-            }
-
-            for (int i = 0; i < activeWorkers.Count; i++)
-            {
-                WorkerAI w = activeWorkers[i];
-
-                if (w == null || w.HasTask)
-                {
-                    continue;
-                }
-
-                ANode workerNode = aGrid.GetNodeFromWorldPosition(w.transform.position);
-                if (workerNode == null)
-                {
-                    continue;
-                }
-
-                // 맨해튼 거리
-                int dx = Mathf.Abs(workerNode.indexX - targetNode.indexX);
-                int dy = Mathf.Abs(workerNode.indexY - targetNode.indexY);
-
-                float distScore = dx + dy;
-
-                if (distScore < minScore - tolerance)
-                {
-                    minScore = distScore;
-                    bestWorker = w;
-                }
-                else if (Mathf.Abs(distScore - minScore) <= tolerance)
-                {
-                    if (bestWorker != null && w.GetInstanceID() < bestWorker.GetInstanceID())
-                    {
-                        bestWorker = w;
-                    }
-                }
-
-            }
-
-            return bestWorker;
-        }
-
         private WorkerAI GetBestInIdleWorkers(List<WorkerAI> candidates, StructureBase structure)
         {
             if (candidates == null || candidates.Count == 0) return null;
@@ -296,8 +245,32 @@ namespace LUP.PCR
 
             return bestWorker;
         }
-
+        
 
     }
 }
 
+/*
+
+        //// [새로운 워커 고용] 게임 도중 버튼을 눌러 추가할 때 사용
+        //public void HireNewWorker(string name)
+        //{
+        //    int newId = curWorkerInfoList.Count + 1; // ID 생성
+        //    //WorkerInfo newInfo = new WorkerInfo { workerId = newId, workerName = name };
+        //    //curWorkerInfoList.Add(newInfo);
+        //    //CreateWorkerObject(newInfo);
+        //}
+
+        //// [워커 삭제]
+        //public void RemoveWorker(WorkerAI worker)
+        //{
+        //    if (activeWorkers.Contains(worker))
+        //    {
+        //        activeWorkers.Remove(worker);
+        //        // curWorkerInfoList.Remove(...) 
+        //        Destroy(worker.gameObject);
+        //    }
+        //}
+
+
+ */
