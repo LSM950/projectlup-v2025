@@ -38,35 +38,26 @@
             "buildingId": 4,
             "level": 1,
             "gridPos": {
-                "x": 14,
+                "x": 13,
                 "y": 6
             },
-            "buildingType": 9,
+            "buildingType": 6,
             "isConstructing": false
         }
     ],
     "productionInfoList": [
         {
             "buildingId": 2,
-            "elapsedTime": 9.442014694213868,
-            "currentStorage": 147
+            "elapsedTime": 0.5615566372871399,
+            "currentStorage": 51
         },
         {
             "buildingId": 3,
-            "elapsedTime": 9.442014694213868,
-            "currentStorage": 147
-        },
-        {
-            "buildingId": 4,
-            "elapsedTime": 9.442014694213868,
-            "currentStorage": 147
+            "elapsedTime": 0.5615566372871399,
+            "currentStorage": 51
         }
     ],
     "constructionInfoList": [
-        {
-            "buildingId": 1,
-            "elapsedTime": 0.0
-        },
         {
             "buildingId": 2,
             "elapsedTime": 0.0

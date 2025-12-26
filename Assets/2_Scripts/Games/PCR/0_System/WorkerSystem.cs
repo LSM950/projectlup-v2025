@@ -5,70 +5,36 @@ namespace LUP.PCR
 {
     public class WorkerSystem : MonoBehaviour
     {
-        private ProductionRuntimeData pcrRuntimeData;
+        // 옵션
+        [SerializeField] private GameObject workerPrefab;
+        private BuildingBase defaultRestaurant; 
+        private BuildingBase defaultStation; // @TODO : 같은 종류의 목적지 중에 가장 가까운 곳을 찾게 bt 로직 변경
+        private int maxWorkerCount = 50;
+        private bool isInitialized = false;
 
+        private TileMap tileMap;
+        private AGridMap aGrid;
+
+        //// 런타임에서 갱신되는 데이터들
+        private ProductionRuntimeData pcrRuntimeData;
         private List<int> curReservedBuildingIdList;
         private List<int> curAssignedBuildingIdList;
-        private List<WorkerInfo> curWorkerInfoList;
+        // 모든 건물정보와 작업자 정보
         private Dictionary<int, BuildingBase> curBuildings; // 건물 Id로 BuildingBase 읽기전용
-        private TileMap tileMap;
+        private List<WorkerInfo> curWorkerInfoList;
 
-        private BuildingBase restaurant;
-        private BuildingBase workStation;
-        private List<BuildingBase> workStationList;
-
-        [SerializeField] private GameObject workerPrefab;
-        
-        private AGridMap aGrid;
-        private int maxWorkerCount = 50;
+        // 실제 작업 할당
+        private List<BuildingBase> taskBuildingList = new List<BuildingBase>();
         private List<WorkerAI> activeWorkers;
-        private bool isInitialized = false;
         private Queue<StructureBase> taskQueue = new Queue<StructureBase>();
 
         public void InitWorkerSystem(BuildingSystem buildingSystem, TileMap tileMap)
         {
             aGrid = GetComponentInChildren<AGridMap>();
-
-            activeWorkers = new List<WorkerAI>(maxWorkerCount);
-            workStationList = new List<BuildingBase>();
-
-            // 타일맵 & 그리드맵 초기화
             this.tileMap = tileMap;
             aGrid.InitMap(tileMap.tiles);
-            
-            // 건물목록 초기화
+
             curBuildings = buildingSystem.GetCurrentBuildingDictionary();
-
-            //if (curBuildings[0] is BuildingWorkStation)
-            //{
-            //    workStation = curBuildings[0];
-            //}
-            //else
-            //{
-            //    Debug.Log("WorkStation is empty!");
-            //}
-
-            // Restaurant를 buildingId: 1로 배정 예정. 추후 바뀔 수 있음.
-            if (curBuildings[1] is BuildingRestaurant)
-            {
-                restaurant = curBuildings[1];
-            }
-            else
-            {
-                Debug.Log("Restaurant is empty!");
-            }
-
-
-
-
-            foreach (BuildingBase building in curBuildings.Values)
-            {
-                if (building is BuildingWorkStation)
-                {
-                    workStationList.Add(building);
-                }
-            }
-
             ProductionStage stage = StageManager.Instance.GetCurrentStage() as ProductionStage;
             pcrRuntimeData = stage.productionRuntimeData;
             curReservedBuildingIdList = pcrRuntimeData.ReservedBuildingIdList;
@@ -76,17 +42,57 @@ namespace LUP.PCR
             curWorkerInfoList = pcrRuntimeData.WorkerInfoList;
 
             // 위 데이터 기반으로 초기화.
-           curWorkerInfoList.Clear();
-           activeWorkers.Clear();
+            curWorkerInfoList.Clear();
+            activeWorkers = new List<WorkerAI>(maxWorkerCount);
 
-            InitDefaultWorkers();
-
+            InitDefaults();
+            AddWorkPlaces(); // 초기 건물 외에 다른 건물들(앞으로 새로 배치될 때 포함해서) 세워질 때마다 호출
+            
+            TestDebuging();
             isInitialized = true;
         }
-        
-        private void InitDefaultWorkers()
+
+        private void InitDefaults()
         {
-            // ID 0~4 까지는 기본 제공되는 작업자.
+            // 초기 건물정보 생성
+            if (curBuildings.TryGetValue(1, out BuildingBase b1) && b1 is BuildingRestaurant)
+            {
+                defaultRestaurant = b1;
+            }
+
+            if (curBuildings.TryGetValue(2, out BuildingBase b2) && b2 is BuildingWorkStation)
+            {
+                defaultStation = b2;
+            }
+
+            if (defaultRestaurant == null)
+            {
+                foreach (var building in curBuildings.Values)
+                {
+                    if (building is BuildingWorkStation)
+                    {
+                        defaultStation = building;
+                        break;
+                    }
+                }
+            }
+            if (defaultStation == null)
+            {
+                foreach (var building in curBuildings.Values)
+                {
+                    if (building is BuildingWorkStation)
+                    {
+                        defaultStation = building;
+                        break;
+                    }
+                }
+            }
+
+            // @TODO: 식당과 워크스테이션도 작업목록인 건물에 포함시킬지 고민하기
+            //if (defaultRestaurant != null) taskBuildingList.Add(defaultRestaurant);
+            //if (defaultStation != null) taskBuildingList.Add(defaultStation);
+
+            // 초기 작업자 정보 생성
             int defaultWorkerCount = 5;
             if (curWorkerInfoList.Count == 0)
             {
@@ -101,11 +107,20 @@ namespace LUP.PCR
                 }
             }
         }
+        private void AddWorkPlaces()
+        {
+            foreach ((int id, BuildingBase building) in curBuildings)
+            {
+                if (building == defaultRestaurant || building == defaultStation) continue;
 
+                taskBuildingList.Add(building);
+            }
+
+            //@TODO : 건물 외 작업 구역(채집 등)도 별도의 task~List.Add 로 별도의 목록에 추가
+        }
         private void CreateWorkerObject(WorkerInfo info)
         {
-            //GameObject newWorker = Instantiate(workerPrefab, (Vector2)workStationList[0].entrancePos, Quaternion.identity);
-            Vector3 defaultPos = aGrid.GridToWorldPosition(restaurant.entrancePos);
+            Vector3 defaultPos = aGrid.GridToWorldPosition(defaultStation.entrancePos);
             GameObject newWorker = Instantiate(workerPrefab, defaultPos, Quaternion.identity);
 
             WorkerAI ai = newWorker.GetComponent<WorkerAI>();
@@ -116,10 +131,29 @@ namespace LUP.PCR
                 activeWorkers.Add(ai);
             }
 
-            BuildingBase defaultStation = workStationList.Count > 0 ? workStationList[0] : null;
-            ai.Initialize(info, restaurant, defaultStation);
+            ai.Initialize(info, defaultRestaurant, defaultStation);
         }
+        private void TestDebuging()
+        {
+            if (taskBuildingList != null)
+            {
+                Debug.Log($"작업가능 건물 : (총 {taskBuildingList.Count}개)");
 
+                for (int i = 0; i < taskBuildingList.Count; i++)
+                {
+                    BuildingBase station = taskBuildingList[i];
+                    if (station != null)
+                    {
+                        Debug.Log($"{i}번 이름: {station.name}, 위치: {station.transform.position}");
+                    }
+                    else
+                    {
+                        Debug.Log($"[{i}번] NULL (비어있음)");
+                    }
+                }
+;
+            }
+        }
 
         private void Update()
         {
@@ -174,7 +208,6 @@ namespace LUP.PCR
                 }
             }
         }
-
         public void RegisterTask(StructureBase structure)
         {
             if (!taskQueue.Contains(structure))
@@ -182,7 +215,6 @@ namespace LUP.PCR
                 taskQueue.Enqueue(structure);
             }
         }
-
         public List<WorkerAI> GetIdleWorkers()
         {
             List<WorkerAI> idleList = new List<WorkerAI>();
