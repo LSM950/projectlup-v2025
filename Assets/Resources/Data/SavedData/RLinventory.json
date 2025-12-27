@@ -47,12 +47,7 @@
             "quantity": 1
         },
         {
-            "slotKey": "20006",
-            "itemID": 20006,
-            "quantity": 1
-        },
-        {
-            "slotKey": "20005_1",
+            "slotKey": "20005",
             "itemID": 20005,
             "quantity": 1
         },
