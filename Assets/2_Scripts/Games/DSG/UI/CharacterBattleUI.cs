@@ -32,18 +32,13 @@ namespace LUP.DSG
         private Dictionary<EStatusEffectType, Sprite> statusSprites;
         private Dictionary<EStatusEffectType, Image> activeIcons;
 
-        private Camera mainCamera;
-        private RectTransform rectTransform;
-        private Transform target;
-
         [SerializeField]
         private Vector3 offset = new Vector3(0, 1.5f, 0);
 
         public void Init(Character character)
         {
-            //Debug.Log("Init");
-
             if (character == null || character.characterData == null) return;
+            Debug.Log("Init : " + character.characterData.ID);
 
             activeIcons = new Dictionary<EStatusEffectType, Image>();
             healthSlider.maxValue = character.characterData.maxHp;
@@ -83,11 +78,6 @@ namespace LUP.DSG
                 if (!statusSprites.ContainsKey(pair.Name))
                     statusSprites.Add(pair.Name, pair.Sprite);
             }
-
-            mainCamera = Camera.main;
-            rectTransform = GetComponent<RectTransform>();
-
-            rectTransform.localScale = new Vector3(1f, 1f, 1f);
         }
         private void Start()
         {
@@ -161,27 +151,6 @@ namespace LUP.DSG
                 image.GetComponentInChildren<TextMeshProUGUI>().text = $"Stack : {effect.amount}";
                 return;
             }
-        }
-
-        private void LateUpdate()
-        {
-            if (target == null) return;
-            Vector3 worldPos = target.position + offset;
-            Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPos);
-
-            rectTransform.position = screenPos;
-        }
-        public void SetTarget(Transform newTarget)
-        {
-            target = newTarget;
-            gameObject.SetActive(true);
-            LineupSlot slot = target.GetComponent<LineupSlot>();
-        }
-
-        public void ReleaseTarget()
-        {
-            gameObject.SetActive(false);
-            target = null;
         }
     }
 }

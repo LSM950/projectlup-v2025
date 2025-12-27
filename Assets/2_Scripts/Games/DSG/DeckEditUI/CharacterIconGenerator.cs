@@ -37,7 +37,7 @@ namespace LUP.DSG
                 yield break;
             }
 
-            Debug.Log($"[CharacterIconGenerator] Instantiate prefab {prefab.name} for characterId={cacheKeyCharacterId}, modelId={modelId}");
+            //Debug.Log($"[CharacterIconGenerator] Instantiate prefab {prefab.name} for characterId={cacheKeyCharacterId}, modelId={modelId}");
 
             GameObject instance = Instantiate(prefab, characterPivot.position, characterPivot.rotation);
 

@@ -1,19 +1,22 @@
 using LUP.DSG.Utils.Enums;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Skill Info Data", menuName = "DSG/Scriptable Objects/Skill Info")]
-public class SkillInfoData : ScriptableObject
+namespace LUP.DSG
 {
-    public string Skillname;
+    [CreateAssetMenu(fileName = "Skill Info Data", menuName = "DSG/Scriptable Objects/Skill Info")]
+    public class SkillInfoData : ScriptableObject
+    {
+        public string Skillname;
 
-    public int targetCount;
-    public Vector3 AttackPosition;
-    public bool bIsDamaged;
-    public float damage;
+        public int targetCount;
+        public Vector3 AttackPosition;
+        public bool bIsDamaged;
+        public float damage;
 
-    public bool bIsStatusEffect;
-    public EStatusEffectType effectType;
-    public EOperationType operationType;
-    public int stack;
-    public int turn;
+        public bool bIsStatusEffect;
+        public EStatusEffectType effectType;
+        public EOperationType operationType;
+        public int stack;
+        public int turn;
+    }
 }

@@ -27,11 +27,11 @@ namespace LUP.DSG
         {
             formationSystem = FindAnyObjectByType<FormationSystem>();
 
-            toggle.onValueChanged.AddListener(OnToggleChanged);
             if (teamIndex == 0)
             {
                 toggle.isOn = true;
             }
+            toggle.onValueChanged.AddListener(OnToggleChanged);
         }
 
         void OnToggleChanged(bool isOn)

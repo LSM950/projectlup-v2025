@@ -190,7 +190,7 @@ namespace LUP.DSG
                 return null;
             }
 
-            Debug.Log($"[DeckStrategyStage] GetCharacterPrefab({modelId}) → {modelData.prefab.name}");
+            //Debug.Log($"[DeckStrategyStage] GetCharacterPrefab({modelId}) → {modelData.prefab.name}");
             return modelData.prefab;
         }
         public CharacterData FindCharacterData(int id, int level)

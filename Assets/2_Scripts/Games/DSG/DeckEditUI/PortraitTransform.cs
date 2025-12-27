@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class PortraitTransform : MonoBehaviour
+namespace LUP.DSG
 {
-    public Transform portraitTransform;
+    public class PortraitTransform : MonoBehaviour
+    {
+        public Transform portraitTransform;
+    }
+
 }
