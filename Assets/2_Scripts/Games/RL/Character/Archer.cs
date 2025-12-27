@@ -26,7 +26,6 @@ namespace LUP.RL
 
         public event System.Action OnExpChanged;
         public event System.Action OnArcherDataReady;
-        List<BuffData> randomBuffs = new List<BuffData>();
         List<BuffData> GetBuffList = new List<BuffData>();
 
         [Header("UI ")]
@@ -35,6 +34,8 @@ namespace LUP.RL
         public GameObject HpbarPrefab;
         private HealthCenter healthCenter;
         [SerializeField] private float hpbaroffsetY = 5;
+        public int PendingExp;
+
         // 외부 접근용 프로퍼티
         public RunTimeData RuntimeData => runtimeData;
         public HealthCenter HealthCenter => healthCenter;
@@ -126,11 +127,13 @@ namespace LUP.RL
         {
             var data = levelTable.GetLevelData(RuntimeData.level);
             RuntimeData.xp += exp;
+            Debug.Log($"이번 스테이지 누적 EXP : {PendingExp}");
             if (RuntimeData.xp >= data.RequiredExp)
                 LevelUp();
             OnExpChanged?.Invoke();
         }
-        private void LevelUp()
+
+        public void LevelUp()
         {
             RuntimeData.level++;
             RuntimeData.xp = 0;

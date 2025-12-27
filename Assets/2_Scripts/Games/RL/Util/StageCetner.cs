@@ -112,9 +112,6 @@ namespace LUP.RL
                     bb.SetCurrentRoom(currentRoom.transform);
             }
 
-            //var bb = player.GetComponent<PlayerBlackBoard>();
-            //if (bb != null)
-            //    bb.SetCurrentRoom(currentRoom.transform);
         }
 
 

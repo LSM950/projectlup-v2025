@@ -14,11 +14,11 @@ namespace LUP.RL
         public  bool isMoving = false;
         private void Awake()
         {
-            Archer player = GetComponent<Archer>();
+            character = GetComponent<Archer>();
         }
         private void Start()
         {
-           speed  = player.RuntimeData.currentData.speed;
+           speed  = character.RuntimeData.currentData.speed;
         }
         public void AddSpeed(float amount)
         {
