@@ -131,9 +131,14 @@ namespace Roguelike.Define
         Gun_R = 20002,
         Gun_E = 20003,
         Javelin_N = 20004,
-        Armor_N = 20005,
-        Armor_R = 20006,
-        Armor_E = 20007,
+
+        LongSword_N = 20005,
+        LongSword_R = 20006,
+        LongSword_E = 20007,
+
+        Armor_N = 20008,
+        Armor_R = 20009,
+        Armor_E = 20010,
 
         Max
     }

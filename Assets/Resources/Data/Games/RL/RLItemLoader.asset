@@ -129,6 +129,54 @@ MonoBehaviour:
     - key: WeaponType
       value: 3
   - ItemID: 20005
+    ItemName: LongSword_N
+    ItemType: 1
+    IconPath: GUI\icons\Flat\RPG\Sword 24
+    MaxStackSize: 0
+    IsUsable: 0
+    Description: nromal LongSword
+    serializedCustomFields:
+    - key: Tier
+      value: 1
+    - key: EquipPos
+      value: 1
+    - key: Effects
+      value: ATK:8/HP:3
+    - key: WeaponType
+      value: 3
+  - ItemID: 20006
+    ItemName: LongSword_R
+    ItemType: 1
+    IconPath: GUI\icons\Flat\RPG\Sword 7
+    MaxStackSize: 0
+    IsUsable: 0
+    Description: rare LongSword
+    serializedCustomFields:
+    - key: Tier
+      value: 2
+    - key: EquipPos
+      value: 1
+    - key: Effects
+      value: ATK:12/HP:8
+    - key: WeaponType
+      value: 3
+  - ItemID: 20007
+    ItemName: LongSword_E
+    ItemType: 1
+    IconPath: GUI\icons\Flat\RPG\Sword 9
+    MaxStackSize: 0
+    IsUsable: 0
+    Description: epick LongSword
+    serializedCustomFields:
+    - key: Tier
+      value: 3
+    - key: EquipPos
+      value: 1
+    - key: Effects
+      value: ATK:15/HP:12
+    - key: WeaponType
+      value: 3
+  - ItemID: 20008
     ItemName: Armor_N
     ItemType: 2
     IconPath: GUI\icons\Flat\RPG\Armor 1
@@ -142,7 +190,7 @@ MonoBehaviour:
       value: 2
     - key: Effects
       value: HP:15
-  - ItemID: 20006
+  - ItemID: 20009
     ItemName: Armor_R
     ItemType: 2
     IconPath: GUI\icons\Flat\RPG\Armor 7
@@ -156,7 +204,7 @@ MonoBehaviour:
       value: 2
     - key: Effects
       value: HP:20
-  - ItemID: 20007
+  - ItemID: 20010
     ItemName: Armor_E
     ItemType: 2
     IconPath: GUI\icons\Flat\RPG\Armor 12
