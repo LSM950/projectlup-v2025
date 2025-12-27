@@ -6,13 +6,19 @@ namespace LUP.RL
     {
 
         [Header("이동 속도")]
+        private Archer character;        
+        
         public float speed = 5f;
         public float baseSpeed = 5f;
         public Transform targetPoint;
         public  bool isMoving = false;
+        private void Awake()
+        {
+            Archer player = GetComponent<Archer>();
+        }
         private void Start()
         {
-            speed = baseSpeed;
+           speed  = player.RuntimeData.currentData.speed;
         }
         public void AddSpeed(float amount)
         {

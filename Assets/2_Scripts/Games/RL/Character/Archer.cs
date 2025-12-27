@@ -91,6 +91,10 @@ namespace LUP.RL
                 case BuffType.AddSpeed:
                     RuntimeData.currentData.speed += 1;
                     break;
+                //case BuffType.AddAtkHigh:
+                //    RuntimeData.currentData.AttackSpeed += 3;
+                //    break;
+                
             }
             GetBuffList.Add(buff);
         }
