@@ -2,6 +2,7 @@ using LUP.DSG.Utils.Enums;
 using System.Buffers;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using static UnityEngine.UI.GridLayoutGroup;
 
 namespace LUP.DSG
@@ -30,8 +31,7 @@ namespace LUP.DSG
 
         public EffectPool ActioneffectPool;
 
-        private CharacterInfoUI characterInfoUI;
-        private CharacterBattleUI chracterBattleUI;
+        private CharacterHeadupUI characterUI;
 
         public int IconCacheKey { get; private set; }
         public Sprite BattleIcon { get; private set; }
@@ -59,7 +59,6 @@ namespace LUP.DSG
                 animationComp.OnAttackStart -= battleComp.AttackStart;
             }
         }
-
         public void ManualInitializeAfterSpawn()
         {
             if (battleComp == null)
@@ -81,19 +80,14 @@ namespace LUP.DSG
             animationComp.OnAttackStart += battleComp.AttackStart;
 
             Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-            foreach (var canvas in canvases)
+            foreach (Canvas canvas in canvases)
             {
                 if (canvas.CompareTag("CharacterUI"))
                 {
                     GameObject ui = Instantiate(characterUIPrefab, canvas.transform);
-                    characterInfoUI = ui.GetComponentInChildren<CharacterInfoUI>();
-                    characterInfoUI.SetTarget(transform);
-                    characterInfoUI.gameObject.SetActive(false);
-
-                    chracterBattleUI = ui.GetComponentInChildren<CharacterBattleUI>();
-                    chracterBattleUI.Init(this);
-                    chracterBattleUI.SetTarget(transform);
-                    chracterBattleUI.gameObject.SetActive(false);
+                    characterUI = ui.GetComponent<CharacterHeadupUI>();
+                    characterUI.SetTarget(canvas, transform);
+                    characterUI.gameObject.SetActive(true);
 
                     break;
                 }
@@ -140,10 +134,10 @@ namespace LUP.DSG
             characterData = data;
             characterModelData = modelData;
             gameObject.SetActive(true);
-            if (characterInfoUI == null) return;
+            if (characterUI == null) return;
 
-            characterInfoUI.SetCharacterInfo(data.type, info.characterLevel);
-            characterInfoUI.gameObject.SetActive(true);
+            characterUI.InitInfoUI(data.type, info.characterLevel);
+            characterUI.ActiveInfoUI();
 
             UpdateCombatPower();
         }
@@ -153,13 +147,9 @@ namespace LUP.DSG
             characterData = null;
             characterModelData = null;
             gameObject.SetActive(false);
-            if (characterInfoUI != null)
+            if (characterUI != null)
             {
-                characterInfoUI.gameObject.SetActive(false);
-            }
-            if (chracterBattleUI != null)
-            {
-                chracterBattleUI.gameObject.SetActive(false);
+                characterUI.gameObject.SetActive(false);
             }
 
             UpdateCombatPower();
@@ -167,24 +157,25 @@ namespace LUP.DSG
 
         public void ActiveBattleUI()
         {
-            if (chracterBattleUI == null) return;
+            if (characterUI == null) return;
 
-            chracterBattleUI.Init(this);
-
-            chracterBattleUI.gameObject.SetActive(true);
-            characterInfoUI.gameObject.SetActive(false);
+            characterUI.InitBattleUI(this);
+            characterUI.ActiveBattleUI();
         }
 
         public void DestroyUI()
         {
-            characterInfoUI.gameObject.SetActive(false);
-            chracterBattleUI.gameObject.SetActive(false);
-            Destroy(characterInfoUI);
-            Destroy(chracterBattleUI);
+            characterUI.gameObject.SetActive(false);
+            Destroy(characterUI);
         }
         public void SetBattleIcon(Sprite sprite)
         {
             BattleIcon = sprite;
+        }
+
+        private void OnDisable()
+        {
+            Debug.Log("character Dead");
         }
     }
 }

@@ -3,63 +3,66 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ObjectFader : MonoBehaviour
+namespace LUP.DSG
 {
-    public float fadeSpeed = 0.5f;
-    float curretOpacity;
-    List<Material> materials = new List<Material>();
-    public bool doFade = false;
-
-    void Start()
+    public class ObjectFader : MonoBehaviour
     {
-        SkinnedMeshRenderer[] skinnedMeshList = GetComponentsInChildren<SkinnedMeshRenderer>();
-        if(skinnedMeshList.Length > 0)
+        public float fadeSpeed = 0.5f;
+        float curretOpacity;
+        List<Material> materials = new List<Material>();
+        public bool doFade = false;
+
+        void Start()
         {
-            foreach(SkinnedMeshRenderer mesh in skinnedMeshList)
+            SkinnedMeshRenderer[] skinnedMeshList = GetComponentsInChildren<SkinnedMeshRenderer>();
+            if (skinnedMeshList.Length > 0)
             {
-                materials.Add(mesh.material);
+                foreach (SkinnedMeshRenderer mesh in skinnedMeshList)
+                {
+                    materials.Add(mesh.material);
+                }
+            }
+            MeshRenderer[] meshList = GetComponentsInChildren<MeshRenderer>();
+            if (meshList.Length > 0)
+            {
+                foreach (MeshRenderer mesh in meshList)
+                {
+                    materials.Add(mesh.material);
+                }
+            }
+
+            curretOpacity = 1.0f;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (doFade)
+            {
+                FadeOut();
+            }
+            else
+            {
+                FadeIn();
             }
         }
-        MeshRenderer[] meshList = GetComponentsInChildren<MeshRenderer>();
-        if (meshList.Length > 0)
+
+        void FadeIn()
         {
-            foreach (MeshRenderer mesh in meshList)
+            curretOpacity = Mathf.Lerp(curretOpacity, 1.0f, fadeSpeed);
+            foreach (Material material in materials)
             {
-                materials.Add(mesh.material);
+                material.SetFloat("_Opacity", curretOpacity);
             }
         }
 
-        curretOpacity = 1.0f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(doFade)
+        void FadeOut()
         {
-            FadeOut();
-        }
-        else
-        {
-            FadeIn();
-        }
-    }
-
-    void FadeIn()
-    {
-        curretOpacity = Mathf.Lerp(curretOpacity, 1.0f, fadeSpeed);
-        foreach (Material material in materials)
-        {
-            material.SetFloat("_Opacity", curretOpacity);
-        }
-    }
-
-    void FadeOut()
-    {
-        curretOpacity = Mathf.Lerp(curretOpacity, 0.2f, fadeSpeed);
-        foreach (Material material in materials)
-        {
-            material.SetFloat("_Opacity", curretOpacity);
+            curretOpacity = Mathf.Lerp(curretOpacity, 0.2f, fadeSpeed);
+            foreach (Material material in materials)
+            {
+                material.SetFloat("_Opacity", curretOpacity);
+            }
         }
     }
 }

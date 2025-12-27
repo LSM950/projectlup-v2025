@@ -344,9 +344,6 @@ namespace LUP.DSG
                     }
 
                     battleCameraDirector.FocusOnTarget(targetPosition);
-
-                    //ObjectFader fader = GetComponent<ObjectFader>();
-                    //fader.FaderOn(targetSlots);
                     break;
                 case EWeaponType.Magic:
                 case EWeaponType.Gun_Rifle:

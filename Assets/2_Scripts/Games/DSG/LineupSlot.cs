@@ -21,24 +21,18 @@ namespace LUP.DSG
         private void Awake()
         {
             StageInitializeInvoker.OnDSGStageInitialize += Initialize;
-            StageInitializeInvoker.OnDSGStagePostInitialize += PostInitialize;
         }
 
         private void OnDestroy()
         {
             StageInitializeInvoker.OnDSGStageInitialize -= Initialize;
-            StageInitializeInvoker.OnDSGStagePostInitialize -= PostInitialize;
         }
 
         private void Initialize(DeckStrategyStage stage)
         {
-            Debug.Log("Initialize");
+            //Debug.Log("Initialize");
             deckStage = stage;
             slotTransform = transform;
-        }
-        private void PostInitialize(DeckStrategyStage stage)
-        {
-            Debug.Log("PostInitialize");
         }
 
         public void SetSelectedCharacter(OwnedCharacterInfo info, bool isEnemy)

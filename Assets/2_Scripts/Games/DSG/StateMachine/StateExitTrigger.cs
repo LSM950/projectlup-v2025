@@ -1,10 +1,13 @@
 using LUP.DSG;
 using UnityEngine;
 
-public class StateExitTrigger : StateMachineBehaviour
+namespace LUP.DSG
 {
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class StateExitTrigger : StateMachineBehaviour
     {
-        animator.SetInteger("CharacterState", 0);
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetInteger("CharacterState", 0);
+        }
     }
 }
