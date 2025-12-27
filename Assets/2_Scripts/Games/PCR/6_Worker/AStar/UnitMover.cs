@@ -167,17 +167,20 @@ namespace LUP.PCR
             
             Vector3 targetPos = gridMap.GetNodeFootPosition(path[currentIndex]);
 
-            Vector3 direction = (targetPos - transform.position);
-            direction.y = 0;
+            Vector3 moveDir = (targetPos - transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+            Vector3 horizontalDir = new Vector3(moveDir.x, 0, moveDir.z);
 
-            if (direction != Vector3.zero)
+            if (horizontalDir.sqrMagnitude > 0.01f)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-
+                Quaternion targetRotation = Quaternion.LookRotation(horizontalDir);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             }
+            //direction.y = 0;
+            //if (direction != Vector3.zero)
+            //{
 
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+            //}
 
             if (Vector3.Distance(transform.position, targetPos) < 0.1f)
             {

@@ -17,8 +17,6 @@ namespace LUP.PCR
 
         private TaskController taskController;
 
-        // 아마 Presenter를 통해 UI 기능을 호출하는 방식으로 만들건데..
-        // 이게 맞는지는 하면서 파악하기
         private MainUIPresenter mainPresenter;
         private SelectConstructUIPresenter selectConstructPresenter;
         private FarmTaskUIPresenter farmTaskPresenter;

@@ -103,9 +103,5 @@ namespace LUP.PCR
             view.ClearWorkerList();
             view.UpdateStatusText("작업을 지시할 건물을 선택하세요.");
         }
-
-
-
-
     }
 }
