@@ -8,7 +8,7 @@ namespace LUP.PCR
         public Vector3 CurrentDestination => currentDestination;
         public bool IsMoving => path != null && currentIndex < path.Count;
 
-        [SerializeField] public AGridMap gridMap;
+        private AGridMap gridMap;
         [SerializeField] float moveSpeed = 5f;
         [SerializeField] float rotateSpeed = 10f;
 
@@ -19,7 +19,7 @@ namespace LUP.PCR
 
         void Start()
         {
-            gridMap = this.transform.root.GetComponentInChildren<AGridMap>();
+            gridMap = transform.root.GetComponentInChildren<AGridMap>();
             pathfinder = new APathfinding(gridMap);
         }
 
@@ -176,8 +176,6 @@ namespace LUP.PCR
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             }
-
-
 
             transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
 

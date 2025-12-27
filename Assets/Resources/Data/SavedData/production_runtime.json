@@ -48,13 +48,13 @@
     "productionInfoList": [
         {
             "buildingId": 2,
-            "elapsedTime": 0.5615566372871399,
-            "currentStorage": 51
+            "elapsedTime": 4.918409824371338,
+            "currentStorage": 88
         },
         {
             "buildingId": 3,
-            "elapsedTime": 0.5615566372871399,
-            "currentStorage": 51
+            "elapsedTime": 4.918409824371338,
+            "currentStorage": 88
         }
     ],
     "constructionInfoList": [

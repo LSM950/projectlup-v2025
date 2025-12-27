@@ -7,6 +7,7 @@ namespace LUP.PCR
     {
         // 옵션
         [SerializeField] private GameObject workerPrefab;
+        [SerializeField] private Transform workerContainer;
         private BuildingBase defaultRestaurant; 
         private BuildingBase defaultStation; // @TODO : 같은 종류의 목적지 중에 가장 가까운 곳을 찾게 bt 로직 변경
         private int maxWorkerCount = 50;
@@ -46,7 +47,8 @@ namespace LUP.PCR
             activeWorkers = new List<WorkerAI>(maxWorkerCount);
 
             InitDefaults();
-            AddWorkPlaces(); // 초기 건물 외에 다른 건물들(앞으로 새로 배치될 때 포함해서) 세워질 때마다 호출
+            // @TODO: 초기 건물 외에 다른 건물들(앞으로 새로 배치될 때 포함해서) 세워질 때마다 호출되게 수정하기
+            AddWorkPlaces(); 
             
             TestDebuging();
             isInitialized = true;
@@ -88,7 +90,7 @@ namespace LUP.PCR
                 }
             }
 
-            // @TODO: 식당과 워크스테이션도 작업목록인 건물에 포함시킬지 고민하기
+            // @TODO: 식당과 워크스테이션도 작업장소로 포함시킬지 고민하기
             //if (defaultRestaurant != null) taskBuildingList.Add(defaultRestaurant);
             //if (defaultStation != null) taskBuildingList.Add(defaultStation);
 
@@ -120,19 +122,32 @@ namespace LUP.PCR
         }
         private void CreateWorkerObject(WorkerInfo info)
         {
-            Vector3 defaultPos = aGrid.GridToWorldPosition(defaultStation.entrancePos);
-            GameObject newWorker = Instantiate(workerPrefab, defaultPos, Quaternion.identity);
+            if (defaultStation == null) return;
 
-            WorkerAI ai = newWorker.GetComponent<WorkerAI>();
-            if (ai == null) ai = ai.GetComponentInChildren<WorkerAI>();
-
-            if (!activeWorkers.Contains(ai))
+            ANode spawnNode = aGrid.GetNodeFromGridPos(defaultStation.entrancePos);
+            
+            if (spawnNode != null)
             {
-                activeWorkers.Add(ai);
-            }
+                Vector3 floorPos = aGrid.GetNodeFootPosition(spawnNode);
+                Vector3 randomOffset = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+                Vector3 spawnPos = floorPos + randomOffset;
+                GameObject newWorker = Instantiate(workerPrefab, spawnPos, Quaternion.identity, workerContainer);
+                WorkerAI ai = newWorker.GetComponent<WorkerAI>();
+                
+                if (ai == null)
+                {
+                    ai = ai.GetComponentInChildren<WorkerAI>();
+                }
+                
+                if (!activeWorkers.Contains(ai))
+                {
+                    activeWorkers.Add(ai);
+                }
 
-            ai.Initialize(info, defaultRestaurant, defaultStation);
+                ai.Initialize(info, defaultRestaurant, defaultStation);
+            }
         }
+
         private void TestDebuging()
         {
             if (taskBuildingList != null)
@@ -175,7 +190,7 @@ namespace LUP.PCR
 
             }
 
-            AssignPendingTasks();
+            //AssignPendingTasks();
         }
 
         // 대기중인 일감을 노는 일꾼에게 배정

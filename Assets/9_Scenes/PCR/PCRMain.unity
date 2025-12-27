@@ -253,8 +253,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412788374}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.036273845, y: 0.038089007, z: -0.0013931156, w: 0.99861485}
-  m_LocalPosition: {x: 51.21391, y: -7.582279, z: -4.935936}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -792,6 +792,10 @@ PrefabInstance:
       propertyPath: workerPrefab
       value: 
       objectReference: {fileID: 5154673511393187367, guid: fc9ba606cc56eab4585e5b26caee07bf, type: 3}
+    - target: {fileID: 3053391606054075174, guid: 935d29a952cb8e849a88768eaf1b3ce3, type: 3}
+      propertyPath: workerContainer
+      value: 
+      objectReference: {fileID: 412788375}
     - target: {fileID: 3053391606054075174, guid: 935d29a952cb8e849a88768eaf1b3ce3, type: 3}
       propertyPath: workerSpawnPoint
       value: 
