@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc22f1b09de02343be5e26c09a0aa1e, type: 3}
+  m_Name: AcaneOrb
+  m_EditorClassIdentifier: 
+  ItemID: 20012
+  weaponPrefab: {fileID: 137878, guid: ac992588bbf1cba45a526c25a43f1a23, type: 3}
+  weaponProjecTile: {fileID: 100006, guid: e08544da84c22f444b58b5d10dac497a, type: 3}
+  projecTileSpeed: 8
+  overrideController: {fileID: 22100000, guid: d1899f94460ac4740897cb136a5dbc54, type: 2}
+  weaponType: 5
+  handType: 1
+  IdleweaponRightHandGrapPos: {x: -0.018, y: 0.091, z: 0.048}
+  IdleweaponRotate: {x: 0, y: 0, z: 0}
+  ikWeight: 1

@@ -247,7 +247,8 @@ namespace LUP.RL
 
             Vector2 delta = localEndPos - localStartPos;
 
-            if (Mathf.Abs(delta.x) > swipeThreshold)
+            if (Mathf.Abs(delta.x) > swipeThreshold && 
+                Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
             {
                 if (delta.x > 0) OnSwipeRight();
                 else OnSwipeLeft();

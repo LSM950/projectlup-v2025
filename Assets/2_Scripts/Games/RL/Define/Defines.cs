@@ -140,6 +140,10 @@ namespace Roguelike.Define
         Armor_R = 20009,
         Armor_E = 20010,
 
+        Magic_Fire = 20011,
+        Magic_Acane = 20012,
+        Magic_Shadow = 20013,
+
         Max
     }
 
