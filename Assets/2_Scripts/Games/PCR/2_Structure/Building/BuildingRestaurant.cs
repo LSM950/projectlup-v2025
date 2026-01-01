@@ -42,6 +42,8 @@ namespace LUP.PCR
 
             hasWork = true;
             buildingName = "Restaurant";
+            placeName = buildingName;
+
 
             ProductionStage stage = LUP.StageManager.Instance.GetCurrentStage() as ProductionStage;
             restaurantInfo = stage.productionRuntimeData.RestaurantInfo;

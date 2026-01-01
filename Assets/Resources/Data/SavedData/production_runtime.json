@@ -16,7 +16,7 @@
         },
         {
             "buildingId": 2,
-            "level": 1,
+            "level": 3,
             "gridPos": {
                 "x": 8,
                 "y": 3
@@ -48,13 +48,13 @@
     "productionInfoList": [
         {
             "buildingId": 2,
-            "elapsedTime": 4.495622634887695,
-            "currentStorage": 7
+            "elapsedTime": 6.822615623474121,
+            "currentStorage": 18
         },
         {
             "buildingId": 3,
-            "elapsedTime": 4.495622634887695,
-            "currentStorage": 41
+            "elapsedTime": 9.97485637664795,
+            "currentStorage": 99
         }
     ],
     "constructionInfoList": [

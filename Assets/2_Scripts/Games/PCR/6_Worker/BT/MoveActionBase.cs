@@ -4,7 +4,7 @@ namespace LUP.PCR
 {
     public abstract class MoveActionBase : WorkerBlackboardNode
     {
-        protected BuildingBase targetBuilding;
+        protected StructureBase targetPlace;
         private Vector2Int lastEntrancePos = new Vector2Int(-999, -999);
         
         public MoveActionBase(WorkerBlackboard bb) : base(bb) { }
@@ -14,10 +14,10 @@ namespace LUP.PCR
         {
             if(HasData(GetBuildingKey()))
             {
-                targetBuilding = GetData<BuildingBase>(GetBuildingKey());
+                targetPlace = GetData<BuildingBase>(GetBuildingKey());
 
                 // OnStart에서는 강제로 경로를 한번 계산
-                if (targetBuilding != null)
+                if (targetPlace != null)
                 {
                     UpdatePath();
                 }
@@ -26,14 +26,14 @@ namespace LUP.PCR
 
         protected override NodeState OnUpdate()
         {
-            if (Mover == null || targetBuilding == null)
+            if (Mover == null || targetPlace == null)
             {
                 return NodeState.FAILURE;
             }
 
-            if (targetBuilding.entrancePos != lastEntrancePos)
+            if (targetPlace.entrancePos != lastEntrancePos)
             {
-                Debug.Log($"[재경로] {targetBuilding.buildingName} 위치 변경! ({lastEntrancePos} -> {targetBuilding.entrancePos})");
+                Debug.Log($"[재경로] {targetPlace.placeName} 위치 변경! ({lastEntrancePos} -> {targetPlace.entrancePos})");
                 UpdatePath();
             }
 
@@ -43,7 +43,7 @@ namespace LUP.PCR
             }
             else
             {
-                Debug.Log($"{targetBuilding.buildingName}으로 이동 중---! ");
+                Debug.Log($"{targetPlace.placeName}으로 이동 중---! ");
 
                 Mover.MoveAlongPath();
                 return NodeState.RUNNING;
@@ -53,7 +53,7 @@ namespace LUP.PCR
         // 경로 계산 및 캐싱 함수
         private void UpdatePath()
         {
-            lastEntrancePos = targetBuilding.entrancePos;
+            lastEntrancePos = targetPlace.entrancePos;
 
             Mover.SetDestination(lastEntrancePos);
         }

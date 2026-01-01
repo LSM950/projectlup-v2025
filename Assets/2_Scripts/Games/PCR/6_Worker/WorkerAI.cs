@@ -132,7 +132,8 @@ namespace LUP.PCR
         {
             new IsNewTaskChecker(LocalBlackboard),
             new GoToNewTaskLocation(LocalBlackboard),
-            new StartNewTask(LocalBlackboard)
+            new StartNewTask(LocalBlackboard),
+            new PerformTask(LocalBlackboard)
         });
 
         // Root Selector: 배고픔 → 작업/휴식
@@ -159,6 +160,8 @@ namespace LUP.PCR
 
         public void AssignTask(StructureBase workingPlace)
         {
+            hasTask = true;
+            
             currentTaskPlace = workingPlace;
             LocalBlackboard.SetValue(BBKeys.AssignedWorkplace, currentTaskPlace);
             

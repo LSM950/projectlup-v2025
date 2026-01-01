@@ -25,8 +25,9 @@ namespace LUP.PCR
         [SerializeField] private Button btnProductionToggle;
         [SerializeField] private Button btnUpgrade;
 
-        [SerializeField]
-        Text buildingNameText;
+        [Header("글자")]
+        [SerializeField] Text buildingNameText;
+        [SerializeField] Text productionToggleText;
 
         //[SerializeField]
         //TextMeshProUGUI productionTimeText;
@@ -34,14 +35,14 @@ namespace LUP.PCR
         //TextMeshProUGUI powerText;
 
         // Event
-        public event Action OnClickProduction;
+        public event Action OnClickWorkRequest;
         public event Action OnClickUpgrade;
         public event Action OnClickBack;
         public event Action<FarmUIBtnType> OnChangeTab;
 
         private void Awake()
         {
-            btnProductionToggle.onClick.AddListener(() => OnClickProduction?.Invoke());
+            btnProductionToggle.onClick.AddListener(() => OnClickWorkRequest?.Invoke());
             btnUpgrade.onClick.AddListener(() => OnClickUpgrade?.Invoke());
             backBtn?.onClick.AddListener(() => OnClickBack?.Invoke());
 
@@ -87,8 +88,20 @@ namespace LUP.PCR
         public void UpdateUIStats(FarmUIData data)
         {
             buildingNameText.text = data.buildingName;
-            //productionTimeText.SetText("{0}", data.productionTime);
-            //powerText.SetText("{0}", data.power);
+
+           if (data.isWorkRequested)
+           {
+               productionToggleText.text = "요청 취소";
+               btnProductionToggle.image.color = Color.gray;
+           }
+           else
+           {
+               productionToggleText.text = "작업 요청";
+               btnProductionToggle.image.color = Color.white;
+           }
+           
+           //productionTimeText.SetText("{0}", data.productionTime);
+           //powerText.SetText("{0}", data.power);
         }
     }
 

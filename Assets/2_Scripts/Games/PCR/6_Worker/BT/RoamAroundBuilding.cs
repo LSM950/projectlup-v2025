@@ -5,7 +5,7 @@ namespace LUP.PCR
 
     public class RoamAroundBuilding : WorkerBlackboardNode
     {
-        private BuildingBase targetBuilding;
+        private BuildingBase waitingRoom;
         private float waitTimer = 0f;
         private float waitDuration = 2f;
         private bool isWaiting = false;
@@ -15,9 +15,9 @@ namespace LUP.PCR
         protected override NodeState OnUpdate()
         {
             if (!HasData(BBKeys.WorkerStation)) return NodeState.FAILURE;
-            targetBuilding = GetData<BuildingBase>(BBKeys.WorkerStation);
+            waitingRoom = GetData<BuildingBase>(BBKeys.WorkerStation);
 
-            if (targetBuilding == null) return NodeState.FAILURE;
+            if (waitingRoom == null) return NodeState.FAILURE;
 
             if (isWaiting)
             {
@@ -49,7 +49,7 @@ namespace LUP.PCR
         
         private void SetNewRandomDestination()
         {
-            Vector2Int center = targetBuilding.entrancePos;
+            Vector2Int center = waitingRoom.entrancePos;
             int radius = 3;
 
             for (int i = 0; i < 10; i++)

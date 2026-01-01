@@ -8,7 +8,7 @@ namespace LUP.PCR
         event Action<FarmUIBtnType> OnChangeTab;
 
         event Action OnClickBack;
-        event Action OnClickProduction;
+        event Action OnClickWorkRequest;
         event Action OnClickUpgrade;
 
         void Show();

@@ -5,6 +5,7 @@ namespace LUP.PCR
 {
     public class WorkerSystem : MonoBehaviour
     {
+        public static WorkerSystem Instance { get; private set; }
         // 옵션
         [SerializeField] private GameObject workerPrefab;
         [SerializeField] private Transform workerContainer;
@@ -31,6 +32,15 @@ namespace LUP.PCR
 
         public void InitWorkerSystem(BuildingSystem buildingSystem, TileMap tileMap)
         {
+            if(Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
             aGrid = GetComponentInChildren<AGridMap>();
             this.tileMap = tileMap;
             aGrid.InitMap(tileMap.tiles);
@@ -176,18 +186,12 @@ namespace LUP.PCR
 
             int count = activeWorkers.Count;
 
-            for (int i = 0; i < count; i++)
+            foreach(WorkerAI worker in activeWorkers)
             {
-                if (activeWorkers[i] != null)
+                if (worker != null)
                 {
-                    if (i >= activeWorkers.Count)
-                    {
-                        break;
-                    }
-
-                    activeWorkers[i].UpdateBT();
+                    worker.UpdateBT();
                 }
-
             }
 
             AssignPendingTasks();
@@ -197,28 +201,44 @@ namespace LUP.PCR
         {
             if (taskQueue.Count == 0) return;
 
-            // 노는 일꾼 찾기
             List<WorkerAI> idleWorkers = GetIdleWorkers();
-            if (idleWorkers.Count == 0) return;
 
-            // 큐에서 일감 꺼내서 배정
-            while (taskQueue.Count > 0 && idleWorkers.Count > 0)
+            if (idleWorkers.Count == 0)
             {
-                StructureBase targetStructure = taskQueue.Peek();
+                return;
+            }
+
+            int loopCount = taskQueue.Count;
+            for (int i = 0; i < loopCount; i++)
+            {
+                if (idleWorkers.Count == 0) break;
+
+                // 큐 맨 앞의 건물 확인
+                StructureBase target = taskQueue.Peek();
+
+                // 이미 누가 작업 중이면 큐에서 빼버림
+                if (target.HasWorker())
+                {
+                    taskQueue.Dequeue();
+                    continue;
+                }
+
+                if (target is ProductableBuilding pb && !pb.IsWorkRequested)
+                {
+                    taskQueue.Dequeue();
+                    continue;
+                }
 
                 // 해당 장소로 갈 수 있는 가장 가까운 일꾼 찾기
-                WorkerAI bestWorker = GetBestInIdleWorkers(idleWorkers, targetStructure);
+                WorkerAI bestWorker = GetBestInIdleWorkers(idleWorkers, target);
 
                 if (bestWorker != null)
                 {
-                    taskQueue.Dequeue(); // 큐에서 제거
-                    bestWorker.AssignTask(targetStructure); // 작업 할당
-                    idleWorkers.Remove(bestWorker); // 목록에서 제외
-                }
-                else
-                {
-                    // 지금 갈 수 있는 일꾼이 없다면 다음 기회에
-                    break;
+                    taskQueue.Dequeue();
+
+                    target.SetWorker(bestWorker);
+                    bestWorker.AssignTask(target);
+                    idleWorkers.Remove(bestWorker);
                 }
             }
         }

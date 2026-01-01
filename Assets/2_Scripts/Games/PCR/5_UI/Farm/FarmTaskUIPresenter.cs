@@ -16,7 +16,34 @@ namespace LUP.PCR
             this.mainPresenter = mainPresenter;
 
             view.OnClickBack += HandleBackClick;
+            view.OnClickWorkRequest += HanldeWorkRequestToggle;
+            view.OnClickUpgrade += HandleUpgrade;
         }
+
+        private void HanldeWorkRequestToggle()
+        {
+            if(currBuilding == null)
+            {
+                return;
+            }
+            currBuilding.ToggleWorkRequest();
+
+            UpdateUI(currBuilding);
+        }
+
+        private void HandleUpgrade()
+        {
+            if (currBuilding == null)
+            {
+                return;
+            }
+
+            currBuilding.Upgrade();
+
+            UpdateUI(currBuilding);
+        }
+
+
 
         private void HandleBackClick()
         {
@@ -50,6 +77,7 @@ namespace LUP.PCR
         {
             view.UpdateUIStats(data);
         }
+
     }
 
 }

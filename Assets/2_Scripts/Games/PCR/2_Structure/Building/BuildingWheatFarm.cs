@@ -58,7 +58,7 @@ namespace LUP.PCR
             }
 
             // 작업자 있는지 데이터 필요.
-            hasWork = true;
+            hasWork = false;
             buildingName = "WheatFarm";
 
 
@@ -74,6 +74,8 @@ namespace LUP.PCR
             else
             {
                 ChangeState(productableState);
+
+                StartProduction();
             }
         }
 

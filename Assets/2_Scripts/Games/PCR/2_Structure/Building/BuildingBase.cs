@@ -16,15 +16,11 @@ namespace LUP.PCR
         public BuildingEvents buildingEvents;
 
         public string buildingName;
-        public Vector2Int entrancePos; // 작업자 도달 위치
         public PCRResourceCenter resourceCenter;
         public GameObject ConstructScreen;
 
         protected IBuildState currBuildState;
-        protected bool hasWork;
-
         public abstract void Init(ProductionRuntimeData runtimeData);
-
         public abstract void CompleteContruction();
 
         public abstract void Upgrade();
@@ -74,14 +70,5 @@ namespace LUP.PCR
             entrancePos = pivotPos;
         }
 
-        public void EnterWorker()
-        {
-            hasWork = true;
-        }
-
-        public void ExitWorker()
-        {
-            hasWork = false;
-        }
     }
 }
