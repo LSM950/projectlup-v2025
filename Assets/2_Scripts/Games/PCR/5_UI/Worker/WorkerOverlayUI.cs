@@ -38,7 +38,6 @@ namespace LUP.PCR
 
         private void LateUpdate()
         {
-            // 1. 빌보드 처리 (항상 카메라 정면 보기)
             if (mainCam != null)
             {
                 transform.rotation = Quaternion.LookRotation(transform.position - mainCam.transform.position);

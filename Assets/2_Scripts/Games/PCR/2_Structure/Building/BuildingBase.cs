@@ -18,6 +18,8 @@ namespace LUP.PCR
         public string buildingName;
         public PCRResourceCenter resourceCenter;
         public GameObject ConstructScreen;
+        public ConstructionOverlayView constructionOverlay;
+
 
         protected IBuildState currBuildState;
         public abstract void Init(ProductionRuntimeData runtimeData);

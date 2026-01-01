@@ -18,7 +18,9 @@ namespace LUP.PCR
                 building.GetProductionInfo().currentStorage,
                 building.maxStorage,
                 building.buildingStaticData.power,
-                building.IsWorkRequested);
+                building.IsWorkRequested,
+                uiData.isConstructing = building.GetBuildingInfo().isConstructing
+                );
         }
     }
 }

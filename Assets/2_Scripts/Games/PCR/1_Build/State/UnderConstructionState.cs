@@ -24,6 +24,11 @@ namespace LUP.PCR
                 building.ConstructScreen.SetActive(true);
             }
 
+            if (building.constructionOverlay != null)
+            {
+                building.constructionOverlay.Show();
+            }
+
             currentConstructionInfo = building.GetConstructionInfo();
             building.GetBuildingInfo().isConstructing = true;
 
@@ -34,6 +39,11 @@ namespace LUP.PCR
             if (building.ConstructScreen)
             {
                 building.ConstructScreen.SetActive(false);
+            }
+
+            if (building.constructionOverlay != null)
+            {
+                building.constructionOverlay.Hide();
             }
 
             Stop();
@@ -53,6 +63,12 @@ namespace LUP.PCR
 
             currentConstructionInfo.elapsedTime += deltaTime;
             progressRatio = Mathf.Clamp01(currentConstructionInfo.elapsedTime / totalTime);
+
+            if (building.constructionOverlay != null)
+            {
+                float remainingTime = Mathf.Max(0, totalTime - currentConstructionInfo.elapsedTime);
+                building.constructionOverlay.UpdateView(progressRatio, remainingTime);
+            }
 
             if (progressRatio >= 1f)
             {

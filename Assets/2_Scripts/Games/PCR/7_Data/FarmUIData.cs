@@ -10,8 +10,10 @@ namespace LUP.PCR
         public int maxStorage;
         public int power;
         public bool isWorkRequested;
+        public bool isConstructing;
 
-        public void SetData(int level, string buildingName, int productionTime, int curStorage, int maxStorage, int power, bool isWorkRequested)
+        public void SetData(int level, string buildingName, int productionTime, int curStorage, int maxStorage, int power
+            , bool isWorkRequested, bool isConstructing)
         {
             this.level = level;
             this.buildingName = buildingName;
@@ -19,6 +21,7 @@ namespace LUP.PCR
             this.maxStorage = maxStorage;
             this.power = power;
             this.isWorkRequested = isWorkRequested;
+            this.isConstructing = isConstructing;
         }
     }
 }

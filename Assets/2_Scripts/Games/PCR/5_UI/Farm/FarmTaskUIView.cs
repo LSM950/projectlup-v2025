@@ -9,7 +9,6 @@ namespace LUP.PCR
         Product,
         Upgrade,
     }
-
     public class FarmTaskUIView : MonoBehaviour, IFarmTaskUIView
     {
         [Header("탭")]
@@ -99,9 +98,20 @@ namespace LUP.PCR
                productionToggleText.text = "작업 요청";
                btnProductionToggle.image.color = Color.white;
            }
-           
-           //productionTimeText.SetText("{0}", data.productionTime);
-           //powerText.SetText("{0}", data.power);
+
+            if (data.isConstructing)
+            {
+                upgradeTab.interactable = false; // 버튼 클릭 불가
+                // 현재 업그레이드 패널이 열려있다면 강제로 생산 패널로 전환
+                if (upgradePanel.activeSelf) ChangeOptionBtn(FarmUIBtnType.Product);
+            }
+            else
+            {
+                upgradeTab.interactable = true;
+            }
+
+            //productionTimeText.SetText("{0}", data.productionTime);
+            //powerText.SetText("{0}", data.power);
         }
     }
 
