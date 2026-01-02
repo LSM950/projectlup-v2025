@@ -8,6 +8,7 @@ namespace LUP.PCR
         private IMainUIView view;
         private MainUIModel model;
         private SelectConstructUIPresenter selectConstructPresenter;
+        private FarmTaskUIPresenter farmTaskPresenter;
 
         public void InitPresenter(IMainUIView view, MainUIModel model, SelectConstructUIPresenter presenter)
         {
@@ -18,6 +19,8 @@ namespace LUP.PCR
             // 초기화 작업
             view.OnClickDig += HandleDigClick;
             view.OnClickConstruct += HandleConstructClick;
+
+            BuildingBase.OnGlobalUIRequest += HandleOpenBuildingUI;
         }
 
         public void HandleDigClick()
@@ -49,6 +52,22 @@ namespace LUP.PCR
         public void BindActionConstruct(Action action)
         {
             view.OnClickConstruct += action;
+        }
+
+        public void Release()
+        {
+            BuildingBase.OnGlobalUIRequest -= HandleOpenBuildingUI;
+        }
+        private void HandleOpenBuildingUI(ProductableBuilding building, FarmUIBtnType initTab)
+        {
+            if (farmTaskPresenter == null)
+            {
+                return;
+            }
+
+            farmTaskPresenter.Show();
+            farmTaskPresenter.UpdateUI(building);
+            farmTaskPresenter.SelectTab(initTab);
         }
     }
 }

@@ -4,16 +4,17 @@ namespace LUP.PCR
 {
     public class BuildingWheatFarm : ProductableBuilding
     {
-        private void Awake()
+        protected override void Awake()
         {
             buildingEvents = new BuildingEvents();
             constructState = new UnderConstructionState();
             productableState = new ProductableState();
         }
 
-        private void Start()
+        protected override void Start()
         {
-            buildingEvents.OnBuildingSelected += OpenBuildingUI;
+            base.Start();
+            //buildingEvents.OnBuildingSelected += OpenBuildingUI;
             buildingEvents.OnBuildingDeselected += CloseBuildingUI;
         }
 

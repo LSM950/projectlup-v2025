@@ -6,7 +6,7 @@ namespace LUP.PCR
 {
     public class ConstructionOverlayView : MonoBehaviour
     {
-        [Header("UI Components")]
+        [Header("업그레이드 UI")]
         [SerializeField] private Canvas contentRoot; // UI 전체 부모 (UI 활성/비활성)
         [SerializeField] private Slider progressBar;
         [SerializeField] private Text timerText; // 00:00:00

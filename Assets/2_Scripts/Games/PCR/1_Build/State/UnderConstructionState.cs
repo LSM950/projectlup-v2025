@@ -47,7 +47,7 @@ namespace LUP.PCR
             }
 
             Stop();
-            // 건설 취소.
+
             Debug.Log("UnderContructionState Exit");
         }
         public void Tick(float deltaTime)

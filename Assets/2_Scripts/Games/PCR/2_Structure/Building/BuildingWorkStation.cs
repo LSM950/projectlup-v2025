@@ -11,17 +11,18 @@ namespace LUP.PCR
         public int maxStorage;
         public int currStorage;
 
-        private void Awake()
+        protected override void Awake()
         {
             buildingEvents = new BuildingEvents();
             constructState = new UnderConstructionState();
             completeState = new CompletedState();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
 
-            buildingEvents.OnBuildingSelected += OpenBuildingUI;
+            //buildingEvents.OnBuildingSelected += OpenBuildingUI;
             buildingEvents.OnBuildingDeselected += CloseBuildingUI;
         }
 

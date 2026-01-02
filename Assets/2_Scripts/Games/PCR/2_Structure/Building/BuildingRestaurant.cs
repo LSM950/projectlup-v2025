@@ -9,17 +9,17 @@ namespace LUP.PCR
 
         protected RestaurantInfo restaurantInfo;
 
-        private void Awake()
+        protected override void Awake()
         {
             buildingEvents = new BuildingEvents();
             completeState = new CompletedState();
             cookingState = new CookingState();
         }
 
-        private void Start()
+        protected override void Start()
         {
 
-            buildingEvents.OnBuildingSelected += OpenBuildingUI;
+            //buildingEvents.OnBuildingSelected += OpenBuildingUI;
             buildingEvents.OnBuildingDeselected += CloseBuildingUI;
         }
 

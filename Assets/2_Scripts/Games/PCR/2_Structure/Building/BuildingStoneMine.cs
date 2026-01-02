@@ -6,17 +6,18 @@ namespace LUP.PCR
     public class BuildingStoneMine : ProductableBuilding
     {
 
-        private void Awake()
+        protected override void Awake()
         {
             buildingEvents = new BuildingEvents();
             constructState = new UnderConstructionState();
             productableState = new ProductableState();
         }
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
 
-            buildingEvents.OnBuildingSelected += OpenBuildingUI;
+            //buildingEvents.OnBuildingSelected += OpenBuildingUI;
             buildingEvents.OnBuildingDeselected += CloseBuildingUI;
         }
         private void Update()

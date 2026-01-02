@@ -13,5 +13,6 @@ namespace LUP.PCR
         void Show();
         void Hide();
         void UpdateUIStats(FarmUIData data);
+        void ChangeTab(FarmUIBtnType type);
     }
 }

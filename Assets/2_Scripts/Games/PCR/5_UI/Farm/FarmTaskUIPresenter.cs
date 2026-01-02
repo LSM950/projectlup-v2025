@@ -125,6 +125,11 @@ namespace LUP.PCR
             }
         }
 
+        public void SelectTab(FarmUIBtnType tabType)
+        {
+            view.ChangeTab(tabType);
+        }
+
 
     }
 

@@ -165,6 +165,10 @@ namespace LUP.PCR
             // 버튼 활성화 (공사중이 아니면 가능)
             btnUpgrade.interactable = !data.isConstructing;
         }
+        public void ChangeTab(FarmUIBtnType type)
+        {
+            ChangeOptionBtn(type);
+        }
     }
 
 
