@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6479663152030789956}
   - component: {fileID: 3991109872891329231}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
   state: 0
   leftHandGrip: {fileID: 0}
   itemDataBase: {fileID: 11400000, guid: ffa906b5ab3afad469ad0d4351c62bd0, type: 2}
-  selectedWeaponId: 9
+  selectedWeaponId: 3
   targetLayer:
     serializedVersion: 2
     m_Bits: 8

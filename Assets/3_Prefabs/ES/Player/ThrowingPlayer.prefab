@@ -596,7 +596,7 @@ MonoBehaviour:
   InteractionRadius: 2
   leftJoystick: {fileID: 0}
   rightJoystick: {fileID: 0}
-  CurrentWeaponID: 3
+  CurrentWeaponID: 7
   eventBroker: {fileID: 0}
   weapon: {fileID: 0}
   InteractionDetector: {fileID: 4295948021435592100}
