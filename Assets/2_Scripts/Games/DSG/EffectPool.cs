@@ -26,7 +26,10 @@ public enum ActionEffect
     Get_Burn,
     Get_Poison,
     Get_AttackBuff,
-    Get_AttackDebuff
+    Get_AttackDebuff,
+
+    ThrowBullet,
+    MagicBullet
 }
 
 [System.Serializable]
