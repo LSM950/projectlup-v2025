@@ -16,7 +16,7 @@
         },
         {
             "buildingId": 2,
-            "level": 3,
+            "level": 1,
             "gridPos": {
                 "x": 8,
                 "y": 3
@@ -48,13 +48,13 @@
     "productionInfoList": [
         {
             "buildingId": 2,
-            "elapsedTime": 0.0,
-            "currentStorage": 18
+            "elapsedTime": 3.3020267486572267,
+            "currentStorage": 16
         },
         {
             "buildingId": 3,
-            "elapsedTime": 0.0,
-            "currentStorage": 99
+            "elapsedTime": 0.365547239780426,
+            "currentStorage": 13
         }
     ],
     "constructionInfoList": [
@@ -809,6 +809,13 @@
         {
             "wallType": 1,
             "gridPos": {
+                "x": 14,
+                "y": 5
+            }
+        },
+        {
+            "wallType": 1,
+            "gridPos": {
                 "x": 15,
                 "y": 5
             }
@@ -1048,6 +1055,13 @@
             "wallType": 1,
             "gridPos": {
                 "x": 16,
+                "y": 7
+            }
+        },
+        {
+            "wallType": 1,
+            "gridPos": {
+                "x": 17,
                 "y": 7
             }
         },

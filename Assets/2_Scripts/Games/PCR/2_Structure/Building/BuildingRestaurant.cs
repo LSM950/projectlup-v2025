@@ -118,19 +118,19 @@ namespace LUP.PCR
             switch (restaurantInfo.currentFood)
             {
                 case FoodType.Bread:
-                    resourceCenter.UseResource(ResourceType.WHEAT, 10);
-                    resourceCenter.AddResource(ResourceType.FOOD, 50);
+                    resourceCenter.UseResource(ResourceType.Wheat, 10);
+                    resourceCenter.AddResource(ResourceType.Food, 50);
                     break;
                 case FoodType.GrilledMushroom:
-                    resourceCenter.UseResource(ResourceType.MUSHROOM, 10);
-                    resourceCenter.AddResource(ResourceType.FOOD, 30);
+                    resourceCenter.UseResource(ResourceType.Mushroom, 10);
+                    resourceCenter.AddResource(ResourceType.Food, 30);
                     break;
                 case FoodType.MeatSoup:
-                    resourceCenter.UseResource(ResourceType.MEAT, 10);
-                    resourceCenter.AddResource(ResourceType.FOOD, 70);
+                    resourceCenter.UseResource(ResourceType.Meat, 10);
+                    resourceCenter.AddResource(ResourceType.Food, 70);
                     break;
                 default:
-                    resourceCenter.AddResource(ResourceType.FOOD, 0);
+                    resourceCenter.AddResource(ResourceType.Food, 0);
                     break;
             }
         }

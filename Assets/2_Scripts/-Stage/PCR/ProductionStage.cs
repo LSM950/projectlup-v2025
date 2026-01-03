@@ -50,10 +50,10 @@ namespace LUP.PCR
         {
             yield return base.OnStageEnter();
 
-            LoadFirstGameData();
-
             // InventoryManager를 통해 PCR 인벤토리 로드 및 등록
             PCRInven = InventoryManager.Instance.LoadOrCreateInventory("PCR", "PCRInventory.json");
+
+            LoadFirstGameData();
         
             gameSystem.InitPCRGameSystem();
 
@@ -150,6 +150,52 @@ namespace LUP.PCR
                 return;
             }
 
+
+            // 인벤토리 초기 데이터
+            PCRInven.Clear();
+
+            for(int i = 1; i<= 10; i++)
+            {
+                int num = 9900 + i;
+                IItemable item = ItemManager.Instance.GetItem(num);
+                PCRInven.AddItem(item, 10);
+            }
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Coal");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Iron");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Wheat");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Mushroom");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Meat");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Food");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Power");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Diamond");
+            //    PCRInven.AddItem(item, 10);
+            //}
+            //{
+            //    IItemable item = ItemManager.Instance.GetItem("Worker");
+            //    PCRInven.AddItem(item, 5);
+            //}
             // 건물 초기 데이터
             {
                 Debug.LogWarning("[PCRStage] BuildingInfoList First Load");

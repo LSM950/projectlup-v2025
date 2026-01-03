@@ -146,7 +146,7 @@ namespace LUP.PCR
 
         public override void DeliverToInventory()
         {
-            resourceCenter.AddResource(ResourceType.MEAT, productionInfo.currentStorage);
+            resourceCenter.AddResource(ResourceType.Meat, productionInfo.currentStorage);
             productionInfo.currentStorage = 0;
         }
     }

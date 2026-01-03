@@ -1,0 +1,55 @@
+{
+    "filename": "PCRInventory.json",
+    "_serializedSlots": [
+        {
+            "slotKey": "9901",
+            "itemID": 9901,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9902",
+            "itemID": 9902,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9903",
+            "itemID": 9903,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9904",
+            "itemID": 9904,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9905",
+            "itemID": 9905,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9906",
+            "itemID": 9906,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9907",
+            "itemID": 9907,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9908",
+            "itemID": 9908,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9909",
+            "itemID": 9909,
+            "quantity": 10
+        },
+        {
+            "slotKey": "9910",
+            "itemID": 9910,
+            "quantity": 10
+        }
+    ]
+}

@@ -49,16 +49,16 @@ namespace LUP.PCR
 
     public enum ResourceType
     {
-        NONE,
-        STONE,
-        COAL,
-        IRON,
-        WHEAT,
-        MUSHROOM,
-        MEAT,
-        FOOD,
-        POWER,
-        DIAMOND
+        None,
+        Stone,
+        Coal,
+        Iron,
+        Wheat,
+        Mushroom,
+        Meat,
+        Food,
+        Power,
+        Diamond
     }
 
     public enum PlacementResultType
