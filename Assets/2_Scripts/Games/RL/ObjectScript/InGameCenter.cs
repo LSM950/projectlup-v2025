@@ -414,12 +414,15 @@ namespace LUP.RL
                     weaponInstance.transform.localPosition = weaponData.IdleweaponRightHandGrapPos;
                     weaponInstance.transform.localRotation = Quaternion.Euler(weaponData.IdleweaponRotate);
 
-                    Transform leftHandGrip = weaponInstance.transform.Find("LeftHandGrapPos");
-                    if (leftHandGrip)
-                        playingCharacter.GetComponent<PlayerBehaviorTree>().leftHandIKTransform = leftHandGrip;
-
                     if (weaponData.overrideController)
                         animator.runtimeAnimatorController = weaponData.overrideController;
+
+                    if(weaponData.handType == WeaponHandType.TowHand)
+                    {
+                        Transform leftHandGrip = weaponInstance.transform.Find("LeftHandGrapPos");
+                        if (leftHandGrip)
+                            playingCharacter.GetComponent<PlayerBehaviorTree>().leftHandIKTransform = leftHandGrip;
+                    }
 
                     return (_weaponDict[weaponItemId], weaponInstance);
                 }

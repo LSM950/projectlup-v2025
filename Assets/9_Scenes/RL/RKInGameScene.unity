@@ -5036,6 +5036,13 @@ MonoBehaviour:
   WeaponList:
   - {fileID: 11400000, guid: 53d51c8524782b241a2fd6ce977f9ba8, type: 2}
   - {fileID: 11400000, guid: 33b43af0ae89ed144a0b98ab4a87a99a, type: 2}
+  - {fileID: 11400000, guid: ca9cffa28a4dd6a4ca4e608513279493, type: 2}
+  - {fileID: 11400000, guid: e83a9b346fc305e4194070376771b559, type: 2}
+  - {fileID: 11400000, guid: 054000acd4cc6d849a29582350036906, type: 2}
+  - {fileID: 11400000, guid: 1046be8144d33224984ceff1a4a0acfd, type: 2}
+  - {fileID: 11400000, guid: 96c19fa2b9eb0ad4aafa1924b6a68646, type: 2}
+  - {fileID: 11400000, guid: 0001c6cf0d175ad4c969ac191d9b2201, type: 2}
+  - {fileID: 11400000, guid: b1a7c42015a4d5a4284436dcc167bf54, type: 2}
   itemSpawner: {fileID: 0}
 --- !u!4 &2078515834
 Transform:
