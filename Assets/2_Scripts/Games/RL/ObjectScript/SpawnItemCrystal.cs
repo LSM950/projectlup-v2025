@@ -11,6 +11,9 @@ namespace LUP.RL
         [HideInInspector]
         public int itemID = 0;
 
+        [HideInInspector]
+        public int amount = 0;
+
         public RLDropItemType itemType;
 
         [HideInInspector]

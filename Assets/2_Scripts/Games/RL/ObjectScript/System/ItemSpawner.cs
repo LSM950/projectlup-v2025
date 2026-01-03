@@ -14,7 +14,7 @@ namespace LUP.RL
         public GameObject commoditiesPrefab;
         public GameObject equipmentPrefab;
 
-        public Action<int> OnItemGained;
+        public Action<int, int> OnItemGained;
 
         //1번은 공용 재화, 2번은 장비구슬
         private Dictionary<RLDropItemType, Queue<GameObject>> poolDictionaray;
@@ -94,7 +94,7 @@ namespace LUP.RL
         {
             SpawnItemCrystal comp = obj.GetComponent<SpawnItemCrystal>();
 
-            OnItemGained?.Invoke(comp.itemID);
+            OnItemGained?.Invoke(comp.itemID, comp.amount);
 
             comp.bIsStageCleared = false;
             comp.target = null;

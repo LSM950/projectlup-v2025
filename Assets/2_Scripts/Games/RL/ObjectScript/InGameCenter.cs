@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace LUP.RL
 {
@@ -328,7 +329,7 @@ namespace LUP.RL
             gameClear = true;
 
         }
-        void OnGainSpawnableItem(int itemID)
+        void OnGainSpawnableItem(int itemID, int gainedAmount)
         {
             IItemable item = ItemManager.Instance.GetItem(itemID);
             ItemData gaindedItem = ScriptableObject.CreateInstance<ItemData>();

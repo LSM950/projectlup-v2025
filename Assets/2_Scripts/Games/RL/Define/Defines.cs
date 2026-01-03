@@ -156,5 +156,15 @@ namespace Roguelike.Define
         M002 = 4,
         Max
     }
+
+    public enum FloatingImageState
+    {
+        Sleep = 0,
+        Appear = 1,
+        Idle = 2,
+        Running = 3,
+        Finishe = 4,
+        Disappear = 5
+    }
 }
 
