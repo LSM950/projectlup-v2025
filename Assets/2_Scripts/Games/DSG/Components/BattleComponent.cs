@@ -90,7 +90,7 @@ namespace LUP.DSG
                     if (!isAlive)
                     {
                         owner.ClearCharacterInfo();
-                        
+
                     }
                 }
             }
@@ -102,6 +102,7 @@ namespace LUP.DSG
             {
                 Debug.Log(targetPosition);
                 Debug.Log(impactApplied);
+
                 transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, (moveSpeed * Time.deltaTime));
                 if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
                 {
@@ -200,7 +201,7 @@ namespace LUP.DSG
             if (targetSlots.Count < 1)
                 return;
 
-            targetPosition = targetSlots[0].AttackedPosition.position;
+            targetPosition = targetSlots[0].AttackedPosition.position; //@TODO 만약 targets가 여러명이면 다 가서 한명씩 때릴지 기획에따라 코드 바꿔야함
             HandleAttackStart();
 
             isAttacking = true;
@@ -216,7 +217,7 @@ namespace LUP.DSG
             if (targetSlots == null)
                 return;
 
-            for(int i = 0; i < targetSlots.Count; i++)
+            for (int i = 0; i < targetSlots.Count; i++)
             {
                 var targetChar = targetSlots[i].character;
 
@@ -231,9 +232,9 @@ namespace LUP.DSG
                     enemyType = targetChar.characterData.type
                 };
 
+                ActionEffect hiteffect = owner.ActioneffectPool.GetAttackEffectByGetHITEffect(owner.AnimationComp.attackEffect);
                 float damage = DamageCalculator.Calculator(ctx);
-
-                targetChar.BattleComp.TakeDamage(damage);
+                targetChar.BattleComp.TakeDamage(damage, hiteffect);
                 owner.ScoreComp.UpdateDamageDealt(damage);
             }
 
@@ -268,7 +269,7 @@ namespace LUP.DSG
                     };
 
                     float damage = DamageCalculator.Calculator(ctx) + skillInfo.damage;
-                    targetSlots[i].character.BattleComp.TakeDamage(damage);
+                    targetSlots[i].character.BattleComp.TakeDamage(damage, ActionEffect.GetHit_Skill_Test);
                     owner.ScoreComp.UpdateDamageDealt(damage);
                 }
 
@@ -292,13 +293,14 @@ namespace LUP.DSG
             InitGuage();
         }
 
-        public virtual void TakeDamage(float amount)
+        public virtual void TakeDamage(float amount, ActionEffect getHitEffect)
         {
             if (!isAlive)
                 return;
 
             currHp -= amount;
 
+            owner.AnimationComp.hitEffect = getHitEffect;
             OnDamaged?.Invoke(currHp);
             owner.ScoreComp.UpdateDamageTaken(amount);
             TriggerKnockback();
@@ -327,12 +329,13 @@ namespace LUP.DSG
 
             HandleAttackStart();
 
+            owner.AnimationComp.attackEffect = ActionEffect.Attack_Skill_Test;
             isUsingSkill = true;
             isAttacking = true;
         }
         private void HandleAttackStart()
         {
-            switch(owner.weaponType)
+            switch (owner.weaponType)
             {
                 case EWeaponType.Melee_OneHanded:
                 case EWeaponType.Melee_TwoHanded:
@@ -356,10 +359,36 @@ namespace LUP.DSG
         {
             if (owner.weaponType != EWeaponType.Magic && owner.weaponType != EWeaponType.Gun_Rifle && owner.weaponType != EWeaponType.Throw)
                 return;
+
             Vector3 spawnPos = originPosition;
             spawnPos.y += 1.2f;
 
             bullet = Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+            ActionEffect effect = ActionEffect.None;
+            switch (owner.weaponType)
+            {
+                case EWeaponType.Magic:
+                    effect = ActionEffect.MagicBullet;
+                    break;
+                case EWeaponType.Throw:
+                    effect = ActionEffect.ThrowBullet;
+                    break;
+            }
+
+            GameObject Particle = owner.ActioneffectPool.GetParticlePrefab(effect);
+
+            if (Particle != null)
+            {
+                Transform vfxRoot = bullet.transform;
+
+                Particle.transform.SetParent(vfxRoot, false);
+                Particle.transform.localPosition = Vector3.zero;
+                Particle.transform.localRotation = Quaternion.identity;
+
+                Particle.SetActive(true);
+                ParticleSystem pc = Particle.GetComponent<ParticleSystem>();
+                pc.Play();
+            }
 
             projectileTargetPosition = targetSlots[0].AttackedPosition.position;
             projectileTargetPosition.y += 1.2f;

@@ -31,6 +31,8 @@ namespace LUP.DSG
         private Transform characterListContent;
         [SerializeField]
         private CharacterFilterPanel filterPanel;
+        [SerializeField]
+        private RectTransform AttributeChart;
 
         [SerializeField] private Sprite paperIcon, rockIcon, scissorsIcon;
 
@@ -42,7 +44,6 @@ namespace LUP.DSG
 
         public CharacterPlacedHandler placedHandler;
         public CharacterReleasedHandler releaseHandler;
-
         private void OnEnable()
         {
             StageInitializeInvoker.OnDSGStagePostInitialize += OnStagePostInitialize;
@@ -236,14 +237,23 @@ namespace LUP.DSG
             switch (type)
             {
                 case EAttributeType.ROCK:
-                    return new AttributeTypeImage(rockIcon, UnityEngine.Color.red);
+                    return new AttributeTypeImage(rockIcon, UnityEngine.Color.yellow);
                 case EAttributeType.PAPER:
-                    return new AttributeTypeImage(paperIcon, UnityEngine.Color.blue);
+                    return new AttributeTypeImage(paperIcon, UnityEngine.Color.red);
                 case EAttributeType.SCISSORS:
-                    return new AttributeTypeImage(scissorsIcon, UnityEngine.Color.yellow);
+                    return new AttributeTypeImage(scissorsIcon, UnityEngine.Color.blue);
                 default:
                     return new AttributeTypeImage(null, UnityEngine.Color.white);
             }
+        }
+
+        public void OnClickAttributetable()
+        {
+            AttributeChart.gameObject.SetActive(true);
+        }
+        public void OnClickAttributeChartExit()
+        {
+            AttributeChart.gameObject.SetActive(false);
         }
     }
 

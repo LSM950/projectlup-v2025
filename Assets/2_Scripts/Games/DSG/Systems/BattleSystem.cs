@@ -38,7 +38,7 @@ namespace LUP.DSG
         [SerializeField]
         private GameObject characterUICanvas;
         [SerializeField]
-        private RectTransform EmptyMessage;
+        private GameObject EmptyMessage;
 
         [SerializeField]
         private TextMeshProUGUI roundText;
@@ -253,13 +253,13 @@ namespace LUP.DSG
         {
             if(FriendlySlotsIsEmpty() || EnemySlotsIsEmpty())
             {
-                ViewWarningMessage();
+                StartCoroutine(ViewWarningMessage());
                 return;
             }
 
             StartCoroutine(BattleStart());
         }
-        private IEnumerable ViewWarningMessage()
+        private IEnumerator ViewWarningMessage()
         {
             EmptyMessage.gameObject.SetActive(true);
             yield return new WaitForSeconds(2);
@@ -661,16 +661,13 @@ namespace LUP.DSG
         public void OnClickPauseButton()
         {
             float Curr = Time.timeScale;
-            TextMeshProUGUI pauseText = battleCanvas.transform.Find("RightTop/PauseButton/PauseText").GetComponent<TextMeshProUGUI>();
 
             if (Curr == 0f)
             {
-                pauseText.SetText("Pause");
                 Time.timeScale = currentGameSpeed;
             }
             else
             {
-                pauseText.SetText("Resume");
                 Time.timeScale = 0f;
             }
         }
