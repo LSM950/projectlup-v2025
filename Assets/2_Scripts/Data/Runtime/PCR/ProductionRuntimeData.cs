@@ -13,8 +13,12 @@ public class ProductionRuntimeData : BaseRuntimeData
     [SerializeField] private List<LUP.PCR.BuildingInfo> buildingInfoList = new List<LUP.PCR.BuildingInfo>();
     [SerializeField] private List<LUP.PCR.ProductionInfo> productionInfoList = new List<LUP.PCR.ProductionInfo>();
     [SerializeField] private List<LUP.PCR.ConstructionInfo> constructionInfoList = new List<LUP.PCR.ConstructionInfo>();
-   
+    [SerializeField] private LUP.PCR.RestaurantInfo restaurantInfo;
     [SerializeField] private List<LUP.PCR.WallInfo> wallInfoList = new List<LUP.PCR.WallInfo>();
+
+    [SerializeField] private List<int> reservedBuildingIdList = new List<int>();
+    [SerializeField] private List<int> assignedBuildingIdList = new List<int>();
+    [SerializeField] private List<LUP.PCR.WorkerInfo> workerInfoList = new List<LUP.PCR.WorkerInfo>();
 
     public int PlayerId
     {
@@ -58,6 +62,30 @@ public class ProductionRuntimeData : BaseRuntimeData
         set => SetValue(ref constructionInfoList, value);
     }
 
+    public LUP.PCR.RestaurantInfo RestaurantInfo
+    {
+        get => restaurantInfo;
+        set => SetValue(ref restaurantInfo, value);
+    }
+
+    public List<int> ReservedBuildingIdList
+    {
+        get => reservedBuildingIdList;
+        set => SetValue(ref reservedBuildingIdList, value);
+    }
+
+    public List<int> AssignedBuildingIdList
+    {
+        get => assignedBuildingIdList;
+        set => SetValue(ref assignedBuildingIdList, value);
+    }
+
+    public List<LUP.PCR.WorkerInfo> WorkerInfoList
+    {
+        get => workerInfoList;
+        set => SetValue(ref workerInfoList, value);
+    }
+
     public override void ResetData()
     {
         buildingInfoList.Clear();
@@ -65,6 +93,11 @@ public class ProductionRuntimeData : BaseRuntimeData
         constructionInfoList.Clear();
 
         wallInfoList.Clear();
+    }
+
+    public void SaveProductionDatas()
+    {
+        NotifyValueChanged();
     }
 
     public LUP.PCR.BuildingInfo GetBuildingInfo(int buildingId)

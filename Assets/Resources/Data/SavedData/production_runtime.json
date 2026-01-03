@@ -8,15 +8,15 @@
             "buildingId": 1,
             "level": 1,
             "gridPos": {
-                "x": 8,
-                "y": 1
+                "x": 7,
+                "y": 6
             },
-            "buildingType": 2,
+            "buildingType": 3,
             "isConstructing": false
         },
         {
             "buildingId": 2,
-            "level": 1,
+            "level": 3,
             "gridPos": {
                 "x": 8,
                 "y": 3
@@ -28,45 +28,36 @@
             "buildingId": 3,
             "level": 1,
             "gridPos": {
-                "x": 7,
-                "y": 6
+                "x": 8,
+                "y": 1
             },
-            "buildingType": 3,
+            "buildingType": 2,
             "isConstructing": false
         },
         {
             "buildingId": 4,
             "level": 1,
             "gridPos": {
-                "x": 14,
+                "x": 13,
                 "y": 6
             },
-            "buildingType": 9,
+            "buildingType": 6,
             "isConstructing": false
         }
     ],
     "productionInfoList": [
         {
-            "buildingId": 1,
-            "elapsedTime": 0.5066721439361572,
-            "currentStorage": 0
-        },
-        {
             "buildingId": 2,
-            "elapsedTime": 0.5066721439361572,
-            "currentStorage": 0
+            "elapsedTime": 0.0,
+            "currentStorage": 18
         },
         {
-            "buildingId": 4,
-            "elapsedTime": 0.5066721439361572,
-            "currentStorage": 0
+            "buildingId": 3,
+            "elapsedTime": 0.0,
+            "currentStorage": 99
         }
     ],
     "constructionInfoList": [
-        {
-            "buildingId": 1,
-            "elapsedTime": 0.0
-        },
         {
             "buildingId": 2,
             "elapsedTime": 0.0
@@ -80,6 +71,12 @@
             "elapsedTime": 0.0
         }
     ],
+    "restaurantInfo": {
+        "currentFood": 0,
+        "elapsedTime": 0.0,
+        "totalCount": 0,
+        "isCooking": false
+    },
     "wallInfoList": [
         {
             "wallType": 1,
@@ -812,13 +809,6 @@
         {
             "wallType": 1,
             "gridPos": {
-                "x": 14,
-                "y": 5
-            }
-        },
-        {
-            "wallType": 1,
-            "gridPos": {
                 "x": 15,
                 "y": 5
             }
@@ -1064,13 +1054,6 @@
         {
             "wallType": 1,
             "gridPos": {
-                "x": 17,
-                "y": 7
-            }
-        },
-        {
-            "wallType": 1,
-            "gridPos": {
                 "x": 18,
                 "y": 7
             }
@@ -2767,6 +2750,50 @@
             "gridPos": {
                 "x": 20,
                 "y": 19
+            }
+        }
+    ],
+    "reservedBuildingIdList": [],
+    "assignedBuildingIdList": [],
+    "workerInfoList": [
+        {
+            "hunger": 0.0,
+            "id": 0,
+            "name": "DefaultWorker_0",
+            "initPlace": {
+                "instanceID": 0
+            }
+        },
+        {
+            "hunger": 0.0,
+            "id": 1,
+            "name": "DefaultWorker_1",
+            "initPlace": {
+                "instanceID": 0
+            }
+        },
+        {
+            "hunger": 0.0,
+            "id": 2,
+            "name": "DefaultWorker_2",
+            "initPlace": {
+                "instanceID": 0
+            }
+        },
+        {
+            "hunger": 0.0,
+            "id": 3,
+            "name": "DefaultWorker_3",
+            "initPlace": {
+                "instanceID": 0
+            }
+        },
+        {
+            "hunger": 0.0,
+            "id": 4,
+            "name": "DefaultWorker_4",
+            "initPlace": {
+                "instanceID": 0
             }
         }
     ]

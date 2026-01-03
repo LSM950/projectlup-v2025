@@ -8909,7 +8909,6 @@ GameObject:
   - component: {fileID: 3214845910662516891}
   - component: {fileID: 4194497431461352673}
   - component: {fileID: 160659536904336107}
-  - component: {fileID: 4028091728916380517}
   m_Layer: 5
   m_Name: WheatFarmUI
   m_TagString: Untagged
@@ -9000,18 +8999,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4028091728916380517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5427324765703571723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ed073860c94e8e429a5fa38ccb75107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5588876101959536451
 GameObject:
   m_ObjectHideFlags: 0

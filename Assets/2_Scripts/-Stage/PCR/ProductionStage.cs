@@ -8,7 +8,7 @@ namespace LUP.PCR
     {
         private PCRGameSystem gameSystem;
 
-        public BaseRuntimeData productionRuntimeData;
+        public ProductionRuntimeData productionRuntimeData;
 
         public List<BuildingStaticData> buildingDataList;
         public List<PCRConstructionStaticData> constructionDataList;
@@ -16,6 +16,8 @@ namespace LUP.PCR
         public List<InitialBuildingStaticData> initialBuildingDataList;
         public List<InitialWallStaticData> initialWallDataList;
 
+        private float saveTime;
+        private float savefreq;
 
         // 변수명은 예시이니 바꾸셔도 됩니다.
         public Inventory PCRInven;
@@ -30,13 +32,20 @@ namespace LUP.PCR
 
         void Start()
         {
-
+            savefreq = 1f;
+            saveTime = 0f;
         }
 
         void Update()
         {
-
+            saveTime += Time.deltaTime;
+            if (saveTime >= savefreq)
+            {
+                productionRuntimeData.SaveProductionDatas();
+                saveTime = 0f;
+            }
         }
+
         public override IEnumerator OnStageEnter()
         {
             yield return base.OnStageEnter();
@@ -45,7 +54,7 @@ namespace LUP.PCR
 
             // InventoryManager를 통해 PCR 인벤토리 로드 및 등록
             PCRInven = InventoryManager.Instance.LoadOrCreateInventory("PCR", "PCRInventory.json");
-
+        
             gameSystem.InitPCRGameSystem();
 
             yield return null;
