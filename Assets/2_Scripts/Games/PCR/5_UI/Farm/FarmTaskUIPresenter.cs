@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace LUP.PCR
@@ -50,6 +51,12 @@ namespace LUP.PCR
             Hide();
             mainPresenter.Show();
         }
+
+        public void BindActionBack(Action action)
+        {
+            view.OnClickBack += action;
+        }
+
 
         public void Show()
         {
