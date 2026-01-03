@@ -29,7 +29,8 @@ public enum ActionEffect
     Get_AttackDebuff,
 
     ThrowBullet,
-    MagicBullet
+    MagicBullet,
+    GunRifleBullet
 }
 
 [System.Serializable]
@@ -124,5 +125,15 @@ public class EffectPool : MonoBehaviour
             default:
                 return ActionEffect.None;
         }    
+    }
+
+    public GameObject GetParticlePrefab(ActionEffect effect)
+    {
+        if(vfxPool.TryGetValue(effect, out var prefab))
+        {
+            GameObject eff = Instantiate(System.Array.Find(effectpairs, s => s.name == effect).particlePrefab);
+            return eff;
+        }
+        return null;
     }
 }

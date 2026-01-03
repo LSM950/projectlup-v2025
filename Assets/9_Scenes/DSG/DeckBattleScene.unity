@@ -3575,9 +3575,9 @@ MonoBehaviour:
   - name: 8
     particlePrefab: {fileID: 1893033738566276, guid: 3e04efdf8ee665d48962b33b06e8e3d3, type: 3}
   - name: 3
-    particlePrefab: {fileID: 3992058561654064293, guid: 13c990b8270c70b4c9f196019286028c, type: 3}
+    particlePrefab: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
   - name: 9
-    particlePrefab: {fileID: 3928998189374746443, guid: 00bba72dbda252a4eac12e218848cb44, type: 3}
+    particlePrefab: {fileID: 683182934616091483, guid: 491bd2f8e55e1db45a195465b18740bd, type: 3}
   - name: 4
     particlePrefab: {fileID: 4809171458859421548, guid: 4e91ed1a8efe7044785b9bd97a47d87f, type: 3}
   - name: 10
@@ -3598,6 +3598,10 @@ MonoBehaviour:
     particlePrefab: {fileID: 7155335147208632822, guid: 97c43495f80a3244fad1301dfafbe252, type: 3}
   - name: 16
     particlePrefab: {fileID: 6126188424833946103, guid: a58aa9a78f2b45b45bb0f3e2e1e3ad3c, type: 3}
+  - name: 17
+    particlePrefab: {fileID: 1607573853919354, guid: edd7286f469ea8f4b9055776dde1d063, type: 3}
+  - name: 18
+    particlePrefab: {fileID: 1852490342792334, guid: 386174cad99783149b3e5a2f29fb3a5b, type: 3}
   offset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &636051258
 GameObject:
