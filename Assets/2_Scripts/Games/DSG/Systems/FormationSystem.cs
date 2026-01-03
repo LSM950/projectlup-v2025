@@ -20,9 +20,6 @@ namespace LUP.DSG
     }
     public class FormationSystem : MonoBehaviour
     {
-        [SerializeField]
-        DataCenter dataCenter;
-
         public GameObject[] slots = new GameObject[5];
 
         public Team selectedTeam { get; private set; }

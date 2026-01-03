@@ -26,9 +26,10 @@ namespace LUP.DSG
         public List<DeckStaticData> DeckDataList;
         public List<DeckCharacterStaticData> CharacterDataList;
         public CharacterModelDataTable characterModelDataTable;
+        public TeamMVPData mvpData;
+        public EnemyStageData enemyStageData;
 
-
-        protected override void Awake() 
+        protected override void Awake()
         {
             base.Awake();
             StageKind = Define.StageKind.DSG;
@@ -246,6 +247,10 @@ namespace LUP.DSG
             }
         }
 
+        public BattleSystem GetBattleSystem() 
+        {
+            return GetComponent<BattleSystem>();
+        }
     }
 }
 

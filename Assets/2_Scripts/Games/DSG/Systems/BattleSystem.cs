@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -19,11 +20,6 @@ namespace LUP.DSG
 {
     public class BattleSystem : MonoBehaviour
     {
-        //private UserData.Team friendlyTeam = new UserData.Team();
-
-        [SerializeField]
-        private Team enemyTeam;
-
         public GameObject[] friendlySlots = new GameObject[5];
         public GameObject[] enemySlots = new GameObject[5];
 
@@ -60,11 +56,8 @@ namespace LUP.DSG
         private float currentGameSpeed = 1f;
         private bool isBattleStart = false;
 
-        [SerializeField]
-        private DataCenter dataCenter;
-
         public float iconSize = 1000f;
-        public static BattleSystem Instance { get; private set; }
+        //public static BattleSystem Instance { get; private set; }
         private Dictionary<string, (Color Color, float Score)> deadScores = new();
         private List<(string Name, int CharId, Sprite Icon, float Score, GameObject Prefab)> deadCharacterData = new();
 
@@ -76,37 +69,33 @@ namespace LUP.DSG
         void Awake()
         {
             StageInitializeInvoker.OnDSGStagePostInitialize += Initialize;
-            StageInitializeInvoker.OnDSGStagePostInitialize += PostInitialize;
 
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            //if (Instance == null)
+            //{
+            //    Instance = this;
+            //}
+            //else
+            //{
+            //    Destroy(gameObject);
+            //}
         }
 
         private void OnDestroy()
         {
             StageInitializeInvoker.OnDSGStagePostInitialize -= Initialize;
-            StageInitializeInvoker.OnDSGStagePostInitialize -= PostInitialize;
         }
 
-        private void PostInitialize(DeckStrategyStage stage)
-        {
-
-        }
         private void Initialize(DeckStrategyStage stage)
         {
+            if (stage.enemyStageData == null || stage.enemyStageData.enemyTeamData == null) return;
+            
             for (int i = 0; i < enemySlots.Length; i++)
             {
                 LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
                 enemySlot.OnCPUpdated += UpdateEnemyCP;
-                if (enemyTeam.characters[i] == null) continue;
+                if (stage.enemyStageData.enemyTeamData[0].characters[i] == null) continue;
 
-                enemySlot.SetSelectedCharacter(enemyTeam.characters[i], true);
+                enemySlot.SetSelectedCharacter(stage.enemyStageData.enemyTeamData[0].characters[i], true);
             }
 
             for (int i = 0; i < friendlySlots.Length; i++)
@@ -148,7 +137,8 @@ namespace LUP.DSG
             for (int i = 0; i < enemySlots.Length; i++)
             {
                 LineupSlot enemySlot = enemySlots[i].GetComponent<LineupSlot>();
-                if (enemyTeam.characters[i] == null) continue;
+                DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+                if (stage.enemyStageData.enemyTeamData[0].characters[i] == null) continue;
                 battleSequence.Add(enemySlot.character);
             }
 
@@ -233,7 +223,7 @@ namespace LUP.DSG
                 {
                     character.BattleComp.OnDie -= OnDieIndexCharacter;
                     battleSequence.Remove(character);
-                    Destroy(character.gameObject);
+                    //Destroy(character.gameObject);
                     continue;
                 }
                 else
@@ -363,19 +353,24 @@ namespace LUP.DSG
 
         public void EndBattle(string resultText)
         {
-            var dataCenter = FindFirstObjectByType<DataCenter>();
-            if (dataCenter == null)
-            {
-                Debug.LogError("[EndBattle] DataCenter를 찾을 수 없습니다!");
-                return;
-            }
-            if (dataCenter.mvpData == null)
-            {
-                Debug.LogError("[EndBattle] DataCenter.mvpData가 비어 있습니다! (TeamMVPData ScriptableObject 연결 필요)");
-                return;
-            }
+            //var dataCenter = FindFirstObjectByType<DataCenter>();
+            //if (dataCenter == null)
+            //{
+            //    Debug.LogError("[EndBattle] DataCenter를 찾을 수 없습니다!");
+            //    return;
+            //}
+            //if (dataCenter.mvpData == null)
+            //{
+            //    Debug.LogError("[EndBattle] DataCenter.mvpData가 비어 있습니다! (TeamMVPData ScriptableObject 연결 필요)");
+            //    return;
+            //}
 
-            var mvp = dataCenter.mvpData;
+            //var mvp = dataCenter.mvpData;
+
+            DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            if (stage == null) return;
+            var mvp = stage.mvpData;
+            if (mvp == null) return;
             mvp.battleResult = resultText;
 
             mvp.char1Score = mvp.char2Score = mvp.char3Score = mvp.char4Score = mvp.char5Score = 0f;
@@ -601,7 +596,7 @@ namespace LUP.DSG
             foreach (var slotObj in friendlySlots)
             {
                 var slot = slotObj.GetComponent<LineupSlot>();
-                if (slot.character != null && slot.character.BattleComp != null && slot.character.BattleComp.isAlive)
+                if (/*slot.character != null && slot.character.BattleComp != null && */slot.character.BattleComp.isAlive)
                 {
                     allFriendDead = false;
                     break;
@@ -611,7 +606,7 @@ namespace LUP.DSG
             foreach (var slotObj in enemySlots)
             {
                 var slot = slotObj.GetComponent<LineupSlot>();
-                if (slot.character != null && slot.character.BattleComp != null && slot.character.BattleComp.isAlive)
+                if (/*slot.character != null && slot.character.BattleComp != null && */slot.character.BattleComp.isAlive)
                 {
                     allEnemyDead = false;
                     break;

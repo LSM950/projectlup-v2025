@@ -3524,51 +3524,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081687712}
   m_CullTransparentMesh: 1
---- !u!1 &1091457043
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1091457044}
-  - component: {fileID: 1091457045}
-  m_Layer: 0
-  m_Name: DataCenter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1091457044
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1091457043}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1170, y: 100, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1689079310}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1091457045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1091457043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36ec254000067f44cb8e36cf24563b3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mvpData: {fileID: 0}
 --- !u!1 &1096160792
 GameObject:
   m_ObjectHideFlags: 0
@@ -4254,7 +4209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92e1766f5148074ead59e700f8fb959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataCenter: {fileID: 1091457045}
   iconPrefab: {fileID: 3685334297540631434, guid: 2f1e4281c278cce49b1a38ef305add21, type: 3}
   contentParent: {fileID: 1197695711}
 --- !u!1 &1462758778
@@ -5463,6 +5417,7 @@ MonoBehaviour:
   DeckDataList: []
   CharacterDataList: []
   characterModelDataTable: {fileID: 11400000, guid: 8e5a2cc3fdef4b04698bae1932d8687b, type: 2}
+  mvpData: {fileID: 0}
 --- !u!4 &1689079310
 Transform:
   m_ObjectHideFlags: 0
@@ -5476,7 +5431,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1091457044}
   - {fileID: 1710040308}
   - {fileID: 1722222856}
   m_Father: {fileID: 0}
@@ -5493,7 +5447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc254983c8656334e91dad08c2833aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataCenter: {fileID: 1091457045}
   slots:
   - {fileID: 636051258}
   - {fileID: 1072193027}
