@@ -16,11 +16,17 @@ namespace LUP.ES
         {
             blackboard = GetComponent<PlayerBlackboard>();
             animator = blackboard.animator;
-            EqipWeapon();
+            EquipWeapon();
         }
 
-        void EqipWeapon()
+        public void EquipWeapon()
         {
+            if (blackboard.weapon != null)
+            {
+                Destroy(blackboard.weapon.gameObject);
+                blackboard.weapon = null;
+            }
+
             Transform handTransform;
             if (isRightHand)
             {

@@ -7,6 +7,7 @@ namespace LUP.ES
     {
         public Image iconImgae;
         public Text stackText;
+        public Button slotButton;
 
         private int slotIndex;
         private InventoryUIController inventoryUIController;
@@ -17,6 +18,21 @@ namespace LUP.ES
             this.slotIndex = slotIndex;
             this.inventoryUIController = inventoryUIController;
             this.itemIconLoader = itemIconLoader;
+
+            if (slotButton == null) slotButton = GetComponent<Button>();
+
+            slotButton.onClick.RemoveAllListeners(); // 중복 연결 방지
+            slotButton.onClick.AddListener(() => OnClickSlot());
+        }
+
+        private void OnClickSlot()
+        {
+            if (inventoryUIController != null)
+            {
+                if (slotIndex == -1)
+                    return;
+                inventoryUIController.OnInventorySlotClicked(slotIndex);
+            }
         }
 
         public void UpdateSlot(InventorySlot dataSlot)

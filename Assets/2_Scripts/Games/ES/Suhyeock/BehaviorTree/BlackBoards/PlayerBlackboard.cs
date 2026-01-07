@@ -14,6 +14,8 @@ namespace LUP.ES
 
     public class PlayerBlackboard : BaseBlackboard
     {
+        [HideInInspector]
+        public ExtractionShooterStage extractionShooterStage;
         public float InteractionRadius = 2.0f;
         [HideInInspector]
         public FixedJoystick leftJoystick;
@@ -64,6 +66,7 @@ namespace LUP.ES
         private void Start()
         {
             eventBroker = FindAnyObjectByType<EventBroker>();
+            extractionShooterStage = StageManager.Instance.GetCurrentStage() as ExtractionShooterStage;
         }
 
         public void SetWeaponVisible(bool isVisible)

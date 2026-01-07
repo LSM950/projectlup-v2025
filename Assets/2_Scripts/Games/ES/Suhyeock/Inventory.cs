@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LUP.ES
@@ -9,14 +9,20 @@ namespace LUP.ES
         public event Action OnInventoryUpdated;
         public int inventorySize = 30;
         public List<InventorySlot> slots;
-
+        public InventorySlot weaponSlot;
+        private PlayerBlackboard playerBlackboard;
+        private WeaponEquip weaponEquip;
         void Start()
         {
+            playerBlackboard = FindAnyObjectByType<PlayerBlackboard>();
+            weaponEquip = playerBlackboard.GetComponent<WeaponEquip>();
             slots = new List<InventorySlot>(inventorySize);
             for (int i = 0; i < inventorySize; i++)
             {
                 slots.Add(new InventorySlot());
             }
+            weaponSlot = new InventorySlot();
+            weaponSlot.item = playerBlackboard.weapon.weaponItem;
         }
 
         public bool AddItem(Item item)
@@ -58,6 +64,63 @@ namespace LUP.ES
             }
 
             return false; // 인벤토리가 가득 참
+        }
+        public void EquipItem(int slotIndex)
+        {
+            InventorySlot slot = slots[slotIndex];
+            if (slot.IsEmpty) return;
+
+            // 1. 아이템 데이터 가져오기
+            Item itemToEquip = slot.item;
+
+            if (itemToEquip == null)
+                return;
+
+            if (itemToEquip.baseItem.itemType == ItemType.Material ||
+                itemToEquip.baseItem.itemType == ItemType.Consumable)
+                return;
+
+            if (weaponEquip == null)
+                return;
+
+            Item previousItem = playerBlackboard.weapon.weaponItem;
+            switch (playerBlackboard.extractionShooterStage.RuntimeData.PlayerID)
+            {
+                case 0:
+                    RangedWeaponItemData rangedWeaponItemData = itemToEquip.baseItem as RangedWeaponItemData;
+                    if (rangedWeaponItemData == null)
+                        return;
+                    
+                    break;
+                case 1:
+                    MeleeWeaponItemData meleeWeaponItemData = itemToEquip.baseItem as MeleeWeaponItemData;
+                    if (meleeWeaponItemData == null)
+                        return;
+                    break;
+                case 2:
+                    ThrowingWeaponData throwingWeaponData = itemToEquip.baseItem as ThrowingWeaponData;
+                    if (throwingWeaponData == null)
+                        return;
+                    break;
+                default:
+                    break;
+            }
+            playerBlackboard.CurrentWeaponID = itemToEquip.baseItem.ID;
+            weaponEquip.EquipWeapon();
+            weaponSlot.item = slot.item;
+            slot.item = previousItem;
+            //RemoveItem(slotIndex);
+
+            // 변경 사항 알림 (이것이 호출되면 InventoryUIController.UpdateUI가 실행됨)
+            OnInventoryUpdated?.Invoke();
+        }
+
+        public void RemoveItem(int slotIndex)
+        {
+            if (slotIndex < 0 || slotIndex >= slots.Count) return;
+
+            // 해당 슬롯을 비움 (null 처리)
+            slots[slotIndex].item = null;
         }
     }
 }

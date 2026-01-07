@@ -19,7 +19,7 @@ namespace LUP.ES
         public Text inventoryCountText;
 
         private List<InventorySlotUI> uiSlots = new List<InventorySlotUI>();
-
+        public InventorySlotUI weaponSlot;
         private bool isOpen = false;
         private void Start()
         {
@@ -33,7 +33,11 @@ namespace LUP.ES
 
         private void OnDestroy()
         {
-            eventBroker.OnInventoryVisibilityChanged -= SetInventoryOpen;
+            if (eventBroker != null)
+                eventBroker.OnInventoryVisibilityChanged -= SetInventoryOpen;
+
+            if (inventory != null)
+                inventory.OnInventoryUpdated -= UpdateUI;
         }
         public void SetInventoryOpen(bool isOpen)
         {
@@ -58,17 +62,35 @@ namespace LUP.ES
                 uiSlot.Init(i, this, itemIconLoader);
                 uiSlots.Add(uiSlot);
             }
+            weaponSlot.Init(-1, this, itemIconLoader);
+            UpdateUI();
+        }
+
+        public void OnInventorySlotClicked(int slotIndex)
+        {
+            // 1. 유효성 검사
+            if (slotIndex < 0 || slotIndex >= inventory.slots.Count) return;
+
+            InventorySlot slotData = inventory.slots[slotIndex];
+
+            // 2. 빈 슬롯이면 아무것도 안 함
+            if (slotData.IsEmpty) return;
+
+            Debug.Log($"슬롯 클릭됨: {slotIndex}번, 아이템: {slotData.item.baseItem.Name}");
+
+            // 3. 인벤토리에게 장착 요청
+            inventory.EquipItem(slotIndex);
         }
 
         public void UpdateUI()
         {
-            // 이벤트 발생 시, 모든 UI 슬롯을 현재 인벤토리 데이터로 갱신합니다.
             for (int i = 0; i < uiSlots.Count; i++)
             {
                 InventorySlot dataSlot = inventory.slots[i];
                 uiSlots[i].UpdateSlot(dataSlot);
             }
             Debug.Log("Inventory UI Updated!");
+            weaponSlot.UpdateSlot(inventory.weaponSlot);
         }
     }
 }
