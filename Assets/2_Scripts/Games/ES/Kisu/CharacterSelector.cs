@@ -51,7 +51,7 @@ namespace LUP.ES
                     break;
                 case 1:
                     extractionShooterStage.RuntimeData.PlayerID = 1;
-                    extractionShooterStage.RuntimeData.WeaponID = 3;
+                    extractionShooterStage.RuntimeData.WeaponID = 1;
                     break;
                 case 2:
                     extractionShooterStage.RuntimeData.PlayerID = 2;
@@ -76,7 +76,7 @@ namespace LUP.ES
                     break;
                 case 1:
                     extractionShooterStage.RuntimeData.PlayerID = 1;
-                    extractionShooterStage.RuntimeData.WeaponID = 3;
+                    extractionShooterStage.RuntimeData.WeaponID = 1;
                     break;
                 case 2:
                     extractionShooterStage.RuntimeData.PlayerID = 2;

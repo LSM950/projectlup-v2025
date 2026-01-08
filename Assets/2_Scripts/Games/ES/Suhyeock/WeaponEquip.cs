@@ -23,6 +23,11 @@ namespace LUP.ES
         {
             if (blackboard.weapon != null)
             {
+                ThrowingWeapon throwingWeapon = blackboard.weapon as ThrowingWeapon;
+                if (throwingWeapon != null)
+                {
+                    throwingWeapon.projectilePool.PoolDestroy();
+                }
                 Destroy(blackboard.weapon.gameObject);
                 blackboard.weapon = null;
             }
@@ -50,9 +55,10 @@ namespace LUP.ES
                 newWeaponComp.Init(blackboard.CurrentWeaponID);
                 blackboard.weapon = newWeaponComp;
             }
+
             AnimationBridge animationBridge = GetComponentInChildren<AnimationBridge>();
             if (animationBridge != null)
-                animationBridge.SetWeapon();
+                animationBridge.SetWeapon(blackboard.weapon, blackboard);
         }
 
     }

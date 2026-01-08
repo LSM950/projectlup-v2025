@@ -65,6 +65,14 @@ namespace LUP.ES
                 resultHeadrString.Append("성공");
                 items = itemCenter.GenerateLoot();
                 ShowInventoryItems(items);
+                ExtractionShooterStage extractionShooterStage = StageManager.Instance.GetCurrentStage() as ExtractionShooterStage;
+
+                foreach (Item item in items)
+                {
+                    if (item.ItemID == 1 || item.ItemID == 4 || item.ItemID == 7)
+                        continue;
+                    extractionShooterStage.ESInven.AddItem(item);
+                }
             }
             else
                 resultHeadrString.Append("실패");

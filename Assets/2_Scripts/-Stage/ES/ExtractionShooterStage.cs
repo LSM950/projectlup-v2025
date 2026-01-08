@@ -38,7 +38,7 @@ namespace LUP
             // InventoryManager를 통해 ES 인벤토리 로드 및 등록
             ESInven = InventoryManager.Instance.LoadOrCreateInventory("ES", "ESInventory.json");
 
-            if(characterSelector != null)
+            if (characterSelector != null)
             {
                 characterSelector.Init();
             }
