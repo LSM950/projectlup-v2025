@@ -169,9 +169,15 @@ namespace LUP.DSG
             BattleIcon = sprite;
         }
 
+        public Sprite GetBattleIcon()
+        {
+            return BattleIcon;
+        }
+
         private void OnDisable()
         {
             Debug.Log("character Dead");
         }
+
     }
 }

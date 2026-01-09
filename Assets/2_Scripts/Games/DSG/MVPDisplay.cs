@@ -65,7 +65,15 @@ namespace LUP.DSG
         {
             if (current != null) return current;
 
-            if (CharacterIconCache.TryGet(charId, modelId, out var cached))
+            Sprite cached;
+
+            if (modelId != 0 && CharacterIconCache.TryGet(charId, modelId, out cached) && cached != null)
+                return cached;
+
+            if (charId != 0 && CharacterIconCache.TryGetByCharacterId(charId, out cached) && cached != null)
+                return cached;
+
+            if (modelId != 0 && CharacterIconCache.TryGetByModelId(modelId, out cached) && cached != null)
                 return cached;
 
             return null;
@@ -85,7 +93,7 @@ namespace LUP.DSG
             Transform slot = transform.Find(slotName);
             if (slot == null) return;
 
-            Image characterImage = slot.Find(imageName)?.GetComponent<Image>();
+            Image characterImage = slot.Find("ImageRoot/Image")?.GetComponent<Image>();
             TMP_Text characterName = slot.Find(textName)?.GetComponent<TMP_Text>();
             Slider characterScore = slot.Find(sliderName)?.GetComponent<Slider>();
             TMP_Text scoreText = slot.Find(scoreTextName)?.GetComponent<TMP_Text>();
@@ -99,11 +107,11 @@ namespace LUP.DSG
                     characterImage.preserveAspect = true;
                     characterImage.type = Image.Type.Simple;
                     characterImage.material = null;
-
-                    RectTransform rt = characterImage.rectTransform;
-                    rt.localScale = Vector3.one * 4f;  
                     
+                    RectTransform rt = characterImage.rectTransform;
+                    rt.localScale = Vector3.one;
 
+                    rt.sizeDelta = new Vector2(300, 300);
                 }
                 else
                 {

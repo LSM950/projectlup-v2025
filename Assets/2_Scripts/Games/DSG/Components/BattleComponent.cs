@@ -1,9 +1,11 @@
+using DG.Tweening;
 using LUP.DSG.Utils;
 using LUP.DSG.Utils.Enums;
 using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TMPro;
@@ -13,7 +15,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.UI.GridLayoutGroup;
-using DG.Tweening;
 
 namespace LUP.DSG
 {
@@ -225,10 +226,12 @@ namespace LUP.DSG
                     Type = owner.characterData.type,
                     enemyType = targetChar.characterData.type
                 };
+                bool isWeak;
+                float damage = DamageCalculator.Calculator(ctx, out isWeak);
 
+                
                 ActionEffect hiteffect = owner.ActioneffectPool.GetAttackEffectByGetHITEffect(owner.AnimationComp.attackEffect);
-                float damage = DamageCalculator.Calculator(ctx);
-                targetChar.BattleComp.TakeDamage(damage, hiteffect);
+                targetChar.BattleComp.TakeDamage(damage, hiteffect, isWeak);
                 owner.ScoreComp.UpdateDamageDealt(damage);
             }
 
@@ -262,8 +265,9 @@ namespace LUP.DSG
                         enemyType = targetSlots[i].character.characterData.type
                     };
 
-                    float damage = DamageCalculator.Calculator(ctx) + skillInfo.damage;
-                    targetSlots[i].character.BattleComp.TakeDamage(damage, ActionEffect.GetHit_Skill_Test);
+                    bool isWeak;
+                    float damage = DamageCalculator.Calculator(ctx, out isWeak) + skillInfo.damage;
+                    targetSlots[i].character.BattleComp.TakeDamage(damage, ActionEffect.GetHit_Skill_Test, isWeak);
                     owner.ScoreComp.UpdateDamageDealt(damage);
                 }
 
@@ -287,7 +291,15 @@ namespace LUP.DSG
             InitGuage();
         }
 
+        public virtual void TakeDamage(float amount)
+        {
+            TakeDamage(amount, ActionEffect.None,false);
+        }
         public virtual void TakeDamage(float amount, ActionEffect getHitEffect)
+        {
+            TakeDamage(amount, getHitEffect, false);
+        }
+        public virtual void TakeDamage(float amount, ActionEffect getHitEffect, bool isWeak)
         {
             if (!isAlive)
                 return;
@@ -304,7 +316,7 @@ namespace LUP.DSG
                 Vector3 headPos = transform.position + Vector3.up * 0.8f;
                 Quaternion rot = Quaternion.LookRotation(Camera.main.transform.forward);
                 GameObject log = Instantiate(damageLogPrefab, headPos, rot);
-                log.GetComponent<DamageLog>()?.Setup(amount);
+                log.GetComponent<DamageLog>()?.Setup(amount, isWeak);
             }
 
             FindFirstObjectByType<HitVignetteEffect>()?.PlayDamageEffect();
@@ -399,8 +411,7 @@ namespace LUP.DSG
         public virtual void Die()
         {
             isAlive = false;
-
-            if (owner != null && owner.characterData != null && owner.ScoreComp != null)
+            if (owner != null)
             {
                 float score = owner.ScoreComp.CalculateMVPScore();
                 int charid = owner.IconCacheKey;
@@ -413,7 +424,7 @@ namespace LUP.DSG
                     BattleSystem battleSystem = stage.GetBattleSystem();
                     if(battleSystem != null)
                     {
-                        battleSystem.BackupDeadCharacter(owner.characterData.characterName, charid, score, prefab);
+                        battleSystem.BackupDeadCharacter(owner);
                     }
                 }
             }
