@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffName: 
   type: 1
-  buffImage: {fileID: 21300000, guid: eb64a8a719ad7144c966d460aecae2d0, type: 3}
+  buffImage: {fileID: 21300000, guid: 14f1f8f134fac2247abc4ae6a752125b, type: 3}
   maxObtainable: 5
   canSeletable: 1
