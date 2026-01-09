@@ -15,15 +15,15 @@ MonoBehaviour:
   itemLoader: {fileID: 11400000, guid: 6c9e583fc62c5f84ea2335e3ca0917f5, type: 2}
   prefabList:
   - id: 1
-    name: Knife
-    prefab: {fileID: 0}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
+    name: Shortsword
+    prefab: {fileID: 6699912051311791607, guid: a9343541e0070cf44b86155a957d4ee1, type: 3}
+    positionOffset: {x: 0.076, y: 0.095, z: 0.04}
+    rotationOffset: {x: 0.382, y: -7.526, z: 75.675}
   - id: 2
-    name: Sword
-    prefab: {fileID: 0}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
+    name: GreateSword
+    prefab: {fileID: 6699912051311791607, guid: c99b9fbc2d01d0e4bb3aa3fe4283a23e, type: 3}
+    positionOffset: {x: 0.054, y: 0.127, z: 0.083}
+    rotationOffset: {x: -0.207, y: -0.019, z: 62.235}
   - id: 3
     name: Axe
     prefab: {fileID: 6699912051311791607, guid: 7cb9f22aaa26d684cb6315a9f884f88b, type: 3}
@@ -36,7 +36,7 @@ MonoBehaviour:
     rotationOffset: {x: -81.993, y: -109.532, z: 198.186}
   - id: 5
     name: AR
-    prefab: {fileID: 1192050510234001585, guid: b59058dbb0f175c4c82423a5067fae86, type: 3}
+    prefab: {fileID: 1192050510234001585, guid: 2a2f16cdd4c89404487f91502dceb931, type: 3}
     positionOffset: {x: 0.0017, y: 0.0708, z: 0.0352}
     rotationOffset: {x: -77.766, y: -103.67, z: 196.486}
   - id: 6
@@ -50,12 +50,12 @@ MonoBehaviour:
     positionOffset: {x: 0.031, y: 0.168, z: 0.157}
     rotationOffset: {x: 0, y: 0, z: 0}
   - id: 8
-    name: 
-    prefab: {fileID: 0}
-    positionOffset: {x: 0, y: 0, z: 0}
+    name: Baseball
+    prefab: {fileID: 1192050510234001585, guid: 01fef0dbd13f53a4790b00f416e329da, type: 3}
+    positionOffset: {x: 0.017, y: 0.162, z: 0.061}
     rotationOffset: {x: 0, y: 0, z: 0}
   - id: 9
-    name: 
-    prefab: {fileID: 0}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
+    name: Grenade
+    prefab: {fileID: 1192050510234001585, guid: 2aa7643acaf21264ca4845e069eeb2ca, type: 3}
+    positionOffset: {x: -0.089, y: 0.093, z: 0.114}
+    rotationOffset: {x: -3.705, y: 13.339, z: -55.818}

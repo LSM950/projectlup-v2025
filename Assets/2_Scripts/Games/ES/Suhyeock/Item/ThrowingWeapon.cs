@@ -8,7 +8,8 @@ namespace LUP.ES
         public int selectedWeaponId = 10; //юс╫ц
         private float nextAttackTime = 0f;
         public GameObject projectilePrefab;
-        private BulletObjectPool projectilePool;
+        [HideInInspector]
+        public BulletObjectPool projectilePool;
         [HideInInspector]
         public Transform playerTransform;
         private Transform firePointTransform;

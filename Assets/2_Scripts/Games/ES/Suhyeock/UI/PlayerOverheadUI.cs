@@ -25,7 +25,7 @@ namespace LUP.ES
             blackboard = GetComponent<PlayerBlackboard>();
             hpSlider = GetComponent<Slider>();
             ammoSlider = GetComponent<Slider>();
-            canvas = GameObject.Find("PlayerHUDCanvas");
+            canvas = GameObject.Find("HUDCanvas");
         }
         void Start()
         {

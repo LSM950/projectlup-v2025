@@ -6,10 +6,10 @@ namespace LUP.ES
     {
         private Weapon weapon;
         private PlayerBlackboard blackboard;
-        public void SetWeapon()
+        public void SetWeapon(Weapon weapon, PlayerBlackboard blackboard)
         {
-            weapon = GetComponentInChildren<Weapon>();
-            blackboard = GetComponentInParent<PlayerBlackboard>();
+            this.weapon = weapon;
+            this.blackboard = blackboard;
         }
 
         public void OnAttackStart()

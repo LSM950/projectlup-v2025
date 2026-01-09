@@ -4,9 +4,9 @@ namespace LUP.ES
 {
     public class HitCondition : BTNode
     {
-        PlayerBlackboard blackboard;
+        BaseBlackboard blackboard;
 
-        public HitCondition(PlayerBlackboard blackboard)
+        public HitCondition(BaseBlackboard blackboard)
         {
             this.blackboard = blackboard;
         }

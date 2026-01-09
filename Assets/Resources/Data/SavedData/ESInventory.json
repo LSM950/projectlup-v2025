@@ -1,0 +1,260 @@
+{
+    "filename": "ESInventory.json",
+    "_serializedSlots": [
+        {
+            "slotKey": "5",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_1",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_2",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_3",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_1",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_4",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_2",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_5",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_6",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_7",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_8",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_9",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_1",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_2",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_10",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_11",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_3",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_12",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "3",
+            "itemID": 3,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_4",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "3_1",
+            "itemID": 3,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6_1",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_3",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_5",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "9",
+            "itemID": 9,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_6",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_13",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_14",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6_2",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6_3",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_4",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_7",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_15",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_5",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_8",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_16",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6_4",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_17",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "9_1",
+            "itemID": 9,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_9",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_18",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_19",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6_5",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "9_2",
+            "itemID": 9,
+            "quantity": 1
+        },
+        {
+            "slotKey": "3_2",
+            "itemID": 3,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6_6",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_6",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "9_3",
+            "itemID": 9,
+            "quantity": 1
+        }
+    ]
+}

@@ -45,6 +45,8 @@ namespace LUP.ES
         public bool doAttack = false;
         [HideInInspector]
         public bool AttackEnd = false;
+        [HideInInspector]
+        public EnemyHPUI enemyHPUI;
 
         public void Start()
         {
@@ -57,6 +59,7 @@ namespace LUP.ES
             initialPosition =  navMeshAgent.transform.position;
             animator = GetComponentInChildren<Animator>();
             currentState = EnemyState.Idle;
+            enemyHPUI = GetComponent<EnemyHPUI>();
         }
 
         public void ChangeState(EnemyState newState)

@@ -28,6 +28,11 @@ namespace LUP.ES
             EnemyDeathAction deathAction = new EnemyDeathAction(blackboard);
             Sequence handleDeathSequence = new Sequence(new List<BTNode> { deadCondition, deathAction });
 
+            //
+            HitCondition hitCondition = new HitCondition(blackboard);
+            EnemyHitAction enemyHitAction = new EnemyHitAction(blackboard);
+            Sequence handleHitSequence = new Sequence(new List<BTNode> { hitCondition, enemyHitAction });
+
             // 2. 최대 이동거리 확인
             TooFarFromHomeCondition tooFarFromHomeCondition = new TooFarFromHomeCondition(blackboard);
             ReturnToInitialPositionAction returnToInitialPositionAction = new ReturnToInitialPositionAction(blackboard);
@@ -55,6 +60,7 @@ namespace LUP.ES
             rootNode = new Selector(new List<BTNode> 
             { 
                 handleDeathSequence,
+                handleHitSequence,
                 OutOfRangeReturnSequence,
                 handleAttackSequence,
                 handleMoveSequence,
