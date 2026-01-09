@@ -255,6 +255,21 @@
             "slotKey": "9_3",
             "itemID": 9,
             "quantity": 1
+        },
+        {
+            "slotKey": "3_3",
+            "itemID": 3,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_20",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "9_4",
+            "itemID": 9,
+            "quantity": 1
         }
     ]
 }

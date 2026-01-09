@@ -40,7 +40,7 @@ namespace LUP.ES
         void Start()
         {
             interactionUI = GetComponent<InteractionUIController>();
-
+            eventBroker = FindAnyObjectByType<EventBroker>();
             // 초기 상태 설정
             if (progressCircle != null)
             {

@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.IMGUI.Controls.PrimitiveBoundsHandle;
 
 namespace LUP.ES
 {
@@ -65,6 +66,8 @@ namespace LUP.ES
             if (axe != null && axe.weaponItem != null)
             {
                 range = axe.weaponItem.data.range;
+                MeleeWeaponItemData  meleeWeaponItemData = axe.weaponItem.data as MeleeWeaponItemData;
+                angle = meleeWeaponItemData.attackAngle;
             }
 
             DrawArc();

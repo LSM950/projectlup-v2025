@@ -28,7 +28,7 @@ namespace LUP.ES
 
             float remainingTime = gameTimerUI.RemainingTime;
 
-            CheckTrigger(remainingTime, 9 * 60f, 0);
+            CheckTrigger(remainingTime, 9.0f * 60f, 0);
             CheckTrigger(remainingTime, 7.5f * 60f, 1);
             CheckTrigger(remainingTime, 5.5f * 60f, 2);
             CheckTrigger(remainingTime, 3.5f * 60f, 3);
