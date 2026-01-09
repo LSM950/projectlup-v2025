@@ -52,7 +52,9 @@ namespace LUP.RL
         private float waitTimerforAfterZero;
         private float waitTimerforAfterMoveLeft;
         private int displayingAmount;
-        private int displayedOwningAmount;
+
+        [SerializeField]
+        public int displayedOwningAmount;
 
         private Tween moveTween;
 

@@ -43,7 +43,7 @@ namespace LUP.RL
             popupItem.transform.SetParent(transform);
             popupItem.uiState = FloatingImageState.Sleep;
             popupItem.gameObject.SetActive(false);
-            popupItem.OnPopupDisApear.Invoke(popupItem.custumItemID, popupItem.itemGainedAmount);
+            popupItem.OnPopupDisApear.Invoke(popupItem.custumItemID, popupItem.displayedOwningAmount);
 
             pool.Enqueue(popupItem);
         }
