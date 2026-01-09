@@ -6003,6 +6003,10 @@ MonoBehaviour:
   CharacterDataList: []
   characterModelDataTable: {fileID: 11400000, guid: 8e5a2cc3fdef4b04698bae1932d8687b, type: 2}
   mvpData: {fileID: 0}
+  enemyStageData: {fileID: 11400000, guid: 831a4eb5f1a7f8d44803f88bf128cbf7, type: 2}
+  editSceneBGM: {fileID: 8300000, guid: c7e3dd8bdaacec84a87e2178687c6839, type: 3}
+  battleSceneBGM: {fileID: 8300000, guid: 6d46e8b65c5c64648aa72c9ac0bb8e30, type: 3}
+  resultSceneBGM: {fileID: 0}
 --- !u!4 &1689079310
 Transform:
   m_ObjectHideFlags: 0

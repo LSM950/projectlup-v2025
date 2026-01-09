@@ -3442,6 +3442,9 @@ MonoBehaviour:
   DeckDataList: []
   CharacterDataList: []
   characterModelDataTable: {fileID: 11400000, guid: 8e5a2cc3fdef4b04698bae1932d8687b, type: 2}
+  editSceneBGM: {fileID: 8300000, guid: e39242b4727a684438a48c121505ddc8, type: 3}
+  battleSceneBGM: {fileID: 8300000, guid: 6d46e8b65c5c64648aa72c9ac0bb8e30, type: 3}
+  resultSceneBGM: {fileID: 0}
   mvpData: {fileID: 11400000, guid: b5420738ed619244288d3ed612d3f9fe, type: 2}
 --- !u!4 &613301456
 Transform:

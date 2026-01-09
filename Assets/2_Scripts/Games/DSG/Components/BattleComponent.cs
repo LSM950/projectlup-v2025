@@ -308,6 +308,9 @@ namespace LUP.DSG
 
             owner.AnimationComp.hitEffect = getHitEffect;
             OnDamaged?.Invoke(currHp);
+
+            SoundManager.Instance.PlaySFX("Sniper Rifle");
+
             owner.ScoreComp.UpdateDamageTaken(amount);
             TriggerKnockback();
 

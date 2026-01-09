@@ -82,7 +82,7 @@ namespace LUP.DSG
                 OnPowerUpdated?.Invoke();
             }
         }
-
+        
         public void ApplyPlaceTeam()
         {
             for (int i = 0; i < slots.Length; ++i)
