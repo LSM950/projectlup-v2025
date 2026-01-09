@@ -63,7 +63,7 @@ namespace LUP.DSG
         public float iconSize = 1000f;
         //public static BattleSystem Instance { get; private set; }
         private Dictionary<string, (Color Color, float Score)> deadScores = new();
-        private List<(string Name, int CharId, Sprite Icon, float Score, GameObject Prefab)> deadCharacterData = new();
+        private List<(string Name, int CharId, Sprite Icon, float Score, GameObject Prefab, bool IsEnemy)> deadCharacterData = new();
 
         public event Action<Character> onStartAttack;
         public event Action<Character> onStartSkill;
@@ -388,7 +388,6 @@ namespace LUP.DSG
             mvp.char1CharacterId = mvp.char2CharacterId = mvp.char3CharacterId = mvp.char4CharacterId = mvp.char5CharacterId = 0;
             mvp.char1ModelId = mvp.char2ModelId = mvp.char3ModelId = mvp.char4ModelId = mvp.char5ModelId = 0;
             mvp.char1Prefab = mvp.char2Prefab = mvp.char3Prefab = mvp.char4Prefab = mvp.char5Prefab = null;
-
             mvp.char1Icon = mvp.char2Icon = mvp.char3Icon = mvp.char4Icon = mvp.char5Icon = null;
 
             var friendlyChars = new List<(string Name, int CharId, int ModelId, Sprite Icon, float Score, GameObject Prefab)>();
@@ -405,6 +404,8 @@ namespace LUP.DSG
                     var ch = slot.character;
                     if (ch.characterData == null || ch.ScoreComp == null) continue;
 
+                    if (ch.isEnemy) continue;
+
                     string name = ch.characterData.characterName;
 
                     int charId = ch.IconCacheKey;
@@ -413,15 +414,18 @@ namespace LUP.DSG
                     float score = ch.ScoreComp.CalculateMVPScore();
                     GameObject prefab = (ch.characterModelData != null) ? ch.characterModelData.prefab : null;
 
-                    Sprite icon = null;
+                    Sprite icon = ch.GetBattleIcon();
 
-                    if (icon == null && modelId != 0)
-                    {
-                        CharacterIconCache.TryGet(charId, modelId, out icon);
-                    }
                     if (icon == null)
                     {
-                        CharacterIconCache.TryGetByCharacterId(charId, out icon);
+                        if (modelId != 0) CharacterIconCache.TryGet(charId, modelId, out icon);
+                        if (icon == null) CharacterIconCache.TryGetByCharacterId(charId, out icon);
+                        if (icon == null && modelId != 0) CharacterIconCache.TryGetByModelId(modelId, out icon);
+                    }
+
+                    if (icon == null)
+                    {
+                        Debug.LogWarning($"[EndBattle-ICON-NULL] name={name} charId={charId} modelId={modelId}");
                     }
 
                     friendlyChars.Add((name, charId, modelId, icon, score, prefab));
@@ -430,18 +434,32 @@ namespace LUP.DSG
 
             foreach (var d in deadCharacterData)
             {
+                if (d.IsEnemy) continue;
+
                 if (friendlyChars.Exists(x => x.CharId == d.CharId))
                     continue;
 
                 int modelId = 0;
                 Sprite icon = d.Icon;
-
                 if (icon == null)
-                {
                     CharacterIconCache.TryGetByCharacterId(d.CharId, out icon);
-                }
 
                 friendlyChars.Add((d.Name, d.CharId, modelId, icon, d.Score, d.Prefab));
+            }
+
+            Debug.Log("==== [EndBattle] FriendlySlots ====");
+            foreach (var slotObj in friendlySlots)
+            {
+                var slot = slotObj?.GetComponent<LineupSlot>();
+                var ch = slot?.character;
+                if (ch == null || ch.characterData == null) continue;
+                Debug.Log($"[FRIEND] {ch.characterData.characterName} isEnemy={ch.isEnemy} charId={ch.IconCacheKey}");
+            }
+
+            Debug.Log("==== [EndBattle] deadCharacterData ====");
+            foreach (var d in deadCharacterData)
+            {
+                Debug.Log($"[DEAD] {d.Name} charId={d.CharId} icon={(d.Icon ? d.Icon.name : "NULL")}");
             }
 
             var ranked = friendlyChars.OrderByDescending(x => x.Score).ToList();
@@ -468,14 +486,28 @@ namespace LUP.DSG
 
             Time.timeScale = 1f;
         }
-        public void BackupDeadCharacter(string name, int charid, float score, GameObject prefab)
+        public void BackupDeadCharacter(Character ch)
         {
-            if (deadCharacterData.Exists(x => x.Name == name))
-                return;
+            if (ch == null || ch.characterData == null || ch.ScoreComp == null) return;
 
-            CharacterIconCache.TryGetByCharacterId(charid, out var icon);
+            if (ch.isEnemy) return;
 
-            deadCharacterData.Add((name, charid, icon, score, prefab));
+            string name = ch.characterData.characterName;
+            int charId = ch.IconCacheKey;
+            float score = ch.ScoreComp.CalculateMVPScore();
+            GameObject prefab = ch.characterModelData != null ? ch.characterModelData.prefab : null;
+
+            Sprite icon = ch.GetBattleIcon();
+            int modelId = (ch.characterModelData != null) ? ch.characterModelData.ID : 0;
+            if (icon == null)
+            {
+                if (modelId != 0) CharacterIconCache.TryGet(charId, modelId, out icon);
+                if (icon == null) CharacterIconCache.TryGetByCharacterId(charId, out icon);
+                if (icon == null && modelId != 0) CharacterIconCache.TryGetByModelId(modelId, out icon);
+            }
+
+            if (deadCharacterData.Exists(x => x.CharId == charId)) return;
+            deadCharacterData.Add((name, charId, icon, score, prefab, ch.isEnemy));
         }
         private void ApplyMVP(
                 TeamMVPData data,

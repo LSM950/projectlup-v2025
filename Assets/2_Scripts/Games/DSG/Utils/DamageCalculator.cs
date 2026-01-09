@@ -12,11 +12,12 @@ namespace LUP.DSG.Utils
     }
     public static class DamageCalculator
     {
-        public static float Calculator(DamageContext context)
+        public static float Calculator(DamageContext context, out bool isWeak)
         {
             float result = context.attack;
 
-            if(IsWeakness(context.Type,context.enemyType))
+            isWeak = IsWeakness(context.Type, context.enemyType);
+            if (isWeak)
             {
                 result *= 1.5f;
             }

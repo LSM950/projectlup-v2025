@@ -93,7 +93,7 @@ namespace LUP.DSG
             Transform slot = transform.Find(slotName);
             if (slot == null) return;
 
-            Image characterImage = slot.Find(imageName)?.GetComponent<Image>();
+            Image characterImage = slot.Find("ImageRoot/Image")?.GetComponent<Image>();
             TMP_Text characterName = slot.Find(textName)?.GetComponent<TMP_Text>();
             Slider characterScore = slot.Find(sliderName)?.GetComponent<Slider>();
             TMP_Text scoreText = slot.Find(scoreTextName)?.GetComponent<TMP_Text>();
@@ -107,11 +107,11 @@ namespace LUP.DSG
                     characterImage.preserveAspect = true;
                     characterImage.type = Image.Type.Simple;
                     characterImage.material = null;
-
+                    
                     RectTransform rt = characterImage.rectTransform;
                     rt.localScale = Vector3.one;
 
-                    rt.sizeDelta = new Vector2(150, 150);
+                    rt.sizeDelta = new Vector2(300, 300);
                 }
                 else
                 {
