@@ -6,17 +6,38 @@ namespace LUP.ES
     {
         public BaseItemData baseItem;
         public int count;
+        LUP.Define.ItemType type;
     
         public Item(BaseItemData baseItem)
         {
             this.baseItem = baseItem;
+            switch (baseItem.itemType)
+            {
+                case ItemType.None:
+                    type = LUP.Define.ItemType.None;
+                    break;
+                case ItemType.Weapon:
+                    type = LUP.Define.ItemType.Weapon;
+                    break;
+                case ItemType.Armor:
+                    type = LUP.Define.ItemType.Armor;
+                    break;
+                case ItemType.Consumable:
+                    type = LUP.Define.ItemType.Consumable;
+                    break;
+                case ItemType.Material:
+                    type = LUP.Define.ItemType.Material;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public int ItemID => baseItem.ID;
 
         public string ItemName => baseItem.Name;
 
-        public LUP.Define.ItemType Type => LUP.Define.ItemType.None;
+        public LUP.Define.ItemType Type => type;
 
         public int MaxStackSize => baseItem.MaxStackSize;
 

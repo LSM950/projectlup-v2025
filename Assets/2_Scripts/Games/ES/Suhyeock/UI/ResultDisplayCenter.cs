@@ -3,6 +3,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 namespace LUP.ES
 {
@@ -46,6 +47,7 @@ namespace LUP.ES
                 GameObject newSlot = Instantiate(itemSlotPrefab, contentParent);
 
                 ItemDisplaySlot slot = newSlot.GetComponent<ItemDisplaySlot>();
+
                 if (slot != null)
                 {
                     slot.SetItem(items[i]);
@@ -63,16 +65,23 @@ namespace LUP.ES
             if (isSuccess)
             {
                 resultHeadrString.Append("성공");
-                items = itemCenter.GenerateLoot();
-                ShowInventoryItems(items);
-                ExtractionShooterStage extractionShooterStage = StageManager.Instance.GetCurrentStage() as ExtractionShooterStage;
-
-                foreach (Item item in items)
+                Inventory inventory = FindAnyObjectByType<Inventory>();
+                if (inventory != null)
                 {
-                    if (item.ItemID == 1 || item.ItemID == 4 || item.ItemID == 7)
-                        continue;
-                    extractionShooterStage.ESInven.AddItem(item);
+                    items = inventory.GetItems();
+                    ShowInventoryItems(items);
+                    ExtractionShooterStage extractionShooterStage = StageManager.Instance.GetCurrentStage() as ExtractionShooterStage;
+
+                    foreach (Item item in items)
+                    {
+                        if (item == null)
+                            continue;
+                        if (item.ItemID == 1 || item.ItemID == 4 || item.ItemID == 7)
+                            continue;
+                        extractionShooterStage.ESInven.AddItem(item);
+                    }
                 }
+                
             }
             else
                 resultHeadrString.Append("실패");

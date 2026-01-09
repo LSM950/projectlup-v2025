@@ -44,7 +44,7 @@ MonoBehaviour:
     MaxStackSize: 1
     IsUsable: 0
     Description: 
-    DropChance: 20
+    DropChance: 50
     WeaponType: Melee
     Damage: 40
     Range: 3
@@ -65,7 +65,7 @@ MonoBehaviour:
     MaxStackSize: 1
     IsUsable: 0
     Description: 
-    DropChance: 10
+    DropChance: 30
     WeaponType: Melee
     Damage: 50
     Range: 2
@@ -107,7 +107,7 @@ MonoBehaviour:
     MaxStackSize: 1
     IsUsable: 0
     Description: 
-    DropChance: 20
+    DropChance: 50
     WeaponType: Ranged
     Damage: 15
     Range: 10
@@ -128,7 +128,7 @@ MonoBehaviour:
     MaxStackSize: 1
     IsUsable: 0
     Description: 
-    DropChance: 10
+    DropChance: 30
     WeaponType: Ranged
     Damage: 40
     Range: 20
@@ -170,7 +170,7 @@ MonoBehaviour:
     MaxStackSize: 1
     IsUsable: 0
     Description: 
-    DropChance: 20
+    DropChance: 50
     WeaponType: Throwing
     Damage: 40
     Range: 11
@@ -191,7 +191,7 @@ MonoBehaviour:
     MaxStackSize: 1
     IsUsable: 0
     Description: 
-    DropChance: 10
+    DropChance: 30
     WeaponType: Throwing
     Damage: 50
     Range: 7
@@ -206,21 +206,21 @@ MonoBehaviour:
     MinRange: 1
     serializedCustomFields: []
   - ItemID: 10
-    ItemName: 
-    ItemType: 
+    ItemName: RangedEnemyWeapon
+    ItemType: Weapon
     IconPath: 
     MaxStackSize: 1
     IsUsable: 0
     Description: 
     DropChance: 0
-    WeaponType: 
-    Damage: 0
-    Range: 0
-    TimeBetAttack: 0
+    WeaponType: Ranged
+    Damage: 5
+    Range: 5
+    TimeBetAttack: 0.5
     AttackAngle: 0
-    BulletSpeed: 0
-    MagCapacity: 0
-    ReloadTime: 0
+    BulletSpeed: 5
+    MagCapacity: 8
+    ReloadTime: 1.5
     AttackRadius: 0
     ArcHeight: 0
     MaxChargeTime: 0

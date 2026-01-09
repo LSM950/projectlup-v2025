@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace LUP.ES
 {
@@ -121,6 +123,21 @@ namespace LUP.ES
 
             // 해당 슬롯을 비움 (null 처리)
             slots[slotIndex].item = null;
+        }
+
+        public List<Item> GetItems()
+        {
+            List<Item> items = new List<Item>();
+            foreach (InventorySlot slot in slots)
+            {
+                if (slot.item == null)
+                    continue;
+                if (slot.item.ItemID == 1 || slot.item.ItemID == 4 || slot.item.ItemID == 7)
+                    continue;
+                items.Add(slot.item);
+            }
+            items.Add(playerBlackboard.weapon.weaponItem);
+            return items;
         }
     }
 }

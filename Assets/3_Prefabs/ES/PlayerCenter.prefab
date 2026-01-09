@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerList:
   - id: 0
-    prefab: {fileID: 7395278910700784524, guid: 67e92f84d29c07245b1dec3c9e6bac90, type: 3}
-  - id: 1
     prefab: {fileID: 8745652737564829069, guid: ec7346f4aeb3659499f4784f4979d740, type: 3}
+  - id: 1
+    prefab: {fileID: 7395278910700784524, guid: 67e92f84d29c07245b1dec3c9e6bac90, type: 3}
   - id: 2
     prefab: {fileID: 8745652737564829069, guid: 97bd3a83e21e01e40a6795ed5bc80c97, type: 3}
+  playerSpawner: {fileID: 0}

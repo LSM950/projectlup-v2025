@@ -36,7 +36,7 @@ MonoBehaviour:
     rotationOffset: {x: -81.993, y: -109.532, z: 198.186}
   - id: 5
     name: AR
-    prefab: {fileID: 1192050510234001585, guid: b59058dbb0f175c4c82423a5067fae86, type: 3}
+    prefab: {fileID: 1192050510234001585, guid: 2a2f16cdd4c89404487f91502dceb931, type: 3}
     positionOffset: {x: 0.0017, y: 0.0708, z: 0.0352}
     rotationOffset: {x: -77.766, y: -103.67, z: 196.486}
   - id: 6

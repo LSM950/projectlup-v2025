@@ -29,7 +29,7 @@ namespace LUP.ES
             }
             HP -= damage;
             isHit = true;
-            if (HP < 0.0f)
+            if (HP <= 0.0f)
             {
                 isDead = true;
                 HP = 0.0f;

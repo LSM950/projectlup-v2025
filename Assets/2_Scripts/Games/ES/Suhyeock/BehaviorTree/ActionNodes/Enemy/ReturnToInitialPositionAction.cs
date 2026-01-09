@@ -17,6 +17,7 @@ namespace LUP.ES
 
             if (blackboard.navMeshAgent.remainingDistance <= REACHED_DISTANCE && !blackboard.navMeshAgent.pathPending)
             {
+                blackboard.enemyHPUI.UIInstance.SetActive(false);
                 return NodeState.Success;
             }
 

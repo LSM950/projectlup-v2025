@@ -7,6 +7,7 @@ namespace LUP.ES
     {
         public Image iconImgae;
         public Text stackText;
+        [HideInInspector]
         public Button slotButton;
 
         private int slotIndex;

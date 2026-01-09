@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2774155264405688990}
   - component: {fileID: 5857549374492609973}
   - component: {fileID: 2981624821733757518}
+  - component: {fileID: 6901092326798244467}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Enemy
@@ -206,6 +207,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   doAttack: 0
   AttackEnd: 0
+  enemyHPUI: {fileID: 0}
 --- !u!114 &5857549374492609973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +240,21 @@ MonoBehaviour:
   maxAttempts: 10
   offsetY: 0.5
   checkRadius: 0.5
+--- !u!114 &6901092326798244467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7011581053849183949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6abd8de655276d84e9a00ddbf5168652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverheadUIPrefab: {fileID: 2506230549702261924, guid: 89d767ec7670e674f99d8c93b995155a, type: 3}
+  YOffset: 140
+  UIInstance: {fileID: 0}
 --- !u!1001 &7952309029749493580
 PrefabInstance:
   m_ObjectHideFlags: 0

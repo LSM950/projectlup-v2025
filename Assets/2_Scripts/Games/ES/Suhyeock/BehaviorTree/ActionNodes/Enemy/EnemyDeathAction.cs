@@ -8,6 +8,7 @@ namespace LUP.ES
         EnemyBlackboard blackboard;
         float deathTime = 3f;
 
+        bool isUpdatedUI = false;
         public EnemyDeathAction(EnemyBlackboard blackboard)
         {
             this.blackboard = blackboard;
@@ -15,6 +16,11 @@ namespace LUP.ES
 
         public override NodeState Evaluate()
         {
+            if (isUpdatedUI == false)
+            {
+                blackboard.enemyHPUI.UpdateHPUI();
+                blackboard.enemyHPUI.UIInstance.SetActive(true);
+            }
             blackboard.navMeshAgent.speed = 0;
             deathTime -= Time.deltaTime;
             blackboard.ChangeState(EnemyState.Death);
@@ -24,13 +30,12 @@ namespace LUP.ES
                 if (enemyBlackboard != null)
                 {
                     enemyBlackboard.gun.Destroy();
-                    
-
                 }
                 if (blackboard.lootSpawner != null)
                 {
                     blackboard.lootSpawner.SpawnLoot();
                 }
+                Object.Destroy(blackboard.enemyHPUI.UIInstance);
                 Object.Destroy(blackboard.gameObject);
             }
             return NodeState.Running;

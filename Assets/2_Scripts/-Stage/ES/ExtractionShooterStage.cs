@@ -11,6 +11,7 @@ namespace LUP
         public List<ExtractionStaticData> DataList;
 
         private CharacterSelector characterSelector;
+        private LobbyInventoryCenter inventoryCenter;
         // 변수명은 예시이니 바꾸셔도 됩니다.
         public Inventory ESInven;
 
@@ -23,6 +24,8 @@ namespace LUP
         void Start()
         {
             characterSelector = GetComponentInChildren<CharacterSelector>();
+            inventoryCenter = GetComponentInChildren<LobbyInventoryCenter>();
+
         }
 
         void Update()
@@ -41,6 +44,10 @@ namespace LUP
             if (characterSelector != null)
             {
                 characterSelector.Init();
+            }
+            if (inventoryCenter != null)
+            {
+                inventoryCenter.Init();
             }
 
             yield return null;

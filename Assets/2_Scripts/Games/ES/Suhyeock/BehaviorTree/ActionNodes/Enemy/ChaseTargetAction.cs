@@ -21,7 +21,7 @@ namespace LUP.ES
 
         public override void Reset()
         {
-            
+            blackboard.enemyHPUI.UIInstance.SetActive(false);
         }
     }
 }
