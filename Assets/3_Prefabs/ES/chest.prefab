@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b35c00e0be559b40851cc1b44fb9c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openFxPrefab: {fileID: 9070474633162843459, guid: 356cf4dca1465b54fabbb8cd9b1cd190, type: 3}
+  fxAnchor: {fileID: 3037580942649003543}
   itemCenter: {fileID: 7539130544089789146, guid: 71fd7ea43c7c0fd4da7ecf8ec247e70a, type: 3}
   interactionDuration: 2
 --- !u!114 &8938944695087179555

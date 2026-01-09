@@ -6,6 +6,13 @@ namespace LUP.ES
 {
     public class ExtractionPoint : MonoBehaviour, IInteractable
     {
+        [Header("Open FX")] // 기수 추가한 코드
+        public GameObject extractionFxPrefab; // 기수 추가한 코드
+        public Transform fxAnchor;  // 기수 추가한 코드
+
+        private GameObject fxInstance;  // 기수 추가한 코드
+        private ParticleSystem[] fxSystems; // 기수 추가한 코드
+
         [Header("설정")]
         [SerializeField] private float extractionTime = 10.0f;
 
@@ -33,7 +40,7 @@ namespace LUP.ES
         void Start()
         {
             interactionUI = GetComponent<InteractionUIController>();
-
+            eventBroker = FindAnyObjectByType<EventBroker>();
             // 초기 상태 설정
             if (progressCircle != null)
             {
@@ -52,6 +59,8 @@ namespace LUP.ES
             {
                 isExtracting = true;
                 currentTime = extractionTime;
+
+                PlayOpenFX();
 
                 ShowTimerTextObject();
                 HideInteractionPrompt();
@@ -89,6 +98,8 @@ namespace LUP.ES
                 progressCircle.color = successFillColor;
             }
 
+            StopOpenFX();
+
             HideTimerTextObject();
             Debug.Log("탈출 성공!");
 
@@ -103,6 +114,8 @@ namespace LUP.ES
 
             if (progressCircle != null)
                 progressCircle.fillAmount = 0f;
+
+            StopOpenFX();
 
             HideTimerTextObject();
         }
@@ -121,5 +134,40 @@ namespace LUP.ES
         { if (timerText != null) timerText.gameObject.SetActive(true); }
         private void HideTimerTextObject() 
         { if (timerText != null) timerText.gameObject.SetActive(false); }
+
+        void PlayOpenFX()
+        {
+            if (fxInstance != null) return;
+
+            fxInstance = Instantiate(extractionFxPrefab, fxAnchor.position, fxAnchor.rotation);
+
+            fxInstance.transform.localScale *= 0.5f;
+
+            fxSystems = fxInstance.GetComponentsInChildren<ParticleSystem>();
+
+            foreach (var ps in fxSystems)
+            {
+                var main = ps.main;
+                main.loop = true;
+                ps.Play();
+            }
+        }
+        // 기수 추가한 코드
+        void StopOpenFX()
+        {
+            if (fxSystems == null) return;
+
+            foreach (var ps in fxSystems)
+            {
+                if (ps == null) continue;
+                var main = ps.main;
+                main.loop = false;
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+
+            Destroy(fxInstance, 2.0f);
+            fxInstance = null;
+            fxSystems = null;
+        }
     }
 }
