@@ -81,6 +81,9 @@ namespace LUP.PCR
                 case BuildingType.WORKSTATION:
                     placementSize = new Vector2Int(2, 1);
                     break;
+                case BuildingType.LADDER:
+                    placementSize = new Vector2Int(1, 1);
+                    break;
             }
 
             int x = pivotTile.tileInfo.pos.x;
@@ -93,8 +96,19 @@ namespace LUP.PCR
                     int nx = x + i;
                     int ny = y + j;
 
-                    tiles[nx, ny].tileInfo.tileType = TileType.BUILDING;
-                    tiles[nx, ny].tileInfo.buildingType = type;
+                    if (nx >= 0 && nx < GridSize.x && ny >= 0 && ny < GridSize.y)
+                    {
+                        if(type == BuildingType.LADDER)
+                        {
+                            tiles[nx, ny].tileInfo.tileType = TileType.LADDER;
+                        }
+                        else
+                        {
+                            tiles[nx, ny].tileInfo.tileType = TileType.BUILDING;
+                        }
+
+                        tiles[nx, ny].tileInfo.buildingType = type;
+                    }
                 }
             }
         }
@@ -109,6 +123,7 @@ namespace LUP.PCR
                     {
                         case TileType.PATH:
                         case TileType.BUILDING:
+                        case TileType.LADDER:
                             {
                                 ShowVisionAroundTile(i, j);
                                 break;

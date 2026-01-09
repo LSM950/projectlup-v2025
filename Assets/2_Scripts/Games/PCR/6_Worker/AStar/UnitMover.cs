@@ -161,78 +161,64 @@ namespace LUP.PCR
             currentDestination = gridMap.GetNodeFootPosition(path[path.Count - 1]);
         }
 
+
         public void MoveAlongPath()
         {
-            if (!IsMoving) { return; }
+            if (path == null || currentIndex >= path.Count)
+                return;
 
-            ANode targetNode = path[currentIndex];
-            Vector3 targetPos = gridMap.GetNodeFootPosition(targetNode);
+            ANode target = path[currentIndex];
+            Vector3 targetPos = gridMap.GetNodeFootPosition(target);
 
-            bool isLadder = targetNode.isLadder;
-            bool isElevator = targetNode.isElevator;
-            bool isVerticalMove = isLadder || isElevator;
+            ANode prev = currentIndex > 0 ? path[currentIndex - 1] : null;
 
-            Vector3 moveDir = (targetPos - transform.position);
+            bool isVerticalMove =
+                prev != null &&
+                prev.indexY != target.indexY;
 
             if (isVerticalMove)
             {
-                // 중력 무시하고 타겟 방향으로 직진 (X축 정렬 후 Y축 이동)
-                if (Mathf.Abs(moveDir.x) > 0.05f)
+                // X 정렬
+                if (Mathf.Abs(transform.position.x - targetPos.x) > 0.05f)
                 {
-                    moveDir.y = 0; // X축(좌우) 먼저 맞춤
-                }
-                else
-                {
-                    moveDir.x = 0; // X축 맞으면 위아래 이동
+                    Vector3 alignX = new Vector3(
+                        targetPos.x,
+                        transform.position.y,
+                        transform.position.z
+                    );
+
+                    transform.position = Vector3.MoveTowards(
+                        transform.position,
+                        alignX,
+                        moveSpeed * Time.deltaTime
+                    );
+                    return;
                 }
 
-                float currentSpeed = moveSpeed;
-
-                if (isElevator)
-                {
-                    currentSpeed *= 2.5f; // 엘리베이터는 2.5배 빠름
-                                          // @TODO : 엘리베이터 애니메이션 (가만히 서 있기)
-                                          // anim.SetBool("IsClimbing", false); 
-                }
-                else
-                {
-                    // 사다리 애니메이션 (기어오르기)
-                    // anim.SetBool("IsClimbing", true);
-                }
-
-                //transform.Translate(moveDir.normalized * currentSpeed * Time.deltaTime);
-                transform.position += moveDir.normalized * currentSpeed * Time.deltaTime;
+                // Y 이동
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    targetPos,
+                    moveSpeed * Time.deltaTime
+                );
             }
             else
             {
-                Vector3 walkTarget = new Vector3(targetPos.x, transform.position.y, targetPos.z);
-                transform.position = Vector3.MoveTowards(transform.position, walkTarget, moveSpeed * Time.deltaTime);
+                Vector3 walkTarget = new Vector3(
+                    targetPos.x,
+                    transform.position.y,
+                    targetPos.z
+                );
 
-                // 회전 처리
-                Vector3 lookDir = walkTarget - transform.position;
-                if (lookDir != Vector3.zero)
-                {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), rotateSpeed * Time.deltaTime);
-                }
-
-                // anim.SetBool("IsClimbing", false);
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    walkTarget,
+                    moveSpeed * Time.deltaTime
+                );
             }
 
-            if (Vector3.Distance(transform.position, targetPos) < 0.1f)
-            {
+            if (Vector3.Distance(transform.position, targetPos) < 0.15f)
                 currentIndex++;
-                // 도착하면 path가 null이 되거나 index가 초과되어 IsMoving이 자동으로 false가 됨
-            }
-
-            float dist = isVerticalMove ? Vector3.Distance(transform.position, targetPos)
-                                        : Vector2.Distance(new Vector2(transform.position.x, transform.position.z)
-                                        , new Vector2(targetPos.x, targetPos.z));
-
-            if (dist < 0.1f)
-            {
-                currentIndex++;
-            }
-
         }
 
         // BT - 목적지 도착 확인용

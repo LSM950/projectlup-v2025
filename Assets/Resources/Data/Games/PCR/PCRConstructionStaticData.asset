@@ -2200,3 +2200,11 @@ MonoBehaviour:
     amount1: 29000
     resourceType2: 0
     amount2: 0
+  - buildingType: 14
+    level: 0
+    constructionTime: 10
+    costCount: 1
+    resourceType1: 1
+    amount1: 5
+    resourceType2: 0
+    amount2: 0

@@ -47,9 +47,8 @@ namespace LUP.PCR
 
                     bool walkable = currentType != TileType.WALL;
                     bool ladder = currentType == TileType.LADDER;
-                    bool elevator = currentType == TileType.ELEVATOR;
 
-                    grid[x, y] = new ANode(walkable, ladder, elevator, worldPosition, x, y);
+                    grid[x, y] = new ANode(walkable, ladder, worldPosition, x, y);
                 }
             }
 
@@ -107,32 +106,60 @@ namespace LUP.PCR
 
             foreach (var node in grid)
             {
-                Gizmos.color = node.isWalkable ? new Color(0, 1, 0, 0.05f) : new Color(1, 0, 0, 0.3f);
-                Gizmos.DrawCube(node.worldPos, Vector3.one * (tileSize * 0.9f));
+                if (!node.isWalkable)
+                {
+                    // 벽
+                    Gizmos.color = new Color(1f, 0f, 0f, 0.4f);
+                }
+                else if (node.isLadder)
+                {
+                    // 사다리
+                    Gizmos.color = new Color(0f, 0f, 1f, 0.4f);
+                }
+                else
+                {
+                    // 일반 바닥
+                    Gizmos.color = new Color(1f, 1f, 1f, 0.1f);
+                }
+
+                Gizmos.DrawCube(
+                    node.worldPos,
+                    Vector3.one * (tileSize * 0.9f)
+                );
             }
 
-            if (pathToDraw != null)
+            // A* 경로
+            if (pathToDraw != null && pathToDraw.Count > 0)
             {
-                Gizmos.color = Color.yellow;
+                Gizmos.color = Color.green;
                 for (int i = 0; i < pathToDraw.Count - 1; i++)
                 {
-                    Gizmos.DrawLine(pathToDraw[i].worldPos, pathToDraw[i + 1].worldPos);
+                    Gizmos.DrawLine(
+                        pathToDraw[i].worldPos,
+                        pathToDraw[i + 1].worldPos
+                    );
                 }
             }
 
+            // 시작 노드
             if (debugStartNode != null)
             {
-                Gizmos.color = new Color(0, 0, 1, 0.3f);
-                Gizmos.DrawSphere(debugStartNode.worldPos, tileSize * 0.5f);
+                Gizmos.color = new Color(0f, 0.5f, 1f, 0.6f);
+                Gizmos.DrawSphere(debugStartNode.worldPos, tileSize * 0.4f);
             }
 
+            // 목표 노드
             if (debugTargetNode != null)
             {
-                Gizmos.color = new Color(1, 0, 0, 0.3f);
-                Gizmos.DrawSphere(debugTargetNode.worldPos, tileSize * 0.5f);
-                Gizmos.DrawLine(debugTargetNode.worldPos, debugTargetNode.worldPos + Vector3.up * 10f);
+                Gizmos.color = new Color(1f, 0f, 0f, 0.6f);
+                Gizmos.DrawSphere(debugTargetNode.worldPos, tileSize * 0.4f);
+                Gizmos.DrawLine(
+                    debugTargetNode.worldPos,
+                    debugTargetNode.worldPos + Vector3.up * tileSize
+                );
             }
         }
+
 
         [ContextMenu("Print Walkable Nodes")]
         public void PrintWalkableNodes()
