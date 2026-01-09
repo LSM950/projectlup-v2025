@@ -77,14 +77,26 @@ namespace LUP.RL
             RLItemID randomSpawnItem = (RLItemID)values.GetValue(UnityEngine.Random.Range(0, values.Length - 1));
             RLDropItemType spanwedItemType = (RLDropItemType)((int)randomSpawnItem / 10000);
 
-            GameObject obj = poolDictionaray[spanwedItemType].Dequeue();
+            int amount = 0;
+
+            if(spanwedItemType == RLDropItemType.equipment)
+            {
+                amount = 1;
+            }
+
+            else if(spanwedItemType == RLDropItemType.Commodities)
+            {
+                amount = UnityEngine.Random.Range(1, 30);
+            }
+
+                GameObject obj = poolDictionaray[spanwedItemType].Dequeue();
             obj.SetActive(true);
 
             obj.transform.position = spawnPos.position;
 
             SpawnItemCrystal crystalball = obj.GetComponent<SpawnItemCrystal>();
 
-            crystalball.SetSpawnItemInfo(spanwedItemType, (int)randomSpawnItem, playerPos, this);
+            crystalball.SetSpawnItemInfo(spanwedItemType, (int)randomSpawnItem, amount, playerPos, this);
 
             activeCrystals.Add(crystalball);
 

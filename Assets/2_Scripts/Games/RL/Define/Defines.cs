@@ -159,12 +159,14 @@ namespace Roguelike.Define
 
     public enum FloatingImageState
     {
-        Sleep = 0,
-        Appear = 1,
-        Idle = 2,
-        Running = 3,
-        Finishe = 4,
-        Disappear = 5
+        Sleep,
+        MovingLeft,
+        Pause,
+        Counting,
+        WaitingDisappear,
+        MovingRight,
+        MovingDown,
+        MovingRightDown
     }
 }
 

@@ -300,16 +300,16 @@ namespace LUP.RL
             //AddItem(spawnableItemDatas[0]);
         }
 
-        public void AddItem(ItemData pickedItem)
+        public void AddItem(ItemData pickedItem, int gainedAmount)
         {
             if (!gainItem.ContainsKey(pickedItem))
             {
-                gainItem[pickedItem] = 1;
+                gainItem[pickedItem] = gainedAmount;
             }
 
             else
             {
-                gainItem[pickedItem]++;
+                gainItem[pickedItem] += gainedAmount;
             }
         }
 
@@ -337,7 +337,7 @@ namespace LUP.RL
             gaindedItem.SetItemName(item.ItemName);
             gaindedItem.SetDisplayableImage(item.Icon);
 
-            AddItem(gaindedItem);
+            AddItem(gaindedItem, gainedAmount);
 
             //string itemName = item.ItemName;
             //for(int i = 0; i < spawnableItemDatas.Length; i++)
