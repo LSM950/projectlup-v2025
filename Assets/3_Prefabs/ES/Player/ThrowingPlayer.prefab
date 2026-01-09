@@ -397,6 +397,9 @@ GameObject:
   - component: {fileID: 5873969557981213748}
   - component: {fileID: 4592253938660812637}
   - component: {fileID: 8727472263353136397}
+  - component: {fileID: 1282471808322597573}
+  - component: {fileID: 6599726915726821834}
+  - component: {fileID: 4667147471357765091}
   m_Layer: 4
   m_Name: ThrowingPlayer
   m_TagString: Player
@@ -676,6 +679,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331fac1522026c94da924c2e92f840ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1282471808322597573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745652737564829069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa4471a5a991d5244a718a606b17cfcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6599726915726821834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745652737564829069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31f34eac3f74214596e8a34bc0e6d53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  excludeLayerName: MVPDisplayModel
+--- !u!114 &4667147471357765091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745652737564829069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6405a21cfcbca834781b6d4a91bc6345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bushState: {fileID: 1282471808322597573}
+  visualController: {fileID: 6599726915726821834}
 --- !u!1001 &7575361326247705278
 PrefabInstance:
   m_ObjectHideFlags: 0

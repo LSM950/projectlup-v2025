@@ -114,6 +114,7 @@ namespace LUP.ES
                 blockedLine.SetPosition(0, hit.point);
                 blockedLine.SetPosition(1, end);
             }
+
             else
             {
                 blockedLine.enabled = false;

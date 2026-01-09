@@ -155,6 +155,9 @@ GameObject:
   - component: {fileID: 5873969557981213748}
   - component: {fileID: 4592253938660812637}
   - component: {fileID: -4880518105603264755}
+  - component: {fileID: 2507687081653510307}
+  - component: {fileID: 2175274781033769707}
+  - component: {fileID: 2056397343635535258}
   m_Layer: 4
   m_Name: MeleePlayer
   m_TagString: Player
@@ -433,6 +436,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331fac1522026c94da924c2e92f840ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2507687081653510307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745652737564829069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa4471a5a991d5244a718a606b17cfcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2175274781033769707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745652737564829069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31f34eac3f74214596e8a34bc0e6d53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  excludeLayerName: MVPDisplayModel
+--- !u!114 &2056397343635535258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745652737564829069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6405a21cfcbca834781b6d4a91bc6345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bushState: {fileID: 2507687081653510307}
+  visualController: {fileID: 2175274781033769707}
 --- !u!1001 &627218663523251989
 PrefabInstance:
   m_ObjectHideFlags: 0
