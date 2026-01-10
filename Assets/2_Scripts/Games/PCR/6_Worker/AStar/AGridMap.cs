@@ -16,6 +16,11 @@ namespace LUP.PCR
         [HideInInspector] public ANode debugStartNode;
         [HideInInspector] public ANode debugTargetNode;
 
+        public bool IsIdxValid(int x, int y)
+        {
+            return x >= 0 && x < grid.GetLength(0) && y >= 0 && y < grid.GetLength(1);
+        }
+
         public void InitMap(Tile[,] tileData)
         {
             gridStartPoint = transform.position;
@@ -27,8 +32,8 @@ namespace LUP.PCR
         {
             if (sourceTiles == null) { return; }
 
-            int width = sourceTiles.GetLength(0); 
-            int height = sourceTiles.GetLength(1); 
+            int width = sourceTiles.GetLength(0);
+            int height = sourceTiles.GetLength(1);
 
             grid = new ANode[width, height];
 
@@ -37,9 +42,13 @@ namespace LUP.PCR
                 for (int y = 0; y < height; y++)
                 {
                     Vector3 worldPosition = GridToWorldPosition(new Vector2Int(x, y));
-                    
-                    bool walkable = sourceTiles[x, y].tileInfo.tileType != TileType.WALL;
-                    grid[x, y] = new ANode(walkable, worldPosition, x, y);
+
+                    TileType currentType = sourceTiles[x, y].tileInfo.tileType;
+
+                    bool walkable = currentType != TileType.WALL;
+                    bool ladder = currentType == TileType.LADDER;
+
+                    grid[x, y] = new ANode(walkable, ladder, worldPosition, x, y);
                 }
             }
 
@@ -70,9 +79,9 @@ namespace LUP.PCR
 
         public ANode GetNodeFromGridPos(Vector2Int pos)
         {
-            if(grid == null) { return null; }
-            
-            if(pos.x >= 0 && pos.y >= 0 && pos.x < grid.GetLength(0) && pos.y < grid.GetLength(1))
+            if (grid == null) { return null; }
+
+            if (pos.x >= 0 && pos.y >= 0 && pos.x < grid.GetLength(0) && pos.y < grid.GetLength(1))
             {
 
                 return grid[pos.x, pos.y];
@@ -97,32 +106,60 @@ namespace LUP.PCR
 
             foreach (var node in grid)
             {
-                Gizmos.color = node.isWalkable ? new Color(0, 1, 0, 0.05f) : new Color(1, 0, 0, 0.3f);
-                Gizmos.DrawCube(node.worldPos, Vector3.one * (tileSize * 0.9f));
+                if (!node.isWalkable)
+                {
+                    // 벽
+                    Gizmos.color = new Color(1f, 0f, 0f, 0.4f);
+                }
+                else if (node.isLadder)
+                {
+                    // 사다리
+                    Gizmos.color = new Color(0f, 0f, 1f, 0.4f);
+                }
+                else
+                {
+                    // 일반 바닥
+                    Gizmos.color = new Color(1f, 1f, 1f, 0.1f);
+                }
+
+                Gizmos.DrawCube(
+                    node.worldPos,
+                    Vector3.one * (tileSize * 0.9f)
+                );
             }
 
-            if (pathToDraw != null)
+            // A* 경로
+            if (pathToDraw != null && pathToDraw.Count > 0)
             {
-                Gizmos.color = Color.yellow;
+                Gizmos.color = Color.green;
                 for (int i = 0; i < pathToDraw.Count - 1; i++)
                 {
-                    Gizmos.DrawLine(pathToDraw[i].worldPos, pathToDraw[i + 1].worldPos);
+                    Gizmos.DrawLine(
+                        pathToDraw[i].worldPos,
+                        pathToDraw[i + 1].worldPos
+                    );
                 }
             }
 
+            // 시작 노드
             if (debugStartNode != null)
             {
-                Gizmos.color = new Color(0, 0, 1, 0.3f);
-                Gizmos.DrawSphere(debugStartNode.worldPos, tileSize * 0.5f);
+                Gizmos.color = new Color(0f, 0.5f, 1f, 0.6f);
+                Gizmos.DrawSphere(debugStartNode.worldPos, tileSize * 0.4f);
             }
 
+            // 목표 노드
             if (debugTargetNode != null)
             {
-                Gizmos.color = new Color(1, 0, 0, 0.3f);
-                Gizmos.DrawSphere(debugTargetNode.worldPos, tileSize * 0.5f);
-                Gizmos.DrawLine(debugTargetNode.worldPos, debugTargetNode.worldPos + Vector3.up * 10f);
+                Gizmos.color = new Color(1f, 0f, 0f, 0.6f);
+                Gizmos.DrawSphere(debugTargetNode.worldPos, tileSize * 0.4f);
+                Gizmos.DrawLine(
+                    debugTargetNode.worldPos,
+                    debugTargetNode.worldPos + Vector3.up * tileSize
+                );
             }
         }
+
 
         [ContextMenu("Print Walkable Nodes")]
         public void PrintWalkableNodes()

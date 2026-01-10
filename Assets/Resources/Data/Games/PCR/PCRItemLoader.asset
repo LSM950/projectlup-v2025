@@ -16,7 +16,7 @@ MonoBehaviour:
   associatedWorksheet: 
   START_ROW: 1
   DataList:
-  - ItemID: 1
+  - ItemID: 9901
     ItemName: Stone
     ItemType: 1
     IconPath: 
@@ -24,7 +24,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uB3CC"
     serializedCustomFields: []
-  - ItemID: 2
+  - ItemID: 9902
     ItemName: Coal
     ItemType: 2
     IconPath: 
@@ -32,7 +32,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uC11D\uD0C4"
     serializedCustomFields: []
-  - ItemID: 3
+  - ItemID: 9903
     ItemName: Iron
     ItemType: 3
     IconPath: 
@@ -40,7 +40,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uCCA0"
     serializedCustomFields: []
-  - ItemID: 4
+  - ItemID: 9904
     ItemName: Wheat
     ItemType: 4
     IconPath: 
@@ -48,7 +48,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uBC00"
     serializedCustomFields: []
-  - ItemID: 5
+  - ItemID: 9905
     ItemName: Mushroom
     ItemType: 5
     IconPath: 
@@ -56,7 +56,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uBC84\uC12F"
     serializedCustomFields: []
-  - ItemID: 6
+  - ItemID: 9906
     ItemName: Meat
     ItemType: 6
     IconPath: 
@@ -64,7 +64,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uACE0\uAE30"
     serializedCustomFields: []
-  - ItemID: 7
+  - ItemID: 9907
     ItemName: Food
     ItemType: 7
     IconPath: 
@@ -72,7 +72,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uC74C\uC2DD"
     serializedCustomFields: []
-  - ItemID: 8
+  - ItemID: 9908
     ItemName: Power
     ItemType: 8
     IconPath: 
@@ -80,7 +80,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uC804\uB825"
     serializedCustomFields: []
-  - ItemID: 9
+  - ItemID: 9909
     ItemName: Diamond
     ItemType: 9
     IconPath: 
@@ -88,7 +88,7 @@ MonoBehaviour:
     IsUsable: 1
     Description: "\uB2E4\uC774\uC544\uBAAC\uB4DC"
     serializedCustomFields: []
-  - ItemID: 10
+  - ItemID: 9910
     ItemName: Worker
     ItemType: 10
     IconPath: 

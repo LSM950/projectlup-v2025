@@ -1,9 +1,8 @@
-using LUP.ES;
 using UnityEngine;
 
 namespace LUP.PCR
 {
-    public class MainUIModel
+    public class InventoryUIModel
     {
         private PCRResourceCenter resourceCenter;
 
@@ -18,3 +17,4 @@ namespace LUP.PCR
         }
     }
 }
+

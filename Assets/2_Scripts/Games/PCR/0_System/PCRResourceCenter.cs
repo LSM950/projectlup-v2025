@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LUP.PCR
@@ -5,88 +6,71 @@ namespace LUP.PCR
 
     public class PCRResourceCenter : MonoBehaviour
     {
-        public int food;
-        public int wheat;
-        public int mushroom;
-        public int meat;
-        public int water;
-        public int stone;
-        public int iron;
-        public int coal;
-        public int power;
-        public int diamond;
+        private Inventory inventory;
 
         public void InitInventory()
         {
-            
+            ProductionStage stage = StageManager.Instance.GetCurrentStage() as ProductionStage;
+            inventory = stage.PCRInven;
+        }
+
+        public int GetResourceAmount(ResourceType type)
+        {
+            int index = 9900 + (int)type;
+            return inventory.GetItemCount(index);
         }
 
         public void AddResource(ResourceType type, int amount)
         {
-            switch(type)
+            string itemName = type.ToString();
+            IItemable item = ItemManager.Instance.GetItem(itemName);
+            if (item != null)
             {
-                case ResourceType.STONE:
-                    stone += amount;
-                    break;
-                case ResourceType.IRON:
-                    iron += amount;
-                    break;
-                case ResourceType.COAL:
-                    coal += amount;
-                    break;
-                case ResourceType.WHEAT:
-                    wheat += amount;
-                    break;
-                case ResourceType.MUSHROOM:
-                    mushroom += amount;
-                    break;
-                case ResourceType.MEAT:
-                    meat += amount;
-                    break;
-                case ResourceType.FOOD:
-                    food += amount;
-                    break;
-                case ResourceType.POWER:
-                    power += amount;
-                    break;
-                case ResourceType.DIAMOND:
-                    diamond += amount;
-                    break;
+                inventory.AddItem(item, amount);
+                return;
             }
         }
 
         public void UseResource(ResourceType type, int amount)
         {
-            switch (type)
+            string itemName = type.ToString();
+            IItemable item = ItemManager.Instance.GetItem(itemName);
+            if (item != null)
             {
-                case ResourceType.STONE:
-                    stone -= amount;
-                    break;
-                case ResourceType.IRON:
-                    iron -= amount;
-                    break;
-                case ResourceType.COAL:
-                    coal -= amount;
-                    break;
-                case ResourceType.WHEAT:
-                    wheat -= amount;
-                    break;
-                case ResourceType.MUSHROOM:
-                    mushroom -= amount;
-                    break;
-                case ResourceType.MEAT:
-                    meat -= amount;
-                    break;
-                case ResourceType.FOOD:
-                    food -= amount;
-                    break;
-                case ResourceType.POWER:
-                    power -= amount;
-                    break;
-                case ResourceType.DIAMOND:
-                    diamond -= amount;
-                    break;
+                inventory.UseItem(item.ItemID, amount);
+                return;
             }
+
+            //switch (type)
+            //{
+            //    case ResourceType.Stone:
+
+            //        break;
+            //    case ResourceType.Iron:
+
+            //        break;
+            //    case ResourceType.Coal:
+
+            //        break;
+            //    case ResourceType.Wheat:
+
+            //        break;
+            //    case ResourceType.Mushroom:
+
+            //        break;
+            //    case ResourceType.Meat:
+
+            //        break;
+            //    case ResourceType.Food:
+
+            //        break;
+            //    case ResourceType.Power:
+
+            //        break;
+            //    case ResourceType.Diamond:
+
+            //        break;
+            //}
         }
     }
 }

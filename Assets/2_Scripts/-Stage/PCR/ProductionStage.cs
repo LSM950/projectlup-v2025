@@ -50,10 +50,10 @@ namespace LUP.PCR
         {
             yield return base.OnStageEnter();
 
-            LoadFirstGameData();
-
             // InventoryManager를 통해 PCR 인벤토리 로드 및 등록
             PCRInven = InventoryManager.Instance.LoadOrCreateInventory("PCR", "PCRInventory.json");
+
+            LoadFirstGameData();
         
             gameSystem.InitPCRGameSystem();
 
@@ -148,6 +148,17 @@ namespace LUP.PCR
             {
                 Debug.LogWarning("[PCRStage] 이미 저장된 게임 데이터가 존재합니다.");
                 return;
+            }
+
+
+            // 인벤토리 초기 데이터
+            PCRInven.Clear();
+
+            for(int i = 1; i<= 10; i++)
+            {
+                int num = 9900 + i;
+                IItemable item = ItemManager.Instance.GetItem(num);
+                PCRInven.AddItem(item, 10);
             }
 
             // 건물 초기 데이터

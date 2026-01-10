@@ -20,6 +20,7 @@ namespace LUP.PCR
         PATH,
         WALL,
         BUILDING,
+        LADDER,
     }
 
     public enum BuildingType
@@ -38,6 +39,7 @@ namespace LUP.PCR
         COALMINE,
         MOLEFARM,
         DAIRYFARM,
+        LADDER
     }
 
     public enum WallType
@@ -49,16 +51,16 @@ namespace LUP.PCR
 
     public enum ResourceType
     {
-        NONE,
-        STONE,
-        COAL,
-        IRON,
-        WHEAT,
-        MUSHROOM,
-        MEAT,
-        FOOD,
-        POWER,
-        DIAMOND
+        None,
+        Stone,
+        Coal,
+        Iron,
+        Wheat,
+        Mushroom,
+        Meat,
+        Food,
+        Power,
+        Diamond
     }
 
     public enum PlacementResultType
@@ -95,5 +97,6 @@ namespace LUP.PCR
         SelectConstrcut,
         ConstructionDecision,
         ProductableBuilding,
+        Inventory,
     }
 }

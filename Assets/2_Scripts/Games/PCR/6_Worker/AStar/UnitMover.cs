@@ -87,7 +87,7 @@ namespace LUP.PCR
             if (gridMap == null || pathfinder == null) return false;
 
             ANode startNode = GetStartNodeByPhysics();
-            
+
             if (!startNode.isWalkable)
             {
                 startNode = FindNearestWalkableNode(startNode);
@@ -161,33 +161,64 @@ namespace LUP.PCR
             currentDestination = gridMap.GetNodeFootPosition(path[path.Count - 1]);
         }
 
+
         public void MoveAlongPath()
         {
-            if (!IsMoving) return;
-            
-            Vector3 targetPos = gridMap.GetNodeFootPosition(path[currentIndex]);
+            if (path == null || currentIndex >= path.Count)
+                return;
 
-            Vector3 moveDir = (targetPos - transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-            Vector3 horizontalDir = new Vector3(moveDir.x, 0, moveDir.z);
+            ANode target = path[currentIndex];
+            Vector3 targetPos = gridMap.GetNodeFootPosition(target);
 
-            if (horizontalDir.sqrMagnitude > 0.01f)
+            ANode prev = currentIndex > 0 ? path[currentIndex - 1] : null;
+
+            bool isVerticalMove =
+                prev != null &&
+                prev.indexY != target.indexY;
+
+            if (isVerticalMove)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(horizontalDir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                // X 정렬
+                if (Mathf.Abs(transform.position.x - targetPos.x) > 0.05f)
+                {
+                    Vector3 alignX = new Vector3(
+                        targetPos.x,
+                        transform.position.y,
+                        transform.position.z
+                    );
+
+                    transform.position = Vector3.MoveTowards(
+                        transform.position,
+                        alignX,
+                        moveSpeed * Time.deltaTime
+                    );
+                    return;
+                }
+
+                // Y 이동
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    targetPos,
+                    moveSpeed * Time.deltaTime
+                );
             }
-            //direction.y = 0;
-            //if (direction != Vector3.zero)
-            //{
-
-            //}
-
-            if (Vector3.Distance(transform.position, targetPos) < 0.1f)
+            else
             {
+                Vector3 walkTarget = new Vector3(
+                    targetPos.x,
+                    transform.position.y,
+                    targetPos.z
+                );
+
+                transform.position = Vector3.MoveTowards(
+                    transform.position,
+                    walkTarget,
+                    moveSpeed * Time.deltaTime
+                );
+            }
+
+            if (Vector3.Distance(transform.position, targetPos) < 0.15f)
                 currentIndex++;
-                // 도착하면 path가 null이 되거나 index가 초과되어 IsMoving이 자동으로 false가 됨
-            }
-
         }
 
         // BT - 목적지 도착 확인용
