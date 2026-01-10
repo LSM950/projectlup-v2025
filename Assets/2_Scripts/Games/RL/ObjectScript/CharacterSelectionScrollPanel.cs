@@ -117,7 +117,7 @@ namespace LUP.RL
                 Transform textTransform = characterBtn.transform.Find("LevelText");
 
                 //string characterLevel = displayedData[index].GetExtraInfo().ToString();
-                string characterLevel = "-1";
+                string characterLevel = "1";
 
                 textTransform.GetComponent<TextMeshProUGUI>().SetText(characterLevel);
             }

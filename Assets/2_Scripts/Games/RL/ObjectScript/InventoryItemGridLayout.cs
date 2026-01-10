@@ -7,11 +7,22 @@ using UnityEngine.UI;
 
 namespace LUP.RL
 {
+    [System.Serializable]
+    public struct TierColorData
+    {
+        public Color BorderColor;
+        public Color BaseColor;
+    }
+
     public class InventoryItemGridLayout : MonoBehaviour, IPanelContentAble
     {
+
+        [SerializeField]
+        private TierColorData[] tierColors;
+
         private Vector2 parentViewportSize;
         private GridLayoutGroup gridLayoutGroup;
-        public GameObject ItemBoxPrefab;
+        public GameObject EquipBoxPrefab;
         public int holizonConstrain;
 
         private EquipData[] InventoryItmes;
@@ -27,7 +38,7 @@ namespace LUP.RL
 
         public bool Init()
         {
-            if (ItemBoxPrefab == null)
+            if (EquipBoxPrefab == null)
             {
                 UnityEngine.Debug.LogError("Assin Item Box Prefab");
             }
@@ -93,20 +104,27 @@ namespace LUP.RL
                         playerWeaponType != WeaponType)
                         continue;
                 }
-                
+
+                EquipData equipItem = InventoryItmes[i];
+
+                RLItemTier equipTier = (RLItemTier)equipItem.GetExtraInfo();
 
 
-                GameObject Itembox = Instantiate(ItemBoxPrefab, gameObject.transform);
-                TextImageBtn itemTextImageBtn = Itembox.GetComponent<TextImageBtn>();
-                itemTextImageBtn.SetUseDefaultInteractColor(false);
 
-                if (itemTextImageBtn.Init())
-                {
-                    int index = i;
+                GameObject Itembox = Instantiate(EquipBoxPrefab, gameObject.transform);
+                InventoryEquipBtn itemTextImageBtn = Itembox.GetComponent<InventoryEquipBtn>();
 
-                    itemTextImageBtn.btnBackGroundImage.sprite = InventoryItmes[i].GetDisplayableImage();
-                    itemTextImageBtn.button.onClick.AddListener(() => OnEquipItemBtnClicked(index));
-                }
+
+                //itemTextImageBtn.SetUseDefaultInteractColor(false);
+
+                //if (itemTextImageBtn.Init())
+                //{
+                //    int index = i;
+
+                //    itemTextImageBtn.btnBackGroundImage.sprite = equipItem.GetDisplayableImage();
+                //    itemTextImageBtn.button.onClick.AddListener(() => OnEquipItemBtnClicked(index));
+                //}
+                itemTextImageBtn.SetEquipButton(Color.cyan, Color.yellow, equipItem.GetDisplayableImage(), true, Color.yellow, equipItem.GetDisplayableImage());
 
             }
 
