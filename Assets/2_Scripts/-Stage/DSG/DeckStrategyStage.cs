@@ -282,35 +282,35 @@ namespace LUP.DSG
 
             LoadStage(StageKind, sceneIndex);
 
-            //BGMListNum num = (BGMListNum)sceneIndex; //@TODO SoundManager.BGM
-            //string bgm;
+            BGMListNum num = (BGMListNum)sceneIndex; //@TODO SoundManager.BGM
+            string bgm;
 
-            //AudioClip BGMClip;
-            //switch (num)
-            //{
-            //    case BGMListNum.EditSceneBGM:
-            //        {
-            //            bgm = "Duel of the Fates";
-            //            BGMClip = editSceneBGM;
-            //            break;
-            //        }
-            //    case BGMListNum.BattleSceneBGM:
-            //        {
-            //            bgm = "Watch out";
-            //            BGMClip = battleSceneBGM;
-            //            break;
-            //        }
-            //    case BGMListNum.ResultSceneBGM:
-            //        {
-            //            bgm = "";
-            //            BGMClip = resultSceneBGM;
-            //            break;
-            //        }
-            //    default:
-            //        return;
-            //}
+            AudioClip BGMClip;
+            switch (num)
+            {
+                case BGMListNum.EditSceneBGM:
+                    {
+                        bgm = "RPG Combat 1 - Duel of the Fates (Loopable)";
+                        BGMClip = editSceneBGM;
+                        break;
+                    }
+                case BGMListNum.BattleSceneBGM:
+                    {
+                        bgm = "RPG Combat 1 - Watch out! (Loopable)";
+                        BGMClip = battleSceneBGM;
+                        break;
+                    }
+                case BGMListNum.ResultSceneBGM:
+                    {
+                        bgm = "";
+                        BGMClip = resultSceneBGM;
+                        break;
+                    }
+                default:
+                    return;
+            }
 
-            //SoundManager.Instance.PlayBGM(bgm, true);
+            SoundManager.Instance.PlayBGM(bgm, true);
         }
 
         public void BattleEnd()
