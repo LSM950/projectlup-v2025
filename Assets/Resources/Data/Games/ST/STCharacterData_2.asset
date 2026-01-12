@@ -16,3 +16,5 @@ MonoBehaviour:
   characterName: Test2
   thumbnail: {fileID: 21300000, guid: 487625cc73dc2ad47bc0e7797a7e7524, type: 3}
   prefab: {fileID: 5906657637091851849, guid: b15cd38c72679cd4385d38517395de78, type: 3}
+  normalCrosshair: {fileID: 21300000, guid: b1ad261f7e1e4d1459fd431f840e7d28, type: 3}
+  scopeCrosshair: {fileID: 21300000, guid: 8feeac7b15b145b49a0b3083ef52d38f, type: 3}

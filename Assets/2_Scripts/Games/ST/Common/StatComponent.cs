@@ -74,10 +74,12 @@ namespace LUP.ST
             // 최대 체력 = 기본 체력 * level
 
             this.maxHealth *= level;
+            this.currentHealth = this.maxHealth;
             this.attackDamage *= level;
             this.defense *= level;
             this.moveSpeed *= level;
-            this.attackSpeed *= level;
+
+            OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
             Debug.Log($"{gameObject.name} 레벨 {level} 적용 완료!");
         }
