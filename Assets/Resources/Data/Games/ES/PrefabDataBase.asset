@@ -17,33 +17,33 @@ MonoBehaviour:
   - id: 1
     name: Shortsword
     prefab: {fileID: 6699912051311791607, guid: a9343541e0070cf44b86155a957d4ee1, type: 3}
-    positionOffset: {x: 0.076, y: 0.095, z: 0.04}
-    rotationOffset: {x: 0.382, y: -7.526, z: 75.675}
+    positionOffset: {x: 0.076, y: 0.098, z: 0.091}
+    rotationOffset: {x: -69.867, y: -218.34, z: 143.275}
   - id: 2
     name: GreateSword
     prefab: {fileID: 6699912051311791607, guid: c99b9fbc2d01d0e4bb3aa3fe4283a23e, type: 3}
-    positionOffset: {x: 0.054, y: 0.127, z: 0.083}
-    rotationOffset: {x: -0.207, y: -0.019, z: 62.235}
+    positionOffset: {x: 0.896, y: -0.442, z: 0.086}
+    rotationOffset: {x: -0.207, y: -0.019, z: -120.744}
   - id: 3
     name: Axe
     prefab: {fileID: 6699912051311791607, guid: 7cb9f22aaa26d684cb6315a9f884f88b, type: 3}
-    positionOffset: {x: -0.391, y: 0.045, z: 0.073}
-    rotationOffset: {x: 5.988, y: -4.136, z: 105.826}
+    positionOffset: {x: 0.452, y: -0.18, z: 0.045}
+    rotationOffset: {x: 11.966, y: 7.344, z: 239.527}
   - id: 4
     name: Pistol
     prefab: {fileID: 1836695343964729576, guid: 66867298641304d40abd969c925616d1, type: 3}
-    positionOffset: {x: 0.021, y: 0.064, z: 0.049}
-    rotationOffset: {x: -81.993, y: -109.532, z: 198.186}
+    positionOffset: {x: 0.042, y: 0.042, z: 0.136}
+    rotationOffset: {x: -346.16, y: 12.563, z: 259.076}
   - id: 5
     name: AR
     prefab: {fileID: 1192050510234001585, guid: 2a2f16cdd4c89404487f91502dceb931, type: 3}
-    positionOffset: {x: 0.0017, y: 0.0708, z: 0.0352}
-    rotationOffset: {x: -77.766, y: -103.67, z: 196.486}
+    positionOffset: {x: -0.03848876, y: 0.08382732, z: 0.1007133}
+    rotationOffset: {x: 10.842, y: 13.822, z: -106.584}
   - id: 6
     name: Rifle
     prefab: {fileID: 3934984825118650818, guid: 497470e4098af474ebd6518c04e84f3d, type: 3}
-    positionOffset: {x: 0, y: 0.073, z: 0.042}
-    rotationOffset: {x: -81.197, y: -105.986, z: 191.215}
+    positionOffset: {x: 0.07156281, y: 0.06044818, z: 0.07800745}
+    rotationOffset: {x: 10.27, y: 12.911, z: -105.83}
   - id: 7
     name: Rock
     prefab: {fileID: 1192050510234001585, guid: bda90bea2af0854439288c5156370e97, type: 3}
@@ -57,5 +57,5 @@ MonoBehaviour:
   - id: 9
     name: Grenade
     prefab: {fileID: 1192050510234001585, guid: 2aa7643acaf21264ca4845e069eeb2ca, type: 3}
-    positionOffset: {x: -0.089, y: 0.093, z: 0.114}
-    rotationOffset: {x: -3.705, y: 13.339, z: -55.818}
+    positionOffset: {x: 0.12192, y: 0.19154, z: 0.19047}
+    rotationOffset: {x: -11.708, y: 170.257, z: -115.131}
