@@ -71,8 +71,8 @@ namespace LUP.DSG
                 portrait.sprite = null;
                 portrait.color = portraitColor;
             }
-
-            FormationSystem system = FindFirstObjectByType<FormationSystem>();
+            DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            FormationSystem system = stage.GetComponent<FormationSystem>();
             AttributeTypeImage typeIcon = system.GetTypeByAttributeImage(type);
 
             attributeIcon.sprite = typeIcon.TypeIcon;

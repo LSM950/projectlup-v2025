@@ -22,9 +22,6 @@ namespace LUP.DSG
 
         private void PostInitialize(DeckStrategyStage stage)
         {
-            //dataCenter = FindFirstObjectByType<DataCenter>();
-            //if (dataCenter == null || dataCenter.mvpData == null) return;
-
             DeckStrategyStage deckStage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
             if (deckStage == null || deckStage.mvpData == null) return;
 

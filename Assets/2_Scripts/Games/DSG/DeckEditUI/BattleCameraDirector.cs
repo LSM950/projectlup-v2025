@@ -59,7 +59,6 @@ namespace LUP.DSG
             Quaternion originRot = transform.rotation;
 
             Sequence seq = DOTween.Sequence();
-
             seq.Append(transform.DOMove(friendlyIntroCamPosition, 2f).SetEase(Ease.OutQuint));
             seq.Join(transform.DORotate(friendlyIntroCamRotation, 2f).SetEase(Ease.OutQuint));
             seq.AppendInterval(0.5f);
@@ -70,6 +69,8 @@ namespace LUP.DSG
 
             seq.Append(transform.DOMove(originPos, 1f));
             seq.Join(transform.DORotateQuaternion(originRot, 1f));
+
+            Camera.main.fieldOfView = 60f;
 
             return seq;
         }

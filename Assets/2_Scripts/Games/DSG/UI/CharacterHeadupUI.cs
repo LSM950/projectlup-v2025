@@ -16,7 +16,7 @@ namespace LUP.DSG
 
         [Header("보정 설정")]
         [Range(0f, 0.2f)]
-        public float distortionFactor = 0.05f;
+        public float distortionFactor = 0.00f;
 
         private CanvasGroup canvasGroup;
 
@@ -31,6 +31,8 @@ namespace LUP.DSG
 
             canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
+
+            //canvasRect = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
 
             characterInfoUI = GetComponentInChildren<CharacterInfoUI>();
             characterInfoUI.gameObject.SetActive(false);
@@ -52,6 +54,16 @@ namespace LUP.DSG
         private void LateUpdate()
         {
             if (target == null) return;
+
+            //Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position + offset);
+            //if(screenPos.z < 0.0f)
+            //{
+            //    screenPos *= -1.0f;
+            //}
+
+            //Vector2 localPos = Vector2.zero;
+            //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, mainCamera, out localPos);
+            //rectTransform.localPosition = localPos;
 
             // 1. 기본 뷰포트 좌표 구하기 (0 ~ 1 범위)
             Vector3 viewportPos = Camera.main.WorldToViewportPoint(target.position + offset);
