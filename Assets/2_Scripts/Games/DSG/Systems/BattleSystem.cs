@@ -165,14 +165,10 @@ namespace LUP.DSG
                 Character character = battleSequence[i];
                 character.battleIndex = i;
 
-                var icon = Instantiate(iconPrefab, characterSequenceList);
-                var bg = icon.transform.Find("Background")?.GetComponent<Image>();
-                if (bg != null)
-                {
-                    var c = character.isEnemy ? Color.red : Color.blue;
-                    c.a = 0.6f;
-                    bg.color = c;
-                }
+                GameObject icon = Instantiate(iconPrefab, characterSequenceList);
+                CharacterSequenceIcon sequenceIcon = icon.GetComponent<CharacterSequenceIcon>();
+                sequenceIcon.SetIconData(character.characterData.type, character.characterInfo.characterLevel, character.isEnemy);
+
                 var portrait = icon.transform.Find("Portrait")?.GetComponent<Image>();
                 if (portrait != null)
                 {

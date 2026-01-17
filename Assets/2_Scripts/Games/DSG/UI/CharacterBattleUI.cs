@@ -54,7 +54,8 @@ namespace LUP.DSG
             character.StatusEffectComp.OnEffectRemoved = OnEffectRemoved;
             character.StatusEffectComp.OnEffectEndTurn = OnEffectEndTurn;
 
-            FormationSystem system = FindFirstObjectByType<FormationSystem>();
+            DeckStrategyStage stage = LUP.StageManager.Instance.GetCurrentStage() as DeckStrategyStage;
+            FormationSystem system = stage.GetComponent<FormationSystem>();
             AttributeTypeImage typeIcon = system.GetTypeByAttributeImage(character.characterData.type);
 
             centerAreaImage.sprite = typeIcon.TypeIcon;
