@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 1, z: 0.7}
+  m_LocalScale: {x: 1.2, y: 1.28, z: 1.12}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -106,6 +106,7 @@ MonoBehaviour:
   itemDataBase: {fileID: 11400000, guid: ffa906b5ab3afad469ad0d4351c62bd0, type: 2}
   selectedWeaponId: 9
   projectilePrefab: {fileID: 8635158298405656185, guid: 099e2dcb5ccbf384995dea4452b96d28, type: 3}
+  projectilePool: {fileID: 0}
   playerTransform: {fileID: 0}
   rightJoystick: {fileID: 0}
   timeToTarget: 0.8
