@@ -79,18 +79,13 @@ namespace LUP.DSG
             animationComp.OnShootRangeAttack += battleComp.TrySpawnProjectileForRangedAttack;
             animationComp.OnAttackStart += battleComp.AttackStart;
 
-            Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-            foreach (Canvas canvas in canvases)
+            Canvas uiCanvas = GameObject.Find("Canvas_CharacterUI").GetComponent<Canvas>();
+            if(uiCanvas != null)
             {
-                if (canvas.CompareTag("CharacterUI"))
-                {
-                    GameObject ui = Instantiate(characterUIPrefab, canvas.transform);
-                    characterUI = ui.GetComponent<CharacterHeadupUI>();
-                    characterUI.SetTarget(canvas, transform);
-                    characterUI.gameObject.SetActive(true);
-
-                    break;
-                }
+                GameObject ui = Instantiate(characterUIPrefab, uiCanvas.transform);
+                characterUI = ui.GetComponent<CharacterHeadupUI>();
+                characterUI.SetTarget(uiCanvas, transform);
+                characterUI.gameObject.SetActive(true);
             }
         }
 
