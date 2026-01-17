@@ -38,6 +38,9 @@ namespace LUP.ST
                 return spawnedCharacters;
             }
 
+            // GameResult에 출전 캐릭터 ID 저장
+            GameResult.ParticipatingCharacterIds.Clear();
+
             for (int i = 0; i < 5; i++)
             {
                 var data = team[i];
@@ -49,6 +52,9 @@ namespace LUP.ST
                     spawnedCharacters.Add(null);
                     continue;
                 }
+
+                // 출전 캐릭터 ID 저장
+                GameResult.ParticipatingCharacterIds.Add(data.characterId);
 
                 var sp = spawnPoints[i];
                 var go = Instantiate(data.prefab, sp.position, sp.rotation);
@@ -67,7 +73,7 @@ namespace LUP.ST
                 spawnedCharacters.Add(go);
             }
 
-            Debug.Log("[STTeamSpawner] Spawn complete.");
+            Debug.Log($"[STTeamSpawner] Spawn complete. 출전 캐릭터: {GameResult.ParticipatingCharacterIds.Count}명");
             return spawnedCharacters;
         }
     }

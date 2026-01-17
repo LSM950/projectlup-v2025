@@ -35,20 +35,17 @@ namespace LUP
 
             if (srd == null)
             {
-                Debug.LogError("[ShootingStage] STDataManage.RuntimeData is null.");
                 yield break;
             }
 
             if (srd.Team == null || srd.Team.Length < 5)
             {
-                Debug.LogError("[ShootingStage] Team not set.");
                 yield break;
             }
 
             var spawner = FindFirstObjectByType<LUP.ST.STTeamSpawner>();
             if (spawner == null)
             {
-                Debug.LogError("[ShootingStage] STTeamSpawner not found.");
                 yield break;
             }
 

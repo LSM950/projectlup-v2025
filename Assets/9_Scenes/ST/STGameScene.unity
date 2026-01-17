@@ -4572,6 +4572,7 @@ MonoBehaviour:
     randomSpawnCount: 10
   autoStartWaves: 1
   showDebugLogs: 1
+  sceneChanger: {fileID: 0}
 --- !u!4 &2040641705
 Transform:
   m_ObjectHideFlags: 0

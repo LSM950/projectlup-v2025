@@ -27,11 +27,18 @@ namespace LUP.ST
         [Header("디버그")]
         [SerializeField] private bool showDebugLogs = true;
 
+        [Header("씬 전환")]
+        [SerializeField] private SceneChanger sceneChanger;
+
         private Dictionary<MonsterData, ObjectPool<MonsterData>> monsterPools = new Dictionary<MonsterData, ObjectPool<MonsterData>>();
 
         private int currentWaveIndex = 0;
         private bool isSpawning = false;
         private int aliveMonsterCount = 0;
+
+        private int totalKills = 0;
+        private float gameStartTime;
+        private float difficultyMultiplier = 1f;
 
         public int CurrentWave => currentWaveIndex;
         public int AliveMonsters => aliveMonsterCount;
@@ -51,6 +58,18 @@ namespace LUP.ST
         void Start()
         {
             InitializePool();
+
+            // 게임 결과 초기화
+            gameStartTime = Time.time;
+            totalKills = 0;
+            GameResult.Reset();
+
+            // 난이도 배율 계산 및 저장
+            difficultyMultiplier = CalculateDifficultyMultiplier();
+            GameResult.DifficultyMultiplier = difficultyMultiplier;
+
+            if (showDebugLogs)
+                Debug.Log($"[MonsterSpawner] 난이도 배율: {difficultyMultiplier}배");
 
             if (autoStartWaves && waves.Count > 0)
             {
@@ -79,6 +98,34 @@ namespace LUP.ST
                 if (showDebugLogs)
                     Debug.Log($"{prefab.name} Pool 초기화: {poolSize / monsterPrefabs.Length}개");
             }
+        }
+
+        private float CalculateDifficultyMultiplier()
+        {
+            int totalLevel = 0;
+
+            var srd = STDataManage.Instance?.RuntimeData;
+            if (srd != null && srd.Team != null)
+            {
+                foreach (var charData in srd.Team)
+                {
+                    if (charData != null)
+                    {
+                        int level = srd.GetCharacterLevel(charData.characterId);
+                        totalLevel += level;
+                    }
+                }
+            }
+
+            if (totalLevel < 2) totalLevel = 1;
+
+
+            float multiplier = 1f + (totalLevel * 0.1f);
+
+            if (showDebugLogs)
+                Debug.Log($"[MonsterSpawner] 팀 레벨 총합: {totalLevel}, 배율: {multiplier}배");
+
+            return multiplier;
         }
 
         private IEnumerator StartWaves()
@@ -133,9 +180,6 @@ namespace LUP.ST
             isSpawning = false;
         }
 
-        /// <summary>
-        /// 특정 프리팹으로 몬스터 스폰
-        /// </summary>
         public void SpawnMonster(MonsterData prefab)
         {
             if (prefab == null)
@@ -166,9 +210,6 @@ namespace LUP.ST
                 Debug.Log($"스폰: {monster.name} at {spawnPosition}");
         }
 
-        /// <summary>
-        /// 랜덤 몬스터 스폰 (기존 방식 호환)
-        /// </summary>
         public void SpawnRandomMonster()
         {
             if (monsterPrefabs.Length == 0)
@@ -253,6 +294,7 @@ namespace LUP.ST
 
             MonsterData monster = pool.Get(spawnPosition, spawnRotation);
             monster.SetSpawner(this);
+            aliveMonsterCount++;
         }
 
         public void ReturnToPool(MonsterData monster)
@@ -309,55 +351,46 @@ namespace LUP.ST
                 ClearAllMonsters();
             }
         }
-        private float GetDifficultyMultiplier()
-        {
-            /*
-            int totalLevel = 0;
-
-            // 1. 세이브 데이터에서 팀원들의 레벨을 모두 더함
-            if (STSaveHandler.CurrentData != null && STSaveHandler.CurrentData.characterList != null)
-            {
-                foreach (var charData in STSaveHandler.CurrentData.characterList)
-                {
-                    totalLevel += charData.level;
-                }
-            }
-
-            // 2. 만약 데이터가 없어서 0이라면 기본값 5(모두 1렙)로 설정
-            if (totalLevel < 5) totalLevel = 5;
-
-            // 3. 공식: 레벨 합 10이 기준(1.0)이므로 0.1을 곱함
-            // 합이 5(시작 시) -> 0.5배
-            // 합이 10(평균 2렙) -> 1.0배
-            // 합이 50(평균 10렙) -> 5.0배
-            return totalLevel * 0.1f;*/
-            return 1.0f; // 일단 고정값으로
-        }
 
         // 몬스터를 실제로 생성(또는 풀에서 꺼낼 때) 호출하는 부분
         private void SetMonsterStats(MonsterData monster)
         {
-            float multiplier = GetDifficultyMultiplier();
 
             var stats = monster.GetComponent<StatComponent>();
             if (stats != null)
             {
                 // 속성에 직접 대입하는 대신, 함수를 호출해서 한 번에 해결!
-                stats.ScaleStats(multiplier);
+                stats.ScaleStats(difficultyMultiplier);
 
                 if (showDebugLogs)
-                    Debug.Log($"[Spawner] {monster.name} 난이도 적용: {multiplier}배");
+                    Debug.Log($"[Spawner] {monster.name} 난이도 적용: {difficultyMultiplier}배");
             }
         }
         [System.Obsolete]
         public void OnMonsterDeath()
         {
             aliveMonsterCount--;
-
-            // 체크: 모든 웨이브가 끝났고, 남은 몬스터가 0마리라면?
+            totalKills++;
+            // 모든 웨이브 클리어 체크
             if (currentWaveIndex >= waves.Count && aliveMonsterCount <= 0)
             {
-                Object.FindAnyObjectByType<SceneChanger>().LoadResultScene();
+                // 게임 결과 저장
+                GameResult.IsVictory = true;
+                GameResult.TotalKills = totalKills;
+                GameResult.PlayTime = Time.time - gameStartTime;
+                GameResult.WaveCleared = currentWaveIndex;
+
+                if (showDebugLogs)
+                {
+                    Debug.Log($"[MonsterSpawner] 스테이지 클리어!");
+                    Debug.Log($"  - 킬: {totalKills}");
+                    Debug.Log($"  - 배율: {GameResult.DifficultyMultiplier}배");
+                    Debug.Log($"  - 경험치: {GameResult.CalculateTotalExp()}");
+                    Debug.Log($"  - 골드: {GameResult.CalculateTotalGold()}");
+                }
+
+                // ResultScene으로 이동
+                StageManager.Instance.GetCurrentStage().LoadStage(LUP.Define.StageKind.ST, 2);
             }
         }
         void OnGUI()
@@ -365,6 +398,10 @@ namespace LUP.ST
             if (showDebugLogs && monsterPools != null)
             {
                 int y = 10;
+
+                GUI.Label(new Rect(10, y, 400, 20), $"Difficulty: {difficultyMultiplier:F1}x");
+                y += 20;
+
 
                 // 웨이브 정보
                 string waveInfo = currentWaveIndex < waves.Count

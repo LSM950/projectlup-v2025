@@ -4,28 +4,28 @@
     "ownedCharacterList": [
         {
             "characterId": 1,
-            "level": 1,
-            "currentExp": 0
+            "level": 4,
+            "currentExp": 150
         },
         {
             "characterId": 2,
-            "level": 5,
-            "currentExp": 0
+            "level": 6,
+            "currentExp": 250
         },
         {
             "characterId": 3,
             "level": 10,
-            "currentExp": 0
+            "currentExp": 750
         },
         {
             "characterId": 4,
-            "level": 3,
-            "currentExp": 0
+            "level": 5,
+            "currentExp": 50
         },
         {
             "characterId": 5,
-            "level": 7,
-            "currentExp": 0
+            "level": 8,
+            "currentExp": 50
         }
     ],
     "teamSlots": [
