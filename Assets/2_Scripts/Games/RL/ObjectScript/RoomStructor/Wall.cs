@@ -24,23 +24,23 @@ namespace LUP.RL
         {
             WorldPosition = this.transform.position;
 
-            if (NoiseObject)
-            {
-                NoiseWallRenderer = NoiseObject.GetComponent<MeshRenderer>();
-                WallMaterial = NoiseWallRenderer.material;
+            //if (NoiseObject)
+            //{
+            //    NoiseWallRenderer = NoiseObject.GetComponent<MeshRenderer>();
+            //    WallMaterial = NoiseWallRenderer.material;
 
-                NoiseWallRenderer.enabled = true;
-            }
+            //    NoiseWallRenderer.enabled = true;
+            //}
         }
 
-        private IEnumerator Start()
-        {
-            WallMaterial.SetFloat("_Distortion", 5.0f);
+        //private IEnumerator Start()
+        //{
+        //    WallMaterial.SetFloat("_Distortion", 5.0f);
 
-            yield return null;
+        //    yield return null;
 
-            NoiseWallRenderer.enabled = false;
-        }
+        //    NoiseWallRenderer.enabled = false;
+        //}
 
         private void OnTriggerEnter(Collider other)
         {
