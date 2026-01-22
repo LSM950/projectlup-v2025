@@ -24,6 +24,9 @@ namespace LUP.RL
 
         private ItemSpawner spawnPool;
 
+        public SphereCollider sphereCollider;
+        public Rigidbody crystalRigidBody;
+
         // Update is called once per frame
         void Update()
         {
@@ -49,6 +52,15 @@ namespace LUP.RL
             spawnPool = spawner;
 
             amount = gainedAmount;
+
+            if(sphereCollider != null && crystalRigidBody != null)
+            {
+                sphereCollider.isTrigger = false;
+
+                crystalRigidBody.isKinematic = true;
+                crystalRigidBody.useGravity = true;
+            }
+
         }
 
         private void OnTriggerEnter(Collider other)
@@ -62,6 +74,39 @@ namespace LUP.RL
         public void CallRoomCleared()
         {
             bIsStageCleared = true;
+
+            if (sphereCollider != null && crystalRigidBody != null)
+            {
+                sphereCollider.isTrigger = true;
+
+                crystalRigidBody.isKinematic = false;
+                crystalRigidBody.useGravity = false;
+            }
+                
+        }
+
+        public void PopupBounce(float horizontalForceMin = 8f,float horizontalForceMax = 12f,float verticalForceMin = 15f,float verticalForceMax = 22f)
+        {
+            if (crystalRigidBody == null)
+                return;
+
+            crystalRigidBody.isKinematic = false;
+            crystalRigidBody.useGravity = true;
+
+            //crystalRigidBody.linearVelocity = Vector3.zero;
+            crystalRigidBody.angularVelocity = Vector3.zero;
+
+            Vector3 horizontalDir = new Vector3(
+                Random.Range(-1f, 1f),
+                0f,
+                Random.Range(-1f, 1f)
+            ).normalized;
+
+            float horizontalForce = Random.Range(horizontalForceMin, horizontalForceMax);
+            float verticalForce = Random.Range(verticalForceMin, verticalForceMax);
+
+            crystalRigidBody.AddForce(horizontalDir * horizontalForce, ForceMode.Impulse);
+            crystalRigidBody.AddForce(Vector3.up * verticalForce, ForceMode.Impulse);
         }
     }
 }

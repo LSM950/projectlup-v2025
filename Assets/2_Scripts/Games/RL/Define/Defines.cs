@@ -98,6 +98,7 @@ namespace Roguelike.Define
     {
         Commodities = 1,
         equipment = 2,
+        mix = 3,
 
         Max
 

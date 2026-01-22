@@ -3,12 +3,12 @@
     "_id": 0,
     "_name": "RoguelikePlayer",
     "_lastSelectedCharacter": 5,
-    "_lastPlayedChapter": 2,
+    "_lastPlayedChapter": 3,
     "_selectedChapter": {
-        "instanceID": 48604
+        "instanceID": 48606
     },
     "_selectedCharacter": {
-        "instanceID": 48526
+        "instanceID": 49218
     },
     "_CharacterEquips": [],
     "_F001Data": {
