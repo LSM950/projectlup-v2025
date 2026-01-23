@@ -894,6 +894,7 @@ namespace LUP.DSG
                 return;
 
             img.color = isAutoRound ? autoOnColor : autoOffColor;
+        }
 
         private void SetEnemyWave(int index)
         {
