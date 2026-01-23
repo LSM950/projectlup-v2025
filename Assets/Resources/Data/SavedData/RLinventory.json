@@ -9,12 +9,12 @@
         {
             "slotKey": "10003",
             "itemID": 10003,
-            "quantity": 70
+            "quantity": 99
         },
         {
             "slotKey": "10002",
             "itemID": 10002,
-            "quantity": 72
+            "quantity": 99
         },
         {
             "slotKey": "20005_3",
@@ -294,7 +294,7 @@
         {
             "slotKey": "10001_1",
             "itemID": 10001,
-            "quantity": 52
+            "quantity": 99
         },
         {
             "slotKey": "20013_5",
@@ -559,6 +559,226 @@
         {
             "slotKey": "20007_7",
             "itemID": 20007,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20001_13",
+            "itemID": 20001,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20008_6",
+            "itemID": 20008,
+            "quantity": 3
+        },
+        {
+            "slotKey": "20012_8",
+            "itemID": 20012,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20009_6",
+            "itemID": 20009,
+            "quantity": 3
+        },
+        {
+            "slotKey": "20006_8",
+            "itemID": 20006,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20011_6",
+            "itemID": 20011,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20002_8",
+            "itemID": 20002,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20004_12",
+            "itemID": 20004,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20011_7",
+            "itemID": 20011,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20007",
+            "itemID": 20007,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20004_13",
+            "itemID": 20004,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20005_8",
+            "itemID": 20005,
+            "quantity": 1
+        },
+        {
+            "slotKey": "10003_1",
+            "itemID": 10003,
+            "quantity": 46
+        },
+        {
+            "slotKey": "20002_9",
+            "itemID": 20002,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20006_9",
+            "itemID": 20006,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20008_7",
+            "itemID": 20008,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20004_14",
+            "itemID": 20004,
+            "quantity": 4
+        },
+        {
+            "slotKey": "20010",
+            "itemID": 20010,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20009_7",
+            "itemID": 20009,
+            "quantity": 5
+        },
+        {
+            "slotKey": "20001_14",
+            "itemID": 20001,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20002_10",
+            "itemID": 20002,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20003_9",
+            "itemID": 20003,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20011_8",
+            "itemID": 20011,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20013_10",
+            "itemID": 20013,
+            "quantity": 2
+        },
+        {
+            "slotKey": "10002_1",
+            "itemID": 10002,
+            "quantity": 12
+        },
+        {
+            "slotKey": "20007_8",
+            "itemID": 20007,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20006_10",
+            "itemID": 20006,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20001_15",
+            "itemID": 20001,
+            "quantity": 1
+        },
+        {
+            "slotKey": "10001_2",
+            "itemID": 10001,
+            "quantity": 18
+        },
+        {
+            "slotKey": "20009_8",
+            "itemID": 20009,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20004_15",
+            "itemID": 20004,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20013_11",
+            "itemID": 20013,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20008_8",
+            "itemID": 20008,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20010_8",
+            "itemID": 20010,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20002_11",
+            "itemID": 20002,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20012_9",
+            "itemID": 20012,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20011_9",
+            "itemID": 20011,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20009_9",
+            "itemID": 20009,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20001_16",
+            "itemID": 20001,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20007_9",
+            "itemID": 20007,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20003_10",
+            "itemID": 20003,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20006_11",
+            "itemID": 20006,
+            "quantity": 1
+        },
+        {
+            "slotKey": "20012_10",
+            "itemID": 20012,
+            "quantity": 2
+        },
+        {
+            "slotKey": "20004_16",
+            "itemID": 20004,
             "quantity": 1
         }
     ]

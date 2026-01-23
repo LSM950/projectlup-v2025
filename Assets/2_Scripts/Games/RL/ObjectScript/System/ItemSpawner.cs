@@ -14,6 +14,8 @@ namespace LUP.RL
         public GameObject commoditiesPrefab;
         public GameObject equipmentPrefab;
 
+        public GameObject crystalBallPrefab;
+
         public Action<int, int> OnItemGained;
 
         //1번은 공용 재화, 2번은 장비구슬
@@ -30,7 +32,7 @@ namespace LUP.RL
 
             poolDictionaray = new Dictionary<RLDropItemType, Queue<GameObject>>();
 
-            for (int i = 1; i < (int)RLDropItemType.Max; i++)
+            for (int i = 3; i < (int)RLDropItemType.Max; i++)
             {
                 RLDropItemType itemType = (RLDropItemType)i;
                 poolDictionaray[itemType] = new Queue<GameObject>();
@@ -45,9 +47,13 @@ namespace LUP.RL
                     case RLDropItemType.equipment:
                         targetPrefabObject = equipmentPrefab;
                         break;
+
+                    case RLDropItemType.mix:
+                        targetPrefabObject = crystalBallPrefab;
+                        break;
                 }
 
-                for(int count = 0; count < SpawnCrystalPoolNum; count++ )
+                for (int count = 0; count < SpawnCrystalPoolNum; count++)
                 {
                     GameObject obj = Instantiate(targetPrefabObject);
 
@@ -79,24 +85,29 @@ namespace LUP.RL
 
             int amount = 0;
 
-            if(spanwedItemType == RLDropItemType.equipment)
+            if (spanwedItemType == RLDropItemType.equipment)
             {
                 amount = 1;
             }
 
-            else if(spanwedItemType == RLDropItemType.Commodities)
+            else if (spanwedItemType == RLDropItemType.Commodities)
             {
                 amount = UnityEngine.Random.Range(1, 30);
             }
 
-                GameObject obj = poolDictionaray[spanwedItemType].Dequeue();
+
+            //GameObject obj = poolDictionaray[spanwedItemType].Dequeue();
+            GameObject obj = poolDictionaray[RLDropItemType.mix].Dequeue();
             obj.SetActive(true);
 
             obj.transform.position = spawnPos.position;
+            //obj.transform.position = new Vector3(spawnPos.position.x, spawnPos.position.y + 20, spawnPos.position.z);
 
             SpawnItemCrystal crystalball = obj.GetComponent<SpawnItemCrystal>();
 
             crystalball.SetSpawnItemInfo(spanwedItemType, (int)randomSpawnItem, amount, playerPos, this);
+
+            crystalball.PopupBounce();
 
             activeCrystals.Add(crystalball);
 
@@ -114,14 +125,15 @@ namespace LUP.RL
 
             obj.SetActive(false);
 
-            poolDictionaray[type].Enqueue(obj);
+            //poolDictionaray[type].Enqueue(obj);
+            poolDictionaray[RLDropItemType.mix].Enqueue(obj);
 
             activeCrystals.Remove(comp);
         }
 
         public void OnRoomCleared()
         {
-            for(int i = 0; i < activeCrystals.Count; i++)
+            for (int i = 0; i < activeCrystals.Count; i++)
             {
                 activeCrystals[i].CallRoomCleared();
             }

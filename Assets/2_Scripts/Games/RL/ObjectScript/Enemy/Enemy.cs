@@ -96,9 +96,9 @@ namespace LUP.RL
 
             ObjectOnEnemyDied?.Invoke(this);
             OnEnemyDied?.Invoke(expValue);
-            //Destroy(gameObject, 0.1f);
 
-            //behaviorTree.ResetWorkingNodeIndex();
+            gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
 
 
