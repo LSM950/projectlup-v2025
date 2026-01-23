@@ -1,5 +1,7 @@
-using UnityEngine;
 using Roguelike.Define;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 namespace LUP.RL
@@ -26,6 +28,11 @@ namespace LUP.RL
 
         public SphereCollider sphereCollider;
         public Rigidbody crystalRigidBody;
+
+        public float flyingPower = 80;
+        public float dropPower = 30;
+
+        private bool bIsDropeed = false;
 
         // Update is called once per frame
         void Update()
@@ -61,6 +68,8 @@ namespace LUP.RL
                 crystalRigidBody.useGravity = true;
             }
 
+            bIsDropeed = false;
+
         }
 
         private void OnTriggerEnter(Collider other)
@@ -73,7 +82,7 @@ namespace LUP.RL
 
         public void CallRoomCleared()
         {
-            bIsStageCleared = true;
+            
 
             if (sphereCollider != null && crystalRigidBody != null)
             {
@@ -82,10 +91,20 @@ namespace LUP.RL
                 crystalRigidBody.isKinematic = false;
                 crystalRigidBody.useGravity = false;
             }
+
+            if(bIsDropeed)
+            {
+                StartCoroutine(FlyAndActive(0.2f));
+            }
+
+            else
+            {
+                bIsStageCleared = true;
+            }
                 
         }
 
-        public void PopupBounce(float horizontalForceMin = 8f,float horizontalForceMax = 12f,float verticalForceMin = 15f,float verticalForceMax = 22f)
+        public void PopupBounce(float horizontalForceMin = 20f,float horizontalForceMax = 30f,float verticalForceMin = 80f,float verticalForceMax = 90f)
         {
             if (crystalRigidBody == null)
                 return;
@@ -107,6 +126,47 @@ namespace LUP.RL
 
             crystalRigidBody.AddForce(horizontalDir * horizontalForce, ForceMode.Impulse);
             crystalRigidBody.AddForce(Vector3.up * verticalForce, ForceMode.Impulse);
+
+            StartCoroutine(WaitUntilPeakAndCall(0.5f));
+        }
+
+        IEnumerator WaitUntilPeakAndCall(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            KillVelocityNDrop();
+        }
+
+        IEnumerator FlyAndActive(float delay)
+        {
+            crystalRigidBody.useGravity = false;
+
+            crystalRigidBody.AddForce(Vector3.up * flyingPower, ForceMode.Impulse);
+            yield return new WaitForSeconds(delay);
+
+            KillVelocityNStop();
+        }
+
+        void KillVelocityNDrop()
+        {
+            crystalRigidBody.linearVelocity = new Vector3(crystalRigidBody.linearVelocity.x, 0.0f, crystalRigidBody.linearVelocity.y);
+            crystalRigidBody.AddForce(Vector3.down * dropPower, ForceMode.Impulse);
+
+            bIsDropeed = true;
+        }
+
+        void KillVelocityNStop()
+        {
+            crystalRigidBody.linearVelocity = Vector3.zero;
+
+            StartCoroutine(WaitForFloating(0.4f));
+        }
+
+        IEnumerator WaitForFloating(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            bIsStageCleared = true;
         }
     }
 }

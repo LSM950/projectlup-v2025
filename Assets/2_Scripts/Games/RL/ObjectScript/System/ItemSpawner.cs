@@ -100,7 +100,8 @@ namespace LUP.RL
             GameObject obj = poolDictionaray[RLDropItemType.mix].Dequeue();
             obj.SetActive(true);
 
-            obj.transform.position = new Vector3(spawnPos.position.x, spawnPos.position.y + 20, spawnPos.position.z);
+            obj.transform.position = spawnPos.position;
+            //obj.transform.position = new Vector3(spawnPos.position.x, spawnPos.position.y + 20, spawnPos.position.z);
 
             SpawnItemCrystal crystalball = obj.GetComponent<SpawnItemCrystal>();
 
