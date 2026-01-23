@@ -57,13 +57,17 @@ namespace LUP.DSG
             foreach (StatusEffect effect in _effects.Values)
             {
                 effect.Turn(owner);
+
+                if (!owner.BattleComp.isAlive) break; 
+
+
                 effect.remainingTurns--;
                 OnEffectEndTurn?.Invoke(effect);
 
                 if (effect.remainingTurns <= 0)
                 {
                     _effectsRemoveList.Add(effect.effectType);
-                    return;
+                    continue;
                 }
             }
         }
@@ -90,8 +94,6 @@ namespace LUP.DSG
                 _effectsRemoveList.Add(effect.effectType);
                 OnEffectRemoved?.Invoke(effect);
             }
-
-            _effects.Clear();
         }
 
         void OnDisable()
