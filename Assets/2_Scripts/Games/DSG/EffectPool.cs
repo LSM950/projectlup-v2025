@@ -10,18 +10,25 @@ public enum ActionEffect
     None,
 
     Attack_Melee_OneHanded,
-    Attack_Melee_TwoHanded,
-    Attack_Magic,
-    Attack_Gun_Rifle,
-    Attack_Throw,
-    Attack_Skill_Test,
-
     GetHit_Melee_OneHanded,
-    GetHit_Melee_TwoHandedd,
+    Attack_Melee_TwoHanded,
+    GetHit_Melee_TwoHanded,
+    Attack_Magic,
     GetHit_Magic,
+    Attack_Gun_Rifle,
     GetHit_Gun_Rifle,
+    Attack_Throw,
     GetHit_Throw,
-    GetHit_Skill_Test,
+    Attack_SKill_QuickSlash,
+    GetHit_SKill_QuickSlash,
+    Attack_SKill_Earthbreaker,
+    GetHit_SKill_Earthbreaker,
+    Attack_SKill_AttackBuff,
+    GetHit_SKill_AttackBuff,
+    Attack_SKill_SearShot,
+    GetHit_SKill_SearShot,
+    Attack_SKill_ToxicThrow,
+    GetHit_SKill_ToxicThrow,
 
     GetHit_Burn,
     GetHit_Poison,
@@ -41,12 +48,14 @@ public struct EffectParticlePair
 {
     public ActionEffect name;
     public GameObject particlePrefab;
+    public string SFXName;
 }
 
 public class EffectPool : MonoBehaviour
 {
     [SerializeField] private EffectParticlePair[] effectpairs;
     private Dictionary<ActionEffect, Queue<GameObject>> vfxPool = new Dictionary<ActionEffect, Queue<GameObject>>();
+    private Dictionary<ActionEffect, string> effectSFX = new Dictionary<ActionEffect, string>();
     private void Awake()
     {
         foreach (var pair in effectpairs)
@@ -67,7 +76,6 @@ public class EffectPool : MonoBehaviour
 
             if (eff != null)
             {
-
                 eff.SetActive(true);
                 ParticleSystem ps = eff.GetComponent<ParticleSystem>();
 
@@ -77,6 +85,7 @@ public class EffectPool : MonoBehaviour
 
                 eff.SetActive(false);
                 vfxPool[pair.name].Enqueue(eff);
+                effectSFX.Add(pair.name, pair.SFXName);
             }
         }
     }
@@ -110,6 +119,7 @@ public class EffectPool : MonoBehaviour
         EffectParticlePair pair;
         pair.name = effectname;
         pair.particlePrefab = eff;
+        pair.SFXName = effectSFX[effectname];
 
         return pair; // loop면 나중에 StopVFX로 끄기
     }
@@ -143,6 +153,7 @@ public class EffectPool : MonoBehaviour
         EffectParticlePair pair;
         pair.name = effectname;
         pair.particlePrefab = eff;
+        pair.SFXName = effectSFX[effectname];
 
         return pair;
     }
@@ -176,7 +187,7 @@ public class EffectPool : MonoBehaviour
             case ActionEffect.Attack_Melee_OneHanded:
                 return ActionEffect.GetHit_Melee_OneHanded;
             case ActionEffect.Attack_Melee_TwoHanded:
-                return ActionEffect.GetHit_Melee_TwoHandedd;
+                return ActionEffect.GetHit_Melee_TwoHanded;
             case ActionEffect.Attack_Gun_Rifle:
                 return ActionEffect.GetHit_Gun_Rifle;
             case ActionEffect.Attack_Magic:
@@ -187,6 +198,11 @@ public class EffectPool : MonoBehaviour
             default:
                 return ActionEffect.None;
         }
+    }
+
+    public string GetActionBySound(ActionEffect hiteffect)
+    {
+        return effectSFX[hiteffect];
     }
 
     public GameObject GetParticlePrefab(ActionEffect effect)
@@ -202,7 +218,6 @@ public class EffectPool : MonoBehaviour
     private GameObject GetOrCreate(ActionEffect effectname)
     {
         GameObject eff;
-        int i = 0;
         if (vfxPool[effectname].Count > 0)
         {
             eff = vfxPool[effectname].Dequeue();

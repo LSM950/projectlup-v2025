@@ -29,11 +29,6 @@ namespace LUP.DSG
         public CharacterModelDataTable characterModelDataTable;
         public TeamMVPData mvpData;
 
-        public AudioClip editSceneBGM;
-        public AudioClip battleSceneBGM;
-        public AudioClip resultSceneBGM;
-
-
         protected override void Awake() 
         {
             base.Awake();
@@ -272,8 +267,6 @@ namespace LUP.DSG
             SaveDatas();
         }
 
-
-
         public void ChangeScene(int sceneIndex)
         {
             //0: edit
@@ -282,35 +275,31 @@ namespace LUP.DSG
 
             LoadStage(StageKind, sceneIndex);
 
-            BGMListNum num = (BGMListNum)sceneIndex; //@TODO SoundManager.BGM
-            string bgm;
+            //BGMListNum num = (BGMListNum)sceneIndex; //@TODO SoundManager.BGM
+            //string bgm;
 
-            AudioClip BGMClip;
-            switch (num)
-            {
-                case BGMListNum.EditSceneBGM:
-                    {
-                        bgm = "RPG Combat 1 - Duel of the Fates (Loopable)";
-                        BGMClip = editSceneBGM;
-                        break;
-                    }
-                case BGMListNum.BattleSceneBGM:
-                    {
-                        bgm = "RPG Combat 1 - Watch out! (Loopable)";
-                        BGMClip = battleSceneBGM;
-                        break;
-                    }
-                case BGMListNum.ResultSceneBGM:
-                    {
-                        bgm = "";
-                        BGMClip = resultSceneBGM;
-                        break;
-                    }
-                default:
-                    return;
-            }
+            //switch (num)
+            //{
+            //    case BGMListNum.EditSceneBGM:
+            //        {
+            //            bgm = "RPG Combat 1 - Duel of the Fates (Loopable)";
+            //            break;
+            //        }
+            //    case BGMListNum.BattleSceneBGM:
+            //        {
+            //            bgm = "RPG Combat 1 - Watch out! (Loopable)";
+            //            break;
+            //        }
+            //    case BGMListNum.ResultSceneBGM:
+            //        {
+            //            bgm = "";
+            //            break;
+            //        }
+            //    default:
+            //        return;
+            //}
 
-            SoundManager.Instance.PlayBGM(bgm, true);
+            //SoundManager.Instance.PlayBGM(bgm, true);
         }
 
         public void BattleEnd()

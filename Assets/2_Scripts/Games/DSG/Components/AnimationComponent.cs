@@ -21,7 +21,7 @@ namespace LUP.DSG
 
         public ActionEffect hitEffect { private get; set; }
         public ActionEffect attackEffect;
-        public UnityEngine.Vector3 effectOffset { get; private set; }
+        public UnityEngine.Vector3 effectOffset = new UnityEngine.Vector3(0, 1.5f, 0);
 
         private BattleCameraDirector battleCameraDirector;
 
@@ -91,7 +91,7 @@ namespace LUP.DSG
             currentState = EAnimStateType.Hitted;
             SetAnimationState(currentState);
 
-            owner.ActioneffectPool.PlayVFX(hitEffect, owner.transform.position + effectOffset, owner.transform.rotation,false); 
+            PlayHitSoundEffect();
         }
 
         public void PlayDiedAnimation(int index)
@@ -116,7 +116,7 @@ namespace LUP.DSG
         {
             OnShootRangeAttack?.Invoke();
 
-            owner.ActioneffectPool.PlayVFX(attackEffect, owner.transform.position + effectOffset, owner.transform.rotation,false);
+            PlayAttackSoundEffect();
         }
 
         public void OnAttackEndEvent()
@@ -145,7 +145,27 @@ namespace LUP.DSG
 
         public void OnPunchEffect()
         {
-            owner.ActioneffectPool.PlayVFX(attackEffect, owner.transform.position + effectOffset, owner.transform.rotation,false);
+            PlayAttackSoundEffect();
+        }
+
+        private void PlayAttackSoundEffect()
+        {
+            if (attackEffect != ActionEffect.None)
+            {
+                owner.ActioneffectPool.PlayVFX(attackEffect, owner.transform.position + effectOffset, owner.transform.rotation, false);
+                string sfx = owner.ActioneffectPool.GetActionBySound(attackEffect);
+                if(sfx != "") SoundManager.Instance.PlaySFX(sfx);
+            }
+        }
+
+        private void PlayHitSoundEffect()
+        {
+            if (hitEffect != ActionEffect.None)
+            {
+                owner.ActioneffectPool.PlayVFX(hitEffect, owner.transform.position + effectOffset, owner.transform.rotation, false);
+                string sfx = owner.ActioneffectPool.GetActionBySound(hitEffect);
+                if (sfx != "") SoundManager.Instance.PlaySFX(sfx);
+            }
         }
     }
 }

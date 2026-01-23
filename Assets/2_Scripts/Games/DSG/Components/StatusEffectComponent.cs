@@ -45,6 +45,7 @@ namespace LUP.DSG
             else
             {
                 _effects.Add(effect.effectType, effect);
+                effect.AttachEffect(owner);
             }
 
             effect.Apply(owner);
@@ -54,7 +55,6 @@ namespace LUP.DSG
         {
             foreach (StatusEffect effect in _effects.Values)
             {
-                effect.Turn(owner);
                 effect.remainingTurns--;
                 OnEffectEndTurn?.Invoke(effect);
 
@@ -62,6 +62,7 @@ namespace LUP.DSG
                 {
                     _effectsRemoveList.Add(effect.effectType);
                 }
+                effect.Turn(owner);
             }
         }
         public void ClearRemoveList()
@@ -78,6 +79,17 @@ namespace LUP.DSG
             _effects.Remove(effect.effectType);
             effect.Remove(owner);
             OnEffectRemoved?.Invoke(effect);
+        }
+
+        public void HandleOwnerDie(int battleindex)
+        {
+            foreach(var effect in _effects.Values)
+            {
+                effect.Remove(owner);
+                OnEffectRemoved?.Invoke(effect);
+            }
+
+            _effects.Clear();
         }
 
         void OnDisable()

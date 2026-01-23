@@ -173,6 +173,7 @@ namespace LUP.DSG
                     selectedTeam.characters[i] = info;
                     ++selectedCount;
                     button.ButtonClicked();
+                    SoundManager.Instance.PlaySFX("Inventory Stash 2");
                     return;
                 }
             }
@@ -193,6 +194,7 @@ namespace LUP.DSG
 
                     --selectedCount;
                     button.ButtonClicked();
+                    SoundManager.Instance.PlaySFX("Inventory Stash 2");
                     return;
                 }
             }

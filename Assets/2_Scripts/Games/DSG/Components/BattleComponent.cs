@@ -228,10 +228,10 @@ namespace LUP.DSG
                     Type = owner.characterData.type,
                     enemyType = targetChar.characterData.type
                 };
+
                 bool isWeak;
                 float damage = DamageCalculator.Calculator(ctx, out isWeak);
 
-                
                 ActionEffect hiteffect = owner.ActioneffectPool.GetAttackEffectByGetHITEffect(owner.AnimationComp.attackEffect);
                 targetChar.BattleComp.TakeDamage(damage, hiteffect, isWeak);
                 owner.ScoreComp.UpdateDamageDealt(damage);
@@ -269,7 +269,7 @@ namespace LUP.DSG
 
                     bool isWeak;
                     float damage = DamageCalculator.Calculator(ctx, out isWeak) + skillInfo.damage;
-                    targetSlots[i].character.BattleComp.TakeDamage(damage, ActionEffect.GetHit_Skill_Test, isWeak);
+                    targetSlots[i].character.BattleComp.TakeDamage(damage, skillInfo.gethitEffect, isWeak);
                     owner.ScoreComp.UpdateDamageDealt(damage);
                 }
 
@@ -311,8 +311,6 @@ namespace LUP.DSG
             owner.AnimationComp.hitEffect = getHitEffect;
             OnDamaged?.Invoke(currHp);
 
-            SoundManager.Instance.PlaySFX("Sniper Rifle");
-
             owner.ScoreComp.UpdateDamageTaken(amount);
             TriggerKnockback();
 
@@ -340,7 +338,7 @@ namespace LUP.DSG
 
             HandleAttackStart();
 
-            owner.AnimationComp.attackEffect = ActionEffect.Attack_Skill_Test;
+            owner.AnimationComp.attackEffect = skillInfo.attackEffect;
             isUsingSkill = true;
             isAttacking = true;
         }
@@ -454,7 +452,8 @@ namespace LUP.DSG
 
             if (currGauge >= maxSkillGauge)
             {
-                isSkillOn = true;   // "���� �Ͽ� ��ų �� �� ����"
+                isSkillOn = true;
+                SoundManager.Instance.PlaySFX("Skill_Disarm");
             }
 
             OnChangeGauge?.Invoke(currGauge);
