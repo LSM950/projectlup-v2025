@@ -37,7 +37,7 @@ namespace LUP.ES
 
         void Update()
         {
-            //if (isDeactivating) return;
+            if (isDeactivating) return;
             transform.position += transform.forward * speed * Time.deltaTime;
             if (Vector3.Distance(spawnPostion, transform.position) > maxDistance)
             {
@@ -79,19 +79,16 @@ namespace LUP.ES
         {
             if (isDeactivating) return;
 
-            if (other.gameObject.CompareTag("Player"))
-                return;
             if (other.gameObject.CompareTag(targetTag))
             {
                 if (other.TryGetComponent(out HealthComponent healthComponent))
                 {
                     healthComponent.TakeDamage(damage);
-                    
+                    Deactivate();
                     //ownerPool.Return(gameObject);
                 }
             }
-            Debug.Log(other.gameObject.name);
-            Deactivate();
+
         }
 
         private void Deactivate()

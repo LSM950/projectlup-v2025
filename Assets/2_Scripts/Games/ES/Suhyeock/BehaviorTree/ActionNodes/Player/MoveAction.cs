@@ -7,6 +7,10 @@ namespace LUP.ES
     {
         private PlayerBlackboard blackboard;
         private CharacterController characterController;
+
+        private float verticalVelocity;
+        private float gravity = -9.81f;
+
         public MoveAction( PlayerBlackboard blackboard, CharacterController characterController)
         {
             this.blackboard = blackboard;
@@ -18,15 +22,39 @@ namespace LUP.ES
             float horizontal = blackboard.leftJoystick.Horizontal;
             float Vertical = blackboard.leftJoystick.Vertical;
 
+            Vector3 moveDir = new Vector3(horizontal, 0f, Vertical);
+            if (moveDir.magnitude > 1f) moveDir.Normalize();
+
+            if(characterController.isGrounded)
+            {
+                if(verticalVelocity < 0)
+                {
+                    verticalVelocity = -2f;
+                }
+            }
+
+            verticalVelocity += gravity * Time.deltaTime;
+
+            Vector3 finalMove = moveDir * blackboard.speed;
+
+            finalMove.y = verticalVelocity;
+            characterController.Move(finalMove * Time.deltaTime);
+
             if (horizontal != 0 || Vertical != 0)
             {
-                Vector3 dir = new Vector3(horizontal, 0f, Vertical);
-                dir.Normalize();
+                //Vector3 dir = new Vector3(horizontal, 0f, Vertical);
+                //dir.Normalize();
 
-                characterController.Move(dir * blackboard.speed * Time.deltaTime);
+                //characterController.Move(dir * blackboard.speed * Time.deltaTime);
 
-                if (dir != Vector3.zero && blackboard.weapon.state != WeaponState.ATTACKING && blackboard.weapon.state != WeaponState.RELOADING)
-                    characterController.transform.forward = dir; //플레이어의 이동 방향으로 회전
+                //if (dir != Vector3.zero && blackboard.weapon.state != WeaponState.ATTACKING && blackboard.weapon.state != WeaponState.RELOADING)
+                //    characterController.transform.forward = dir; //플레이어의 이동 방향으로 회전
+
+                if (blackboard.weapon.state != WeaponState.ATTACKING && blackboard.weapon.state != WeaponState.RELOADING)
+                {
+                    characterController.transform.forward = moveDir;
+                }
+
 
                 blackboard.moveState = MoveState.MOVING;
                 return NodeState.Running;

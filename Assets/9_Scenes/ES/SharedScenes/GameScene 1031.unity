@@ -11943,6 +11943,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6066369397787563164, guid: 45318d27735be324e921b82bc43ca15e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1666163410}
+    - target: {fileID: 6066369397787563164, guid: 45318d27735be324e921b82bc43ca15e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseLootPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6066369397787563164, guid: 45318d27735be324e921b82bc43ca15e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LUP.ES.LootDisplayCenter, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14831,6 +14843,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2093515691360439399, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093515691360439399, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093515691360439399, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093515691360439399, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -14877,6 +14901,18 @@ PrefabInstance:
     - target: {fileID: 2093515691360439399, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2455358801057078651, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 948552355}
+    - target: {fileID: 2455358801057078651, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClosePressedInPausePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2455358801057078651, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LUP.ES.ButtonInputHandler, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7052525564470583768, guid: ee19af0a26ecae54993e5f88c84a03d5, type: 3}
       propertyPath: m_Name
@@ -15130,8 +15166,8 @@ SceneRoots:
   - {fileID: 2102865859}
   - {fileID: 1479737279102826687}
   - {fileID: 2002993062}
-  - {fileID: 1934193239}
   - {fileID: 2111500602}
+  - {fileID: 1934193239}
   - {fileID: 1286172002}
   - {fileID: 347057115}
   - {fileID: 15165205}
