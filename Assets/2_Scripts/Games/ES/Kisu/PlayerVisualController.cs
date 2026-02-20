@@ -34,9 +34,19 @@ namespace LUP.ES
             foreach (Renderer r in renderersToFade)
             {
                 Material mat = r.material;
-                Color c = mat.color;
-                c.a = targetAlpha;
-                mat.color = c;
+
+                if(mat.HasProperty("_BaseColor"))
+                {
+                    Color c = mat.GetColor("_BaseColor");
+                    c.a = targetAlpha;
+                    mat.SetColor("_BaseColor", c);
+                }
+                else if (mat.HasProperty("_Color"))
+                {
+                    Color c = mat.GetColor("_Color");
+                    c.a = targetAlpha;
+                    mat.SetColor("_Color", c);
+                }
 
                 if (isTransparent)
                 {
