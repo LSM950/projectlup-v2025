@@ -365,6 +365,56 @@
             "slotKey": "5_23",
             "itemID": 5,
             "quantity": 1
+        },
+        {
+            "slotKey": "2_16",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_24",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "6_7",
+            "itemID": 6,
+            "quantity": 1
+        },
+        {
+            "slotKey": "2_17",
+            "itemID": 2,
+            "quantity": 1
+        },
+        {
+            "slotKey": "5_25",
+            "itemID": 5,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_11",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "9_7",
+            "itemID": 9,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_12",
+            "itemID": 8,
+            "quantity": 1
+        },
+        {
+            "slotKey": "9_8",
+            "itemID": 9,
+            "quantity": 1
+        },
+        {
+            "slotKey": "8_13",
+            "itemID": 8,
+            "quantity": 1
         }
     ]
 }
