@@ -57,6 +57,7 @@ namespace LUP.DSG
         private GameObject damageLogPrefab;
 
         private BattleCameraDirector battleCameraDirector;
+        [SerializeField]
         private EWeaponType weaponType;
         private void Awake()
         {

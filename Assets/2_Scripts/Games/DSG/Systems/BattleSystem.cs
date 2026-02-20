@@ -264,7 +264,6 @@ namespace LUP.DSG
 
             readyCanvas.SetActive(false);
             characterUICanvas.SetActive(false);
-
             
             //카메라 배틀 인트로
             Camera camera = Camera.main;
