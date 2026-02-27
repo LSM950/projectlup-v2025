@@ -53,7 +53,7 @@ namespace LUP.DSG
             SetSlot("MVP4", "Image", "Text_Name", "Score", "Text_Score", mvp.char4Name, icon4, mvp.char4Score, average);
             SetSlot("MVP5", "Image", "Text_Name", "Score", "Text_Score", mvp.char5Name, icon5, mvp.char5Score, average);
 
-            SetMainMVP("MVP/RawImage", "Text_Name", mvp.char1Name);
+            SetMainMVP("MVP/RawImage", "NameDisplay/Text_Name", mvp.char1Name);
 
             ShowMVPModelIfAvailable(mvp);
         }
