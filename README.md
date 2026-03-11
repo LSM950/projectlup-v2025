@@ -1,6 +1,9 @@
 # Project-LUP
 ## 인하대학교 미래인재개발원 Unity 팀 프로젝트
 
+<img width="817" height="461" alt="image" src="https://github.com/user-attachments/assets/36729c49-7b03-4370-be11-909e7f076a3a" />
+
+
 ### <p align="center">🎬 [플레이 영상](https://youtu.be/-ySWBjffa4c)</p>
 
 
