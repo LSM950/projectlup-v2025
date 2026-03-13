@@ -40,21 +40,52 @@
 &nbsp; &nbsp; 
 
 ### 2. 행동 트리(Behavior Tree) 기반의 모듈형 AI 시스템 자체 구축
-**행동 트리 구조를 코드 레벨에서 직접 설계하고 구현**
 
-BaseNode를 상속받는 Selector, Sequence, ActionNode, ConditionNode 등의 기본 노드를 구현하여 조건과 행동을 트리 형태로 조합할 수 있는 기반을 마련
+기존 상태 머신(FSM)이 가지는 확장성의 한계를 극복하기 위해, 상용 에셋에 의존하지 않고 행동 트리 구조를 코드 레벨에서 직접 설계하고 구현
+
+  * **코어 시스템 설계**: `BaseNode`를 상속받는 `Selector`, `Sequence`, `ActionNode`, `ConditionNode` 등의 기본 노드를 구현하여 조건과 행동을 트리 형태로 조합할 수 있는 기반을 마련
+
 <details>
-<summary> Behavior Tree </summary>
+<summary> 💻 Behavior Tree 기반 구조 (Base / Composite / Leaf) 구현체 </summary>
 
 ```cs
+public abstract class BaseNode
+{
+    protected NodeState state;
+    public abstract NodeState Evaluate();
+}
 
+public class Selector : BaseNode
+{
+    public Selector(List<BaseNode> children) { this.children = children; }
+    public override NodeState Evaluate()
+    {
+        foreach (BaseNode node in children)
+        {
+            switch (node.Evaluate())
+            {
+                case NodeState.FAILURE: continue;
+                case NodeState.SUCCESS: return NodeState.SUCCESS;
+                case NodeState.RUNNING: return NodeState.RUNNING;
+            }
+        }
+        return NodeState.FAILURE;
+    }
+}
+
+public class ActionNode : BaseNode
+{
+    private Func<NodeState> action;
+    public ActionNode(Func<NodeState> action) { this.action = action; }
+    public override NodeState Evaluate() => action();
+}
 ```
 </details>
 
   
-플레이어의 조작 상태(수동/자동)와 탄약, 적 감지 여부에 따라 분기되는 복잡한 판단 로직을 CharacterBT 클래스에 시각적이고 직관적인 트리 구조로 매핑하여 AI의 유지보수성을 극대화
+직관적인 AI 로직 매핑: 플레이어의 조작 상태(수동/자동), 탄약 잔량, 적 감지 여부에 따라 분기되는 복잡한 판단 로직을 CharacterBT 클래스에 시각적이고 직관적인 트리 구조로 매핑하여 유지보수성을 극대화
 <details>
-<summary> CharacterBT 예시 </summary>
+<summary> 💻 CharacterBT_Range (수동/자동 하이브리드 전투 AI 설계) </summary>
 
 ```cs
 //대표 예시 : CharacterBT_Range
