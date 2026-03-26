@@ -20,7 +20,9 @@
 ## 🎯 프로젝트 목표
 **공통의 세계관을 공유하며 각 파트별 독립적인 게임 콘텐츠를 구축하고, 이를 하나의 시스템으로 통합하는 대규모 협업 프로세스를 목표**
 - **유기적인 시스템 통합 및 데이터 공유**: 중앙 관리(Manage) 팀에서 설계한 중앙 관리 시스템 및 데이터를 각 팀의 게임 특성에 맞춰 유기적으로 연동하고 활용하는 능력 향상
+  
 - **기술적 숙련도 및 디자인 패턴 적용**: 학습한 디자인 패턴(Singleton, Strategy(전략), State(상태) 패턴 등)을 실무 코드에 직접 적용하여 유지보수가 용이한 구조를 설계
+  
 - **역량 강화**: 실제 게임 엔진 환경에서 구현하며 개인의 개발 도메인 지식과 문제 해결 역량 강화
 
 &nbsp; &nbsp; 
@@ -38,6 +40,7 @@
 
 **프로젝트 무결성 유지**: 많은 인원이 동시에 파일을 수정하는 환경에서도 Rebase -> Smart Merge -> PR 승인으로 이어지는 엄격한 워크플로우를 지킴으로써, 프로젝트 전체의 빌드가 깨지지 않도록 관리
 
+<img width="1920" height="1043" alt="image" src="https://github.com/user-attachments/assets/bdad2702-c123-4556-8493-a3622a970caf" />
 
 
 &nbsp; &nbsp; 
@@ -46,152 +49,234 @@
 
 기존 상태 머신(FSM)이 가지는 확장성의 한계를 극복하기 위해, 상용 에셋에 의존하지 않고 행동 트리 구조를 코드 레벨에서 직접 설계하고 구현
 
-  * **코어 시스템 설계**: `BaseNode`를 상속받는 `Selector`, `Sequence`, `ActionNode`, `ConditionNode` 등의 기본 노드를 구현하여 조건과 행동을 트리 형태로 조합할 수 있는 기반을 마련
+* **코어 시스템 설계**: `BaseNode`를 상속받는 `Selector`, `Sequence`, `ActionNode`, `ConditionNode` 등의 기본 노드를 구현하여 조건과 행동을 트리 형태로 조합할 수 있는 기반을 마련
 
-<details>
-<summary> 💻 Behavior Tree 기반 구조 (Base / Composite / Leaf) 구현체 </summary>
-
-```cs
-public abstract class BaseNode
-{
-    protected NodeState state;
-    public abstract NodeState Evaluate();
-}
-
-public class Selector : BaseNode
-{
-    public Selector(List<BaseNode> children) { this.children = children; }
-    public override NodeState Evaluate()
+    <details>
+    <summary> 💻 Behavior Tree 기반 구조 (Base / Composite / Leaf) 구현체 </summary>
+    
+    ```cs
+    public abstract class BaseNode
     {
-        foreach (BaseNode node in children)
-        {
-            switch (node.Evaluate())
-            {
-                case NodeState.FAILURE: continue;
-                case NodeState.SUCCESS: return NodeState.SUCCESS;
-                case NodeState.RUNNING: return NodeState.RUNNING;
-            }
-        }
-        return NodeState.FAILURE;
+        protected NodeState state;
+        public abstract NodeState Evaluate();
     }
-}
+    
+    public class Selector : BaseNode
+    {
+        public Selector(List<BaseNode> children) { this.children = children; }
+        public override NodeState Evaluate()
+        {
+            foreach (BaseNode node in children)
+            {
+                switch (node.Evaluate())
+                {
+                    case NodeState.FAILURE: continue;
+                    case NodeState.SUCCESS: return NodeState.SUCCESS;
+                    case NodeState.RUNNING: return NodeState.RUNNING;
+                }
+            }
+            return NodeState.FAILURE;
+        }
+    }
+    
+    public class ActionNode : BaseNode
+    {
+        private Func<NodeState> action;
+        public ActionNode(Func<NodeState> action) { this.action = action; }
+        public override NodeState Evaluate() => action();
+    }
+    ```
+    </details>
 
-public class ActionNode : BaseNode
-{
-    private Func<NodeState> action;
-    public ActionNode(Func<NodeState> action) { this.action = action; }
-    public override NodeState Evaluate() => action();
-}
-```
-</details>
-
-  
-직관적인 AI 로직 매핑: 플레이어의 조작 상태(수동/자동), 탄약 잔량, 적 감지 여부에 따라 분기되는 복잡한 판단 로직을 CharacterBT 클래스에 시각적이고 직관적인 트리 구조로 매핑하여 유지보수성을 극대화
-<details>
-<summary> 💻 CharacterBT_Range (수동/자동 하이브리드 전투 AI 설계) </summary>
-
-```cs
-//대표 예시 : CharacterBT_Range
-  public class CharacterBT_Range : BehaviorTreeBase
-  {
-      private RangeBlackBoard character;
-      private RangeActions characterActions;
-
-      protected override BaseNode SetupTree()
+* **직관적인 AI 로직 매핑**: 플레이어의 조작 상태(수동/자동), 탄약 잔량, 적 감지 여부에 따라 분기되는 복잡한 판단 로직을 CharacterBT 클래스에 시각적이고 직관적인 트리 구조로 매핑하여 유지보수성을 극대화
+    <details>
+    <summary> 💻 CharacterBT_Range (수동/자동 하이브리드 전투 AI 설계) </summary>
+    
+    ```cs
+    //대표 예시 : CharacterBT_Range
+      public class CharacterBT_Range : BehaviorTreeBase
       {
-          character = GetComponent<RangeBlackBoard>();
-          characterActions = GetComponent<RangeActions>();
-
-          NodeState Retire() => characterActions.Retire(character);
-          NodeState FireManual() => characterActions.FireManual(character);
-          NodeState FireAuto() => characterActions.FireAuto(character);
-          NodeState Cover() => characterActions.Cover(character);
-          NodeState Reload() => characterActions.Reload(character);
-
-          // 수동 모드 행동트리
-          Selector manualSelector = new Selector(new List<BaseNode>
+          private RangeBlackBoard character;
+          private RangeActions characterActions;
+    
+          protected override BaseNode SetupTree()
           {
-              // 1. 플레이어 입력 + 탄약 + 재장전 중 아님 → 발사
-              new Sequence(new List<BaseNode>
+              character = GetComponent<RangeBlackBoard>();
+              characterActions = GetComponent<RangeActions>();
+    
+              NodeState Retire() => characterActions.Retire(character);
+              NodeState FireManual() => characterActions.FireManual(character);
+              NodeState FireAuto() => characterActions.FireAuto(character);
+              NodeState Cover() => characterActions.Cover(character);
+              NodeState Reload() => characterActions.Reload(character);
+    
+              // 수동 모드 행동트리
+              Selector manualSelector = new Selector(new List<BaseNode>
               {
-                  new ConditionNode(() => character.IsPlayerInputExists()),
-                  new ConditionNode(() => character.HasAmmo()),
-                  new ConditionNode(() => !characterActions.IsReloading),
-                  new ActionNode(FireManual)
-              }),
-
-              // 2. 재장전 중이면 유지
-              new Sequence(new List<BaseNode>
+                  // 1. 플레이어 입력 + 탄약 + 재장전 중 아님 → 발사
+                  new Sequence(new List<BaseNode>
+                  {
+                      new ConditionNode(() => character.IsPlayerInputExists()),
+                      new ConditionNode(() => character.HasAmmo()),
+                      new ConditionNode(() => !characterActions.IsReloading),
+                      new ActionNode(FireManual)
+                  }),
+    
+                  // 2. 재장전 중이면 유지
+                  new Sequence(new List<BaseNode>
+                  {
+                      new ConditionNode(() => characterActions.IsReloading),
+                      new ActionNode(Reload)
+                  }),
+    
+                  // 3. 탄약 없으면 재장전 시작
+                  new Sequence(new List<BaseNode>
+                  {
+                      new ConditionNode(() => !character.HasAmmo()),
+                      new ActionNode(Reload)
+                  }),
+    
+                  // 4. 기본 대기
+                  new ActionNode(Cover)
+              });
+    
+              // 자동 모드 행동트리 
+              Selector autoSelector = new Selector(new List<BaseNode>
               {
-                  new ConditionNode(() => characterActions.IsReloading),
-                  new ActionNode(Reload)
-              }),
-
-              // 3. 탄약 없으면 재장전 시작
-              new Sequence(new List<BaseNode>
+                  // 1. 재장전 중이면 재장전 완료까지 대기
+                  new Sequence(new List<BaseNode>
+                  {
+                      new ConditionNode(() => characterActions.IsReloading),
+                      new ActionNode(Reload)
+                  }),
+              
+                  // 2. 적 있고 탄약 있으면 자동 공격
+                  new Sequence(new List<BaseNode>
+                  {
+                      new ConditionNode(() => character.IsEnemyInRange()),
+                      new ConditionNode(() => character.HasAmmo()),
+                      new ConditionNode(() => !characterActions.IsReloading),
+                      new ActionNode(FireAuto)
+                  }),
+              
+                  // 3. 기본 대기 
+                  new ActionNode(Cover)
+              });
+    
+              // 메인 행동트리
+              return new Selector(new List<BaseNode>
               {
-                  new ConditionNode(() => !character.HasAmmo()),
-                  new ActionNode(Reload)
-              }),
-
-              // 4. 기본 대기
-              new ActionNode(Cover)
-          });
-
-          // 자동 모드 행동트리 
-          Selector autoSelector = new Selector(new List<BaseNode>
-          {
-              // 1. 재장전 중이면 재장전 완료까지 대기
-              new Sequence(new List<BaseNode>
-              {
-                  new ConditionNode(() => characterActions.IsReloading),
-                  new ActionNode(Reload)
-              }),
-          
-              // 2. 적 있고 탄약 있으면 자동 공격
-              new Sequence(new List<BaseNode>
-              {
-                  new ConditionNode(() => character.IsEnemyInRange()),
-                  new ConditionNode(() => character.HasAmmo()),
-                  new ConditionNode(() => !characterActions.IsReloading),
-                  new ActionNode(FireAuto)
-              }),
-          
-              // 3. 기본 대기 
-              new ActionNode(Cover)
-          });
-
-          // 메인 행동트리
-          return new Selector(new List<BaseNode>
-          {
-              // HP 0 이하면 리타이어
-              new Decorator(character.IsHpZero, new ActionNode(Retire)),
-          
-              // 모드에 따른 분기
-              new Selector(new List<BaseNode>
-              {
-                  new Decorator(character.IsManualMode, manualSelector),
-                  autoSelector
-              })
-          });
+                  // HP 0 이하면 리타이어
+                  new Decorator(character.IsHpZero, new ActionNode(Retire)),
+              
+                  // 모드에 따른 분기
+                  new Selector(new List<BaseNode>
+                  {
+                      new Decorator(character.IsManualMode, manualSelector),
+                      autoSelector
+                  })
+              });
+          }
       }
-  }
-// 이외 구현체: CharacterBT_Melee
-```
-</details>
+    // 이외 구현체: CharacterBT_Melee
+    ```
+    </details>
 
 &nbsp; &nbsp; 
 
 ### 3. 제네릭 오브젝트 풀(Generic Object Pool)과 웨이브 스폰 시스템 설계
-**수많은 몬스터와 투사체가 등장하는 디펜스 장르의 병목 현상을 해결하고, 스테이지를 자유롭게 구성할 수 있는 스폰 시스템을 개발**
-IPoolable 인터페이스와 제네릭(<T>)을 활용한 범용 ObjectPool을 구현하여 몬스터와 투사체의 생성/파괴(Instantiate/Destroy)에 따른 가비지 컬렉션(GC) 부하를 제거
-<details>
-<summary> ObjectPool </summary>
 
-```cs
+**수많은 몬스터와 투사체가 등장하는 슈팅 디펜스 장르 특성상, 잦은 인스턴스 생성 및 파괴(Instantiate/Destroy)로 인한 가비지 컬렉션(GC) 스파이크를 방지**
 
-```
-</details>
+* IPoolable 인터페이스와 제네릭(<T>)을 활용하여 어떤 컴포넌트든 재사용할 수 있는 범용 ObjectPool 클래스를 구현
+
+* 큐(Queue) 자료구조를 활용해 비활성화된 객체를 관리하고, 풀이 고갈되었을 때만 동적으로 추가 생성하도록 설계하여 메모리 사용량을 안정적으로 유지
+
+    
+    <details>
+    <summary> 💻 ObjectPool 핵심 할당 및 반환 로직 </summary>
+    
+     public class ObjectPool<T> where T : Component
+     {
+         private T prefab;
+         private Transform poolParent;
+         private Queue<T> availableObjects = new Queue<T>();
+         private List<T> allObjects = new List<T>();
+    
+         public ObjectPool(T prefab, int initialSize, Transform parent = null)
+         {
+             this.prefab = prefab;
+             GameObject poolObject = new GameObject($"{prefab.name}_Pool");
+             poolParent = poolObject.transform;
+             if (parent != null)
+                 poolParent.SetParent(parent);
+
+             for (int i = 0; i < initialSize; i++)
+             {
+                 CreateNewObject();
+             }
+         }
+
+         private T CreateNewObject()
+         {
+             T newObj = GameObject.Instantiate(prefab, poolParent);
+             newObj.gameObject.SetActive(false);
+             availableObjects.Enqueue(newObj);
+             allObjects.Add(newObj);
+             return newObj;
+         }
+
+         public T Get(Vector3 position, Quaternion rotation)
+         {
+             T obj;
+
+             if (availableObjects.Count == 0)
+             {
+                 obj = CreateNewObject();
+                 Debug.LogWarning($"Pool exhausted! Creating new {prefab.name}");
+             }
+             else
+             {
+                 obj = availableObjects.Dequeue();
+             }
+
+             obj.transform.position = position;
+             obj.transform.rotation = rotation;
+             obj.gameObject.SetActive(true);
+
+             IPoolable poolable = obj.GetComponent<IPoolable>();
+             poolable?.OnSpawn();
+    
+             return obj;
+         }
+
+         public void Return(T obj)
+         {
+             IPoolable poolable = obj.GetComponent<IPoolable>();
+             poolable?.OnDespawn();
+    
+             obj.gameObject.SetActive(false);
+             availableObjects.Enqueue(obj);
+         }
+
+         public void ReturnAll()
+         {
+             foreach (T obj in allObjects)
+             {
+                 if (obj.gameObject.activeSelf)
+                 {
+                     Return(obj);
+                 }
+             }
+         }
+
+         public int TotalCount => allObjects.Count;
+         public int ActiveCount => allObjects.Count - availableObjects.Count;
+         public int AvailableCount => availableObjects.Count;
+     }```cs
+    
+    ```
+    </details>
 
 MonsterSpawner를 통해 순차 스폰 및 랜덤 스폰 방식을 지원하는 WaveData 구조를 설계하고, 출전한 팀의 평균 레벨에 비례하여 몬스터의 스탯이 오르는 동적 난이도 조절(Dynamic Difficulty Scaling) 로직을 적용
 <details>
