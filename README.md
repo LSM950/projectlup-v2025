@@ -195,7 +195,8 @@
     
     <details>
     <summary> 💻 ObjectPool 핵심 할당 및 반환 로직 </summary>
-    
+
+    ```cs
      public class ObjectPool<T> where T : Component
      {
          private T prefab;
@@ -273,19 +274,74 @@
          public int TotalCount => allObjects.Count;
          public int ActiveCount => allObjects.Count - availableObjects.Count;
          public int AvailableCount => availableObjects.Count;
-     }```cs
+     }
     
     ```
     </details>
 
 MonsterSpawner를 통해 순차 스폰 및 랜덤 스폰 방식을 지원하는 WaveData 구조를 설계하고, 출전한 팀의 평균 레벨에 비례하여 몬스터의 스탯이 오르는 동적 난이도 조절(Dynamic Difficulty Scaling) 로직을 적용
-<details>
-<summary> MonsterSpawner </summary>
 
-```cs
-
-```
-</details>
+      <details>
+      <summary> 💻 MonsterSpawner (동적 난이도 및 Wave 스폰 로직) </summary>
+      
+      ```cs
+          // 1. 동적 난이도 조절 (출전 팀 평균 레벨 기반)
+      private float CalculateDifficultyMultiplier()
+      {
+          int totalLevel = 0;
+          var srd = STDataManage.Instance?.RuntimeData;
+          
+          if (srd != null && srd.Team != null)
+          {
+              foreach (var charData in srd.Team)
+              {
+                  if (charData != null)
+                      totalLevel += srd.GetCharacterLevel(charData.characterId);
+              }
+          }
+      
+          if (totalLevel < 2) totalLevel = 1;
+          // 팀 레벨 총합에 비례하여 몬스터 스탯 배율 증가 (레벨당 10%)
+          return 1f + (totalLevel * 0.1f); 
+      }
+      
+      // 스폰 시 몬스터에게 난이도 배율 적용
+      private void SetMonsterStats(MonsterData monster)
+      {
+          var stats = monster.GetComponent<StatComponent>();
+          if (stats != null)
+          {
+              // 계산된 배율을 몬스터 체력, 공격력 등에 곱연산 적용
+              stats.ScaleStats(difficultyMultiplier);
+          }
+      }
+      
+      // 2. WaveData를 활용한 스폰 코루틴 (순차/랜덤 스폰 지원)
+      private IEnumerator SpawnWave(WaveData wave)
+      {
+          isSpawning = true;
+          if (wave.useRandomSpawn)
+          {
+              // 랜덤 스폰 모드
+              for (int i = 0; i < wave.randomSpawnCount; i++)
+              {
+                  SpawnMonster(wave.GetRandomMonster());
+                  yield return new WaitForSeconds(wave.spawnInterval);
+              }
+          }
+          else
+          {
+              // 순차 스폰 모드 (정해진 몬스터 배열에 따라 스폰)
+              foreach (var (prefab, delay) in wave.GetSpawnSequence())
+              {
+                  if (delay > 0) yield return new WaitForSeconds(delay);
+                  SpawnMonster(prefab);
+              }
+          }
+          isSpawning = false;
+      }
+      ```
+      </details>
 
 
 
