@@ -279,12 +279,14 @@
     ```
     </details>
 
-MonsterSpawner를 통해 순차 스폰 및 랜덤 스폰 방식을 지원하는 WaveData 구조를 설계하고, 출전한 팀의 평균 레벨에 비례하여 몬스터의 스탯이 오르는 동적 난이도 조절(Dynamic Difficulty Scaling) 로직을 적용
+* MonsterSpawner를 통해 순차 스폰 및 랜덤 스폰 방식을 지원하는 WaveData 구조를 설계하고, 출전한 팀의 평균 레벨에 비례하여 몬스터의 스탯이 오르는 동적 난이도 조절(Dynamic Difficulty Scaling) 로직을 적용
 
       <details>
       <summary> 💻 MonsterSpawner (동적 난이도 및 Wave 스폰 로직) </summary>
+
       
       ```cs
+  
           // 1. 동적 난이도 조절 (출전 팀 평균 레벨 기반)
       private float CalculateDifficultyMultiplier()
       {
@@ -340,12 +342,11 @@ MonsterSpawner를 통해 순차 스폰 및 랜덤 스폰 방식을 지원하는 
           }
           isSpawning = false;
       }
+  
       ```
+  
       </details>
 
-
-
-&nbsp; &nbsp; 
 
 ### 4.ScriptableObject와 JSON을 결합한 데이터 파이프라인 구축
 **대규모 협업 환경에서 데이터의 무결성을 유지하고, 캐릭터 정보 및 게임 진행 상태를 효율적으로 관리하는 구조를 설계**
