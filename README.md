@@ -417,9 +417,15 @@
 &nbsp; 
 
 ## 🛠 핵심 개발 상세 (Technical Deep Dive)
+<img width="696" height="393" alt="image" src="https://github.com/user-attachments/assets/ebfc19de-e876-4fba-b850-fc39d8006826" />
+<img width="697" height="397" alt="image" src="https://github.com/user-attachments/assets/e695599d-f68c-46bf-922b-8fb011d13aa0" />
 
 ### 1. 수동/자동 전환이 가능한 하이브리드 전투 시스템
-**블랙보드 패턴 적용**: RangeBlackBoard를 통해 캐릭터의 탄약, 현재 모드, 적 감지 상태 등의 데이터를 한곳에서 관리하여 노드 간 결합도를 낮춤
+
+**블랙보드 패턴 적용**: AI가 행동을 결정할 때마다 매번 컴포넌트를 탐색(GetComponent)하거나 상태를 계산하는 연산 낭비를 막기 위해 RangeBlackBoard를 도입
+
+데이터를 한곳으로 중앙화하여 모듈화된 트리 노드들이 블랙보드만 참조하게 함으로써, 새로운 캐릭터나 조건이 추가되어도 기존 AI 로직을 수정할 필요가 없는 높은 확장성을 확보
+
 <details>
 <summary> 💻 RangeBlackBoard (상태 데이터 중앙화) </summary>
 
@@ -441,7 +447,9 @@ public class RangeBlackBoard : MonoBehaviour
 
 &nbsp;
 
-**동적 AI 전환**: 플레이어가 특정 캐릭터를 선택하면 UIGameController가 해당 캐릭터를 '수동 모드'로 전환하고, 나머지는 '자동 모드(Auto)'로 동작하도록 행동 트리(Selector 노드 분기)를 제어
+**동적 AI 전환 & 스마트 타겟팅**: 수동 조작 시에는 플레이어의 입력이 최우선이 되고, 자동 모드일 때는 CombatUtility와 거리를 계산하여 독자적으로 판단
+
+하나의 컨트롤러가 모든 캐릭터를 통제하는 스파게티 코드를 피하고, 각 캐릭터가 자신의 트리를 독립적으로 평가하는 객체 지향적 설계를 구현
 
 <details>
 <summary> 💻 모드 전환 및 BT 분기 로직 </summary>
@@ -470,9 +478,6 @@ protected override BaseNode SetupTree()
 ```
 </details>
 
-&nbsp;
-
-**스마트 타겟팅**: 자동 모드 시 EnemyDetector와 StatComponent의 사거리를 기반으로 가장 가까운 적을 탐지하고, LookRotation을 통해 자연스럽게 적을 향해 조준 사격(CombatUtility.ShootBullet)을 수행
 <details>
 <summary> 💻 조준 및 발사 로직 (CombatUtility)  </summary>
 
@@ -499,7 +504,10 @@ public static class CombatUtility
 
 ### 2. 다이나믹 시점 전환 및 터치/마우스 조준 카메라
 
-**시점 제어 (CameraController)**: 전장을 넓게 보는 오버뷰(Overview) 모드와 선택한 캐릭터의 등 뒤를 비추는 숄더뷰(Focus) 모드 간의 이동을 Vector3.Lerp와 Quaternion.Slerp로 부드럽게 구현
+**수학적 보간을 활용한 시점 제어 (CameraController)**: 카메라 위치를 순간 이동(Snap)시키는 방식을 사용했을시 어색한 부분이 존재
+
+이를 해결하기 위해 전장을 넓게 보는 오버뷰(Overview)와 캐릭터 등 뒤를 비추는 숄더뷰(Focus) 모드 간의 이동을 Vector3.Lerp와 Quaternion.Slerp로 구현하여, **항상 부드럽고 일관된 카메라 트랜지션(Transition)**을 구현
+
 <details>
 <summary> 💻 Camera SwitchView 로직 </summary>
 
@@ -517,7 +525,8 @@ public void SwitchView(CameraMode mode, Transform target = null)
 </details>
 
 &nbsp; &nbsp; 
-**동적 FOV(시야각) 줌 시스템**: 저격 등 정밀 타격을 위한 StartZoom 호출 시, 카메라의 fieldOfView를 자연스럽게 좁히며 줌 인(Zoom-In) 효과를 연출
+**동적 FOV(시야각) 줌 시스템**: 저격 등 정밀 타격을 위한 StartZoom 호출 시, 카메라의 fieldOfView를 점진적으로 좁히며 자연스러운 줌 인(Zoom-In) 효과를 연출
+
 <details>
 <summary> 💻 Dynamic FOV Zoom 로직 </summary>
 
@@ -537,7 +546,10 @@ private IEnumerator Co_Zoom(float targetFOV)
 </details>
 
 &nbsp; &nbsp; 
-**자유 조준 로직**: 화면 드래그 양(Input.GetAxis("Mouse X/Y"))을 기반으로 상하좌우 회전각(Pitch, Yaw)을 누적하고, Mathf.Clamp로 카메라가 비정상적으로 꺾이는 것을 방지하여 안정적인 슈팅 조작감을 제공
+**사용자 경험(UX)을 고려한 자유 조준 로직**:면 드래그 양(Input.GetAxis)을 기반으로 상하좌우 회전각(Pitch, Yaw)을 누적
+
+이때 Mathf.Clamp를 통한 엄격한 회전 제한(Gimbal Lock 방지)을 적용하여, 긴박한 전투 상황에서도 시점이 튀거나 뒤집히지 않는 안정적인 슈팅 환경을 구축
+
 <details>
 <summary> 💻 Aim Rotation & Clamping 로직 </summary>
 
@@ -559,7 +571,8 @@ private void HandleRotation()
 &nbsp; &nbsp; 
 
 ### 3. Dictionary 기반의 유연한 스탯 및 버프 관리
-확장성 있는 스탯 시스템을 구축하고, 이벤트 기반(Event-Driven) 설계를 통해 UI 업데이트 비용을 최소화
+
+런타임 오버헤드 제거 및 이벤트 주도(Event-Driven) 설계로 확장성 있는 스탯 시스템 구축
 
 **IDamageable 인터페이스**: 플레이어, 몬스터 등 체력을 가진 모든 객체가 TakeDamage 메서드를 공유하도록 설계하여 타격 판정 로직을 단일화
 <details>
@@ -575,7 +588,10 @@ public interface IDamageable
 </details>
 
 &nbsp; &nbsp; 
-**코루틴을 활용한 버프 시스템**: StatComponent 내에서 Dictionary<string, Coroutine>을 사용하여 공격력, 방어력, 이동속도 등 다양한 버프를 키(Key) 값으로 관리, 이를 통해 동일한 버프가 중복 적용되지 않고 지속 시간만 연장되도록 안전한 버프 스케줄링을 구현
+**코루틴 & Dictionary 기반 O(1) 버프 스케줄링**: List 대신 Dictionary<string, Coroutine>을 사용하여 공격력, 방어력 등 다양한 버프 상태를 O(1)의 시간 복잡도로 빠르게 탐색하고 갱신하도록 설계
+
+이를 통해 동일한 버프가 중복 적용되지 않고 지속 시간만 연장되도록 안전하고 최적화된 버프 시스템을 구현
+
 <details>
 <summary> 💻 Buff Management (Overwrite Logic) </summary>
 
@@ -595,7 +611,10 @@ public void ApplyBuff(string buffId, float duration, Action onEnd)
 </details>
 
 &nbsp; &nbsp; 
-**UI 콜백 이벤트**: 체력이 변경되거나 사망할 때 OnHealthChanged, OnDeath Action 이벤트를 발생시켜, 체력바(MonsterHealthBar)와 데미지 팝업(DamagePopup) UI가 Update문 없이 이벤트 주도적(Event-Driven)으로 반응하도록 최적화
+**Update() 오버헤드를 제거한 Event-Driven UI**: 수의 몬스터가 등장하는 디펜스 장르 특성상 매 프레임 UI를 갱신하면 병목이 발생
+
+체력이 변경되거나 사망할 때 OnHealthChanged, OnDeath Action 이벤트를 발생시켜, 체력바와 데미지 팝업이 상태가 변하는 순간에만 이벤트 주도적(Event-Driven)으로 반응하도록 최적화
+
 <details>
 <summary> 💻 Event-Driven UI Update </summary>
 
