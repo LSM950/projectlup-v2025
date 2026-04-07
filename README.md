@@ -281,117 +281,192 @@
 
 * MonsterSpawner를 통해 순차 스폰 및 랜덤 스폰 방식을 지원하는 WaveData 구조를 설계하고, 출전한 팀의 평균 레벨에 비례하여 몬스터의 스탯이 오르는 동적 난이도 조절(Dynamic Difficulty Scaling) 로직을 적용
 
-      <details>
-      <summary> 💻 MonsterSpawner (동적 난이도 및 Wave 스폰 로직) </summary>
 
+  <details>
+  <summary> 💻 MonsterSpawner (동적 난이도 및 Wave 스폰 로직) </summary>
+
+  ```cs
+  // 1. 동적 난이도 조절 (출전 팀 평균 레벨 기반)
+  private float CalculateDifficultyMultiplier()
+  {
+      int totalLevel = 0;
+      var srd = STDataManage.Instance?.RuntimeData;
       
-      ```cs
-  
-          // 1. 동적 난이도 조절 (출전 팀 평균 레벨 기반)
-      private float CalculateDifficultyMultiplier()
+      if (srd != null && srd.Team != null)
       {
-          int totalLevel = 0;
-          var srd = STDataManage.Instance?.RuntimeData;
-          
-          if (srd != null && srd.Team != null)
+          foreach (var charData in srd.Team)
           {
-              foreach (var charData in srd.Team)
-              {
-                  if (charData != null)
-                      totalLevel += srd.GetCharacterLevel(charData.characterId);
-              }
-          }
-      
-          if (totalLevel < 2) totalLevel = 1;
-          // 팀 레벨 총합에 비례하여 몬스터 스탯 배율 증가 (레벨당 10%)
-          return 1f + (totalLevel * 0.1f); 
-      }
-      
-      // 스폰 시 몬스터에게 난이도 배율 적용
-      private void SetMonsterStats(MonsterData monster)
-      {
-          var stats = monster.GetComponent<StatComponent>();
-          if (stats != null)
-          {
-              // 계산된 배율을 몬스터 체력, 공격력 등에 곱연산 적용
-              stats.ScaleStats(difficultyMultiplier);
+              if (charData != null)
+                  totalLevel += srd.GetCharacterLevel(charData.characterId);
           }
       }
-      
-      // 2. WaveData를 활용한 스폰 코루틴 (순차/랜덤 스폰 지원)
-      private IEnumerator SpawnWave(WaveData wave)
+  
+      if (totalLevel < 2) totalLevel = 1;
+      // 팀 레벨 총합에 비례하여 몬스터 스탯 배율 증가 (레벨당 10%)
+      return 1f + (totalLevel * 0.1f); 
+  }
+  
+  // 스폰 시 몬스터에게 난이도 배율 적용
+  private void SetMonsterStats(MonsterData monster)
+  {
+      var stats = monster.GetComponent<StatComponent>();
+      if (stats != null)
       {
-          isSpawning = true;
-          if (wave.useRandomSpawn)
-          {
-              // 랜덤 스폰 모드
-              for (int i = 0; i < wave.randomSpawnCount; i++)
-              {
-                  SpawnMonster(wave.GetRandomMonster());
-                  yield return new WaitForSeconds(wave.spawnInterval);
-              }
-          }
-          else
-          {
-              // 순차 스폰 모드 (정해진 몬스터 배열에 따라 스폰)
-              foreach (var (prefab, delay) in wave.GetSpawnSequence())
-              {
-                  if (delay > 0) yield return new WaitForSeconds(delay);
-                  SpawnMonster(prefab);
-              }
-          }
-          isSpawning = false;
+          // 계산된 배율을 몬스터 체력, 공격력 등에 곱연산 적용
+          stats.ScaleStats(difficultyMultiplier);
       }
+  }
   
-      ```
-  
-      </details>
+  // 2. WaveData를 활용한 스폰 코루틴 (순차/랜덤 스폰 지원)
+  private IEnumerator SpawnWave(WaveData wave)
+  {
+      isSpawning = true;
+      if (wave.useRandomSpawn)
+      {
+          // 랜덤 스폰 모드
+          for (int i = 0; i < wave.randomSpawnCount; i++)
+          {
+              SpawnMonster(wave.GetRandomMonster());
+              yield return new WaitForSeconds(wave.spawnInterval);
+          }
+      }
+      else
+      {
+          // 순차 스폰 모드 (정해진 몬스터 배열에 따라 스폰)
+          foreach (var (prefab, delay) in wave.GetSpawnSequence())
+          {
+              if (delay > 0) yield return new WaitForSeconds(delay);
+              SpawnMonster(prefab);
+          }
+      }
+      isSpawning = false;
+  }
+
+  ```
+
+  </details>
+
+&nbsp; &nbsp; 
 
 
 ### 4.ScriptableObject와 JSON을 결합한 데이터 파이프라인 구축
 **대규모 협업 환경에서 데이터의 무결성을 유지하고, 캐릭터 정보 및 게임 진행 상태를 효율적으로 관리하는 구조를 설계**
 
-불변하는 고정 데이터(이름, 프리팹, 썸네일 등)는 **ScriptableObject (STCharacterData)** 로 관리하여 메모리를 최적화
-<details>
-<summary> STCharacterData </summary>
+* 불변하는 고정 데이터(이름, 프리팹, 썸네일 등)는 **ScriptableObject (STCharacterData)** 로 관리하여 메모리를 최적화
+    <details>
+    <summary> 💻 STCharacterData (자산 데이터 정의)  </summary>
+    
+    ```cs
 
-```cs
+    [CreateAssetMenu(fileName = "CharacterData", menuName = "ST/CharacterData")]
+    public class STCharacterData : ScriptableObject
+    {
+        public int characterId;      // 중앙 관리용 고유 ID
+        public string charName;      // 캐릭터 이름
+        public Sprite thumbnail;     // UI 썸네일 리소스
+        public GameObject prefab;    // 실제 소환될 프리팹
+        
+        public float baseHp;         // 기본 스탯 정보
+        public float baseAtk;
+    }
 
-```
-</details>
+    ```
+    </details>
 
-변동하는 런타임 데이터(레벨, 경험치, 팀 배치)는 **JSON 직렬화(ShootingRuntimeData)** 를 통해 저장하고 불러오도록 분리하여, Manage 팀의 중앙 데이터 규격과 유연하게 연동되는 세이브/로드 시스템을 구현
-<details>
-<summary> ShootingRuntimeData </summary>
+* 변동하는 런타임 데이터(레벨, 경험치, 팀 배치)는 **JSON 직렬화(ShootingRuntimeData)** 를 통해 저장하고 불러오도록 분리하여, Manage 팀의 중앙 데이터 규격과 유연하게 연동되는 세이브/로드 시스템을 구현
+      
+  <details>
+  <summary> 💻 ShootingRuntimeData (JSON 직렬화 및 데이터 관리)</summary>
+  
+  ```cs
+  [System.Serializable]
+  public class ShootingRuntimeData
+  {
+      // 유저의 캐릭터 성장 데이터 및 팀 구성 정보
+      public List<CharacterRuntimeStatus> ownedCharacters = new List<CharacterRuntimeStatus>();
+      public int[] currentTeam = new int[5]; 
+  
+      // 중앙 데이터 규격에 맞춘 JSON 저장 로직
+      public void SaveData()
+      {
+          string json = JsonUtility.ToJson(this);
+          // 중앙 관리 시스템(Manage팀)의 데이터 경로 혹은 PlayerPrefs에 저장
+          File.WriteAllText(Application.persistentDataPath + "/SaveData.json", json);
+      }
+  
+      // 데이터 로드 및 ScriptableObject 데이터와 동기화
+      public void LoadData()
+      {
+          string path = Application.persistentDataPath + "/SaveData.json";
+          if (File.Exists(path))
+          {
+              string json = File.ReadAllText(path);
+              JsonUtility.FromJsonOverwrite(json, this);
+          }
+      }
+  }
+  ```
+  </details>
 
-```cs
+&nbsp; 
 
-```
-</details>
+&nbsp; 
 
-&nbsp; &nbsp; 
+&nbsp; 
 
+&nbsp; 
 
 ## 🛠 핵심 개발 상세 (Technical Deep Dive)
 
 ### 1. 수동/자동 전환이 가능한 하이브리드 전투 시스템
 **블랙보드 패턴 적용**: RangeBlackBoard를 통해 캐릭터의 탄약, 현재 모드, 적 감지 상태 등의 데이터를 한곳에서 관리하여 노드 간 결합도를 낮춤
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 RangeBlackBoard (상태 데이터 중앙화) </summary>
 
 ```cs
+public class RangeBlackBoard : MonoBehaviour
+{
+    public bool isManualMode = false; // 현재 조작 여부
+    public int currentAmmo = 20;
+    public float detectionRange = 15f;
+    public Transform currentTarget;
 
+    // AI 노드가 판단 근거로 사용할 헬퍼 메서드
+    public bool HasAmmo() => currentAmmo > 0;
+    public bool IsEnemyInRange() => currentTarget != null && 
+        Vector2.Distance(transform.position, currentTarget.position) <= detectionRange;
+}
 ```
 </details>
 
 &nbsp;
 
-**동적 AI 전환**: 플레이어가 특정 캐릭터를 선택하면 UIGameController가 해당 캐릭터를 '수동 모드'로 전환하고, 나머지는 '자동 모드(Auto Skill)'로 동작하도록 행동 트리(Selector 노드 분기)를 제어
+**동적 AI 전환**: 플레이어가 특정 캐릭터를 선택하면 UIGameController가 해당 캐릭터를 '수동 모드'로 전환하고, 나머지는 '자동 모드(Auto)'로 동작하도록 행동 트리(Selector 노드 분기)를 제어
+
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 모드 전환 및 BT 분기 로직 </summary>
 
 ```cs
+// 캐릭터 선택 시 모드 스위칭
+public void SwitchControl(int targetIndex)
+{
+    for (int i = 0; i < allUnits.Count; i++)
+    {
+        allUnits[i].BlackBoard.isManualMode = (i == targetIndex);
+    }
+}
 
+// Behavior Tree 내의 모드 분기 설계
+protected override BaseNode SetupTree()
+{
+    return new Selector(new List<BaseNode>
+    {
+        // 수동 모드 조건 만족 시 플레이어 컨트롤 트리 실행
+        new Decorator(() => blackboard.isManualMode, manualCombatTree),
+        // 수동이 아닐 경우 자동 전투 트리 실행
+        autoCombatTree 
+    });
+}
 ```
 </details>
 
@@ -399,10 +474,24 @@
 
 **스마트 타겟팅**: 자동 모드 시 EnemyDetector와 StatComponent의 사거리를 기반으로 가장 가까운 적을 탐지하고, LookRotation을 통해 자연스럽게 적을 향해 조준 사격(CombatUtility.ShootBullet)을 수행
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 조준 및 발사 로직 (CombatUtility)  </summary>
 
 ```cs
+public static class CombatUtility
+{
+    public static void AimAndShoot(Transform firePoint, Transform target, float damage)
+    {
+        if (target == null) return;
 
+        // 적 위치로 부드러운 회전 및 발사 방향 설정
+        Vector3 dir = (target.position - firePoint.position).normalized;
+        firePoint.rotation = Quaternion.LookRotation(dir);
+
+        // ObjectPool에서 투사체 소환
+        var projectile = ProjectilePool.Instance.Get(firePoint.position, firePoint.rotation);
+        projectile.GetComponent<Projectile>().Setup(damage);
+    }
+}
 ```
 </details>
 
