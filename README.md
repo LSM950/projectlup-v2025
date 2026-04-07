@@ -501,63 +501,118 @@ public static class CombatUtility
 
 **시점 제어 (CameraController)**: 전장을 넓게 보는 오버뷰(Overview) 모드와 선택한 캐릭터의 등 뒤를 비추는 숄더뷰(Focus) 모드 간의 이동을 Vector3.Lerp와 Quaternion.Slerp로 부드럽게 구현
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 Camera SwitchView 로직 </summary>
 
 ```cs
+public void SwitchView(CameraMode mode, Transform target = null)
+{
+    Vector3 targetPos = (mode == CameraMode.Focus) ? target.position + offset : overviewPos;
+    Quaternion targetRot = (mode == CameraMode.Focus) ? focusRotation : overviewRotation;
 
+    // 코루틴이나 Update 내에서 부드러운 보간 이동
+    transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * lerpSpeed);
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * lerpSpeed);
+}
 ```
 </details>
 
 &nbsp; &nbsp; 
 **동적 FOV(시야각) 줌 시스템**: 저격 등 정밀 타격을 위한 StartZoom 호출 시, 카메라의 fieldOfView를 자연스럽게 좁히며 줌 인(Zoom-In) 효과를 연출
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 Dynamic FOV Zoom 로직 </summary>
 
 ```cs
-
+private IEnumerator Co_Zoom(float targetFOV)
+{
+    float currentFOV = mainCamera.fieldOfView;
+    float elapsed = 0f;
+    while (elapsed < zoomDuration)
+    {
+        elapsed += Time.deltaTime;
+        mainCamera.fieldOfView = Mathf.Lerp(currentFOV, targetFOV, elapsed / zoomDuration);
+        yield return null;
+    }
+}
 ```
 </details>
 
 &nbsp; &nbsp; 
 **자유 조준 로직**: 화면 드래그 양(Input.GetAxis("Mouse X/Y"))을 기반으로 상하좌우 회전각(Pitch, Yaw)을 누적하고, Mathf.Clamp로 카메라가 비정상적으로 꺾이는 것을 방지하여 안정적인 슈팅 조작감을 제공
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 Aim Rotation & Clamping 로직 </summary>
 
 ```cs
+private void HandleRotation()
+{
+    yaw += Input.GetAxis("Mouse X") * sensitivity;
+    pitch -= Input.GetAxis("Mouse Y") * sensitivity;
 
+    // 상하 회전 각도 제한 (예: -30도 ~ 60도)
+    pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+
+    targetRotation = Quaternion.Euler(pitch, yaw, 0);
+    transform.rotation = targetRotation;
+}
 ```
 </details>
 
 &nbsp; &nbsp; 
 
-### 2. Dictionary 기반의 유연한 스탯 및 버프 관리
+### 3. Dictionary 기반의 유연한 스탯 및 버프 관리
+확장성 있는 스탯 시스템을 구축하고, 이벤트 기반(Event-Driven) 설계를 통해 UI 업데이트 비용을 최소화
 
 **IDamageable 인터페이스**: 플레이어, 몬스터 등 체력을 가진 모든 객체가 TakeDamage 메서드를 공유하도록 설계하여 타격 판정 로직을 단일화
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 IDamageable 인터페이스 </summary>
 
 ```cs
-
+public interface IDamageable
+{
+    void TakeDamage(float damage, Vector3 hitPoint);
+    bool IsDead { get; }
+}
 ```
 </details>
 
 &nbsp; &nbsp; 
 **코루틴을 활용한 버프 시스템**: StatComponent 내에서 Dictionary<string, Coroutine>을 사용하여 공격력, 방어력, 이동속도 등 다양한 버프를 키(Key) 값으로 관리, 이를 통해 동일한 버프가 중복 적용되지 않고 지속 시간만 연장되도록 안전한 버프 스케줄링을 구현
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 Buff Management (Overwrite Logic) </summary>
 
 ```cs
+private Dictionary<string, Coroutine> activeBuffs = new Dictionary<string, Coroutine>();
 
+public void ApplyBuff(string buffId, float duration, Action onEnd)
+{
+    // 동일한 버프가 이미 실행 중이라면 중단 후 갱신(중첩 방지)
+    if (activeBuffs.ContainsKey(buffId))
+    {
+        StopCoroutine(activeBuffs[buffId]);
+    }
+    activeBuffs[buffId] = StartCoroutine(Co_BuffTimer(buffId, duration, onEnd));
+}
 ```
 </details>
 
 &nbsp; &nbsp; 
 **UI 콜백 이벤트**: 체력이 변경되거나 사망할 때 OnHealthChanged, OnDeath Action 이벤트를 발생시켜, 체력바(MonsterHealthBar)와 데미지 팝업(DamagePopup) UI가 Update문 없이 이벤트 주도적(Event-Driven)으로 반응하도록 최적화
 <details>
-<summary> ShootingRuntimeData </summary>
+<summary> 💻 Event-Driven UI Update </summary>
 
 ```cs
+public class StatComponent : MonoBehaviour
+{
+    public event Action<float, float> OnHealthChanged; // (current, max)
+    public event Action OnDeath;
 
+    public void DecreaseHp(float amount)
+    {
+        currentHp = Mathf.Max(0, currentHp - amount);
+        OnHealthChanged?.Invoke(currentHp, maxHp); // UI는 이 시점에만 갱신됨
+
+        if (currentHp <= 0) OnDeath?.Invoke();
+    }
+}
 ```
 </details>
 
